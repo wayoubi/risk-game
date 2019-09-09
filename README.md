@@ -16,19 +16,34 @@
 
 ### 🏠 [Homepage](https://github.com/wayoubi/RiskGame)
 
-## Install
+## Build
 
 ```sh
-npm install
+mvn package
 ```
 
 ## Run tests
 
 ```sh
-npm run test
+mvn test
 ```
 
-## Author
+## Authors
+
+
+👤 **Omar Ahmed **
+
+👤 **Pinkal Shah**
+
+* Github: [@wayoubi](https://github.com/Pinkal-Shah)
+
+👤 **Nasim Adabi**
+
+* Github: [@wayoubi](https://github.com/nasimadabi)
+
+👤 **Michael Hanna**
+
+* Github: [@wayoubi](https://github.com/HannaMichael)
 
 👤 **Wasim Alayoubi**
 
