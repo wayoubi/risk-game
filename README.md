@@ -34,19 +34,21 @@ mvn test
 ## Authors
 
 
-👤 **Omar Ahmed **
+👤 **Omar Ahmed**
+
+* Github: 
 
 👤 **Pinkal Shah**
 
-* Github: [@wayoubi](https://github.com/Pinkal-Shah)
+* Github: [@Pinkal-Shah](https://github.com/Pinkal-Shah)
 
 👤 **Nasim Adabi**
 
-* Github: [@wayoubi](https://github.com/nasimadabi)
+* Github: [@nasimadabi](https://github.com/nasimadabi)
 
 👤 **Michael Hanna**
 
-* Github: [@wayoubi](https://github.com/HannaMichael)
+* Github: [@HannaMichael](https://github.com/HannaMichael)
 
 👤 **Wasim Alayoubi**
 
