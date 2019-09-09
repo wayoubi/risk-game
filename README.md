@@ -12,7 +12,10 @@
   </a>
 </p>
 
-> project for Advanced Programming Practices Course (SOEN 6411)
+> Project for Advanced Programming Practices Course (SOEN 6411)
+> Graduate
+> Concordia University
+> Montreal Canada
 
 ### 🏠 [Homepage](https://github.com/wayoubi/RiskGame)
 
