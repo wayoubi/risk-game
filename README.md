@@ -31,7 +31,7 @@
 ./mvnw test
 ```
 
-## Run tests
+## Start game
 
 ```sh
 ./mvnw -q -pl . spring-boot:run
