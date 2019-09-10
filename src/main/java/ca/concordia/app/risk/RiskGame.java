@@ -19,6 +19,7 @@ public class RiskGame {
 
 	@Bean
 	public PromptProvider myPromptProvider() {
-		return () -> new AttributedString("Game>", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
+		return () -> new AttributedString("Command# ️", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
 	}
 }
+

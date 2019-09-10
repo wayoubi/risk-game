@@ -24,4 +24,13 @@ public class Game {
 		}
 		return "completed";
 	}
+	
+	@ShellMethod("Attack a player")
+	public String attack(@ShellOption(optOut = false) String attacker,
+			@ShellOption(optOut = false) String defender, 
+			@ShellOption(optOut = false) String from, 
+			@ShellOption(optOut = false) String to
+			) {
+		return attacker + " Wins!";
+	}
 }
