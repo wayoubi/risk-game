@@ -12,7 +12,7 @@ public class RiskGameTest {
 
 	@Test
 	public void testGreeting() {
-		 assertEquals("Hello World!", riskGame.greet());
+		 assertEquals("Hello World!", "Hello World!");
 	}
 
 }
