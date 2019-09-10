@@ -22,13 +22,19 @@
 ## Build
 
 ```sh
-mvn package
+./mvnw package
 ```
 
 ## Run tests
 
 ```sh
-mvn test
+./mvnw test
+```
+
+## Start game
+
+```sh
+./mvnw -q -pl . spring-boot:run
 ```
 
 ## Authors
