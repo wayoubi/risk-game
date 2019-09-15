@@ -37,6 +37,12 @@
 ./mvnw -q -pl . spring-boot:run
 ```
 
+## Create Eclipse Project
+
+```sh
+./mvnw eclipse:eclipse
+```
+
 ## Authors
 
 

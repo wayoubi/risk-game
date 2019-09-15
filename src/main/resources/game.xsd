@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://ca.concordia.app.risk/game"
+	xmlns:riskgame="http://ca.concordia.app.risk/game"
+	attributeFormDefault="unqualified" 
+	elementFormDefault="qualified">
+    
+    <xsd:complexType name="player">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="color" type="xsd:string" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="players">
+		<xsd:sequence>
+			<xsd:element name="player" type="riskgame:player" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+    </xsd:complexType>
+    
+    
+	<xsd:element name="game">		
+        <xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="createdDate" type="xsd:dateTime" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="lastSavedDate" type="xsd:dateTime" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="players" type="riskgame:players" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<game xmlns="http://ca.concordia.app.risk/game">
+    <createdDate>2019-09-15T13:05:07.080-04:00</createdDate>
+    <lastSavedDate>2019-09-15T13:05:07.080-04:00</lastSavedDate>
+    <players>
+        <player>
+            <name>Pinkal</name>
+            <color>White</color>
+        </player>
+    </players>
+</game>

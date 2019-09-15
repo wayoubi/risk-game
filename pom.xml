@@ -15,14 +15,14 @@
 		<maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
 	</properties>
-	
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>ca.concordia.app.risk.RiskGame</mainClass>
+					<mainClass>ca.concordia.app.risk.RiskGameRunner</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -40,6 +40,14 @@
 			<artifactId>spring-shell-starter</artifactId>
 			<version>2.0.1.BUILD-SNAPSHOT</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.8</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>
@@ -52,5 +60,5 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 </project>
