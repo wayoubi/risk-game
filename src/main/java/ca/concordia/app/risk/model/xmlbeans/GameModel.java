@@ -6,7 +6,7 @@
 //
 
 
-package ca.concordia.app.risk.model.beans;
+package ca.concordia.app.risk.model.xmlbeans;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

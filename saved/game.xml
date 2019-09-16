@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <game xmlns="http://ca.concordia.app.risk/game">
-    <createdDate>2019-09-15T13:05:07.080-04:00</createdDate>
-    <lastSavedDate>2019-09-15T13:05:07.080-04:00</lastSavedDate>
+    <createdDate>2019-09-16T00:18:21.824-04:00</createdDate>
+    <lastSavedDate>2019-09-16T00:18:39.017-04:00</lastSavedDate>
     <players>
         <player>
+            <name>Wasim</name>
+            <color>Black</color>
+        </player>
+        <player>
             <name>Pinkal</name>
-            <color>White</color>
+            <color>Green</color>
         </player>
     </players>
 </game>

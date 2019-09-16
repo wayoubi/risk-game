@@ -6,12 +6,16 @@
 //
 
 
-package ca.concordia.app.risk.model.beans;
+package ca.concordia.app.risk.model.xmlbeans;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.springframework.beans.BeanUtils;
+
+import ca.concordia.app.risk.controller.dto.PlayerDTO;
 
 
 /**
@@ -93,5 +97,4 @@ public class PlayerModel {
     public void setColor(String value) {
         this.color = value;
     }
-
 }

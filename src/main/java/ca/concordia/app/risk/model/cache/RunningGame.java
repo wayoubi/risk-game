@@ -1,6 +1,6 @@
 package ca.concordia.app.risk.model.cache;
 
-import ca.concordia.app.risk.model.beans.GameModel;
+import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 public class RunningGame extends GameModel {
 	

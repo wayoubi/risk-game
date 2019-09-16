@@ -6,7 +6,7 @@
 //
 
 
-package ca.concordia.app.risk.model.beans;
+package ca.concordia.app.risk.model.xmlbeans;
 
 import java.util.ArrayList;
 import java.util.List;

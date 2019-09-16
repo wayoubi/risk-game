@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://ca.concordia.app.risk/game", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package ca.concordia.app.risk.model.beans;
+package ca.concordia.app.risk.model.xmlbeans;
