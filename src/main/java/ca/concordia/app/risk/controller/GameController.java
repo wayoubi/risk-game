@@ -46,10 +46,11 @@ public class GameController {
 			gameStarterDTO.setNumberOfPlayers(numberOfPlayers);
 			
 			for(int i=0; i<numberOfPlayers; i++) {
+				int labelCounter = i+1;
 				PlayerDTO playerDTO = new PlayerDTO();
-				System.out.println("Enter Player["+i+"] name");
+				System.out.println("Enter Player["+labelCounter+"] name");
 				playerDTO.setName(scanner.next());
-				System.out.println("Enter player["+i+"] color");
+				System.out.println("Enter player["+labelCounter+"] color");
 				playerDTO.setColor(scanner.next());
 				gameStarterDTO.getPlayersList().add(playerDTO);
 			}
