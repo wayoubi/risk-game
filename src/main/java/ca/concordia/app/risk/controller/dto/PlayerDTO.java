@@ -1,6 +1,16 @@
 package ca.concordia.app.risk.controller.dto;
 
+/**
+ * 
+ * @author i857625
+ *
+ */
 public class PlayerDTO {
+
+	/**
+	 * 
+	 */
+	private int id;
 
 	/**
 	 * 
@@ -43,6 +53,22 @@ public class PlayerDTO {
 	 * 
 	 * @return
 	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
@@ -71,21 +97,16 @@ public class PlayerDTO {
 		this.color = color;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
+		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -100,6 +121,8 @@ public class PlayerDTO {
 				return false;
 		} else if (!color.equals(other.color))
 			return false;
+		if (id != other.id)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -108,11 +131,8 @@ public class PlayerDTO {
 		return true;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public String toString() {
-		return "PlayerDTO [name=" + name + ", color=" + color + "]";
+		return "PlayerDTO [id=" + id + ", name=" + name + ", color=" + color + "]";
 	}
 }

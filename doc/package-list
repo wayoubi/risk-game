@@ -1,0 +1,11 @@
+ca.concordia.app.risk
+ca.concordia.app.risk.controller
+ca.concordia.app.risk.controller.delegate
+ca.concordia.app.risk.controller.dto
+ca.concordia.app.risk.model.cache
+ca.concordia.app.risk.model.dao
+ca.concordia.app.risk.model.xmlbeans
+ca.concordia.app.risk.services
+ca.concordia.app.risk.test
+ca.concordia.app.risk.utility
+ca.concordia.app.risk.view

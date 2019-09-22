@@ -1,51 +1,62 @@
 package ca.concordia.app.risk.services;
 
+import java.io.File;
 import java.util.Date;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.springframework.beans.BeanUtils;
 
 import ca.concordia.app.risk.controller.dto.GameStarterDTO;
 import ca.concordia.app.risk.model.cache.RunningGame;
-import ca.concordia.app.risk.model.dao.GameDaoImpl;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.GameModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayersModel;
 import ca.concordia.app.risk.utility.DateUtils;
 
-
+/**
+ * 
+ * @author i857625
+ *
+ */
 public class GameService {
-	
+
 	/**
 	 * 
 	 */
 	ObjectFactory objectFactory;
-	
+
+	/**
+	 * 
+	 */
 	public GameService() {
 		this.setObjectFactory(new ObjectFactory());
 	}
 
 	/**
 	 * 
-	 * @param playerName
-	 * @param playerColor
+	 * @param gameStarterDTO
 	 * @throws Exception
 	 */
-	public void initGame(GameStarterDTO gameStarterDT) throws Exception {
+	public void initGame(GameStarterDTO gameStarterDTO) throws Exception {
 		RunningGame.reset();
+		
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
 		XMLGregorianCalendar xmlGregorianCalendar = DateUtils.getXMLDateTime(new Date());
 		RunningGame.getInstance().setCreatedDate(xmlGregorianCalendar);
 		RunningGame.getInstance().setLastSavedDate(xmlGregorianCalendar);
 		RunningGame.getInstance().setPlayers(new PlayersModel());
-		for(int i=0; i<gameStarterDT.getPlayersList().size(); i++) {
+		for (int i = 0; i < gameStarterDTO.getPlayersList().size(); i++) {
 			PlayerModel playerModel = this.getObjectFactory().createPlayerModel();
-			BeanUtils.copyProperties(gameStarterDT.getPlayersList().get(i), playerModel);
-			RunningGame.getInstance().getPlayers().getList().add(playerModel);	
-		}	
-		
-		//RunningGame.getInstance().getBorders().getBorder()
-		
+			BeanUtils.copyProperties(gameStarterDTO.getPlayersList().get(i), playerModel);
+			playerDaoImpl.assignID(playerModel);
+			RunningGame.getInstance().getPlayers().getList().add(playerModel);
+		}
 	}
 
 	/**
@@ -53,13 +64,18 @@ public class GameService {
 	 * @throws Exception
 	 */
 	public void saveGame() throws Exception {
-		GameDaoImpl gameDao = new GameDaoImpl();
 		XMLGregorianCalendar xmlGregorianCalendar = DateUtils.getXMLDateTime(new Date());
 		RunningGame.getInstance().setLastSavedDate(xmlGregorianCalendar);
-		gameDao.save(RunningGame.getInstance());
+		try {
+			File file = new File("saved/game.xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(GameModel.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(RunningGame.getInstance(), file);
+		} catch (JAXBException e) {
+			throw new Exception("Game caanot be saved");
+		}
 	}
-	
-	
 
 	/**
 	 * 
@@ -68,7 +84,7 @@ public class GameService {
 	public void setObjectFactory(ObjectFactory objectFactory) {
 		this.objectFactory = objectFactory;
 	}
-	
+
 	/**
 	 * 
 	 * @return

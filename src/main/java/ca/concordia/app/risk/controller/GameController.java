@@ -11,6 +11,11 @@ import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
 import ca.concordia.app.risk.controller.dto.GameStarterDTO;
 import ca.concordia.app.risk.controller.dto.PlayerDTO;
 
+/**
+ * 
+ * @author i857625
+ *
+ */
 @ShellComponent
 public class GameController {
 	

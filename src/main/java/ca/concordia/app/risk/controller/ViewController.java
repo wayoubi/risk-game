@@ -8,13 +8,26 @@ import org.springframework.shell.standard.ShellOption;
 import ca.concordia.app.risk.controller.delegate.ViewBusinessDelegate;
 import ca.concordia.app.risk.view.PlayerView;
 
+/**
+ * 
+ * @author i857625
+ *
+ */
 @ShellComponent
 public class ViewController {
 
+	/**
+	 * 
+	 */
 	@Autowired
 	public ViewController() {
 	}
 	
+	/**
+	 * 
+	 * @param player
+	 * @return
+	 */
 	@ShellMethod("Views the datails of game object")
 	public String details(@ShellOption(optOut = false) String player) {
 		String response = null;

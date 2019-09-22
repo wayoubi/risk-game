@@ -7,16 +7,35 @@ import org.springframework.shell.standard.ShellOption;
 
 import ca.concordia.app.risk.controller.delegate.PlayBusinessDelegate;
 
+/**
+ * 
+ * @author i857625
+ *
+ */
 @ShellComponent
 public class PlayController {
 
+	/**
+	 * 
+	 */
 	private PlayBusinessDelegate playBusinessDelegate;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	public PlayController() {
 		playBusinessDelegate = new PlayBusinessDelegate();
 	}
 	
+	/**
+	 * 
+	 * @param attacker
+	 * @param defender
+	 * @param from
+	 * @param to
+	 * @return
+	 */
 	@ShellMethod("Attack a player")
 	public String attack(@ShellOption(optOut = false) String attacker,
 			@ShellOption(optOut = false) String defender, 

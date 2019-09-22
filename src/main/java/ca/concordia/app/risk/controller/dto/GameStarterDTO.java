@@ -3,35 +3,74 @@ package ca.concordia.app.risk.controller.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author i857625
+ *
+ */
 public class GameStarterDTO {
 	
+	/**
+	 * 
+	 */
 	private int numberOfPlayers;
+	
+	/**
+	 * 
+	 */
 	private int numberOfCountries;
 	
+	/**
+	 * 
+	 */
 	private List<PlayerDTO> playersList;
 
+	/**
+	 * 
+	 */
 	public GameStarterDTO() {
 		this.setPlayersList(new ArrayList<PlayerDTO>());
 	}
 	
+	/**
+	 * 
+	 * @param numberOfPlayers
+	 * @param numberOfCountries
+	 */
 	public GameStarterDTO(int numberOfPlayers, int numberOfCountries) {
 		super();
 		this.numberOfPlayers = numberOfPlayers;
 		this.numberOfCountries = numberOfCountries;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
 	
+	/**
+	 * 
+	 * @param numberOfPlayers
+	 */
 	public void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getNumberOfCountries() {
 		return numberOfCountries;
 	}
 	
+	/**
+	 * 
+	 * @param numberOfCountries
+	 */
 	public void setNumberOfCountries(int numberOfCountries) {
 		this.numberOfCountries = numberOfCountries;
 	}
@@ -40,6 +79,10 @@ public class GameStarterDTO {
 		return playersList;
 	}
 
+	/**
+	 * 
+	 * @param playersList
+	 */
 	public void setPlayersList(List<PlayerDTO> playersList) {
 		this.playersList = playersList;
 	}
