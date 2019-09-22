@@ -3,11 +3,11 @@
     <createdDate>2019-09-19T15:06:26.719-04:00</createdDate>
     <lastSavedDate>2019-09-19T15:07:17.377-04:00</lastSavedDate>
     <players>
-        <player>
+        <player id="1">
             <name>Wasim</name>
             <color>hhjj</color>
         </player>
-        <player>
+        <player id="2">
             <name>Michael</name>
             <color>White</color>
         </player>

@@ -8,18 +8,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for player complex type.
+ * <p>Java class for country complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="player">
+ * &lt;complexType name="country">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="color" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="numberOfArmies" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="playerId" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="contenentId" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,12 +32,15 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "player", namespace = "http://ca.concordia.app.risk/game", propOrder = {
+@XmlType(name = "country", namespace = "http://ca.concordia.app.risk/game", propOrder = {
     "id",
     "name",
-    "color"
+    "color",
+    "numberOfArmies",
+    "playerId",
+    "contenentId"
 })
-public class PlayerModel {
+public class CountryModel {
 
     @XmlElement(namespace = "http://ca.concordia.app.risk/game")
     protected int id;
@@ -42,6 +48,12 @@ public class PlayerModel {
     protected String name;
     @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
     protected String color;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game")
+    protected int numberOfArmies;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game")
+    protected int playerId;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game")
+    protected int contenentId;
 
     /**
      * Gets the value of the id property.
@@ -105,6 +117,54 @@ public class PlayerModel {
      */
     public void setColor(String value) {
         this.color = value;
+    }
+
+    /**
+     * Gets the value of the numberOfArmies property.
+     * 
+     */
+    public int getNumberOfArmies() {
+        return numberOfArmies;
+    }
+
+    /**
+     * Sets the value of the numberOfArmies property.
+     * 
+     */
+    public void setNumberOfArmies(int value) {
+        this.numberOfArmies = value;
+    }
+
+    /**
+     * Gets the value of the playerId property.
+     * 
+     */
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    /**
+     * Sets the value of the playerId property.
+     * 
+     */
+    public void setPlayerId(int value) {
+        this.playerId = value;
+    }
+
+    /**
+     * Gets the value of the contenentId property.
+     * 
+     */
+    public int getContenentId() {
+        return contenentId;
+    }
+
+    /**
+     * Sets the value of the contenentId property.
+     * 
+     */
+    public void setContenentId(int value) {
+        this.contenentId = value;
     }
 
 }

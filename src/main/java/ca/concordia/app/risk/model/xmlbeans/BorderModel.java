@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for players complex type.
+ * <p>Java class for border complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="players">
+ * &lt;complexType name="border">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="player" type="{http://ca.concordia.app.risk/game}player" maxOccurs="unbounded"/>
+ *         &lt;element name="countryId" type="{http://www.w3.org/2001/XMLSchema}int" maxOccurs="2" minOccurs="2"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,41 +29,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "players", namespace = "http://ca.concordia.app.risk/game", propOrder = {
-    "list"
+@XmlType(name = "border", namespace = "http://ca.concordia.app.risk/game", propOrder = {
+    "countryId"
 })
-public class PlayersModel {
+public class BorderModel {
 
-    @XmlElement(name = "player", namespace = "http://ca.concordia.app.risk/game", required = true)
-    protected List<PlayerModel> list;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game", type = Integer.class)
+    protected List<Integer> countryId;
 
     /**
-     * Gets the value of the list property.
+     * Gets the value of the countryId property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the list property.
+     * This is why there is not a <CODE>set</CODE> method for the countryId property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getList().add(newItem);
+     *    getCountryId().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link PlayerModel }
+     * {@link Integer }
      * 
      * 
      */
-    public List<PlayerModel> getList() {
-        if (list == null) {
-            list = new ArrayList<PlayerModel>();
+    public List<Integer> getCountryId() {
+        if (countryId == null) {
+            countryId = new ArrayList<Integer>();
         }
-        return this.list;
+        return this.countryId;
     }
 
 }

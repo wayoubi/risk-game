@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for players complex type.
+ * <p>Java class for contenents complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="players">
+ * &lt;complexType name="contenents">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="player" type="{http://ca.concordia.app.risk/game}player" maxOccurs="unbounded"/>
+ *         &lt;element name="contenent" type="{http://ca.concordia.app.risk/game}contenent" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,13 +29,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "players", namespace = "http://ca.concordia.app.risk/game", propOrder = {
+@XmlType(name = "contenents", namespace = "http://ca.concordia.app.risk/game", propOrder = {
     "list"
 })
-public class PlayersModel {
+public class ContenentsModel {
 
-    @XmlElement(name = "player", namespace = "http://ca.concordia.app.risk/game", required = true)
-    protected List<PlayerModel> list;
+    @XmlElement(name = "contenent", namespace = "http://ca.concordia.app.risk/game", required = true)
+    protected List<ContenentModel> list;
 
     /**
      * Gets the value of the list property.
@@ -55,13 +55,13 @@ public class PlayersModel {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link PlayerModel }
+     * {@link ContenentModel }
      * 
      * 
      */
-    public List<PlayerModel> getList() {
+    public List<ContenentModel> getList() {
         if (list == null) {
-            list = new ArrayList<PlayerModel>();
+            list = new ArrayList<ContenentModel>();
         }
         return this.list;
     }
