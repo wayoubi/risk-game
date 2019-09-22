@@ -10,7 +10,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.springframework.beans.BeanUtils;
 
-import ca.concordia.app.risk.controller.dto.GameStarterDTO;
+import ca.concordia.app.risk.controller.dto.GameStarterDto;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
@@ -43,17 +43,17 @@ public class GameService {
 	 * @param gameStarterDTO
 	 * @throws Exception
 	 */
-	public void initGame(GameStarterDTO gameStarterDTO) throws Exception {
+	public void initGame(GameStarterDto gameStarterDTO) throws Exception {
 		RunningGame.reset();
-		
-		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
 		XMLGregorianCalendar xmlGregorianCalendar = DateUtils.getXMLDateTime(new Date());
 		RunningGame.getInstance().setCreatedDate(xmlGregorianCalendar);
 		RunningGame.getInstance().setLastSavedDate(xmlGregorianCalendar);
-		RunningGame.getInstance().setPlayers(new PlayersModel());
+		RunningGame.getInstance().setAutoSave(gameStarterDTO.isAutoSave());
+		RunningGame.getInstance().setPlayers(this.getObjectFactory().createPlayersModel());
 		for (int i = 0; i < gameStarterDTO.getPlayersList().size(); i++) {
 			PlayerModel playerModel = this.getObjectFactory().createPlayerModel();
 			BeanUtils.copyProperties(gameStarterDTO.getPlayersList().get(i), playerModel);
+			PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
 			playerDaoImpl.assignID(playerModel);
 			RunningGame.getInstance().getPlayers().getList().add(playerModel);
 		}

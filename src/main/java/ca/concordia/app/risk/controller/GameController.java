@@ -7,9 +7,10 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
+import ca.concordia.app.risk.InputReader;
 import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
-import ca.concordia.app.risk.controller.dto.GameStarterDTO;
-import ca.concordia.app.risk.controller.dto.PlayerDTO;
+import ca.concordia.app.risk.controller.dto.GameStarterDto;
+import ca.concordia.app.risk.controller.dto.PlayerDto;
 
 /**
  * 
@@ -20,6 +21,9 @@ import ca.concordia.app.risk.controller.dto.PlayerDTO;
 public class GameController {
 	
 	GameBusinessDelegate gameBusinessDelegate;
+	
+	@Autowired
+    InputReader inputReader;
 
 	/**
 	 * 
@@ -28,6 +32,7 @@ public class GameController {
 	public GameController() {
 		gameBusinessDelegate = new GameBusinessDelegate();
 	}
+	
 
 	/**
 	 * 
@@ -36,33 +41,34 @@ public class GameController {
 	 */
 	@ShellMethod("Start a new game")
 	public String init(@ShellOption(optOut = false) String autoSave) {
-		//if(autoSave) {
-		//	//engage auto save module
-		//}
+		GameStarterDto gameStarterDTO = new GameStarterDto();
+		if(Boolean.getBoolean(autoSave)) {
+			gameStarterDTO.setAutoSave(true);
+		}
 		try {
-			Scanner scanner = new Scanner(System.in);
-			System.out.println("Enter Number of Players");
-			int numberOfPlayers = scanner.nextInt();
-			System.out.println("Enter Number of Countries");
-			int numberOfCountries = scanner.nextInt();
-			
-			GameStarterDTO gameStarterDTO = new GameStarterDTO();
-			gameStarterDTO.setNumberOfCountries(numberOfCountries);
+			int numberOfPlayers = Integer.parseInt(inputReader.prompt("Enter Number of Players"));
 			gameStarterDTO.setNumberOfPlayers(numberOfPlayers);
-			
+			int numberOfCountries = Integer.parseInt(inputReader.prompt("Enter Number of Countries"));
+			gameStarterDTO.setNumberOfCountries(numberOfCountries);
 			for(int i=0; i<numberOfPlayers; i++) {
 				int labelCounter = i+1;
-				PlayerDTO playerDTO = new PlayerDTO();
-				System.out.println("Enter Player["+labelCounter+"] name");
-				playerDTO.setName(scanner.next());
-				System.out.println("Enter player["+labelCounter+"] color");
-				playerDTO.setColor(scanner.next());
+				PlayerDto playerDTO = new PlayerDto();
+				playerDTO.setName(inputReader.prompt("Enter Player["+labelCounter+"] name"));
+				playerDTO.setColor(inputReader.prompt("Enter player["+labelCounter+"] color"));
+				
+				try {
+					playerDTO.validate();
+				} catch(ValidationException va) {
+					
+				}
+				
 				gameStarterDTO.getPlayersList().add(playerDTO);
 			}
+			gameStarterDTO.validate();
 			
 			gameBusinessDelegate.initGame(gameStarterDTO);
 		} catch (Exception e) {
-			e.printStackTrace();
+			return e.getMessage();
 		}
 		return "Game created successfully";
 	}

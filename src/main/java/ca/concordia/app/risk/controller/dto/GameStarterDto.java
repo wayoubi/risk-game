@@ -2,47 +2,69 @@ package ca.concordia.app.risk.controller.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 
  * @author i857625
  *
  */
-public class GameStarterDTO {
-	
-	/**
-	 * 
-	 */
-	private int numberOfPlayers;
-	
-	/**
-	 * 
-	 */
-	private int numberOfCountries;
-	
-	/**
-	 * 
-	 */
-	private List<PlayerDTO> playersList;
+public class GameStarterDto implements Dto {
 
 	/**
 	 * 
 	 */
-	public GameStarterDTO() {
-		this.setPlayersList(new ArrayList<PlayerDTO>());
+	private boolean autoSave;
+
+	/**
+	 * 
+	 */
+	@Min(value = 2, message = "Number of Players should not be less than 2")
+	@Max(value = 5, message = "Number of Players should not be greater than 5")
+	private int numberOfPlayers;
+
+	/**
+	 * 
+	 */
+	@Min(value = 1, message = "Number of Countries should not be less than 1")
+	@Max(value = 20, message = "Number of Countries should not be greater than 20")
+	private int numberOfCountries;
+
+	/**
+	 * 
+	 */
+	@NotEmpty
+	private List<PlayerDto> playersList;
+
+	/**
+	 * 
+	 */
+	public GameStarterDto() {
+		this.setPlayersList(new ArrayList<PlayerDto>());
 	}
-	
+
 	/**
 	 * 
 	 * @param numberOfPlayers
 	 * @param numberOfCountries
 	 */
-	public GameStarterDTO(int numberOfPlayers, int numberOfCountries) {
+	public GameStarterDto(int numberOfPlayers, int numberOfCountries) {
 		super();
 		this.numberOfPlayers = numberOfPlayers;
 		this.numberOfCountries = numberOfCountries;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -50,7 +72,7 @@ public class GameStarterDTO {
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
-	
+
 	/**
 	 * 
 	 * @param numberOfPlayers
@@ -58,7 +80,7 @@ public class GameStarterDTO {
 	public void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -66,7 +88,7 @@ public class GameStarterDTO {
 	public int getNumberOfCountries() {
 		return numberOfCountries;
 	}
-	
+
 	/**
 	 * 
 	 * @param numberOfCountries
@@ -74,8 +96,8 @@ public class GameStarterDTO {
 	public void setNumberOfCountries(int numberOfCountries) {
 		this.numberOfCountries = numberOfCountries;
 	}
-	
-	public List<PlayerDTO> getPlayersList() {
+
+	public List<PlayerDto> getPlayersList() {
 		return playersList;
 	}
 
@@ -83,10 +105,35 @@ public class GameStarterDTO {
 	 * 
 	 * @param playersList
 	 */
-	public void setPlayersList(List<PlayerDTO> playersList) {
+	public void setPlayersList(List<PlayerDto> playersList) {
 		this.playersList = playersList;
 	}
-	
+
+	/**
+	 * @return the autoSave
+	 */
+	public boolean isAutoSave() {
+		return autoSave;
+	}
+
+	/**
+	 * @param autoSave
+	 *            the autoSave to set
+	 */
+	public void setAutoSave(boolean autoSave) {
+		this.autoSave = autoSave;
+	}
+
+	@Override
+	public void validate() throws ValidationException {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<GameStarterDto>> constraintViolations = validator.validate(this);
+		if (constraintViolations != null && !constraintViolations.isEmpty()) {
+			throw new ConstraintViolationException(constraintViolations);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -105,7 +152,7 @@ public class GameStarterDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GameStarterDTO other = (GameStarterDTO) obj;
+		GameStarterDto other = (GameStarterDto) obj;
 		if (numberOfCountries != other.numberOfCountries)
 			return false;
 		if (numberOfPlayers != other.numberOfPlayers)

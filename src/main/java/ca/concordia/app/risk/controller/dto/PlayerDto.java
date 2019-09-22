@@ -1,11 +1,24 @@
 package ca.concordia.app.risk.controller.dto;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * 
  * @author i857625
  *
  */
-public class PlayerDTO {
+public class PlayerDto implements Dto{
 
 	/**
 	 * 
@@ -15,6 +28,8 @@ public class PlayerDTO {
 	/**
 	 * 
 	 */
+	@NotBlank(message = "Name cannot be null or empty")
+	@Size(min = 10, max = 200, message = "Name must be between 8 and 20 characters")
 	private String name;
 	
 	/**
@@ -25,7 +40,7 @@ public class PlayerDTO {
 	/**
 	 * 
 	 */
-	public PlayerDTO() {	
+	public PlayerDto() {	
 	}
 	
 	/**
@@ -33,7 +48,7 @@ public class PlayerDTO {
 	 * @param name
 	 * @param color
 	 */
-	public PlayerDTO(String name, String color) {
+	public PlayerDto(String name, String color) {
 		this.setName(name);
 		this.setColor(color);
 	}
@@ -41,7 +56,7 @@ public class PlayerDTO {
 	/**
 	 * @param playerDTO
 	 */
-	public PlayerDTO(PlayerDTO playerDTO) {
+	public PlayerDto(@NotNull final PlayerDto playerDTO) {
 		if(playerDTO == null) {
 			throw new IllegalArgumentException("PlayerDTO cannot be null");
 		}
@@ -96,6 +111,16 @@ public class PlayerDTO {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	
+	@Override
+	public void validate() throws ValidationException {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<PlayerDto>> constraintViolations = validator.validate(this);
+		if (constraintViolations != null && !constraintViolations.isEmpty()) {
+			throw new ConstraintViolationException(constraintViolations);
+		}
+	}
 
 	@Override
 	public int hashCode() {
@@ -115,7 +140,7 @@ public class PlayerDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PlayerDTO other = (PlayerDTO) obj;
+		PlayerDto other = (PlayerDto) obj;
 		if (color == null) {
 			if (other.color != null)
 				return false;
