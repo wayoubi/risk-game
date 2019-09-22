@@ -16,7 +16,6 @@ import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
-import ca.concordia.app.risk.model.xmlbeans.PlayersModel;
 import ca.concordia.app.risk.utility.DateUtils;
 
 /**

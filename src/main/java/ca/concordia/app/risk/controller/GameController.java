@@ -1,6 +1,6 @@
 package ca.concordia.app.risk.controller;
 
-import java.util.Scanner;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
@@ -50,22 +50,27 @@ public class GameController {
 			gameStarterDTO.setNumberOfPlayers(numberOfPlayers);
 			int numberOfCountries = Integer.parseInt(inputReader.prompt("Enter Number of Countries"));
 			gameStarterDTO.setNumberOfCountries(numberOfCountries);
+			
+			boolean repeat = false;
 			for(int i=0; i<numberOfPlayers; i++) {
+				if(repeat) {
+					--i;
+				}
 				int labelCounter = i+1;
 				PlayerDto playerDTO = new PlayerDto();
 				playerDTO.setName(inputReader.prompt("Enter Player["+labelCounter+"] name"));
 				playerDTO.setColor(inputReader.prompt("Enter player["+labelCounter+"] color"));
-				
 				try {
 					playerDTO.validate();
-				} catch(ValidationException va) {
-					
+					repeat = false;
+				} catch(ValidationException validationException) {
+					System.out.println(validationException.getMessage());
+					repeat = true;
+					continue;
 				}
-				
 				gameStarterDTO.getPlayersList().add(playerDTO);
 			}
 			gameStarterDTO.validate();
-			
 			gameBusinessDelegate.initGame(gameStarterDTO);
 		} catch (Exception e) {
 			return e.getMessage();
