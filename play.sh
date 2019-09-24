@@ -1,6 +1,3 @@
-#./mvnw clean install
-#./mvnw package
-./mvnw compile
-#./mvnw test
+./mvnw clean install compile test package
 clear
 ./mvnw -q -pl . spring-boot:run

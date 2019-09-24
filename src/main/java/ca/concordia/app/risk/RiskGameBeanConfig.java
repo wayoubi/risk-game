@@ -18,6 +18,7 @@ import ca.concordia.app.risk.shell.InputReader;
 import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.shell.SimpleSpinner;
 import ca.concordia.app.risk.utility.GameUtils;
+import ca.concordia.app.risk.view.GameView;
 
 /**
  * 
@@ -120,5 +121,14 @@ public class RiskGameBeanConfig {
 	@Bean
 	public GameService gameService() {
 		return new GameService();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@Bean
+	GameView gameView() {
+		return new GameView();
 	}
 }
