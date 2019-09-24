@@ -6,7 +6,9 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import ca.concordia.app.risk.controller.delegate.ViewBusinessDelegate;
-import ca.concordia.app.risk.view.PlayerView;
+import ca.concordia.app.risk.controller.dto.PlayerDto;
+import ca.concordia.app.risk.shell.PromptColor;
+import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
  * 
@@ -16,6 +18,12 @@ import ca.concordia.app.risk.view.PlayerView;
 @ShellComponent
 public class ViewController {
 
+	@Autowired
+	private ViewBusinessDelegate viewBusinessDelegate;
+	
+	@Autowired
+	private ShellHelper shellHelper;
+	
 	/**
 	 * 
 	 */
@@ -29,16 +37,12 @@ public class ViewController {
 	 * @return
 	 */
 	@ShellMethod("Views the datails of game object")
-	public String details(@ShellOption(optOut = false) String player) {
-		String response = null;
-		ViewBusinessDelegate viewBusinessDelegate = new ViewBusinessDelegate();
+	public void details(@ShellOption(optOut = false) String player) {
 		try {
-			String details = viewBusinessDelegate.getPlayerDetails(player);
-			PlayerView playerView = new PlayerView();
-			response =  playerView.format(details);
+			PlayerDto playerDto = viewBusinessDelegate.getPlayerDetails(player);
+			shellHelper.print(playerDto.toString(), PromptColor.valueOf(playerDto.getColor()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return response;
 	}
 }

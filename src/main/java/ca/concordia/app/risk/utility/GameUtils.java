@@ -1,4 +1,4 @@
-package ca.concordia.app.risk.view;
+package ca.concordia.app.risk.utility;
 
 import java.util.Random;
 
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.concordia.app.risk.shell.SimpleSpinner;
 
 
-public class DiceSpinnerView {
+public class GameUtils {
 
 	@Autowired
 	SimpleSpinner simpleSpinner;

@@ -1,5 +1,8 @@
 package ca.concordia.app.risk.services;
 
+import org.springframework.beans.BeanUtils;
+
+import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
@@ -9,11 +12,12 @@ import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
  *
  */
 public class PresentationService {
-
+	
 	/**
 	 * 
 	 */
 	public PresentationService() {
+		
 	}
 
 	/**
@@ -22,10 +26,11 @@ public class PresentationService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String getPlayerDetails(String playerName) throws Exception {
+	public PlayerDto getPlayerDetails(String playerName) throws Exception {
 		PlayerDaoImpl playerDao = new PlayerDaoImpl();
 		PlayerModel playerModel = playerDao.findByName(playerName);
-		return playerModel.getName() + playerModel.getColor();
-
+		PlayerDto playerDto = new PlayerDto();
+		BeanUtils.copyProperties(playerModel, playerDto);
+		return playerDto;
 	}
 }

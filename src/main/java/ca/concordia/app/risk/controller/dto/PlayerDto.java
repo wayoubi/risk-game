@@ -29,12 +29,13 @@ public class PlayerDto implements Dto{
 	 * 
 	 */
 	@NotBlank(message = "Name cannot be null or empty")
-	@Size(min = 10, max = 200, message = "Name must be between 8 and 20 characters")
+	@Size(min = 5, message = "Name must be minumum 5 characters")
 	private String name;
 	
 	/**
 	 * 
 	 */
+	@NotBlank(message = "Color cannot be null or empty" )
 	private String color;
 	
 	/**

@@ -1,5 +1,8 @@
 package ca.concordia.app.risk.controller;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
 import ca.concordia.app.risk.controller.dto.GameStarterDto;
 import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.shell.InputReader;
+import ca.concordia.app.risk.shell.PromptColor;
+import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
  * 
@@ -20,17 +25,26 @@ import ca.concordia.app.risk.shell.InputReader;
 @ShellComponent
 public class GameController {
 	
-	GameBusinessDelegate gameBusinessDelegate;
+	/**
+	 * 
+	 */
+	@Autowired
+	private GameBusinessDelegate gameBusinessDelegate;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+    private InputReader inputReader;
 	
 	@Autowired
-    InputReader inputReader;
+	private ShellHelper shellHelper;
 
 	/**
 	 * 
 	 */
 	@Autowired
 	public GameController() {
-		gameBusinessDelegate = new GameBusinessDelegate();
 	}
 	
 
@@ -40,42 +54,60 @@ public class GameController {
 	 * @return
 	 */
 	@ShellMethod("Start a new game")
-	public String init(@ShellOption(optOut = false) String autoSave) {
+	public void init(@ShellOption(optOut = false) String autoSave) {
 		GameStarterDto gameStarterDTO = new GameStarterDto();
+		
 		if(Boolean.getBoolean(autoSave)) {
 			gameStarterDTO.setAutoSave(true);
 		}
+		
+		int numberOfPlayers=0, numberOfCountries=0;
+		
+		shellHelper.printInfo("Enter Game Information");
 		try {
-			int numberOfPlayers = Integer.parseInt(inputReader.prompt("Enter Number of Players"));
+			numberOfPlayers = Integer.parseInt(inputReader.prompt("Enter Number of Players"));
 			gameStarterDTO.setNumberOfPlayers(numberOfPlayers);
-			int numberOfCountries = Integer.parseInt(inputReader.prompt("Enter Number of Countries"));
+			numberOfCountries = Integer.parseInt(inputReader.prompt("Enter Number of Countries"));
 			gameStarterDTO.setNumberOfCountries(numberOfCountries);
-			
-			boolean repeat = false;
-			for(int i=0; i<numberOfPlayers; i++) {
-				if(repeat) {
-					--i;
-				}
-				int labelCounter = i+1;
-				PlayerDto playerDTO = new PlayerDto();
-				playerDTO.setName(inputReader.prompt("Enter Player["+labelCounter+"] name"));
-				playerDTO.setColor(inputReader.prompt("Enter player["+labelCounter+"] color"));
-				try {
-					playerDTO.validate();
-					repeat = false;
-				} catch(ValidationException validationException) {
-					System.out.println(validationException.getMessage());
-					repeat = true;
-					continue;
-				}
-				gameStarterDTO.getPlayersList().add(playerDTO);
-			}
-			gameStarterDTO.validate();
-			gameBusinessDelegate.initGame(gameStarterDTO);
-		} catch (Exception e) {
-			return e.getMessage();
+		} catch(NumberFormatException nfex) {
+			shellHelper.printError("Integer Values only");
+			return;
 		}
-		return "Game created successfully";
+			
+		shellHelper.printInfo("Enter Players Information");
+		boolean repeat = false;
+		for(int i=0; i<numberOfPlayers; i++) {
+			if(repeat) {
+				--i;
+			}
+			int labelCounter = i+1;
+			PlayerDto playerDTO = new PlayerDto();
+			playerDTO.setName(inputReader.prompt(String.format("Enter Player %s name", labelCounter)));
+			shellHelper.printInfo("Choose from " + Arrays.asList(PromptColor.values()).stream().map( n -> n.toString()).collect(Collectors.joining( "," )) );
+			playerDTO.setColor(inputReader.prompt(String.format("Enter %s's color", playerDTO.getName())));
+			try {
+				playerDTO.validate();
+				repeat = false;
+			} catch(ValidationException vex) {
+				shellHelper.printError(vex.getMessage());
+				shellHelper.printInfo("try again");
+				repeat = true;
+				continue;
+			}
+			gameStarterDTO.getPlayersList().add(playerDTO);
+		}
+		try {
+			gameStarterDTO.validate();
+		} catch (ValidationException vex) {
+			shellHelper.printError(vex.getMessage());
+		}
+		
+		try {
+			gameBusinessDelegate.initGame(gameStarterDTO);
+		} catch (Exception ex) {
+			shellHelper.printError(ex.getMessage());
+		}
+		shellHelper.printSuccess("Game initiated successfully");
 	}
 
 	/**

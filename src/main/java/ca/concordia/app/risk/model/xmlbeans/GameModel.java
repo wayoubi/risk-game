@@ -9,11 +9,13 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType>
@@ -36,193 +38,162 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "autoSave",
-    "createdDate",
-    "lastSavedDate",
-    "players",
-    "contenents",
-    "countries",
-    "borders"
-})
+@XmlType(name = "", propOrder = { "autoSave", "createdDate", "lastSavedDate", "players", "contenents", "countries",
+		"borders" })
 @XmlRootElement(name = "game", namespace = "http://ca.concordia.app.risk/game")
 public class GameModel {
 
-    @XmlElement(namespace = "http://ca.concordia.app.risk/game")
-    protected boolean autoSave;
-    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar createdDate;
-    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastSavedDate;
-    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-    protected PlayersModel players;
-    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-    protected ContenentsModel contenents;
-    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-    protected CountriesModel countries;
-    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-    protected BordersModel borders;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
+	protected boolean autoSave;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+	@XmlSchemaType(name = "dateTime")
+	protected XMLGregorianCalendar createdDate;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+	@XmlSchemaType(name = "dateTime")
+	protected XMLGregorianCalendar lastSavedDate;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+	protected PlayersModel players;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+	protected ContenentsModel contenents;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+	protected CountriesModel countries;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+	protected BordersModel borders;
 
-    /**
-     * Gets the value of the autoSave property.
-     * 
-     */
-    public boolean isAutoSave() {
-        return autoSave;
-    }
+	/**
+	 * Gets the value of the autoSave property.
+	 * 
+	 */
+	public boolean isAutoSave() {
+		return autoSave;
+	}
 
-    /**
-     * Sets the value of the autoSave property.
-     * 
-     */
-    public void setAutoSave(boolean value) {
-        this.autoSave = value;
-    }
+	/**
+	 * Sets the value of the autoSave property.
+	 * 
+	 */
+	public void setAutoSave(boolean value) {
+		this.autoSave = value;
+	}
 
-    /**
-     * Gets the value of the createdDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getCreatedDate() {
-        return createdDate;
-    }
+	/**
+	 * Gets the value of the createdDate property.
+	 * 
+	 * @return possible object is {@link XMLGregorianCalendar }
+	 * 
+	 */
+	public XMLGregorianCalendar getCreatedDate() {
+		return createdDate;
+	}
 
-    /**
-     * Sets the value of the createdDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setCreatedDate(XMLGregorianCalendar value) {
-        this.createdDate = value;
-    }
+	/**
+	 * Sets the value of the createdDate property.
+	 * 
+	 * @param value allowed object is {@link XMLGregorianCalendar }
+	 * 
+	 */
+	public void setCreatedDate(XMLGregorianCalendar value) {
+		this.createdDate = value;
+	}
 
-    /**
-     * Gets the value of the lastSavedDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getLastSavedDate() {
-        return lastSavedDate;
-    }
+	/**
+	 * Gets the value of the lastSavedDate property.
+	 * 
+	 * @return possible object is {@link XMLGregorianCalendar }
+	 * 
+	 */
+	public XMLGregorianCalendar getLastSavedDate() {
+		return lastSavedDate;
+	}
 
-    /**
-     * Sets the value of the lastSavedDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setLastSavedDate(XMLGregorianCalendar value) {
-        this.lastSavedDate = value;
-    }
+	/**
+	 * Sets the value of the lastSavedDate property.
+	 * 
+	 * @param value allowed object is {@link XMLGregorianCalendar }
+	 * 
+	 */
+	public void setLastSavedDate(XMLGregorianCalendar value) {
+		this.lastSavedDate = value;
+	}
 
-    /**
-     * Gets the value of the players property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link PlayersModel }
-     *     
-     */
-    public PlayersModel getPlayers() {
-        return players;
-    }
+	/**
+	 * Gets the value of the players property.
+	 * 
+	 * @return possible object is {@link PlayersModel }
+	 * 
+	 */
+	public PlayersModel getPlayers() {
+		return players;
+	}
 
-    /**
-     * Sets the value of the players property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link PlayersModel }
-     *     
-     */
-    public void setPlayers(PlayersModel value) {
-        this.players = value;
-    }
+	/**
+	 * Sets the value of the players property.
+	 * 
+	 * @param value allowed object is {@link PlayersModel }
+	 * 
+	 */
+	public void setPlayers(PlayersModel value) {
+		this.players = value;
+	}
 
-    /**
-     * Gets the value of the contenents property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ContenentsModel }
-     *     
-     */
-    public ContenentsModel getContenents() {
-        return contenents;
-    }
+	/**
+	 * Gets the value of the contenents property.
+	 * 
+	 * @return possible object is {@link ContenentsModel }
+	 * 
+	 */
+	public ContenentsModel getContenents() {
+		return contenents;
+	}
 
-    /**
-     * Sets the value of the contenents property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ContenentsModel }
-     *     
-     */
-    public void setContenents(ContenentsModel value) {
-        this.contenents = value;
-    }
+	/**
+	 * Sets the value of the contenents property.
+	 * 
+	 * @param value allowed object is {@link ContenentsModel }
+	 * 
+	 */
+	public void setContenents(ContenentsModel value) {
+		this.contenents = value;
+	}
 
-    /**
-     * Gets the value of the countries property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CountriesModel }
-     *     
-     */
-    public CountriesModel getCountries() {
-        return countries;
-    }
+	/**
+	 * Gets the value of the countries property.
+	 * 
+	 * @return possible object is {@link CountriesModel }
+	 * 
+	 */
+	public CountriesModel getCountries() {
+		return countries;
+	}
 
-    /**
-     * Sets the value of the countries property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CountriesModel }
-     *     
-     */
-    public void setCountries(CountriesModel value) {
-        this.countries = value;
-    }
+	/**
+	 * Sets the value of the countries property.
+	 * 
+	 * @param value allowed object is {@link CountriesModel }
+	 * 
+	 */
+	public void setCountries(CountriesModel value) {
+		this.countries = value;
+	}
 
-    /**
-     * Gets the value of the borders property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BordersModel }
-     *     
-     */
-    public BordersModel getBorders() {
-        return borders;
-    }
+	/**
+	 * Gets the value of the borders property.
+	 * 
+	 * @return possible object is {@link BordersModel }
+	 * 
+	 */
+	public BordersModel getBorders() {
+		return borders;
+	}
 
-    /**
-     * Sets the value of the borders property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BordersModel }
-     *     
-     */
-    public void setBorders(BordersModel value) {
-        this.borders = value;
-    }
+	/**
+	 * Sets the value of the borders property.
+	 * 
+	 * @param value allowed object is {@link BordersModel }
+	 * 
+	 */
+	public void setBorders(BordersModel value) {
+		this.borders = value;
+	}
 
 }

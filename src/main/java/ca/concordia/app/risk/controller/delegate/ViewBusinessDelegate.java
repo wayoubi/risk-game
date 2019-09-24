@@ -1,5 +1,8 @@
 package ca.concordia.app.risk.controller.delegate;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.services.PresentationService;
 
 /**
@@ -9,17 +12,12 @@ import ca.concordia.app.risk.services.PresentationService;
  */
 public class ViewBusinessDelegate {
 
+
 	/**
 	 * 
 	 */
-	PresentationService presentaationService;
-	
-	/**
-	 * 
-	 */
-	public ViewBusinessDelegate() {
-		this.setPresentaationService(new PresentationService());
-	}
+	@Autowired
+	PresentationService presentationService;
 	
 	/**
 	 * 
@@ -27,23 +25,7 @@ public class ViewBusinessDelegate {
 	 * @return
 	 * @throws Exception
 	 */
-	public String getPlayerDetails(String playerName) throws Exception {
-		return this.getPresentaationService().getPlayerDetails(playerName);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public PresentationService getPresentaationService() {
-		return presentaationService;
-	}
-
-	/**
-	 * 
-	 * @param presentaationService
-	 */
-	public void setPresentaationService(PresentationService presentaationService) {
-		this.presentaationService = presentaationService;
+	public PlayerDto getPlayerDetails(String playerName) throws Exception {
+		return presentationService.getPlayerDetails(playerName);
 	}
 }
