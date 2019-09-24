@@ -7,10 +7,10 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
-import ca.concordia.app.risk.InputReader;
 import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
 import ca.concordia.app.risk.controller.dto.GameStarterDto;
 import ca.concordia.app.risk.controller.dto.PlayerDto;
+import ca.concordia.app.risk.shell.InputReader;
 
 /**
  * 

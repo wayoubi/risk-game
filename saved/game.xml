@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <game xmlns="http://ca.concordia.app.risk/game">
-    <autoSave>false</autoSave>
-    <lastSavedDate>2019-09-22T10:20:04.172-04:00</lastSavedDate>
+	<autoSave>false</autoSave>
+	<createdDate>2019-09-23T15:55:45.534-04:00</createdDate>
+	<lastSavedDate>2019-09-23T15:55:47.529-04:00</lastSavedDate>
+	<players>
+		<player>
+			<id>1</id>
+			<name>Wasim Ahmad</name>
+			<color>vlack</color>
+		</player>
+		<player>
+			<id>2</id>
+			<name>Ahmad Othman</name>
+			<color>green</color>
+		</player>
+	</players>
 </game>

@@ -6,6 +6,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import ca.concordia.app.risk.controller.delegate.PlayBusinessDelegate;
+import ca.concordia.app.risk.view.DiceSpinnerView;
 
 /**
  * 
@@ -43,6 +44,8 @@ public class PlayController {
 			@ShellOption(optOut = false) String to
 			) {
 		try {
+			DiceSpinnerView diceSpinnerView = new DiceSpinnerView();
+			int x = diceSpinnerView.rollDice();
 			playBusinessDelegate.attack(attacker);
 		} catch (Exception e) {
 			e.printStackTrace();
