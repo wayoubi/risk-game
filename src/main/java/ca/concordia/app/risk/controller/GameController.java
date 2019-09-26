@@ -57,13 +57,11 @@ public class GameController {
 		if (Boolean.getBoolean(autoSave)) {
 			gameStarterDTO.setAutoSave(true);
 		}
-
 		try {
 			gameStarterDTO.validate();
 		} catch (ValidationException vex) {
 			shellHelper.printError(vex.getMessage());
 		}
-
 		try {
 			gameBusinessDelegate.initGame(gameStarterDTO);
 		} catch (Exception ex) {

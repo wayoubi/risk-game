@@ -1,5 +1,7 @@
 package ca.concordia.app.risk.controller;
 
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -41,6 +43,8 @@ public class ViewController {
 		try {
 			PlayerDto playerDto = viewBusinessDelegate.getPlayerDetails(player);
 			shellHelper.print(playerDto.toString(), PromptColor.valueOf(playerDto.getColor()));
+			String countriesStr = playerDto.getCountryDtoList().stream().map(c -> c.toString()).collect(Collectors.joining( "," ));
+			shellHelper.print("Countries: "+countriesStr, PromptColor.valueOf(playerDto.getColor()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

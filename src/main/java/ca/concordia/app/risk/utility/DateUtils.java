@@ -13,7 +13,14 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *
  */
 public class DateUtils {
-	
+
+	/**
+	 * 
+	 */
+	private DateUtils() {
+
+	}
+
 	/**
 	 * 
 	 * @param date
@@ -21,9 +28,8 @@ public class DateUtils {
 	 * @throws DatatypeConfigurationException
 	 */
 	public static XMLGregorianCalendar getXMLDateTime(Date date) throws DatatypeConfigurationException {
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTime(new Date());
-		XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-		return xmlGregorianCalendar;	
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		gregorianCalendar.setTime(date);
+		return DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
 	}
 }

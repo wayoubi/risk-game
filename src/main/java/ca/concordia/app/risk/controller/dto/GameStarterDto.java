@@ -160,8 +160,9 @@ public class GameStarterDto implements Dto {
 		if (playersList == null) {
 			if (other.playersList != null)
 				return false;
-		} else if (!playersList.equals(other.playersList))
+		} else if (!playersList.equals(other.playersList)) {
 			return false;
+		}
 		return true;
 	}
 

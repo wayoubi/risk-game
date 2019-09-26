@@ -1,5 +1,9 @@
 package ca.concordia.app.risk.model.cache;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.builder.GraphTypeBuilder;
+
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 /**
@@ -17,15 +21,24 @@ public class RunningGame extends GameModel {
 	/**
 	 * 
 	 */
+	private Graph<String, DefaultEdge> graph;
+
+
+	/**
+	 * 
+	 */
 	private RunningGame() { 
 		super();
+		graph = GraphTypeBuilder
+	            .<String, DefaultEdge> undirected().allowingMultipleEdges(false)
+	            .allowingSelfLoops(false).edgeClass(DefaultEdge.class).weighted(false).buildGraph();
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public static GameModel getInstance() {
+	public static RunningGame getInstance() {
 		if(runningGame == null) {
 			runningGame = new RunningGame();
 		}
@@ -37,6 +50,14 @@ public class RunningGame extends GameModel {
 	 */
 	public static void reset() {
 		runningGame = new RunningGame();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Graph<String, DefaultEdge> getGraph() {
+		return this.graph;
 	}
 
 }

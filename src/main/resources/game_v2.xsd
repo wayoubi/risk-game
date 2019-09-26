@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://ca.concordia.app.risk/game"
+	xmlns:riskgame="http://ca.concordia.app.risk/game"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+
+	<xsd:complexType name="players">
+		<xsd:sequence>
+			<xsd:element name="player" type="riskgame:player"
+				minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="player">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:int" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="name" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="color" minOccurs="1" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="BLACK"/>
+					    <xsd:enumeration value="RED"/>
+					    <xsd:enumeration value="GREEN"/>
+					    <xsd:enumeration value="YELLOW"/>
+					    <xsd:enumeration value="BLUE"/>
+					    <xsd:enumeration value="MAGENTA"/>
+					    <xsd:enumeration value="CYAN"/>
+					    <xsd:enumeration value="WHITE"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="contenents">
+		<xsd:sequence>
+			<xsd:element name="contenent" type="riskgame:contenent"
+				minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="contenent">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:int" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="name" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="color" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="controlValue" type="xsd:int"
+				minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="countries">
+		<xsd:sequence>
+			<xsd:element name="country" type="riskgame:country"
+				minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="country">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:int" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="name" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="color" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="numberOfArmies" type="xsd:int"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:element name="playerId" type="xsd:int" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="contenentId" type="xsd:int"
+				minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:element name="game">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="autoSave" type="xsd:boolean"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="createdDate" type="xsd:dateTime"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="lastSavedDate" type="xsd:dateTime"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="players" type="riskgame:players"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="contenents"
+					type="riskgame:contenents" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="countries" type="riskgame:countries"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="grah" type="xsd:string"
+					minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

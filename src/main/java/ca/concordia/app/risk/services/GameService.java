@@ -12,7 +12,9 @@ import org.springframework.beans.BeanUtils;
 
 import ca.concordia.app.risk.controller.dto.GameStarterDto;
 import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
@@ -55,6 +57,20 @@ public class GameService {
 			PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
 			playerDaoImpl.assignID(playerModel);
 			RunningGame.getInstance().getPlayers().getList().add(playerModel);
+		}
+		
+		RunningGame.getInstance().setCountries(this.getObjectFactory().createCountriesModel());
+		for (int i = 0; i < gameStarterDTO.getNumberOfCountries(); i++) {
+			CountryModel countryModel = this.getObjectFactory().createCountryModel();
+			CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+			countryDaoImpl.assignID(countryModel);
+			countryModel.setColor("Black");
+			countryModel.setContenentId(1);
+			countryModel.setName("Country"+(i+1));
+			countryModel.setNumberOfArmies(10);
+			countryModel.setPlayerId(1);
+			RunningGame.getInstance().getCountries().getList().add(countryModel);
+			RunningGame.getInstance().getGraph().addVertex(countryModel.getName());
 		}
 	}
 

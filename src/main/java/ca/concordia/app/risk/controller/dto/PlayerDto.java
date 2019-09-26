@@ -1,5 +1,7 @@
 package ca.concordia.app.risk.controller.dto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -41,7 +43,14 @@ public class PlayerDto implements Dto{
 	/**
 	 * 
 	 */
+	private List<CountryDto> countryDtoList;
+	
+
+	/**
+	 * 
+	 */
 	public PlayerDto() {	
+		this.setCountryDtoList(new ArrayList<CountryDto>());
 	}
 	
 	/**
@@ -58,9 +67,6 @@ public class PlayerDto implements Dto{
 	 * @param playerDTO
 	 */
 	public PlayerDto(@NotNull final PlayerDto playerDTO) {
-		if(playerDTO == null) {
-			throw new IllegalArgumentException("PlayerDTO cannot be null");
-		}
 		this.setName(playerDTO.getName());
 		this.setColor(playerDTO.getColor());
 	}
@@ -113,6 +119,14 @@ public class PlayerDto implements Dto{
 		this.color = color;
 	}
 	
+	public List<CountryDto> getCountryDtoList() {
+		return countryDtoList;
+	}
+
+	public void setCountryDtoList(List<CountryDto> countryDtoList) {
+		this.countryDtoList = countryDtoList;
+	}
+	
 	@Override
 	public void validate() throws ValidationException {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -145,20 +159,25 @@ public class PlayerDto implements Dto{
 		if (color == null) {
 			if (other.color != null)
 				return false;
-		} else if (!color.equals(other.color))
+		} else if(!color.equals(other.color)) {
 			return false;
+		}
 		if (id != other.id)
 			return false;
 		if (name == null) {
-			if (other.name != null)
+			if (other.name != null) {
 				return false;
-		} else if (!name.equals(other.name))
+			}
+		}else if(!name.equals(other.name)) {
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "PlayerDTO [id=" + id + ", name=" + name + ", color=" + color + "]";
+		return "PlayerDto [id=" + id + ", name=" + name + ", color=" + color + "]";
 	}
+
+	
 }

@@ -33,13 +33,6 @@ public interface Dao<T> {
 	/**
 	 * 
 	 * @param t
-	 * @param params
-	 */
-	void update(T t, String[] params);
-    
-	/**
-	 * 
-	 * @param t
 	 */
 	void delete(T t);
 }

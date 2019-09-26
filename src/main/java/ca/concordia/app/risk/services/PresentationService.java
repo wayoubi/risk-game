@@ -1,9 +1,13 @@
 package ca.concordia.app.risk.services;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 
+import ca.concordia.app.risk.controller.dto.CountryDto;
 import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
 /**
@@ -12,12 +16,12 @@ import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
  *
  */
 public class PresentationService {
-	
+
 	/**
 	 * 
 	 */
 	public PresentationService() {
-		
+		//
 	}
 
 	/**
@@ -27,10 +31,14 @@ public class PresentationService {
 	 * @throws Exception
 	 */
 	public PlayerDto getPlayerDetails(String playerName) throws Exception {
+		// TODOM get contenant name later
 		PlayerDaoImpl playerDao = new PlayerDaoImpl();
 		PlayerModel playerModel = playerDao.findByName(playerName);
 		PlayerDto playerDto = new PlayerDto();
 		BeanUtils.copyProperties(playerModel, playerDto);
+		List<CountryModel> countries = playerDao.getCountries(playerModel);
+		countries.stream().forEach(c -> playerDto.getCountryDtoList()
+				.add(new CountryDto(c.getName(), c.getColor(), c.getNumberOfArmies(), "Not a problem now!")));
 		return playerDto;
 	}
 }

@@ -1,9 +1,12 @@
 package ca.concordia.app.risk.model.dao;
 
 import java.util.Comparator;
-import java.util.NoSuchElementException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
 /**
@@ -37,22 +40,26 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 	@Override
 	public void assignID(PlayerModel t) throws Exception {
 		Comparator<PlayerModel> comparator = Comparator.comparing(PlayerModel::getId);
-		try {
-			int maxId = RunningGame.getInstance().getPlayers().getList().stream().max(comparator).get().getId();
-			t.setId(maxId + 1);
-		} catch (NoSuchElementException noSuchElementException) {
-			t.setId(1);
+		Optional<PlayerModel> optional = RunningGame.getInstance().getPlayers().getList().stream().max(comparator); 
+		if(optional.isPresent()) {
+			t.setId(optional.get().getId() + 1);
+		} else {
+			t.setId(1);	
 		}
 	}
 
-	@Override
-	public void update(PlayerModel t, String[] params) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void delete(PlayerModel t) {
 		RunningGame.getInstance().getPlayers().getList().remove(t);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<CountryModel> getCountries(PlayerModel t){
+		return RunningGame.getInstance().getCountries().getList().stream().filter(c -> t.getId()==c.getPlayerId()).collect(Collectors.toList());
+		
 	}
 }
