@@ -64,7 +64,6 @@ public class GameService {
 			CountryModel countryModel = this.getObjectFactory().createCountryModel();
 			CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 			countryDaoImpl.assignID(RunningGame.getInstance(), countryModel);
-			countryModel.setColor("Black");
 			countryModel.setContinentId(1);
 			countryModel.setName("Country" + (i + 1));
 			countryModel.setNumberOfArmies(10);

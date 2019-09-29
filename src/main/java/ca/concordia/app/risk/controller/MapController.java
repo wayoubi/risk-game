@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellOption;
 
 import ca.concordia.app.risk.controller.delegate.MapBusinessDelegate;
 import ca.concordia.app.risk.controller.dto.ContinentDto;
+import ca.concordia.app.risk.controller.dto.CountryDto;
 
 @ShellComponent
 public class MapController {
@@ -14,7 +15,14 @@ public class MapController {
 	@Autowired
 	private MapBusinessDelegate mapBusinessDelegate;
 
-	@ShellMethod("Save the current game")
+	/**
+	 * 
+	 * @param continentName2Add
+	 * @param numberOfCountries
+	 * @param continentName2Remove
+	 * @return
+	 */
+	@ShellMethod("Add/ Remove Continent")
 	public String editcontinent(@ShellOption(value = { "--add" }, defaultValue = "None") String continentName2Add,
 			@ShellOption(value = { "--value" }, defaultValue = "0") String numberOfCountries,
 			@ShellOption(value = { "--remove" }, defaultValue = "None") String continentName2Remove) {
@@ -41,32 +49,33 @@ public class MapController {
 		return "Continent edited successfully";
 	}
 
+	/**
+	 * 
+	 * @param continentName2Add
+	 * @param numberOfCountries
+	 * @param continentName2Remove
+	 * @return
+	 */
 	@ShellMethod("Save the current game")
-	public String editcountry() {
+	public String editcountry(@ShellOption(value = { "--add" }, defaultValue = "None") String countryName2Add,
+			@ShellOption(value = { "--continent" }, defaultValue = "None") String continent,
+			@ShellOption(value = { "--remove" }, defaultValue = "None") String countryName2Remove) {
 		try {
-
+			if (countryName2Add != null && !"None".equalsIgnoreCase(countryName2Add)) {
+				CountryDto countryDto = new CountryDto();
+				countryDto.setName(countryName2Add);
+				countryDto.setContenentName(continent);
+				mapBusinessDelegate.addCountry(countryDto);
+				
+			}
+			if (countryName2Remove != null && !"None".equalsIgnoreCase(countryName2Remove)) {
+				CountryDto countryDto = new CountryDto();
+				countryDto.setName(countryName2Remove);
+				mapBusinessDelegate.removeCountry(countryDto);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "Country edited successfully";
-	}
-
-	@ShellMethod("Save the current game")
-	public String editneighbor() {
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "Neighbor edited successfully";
-	}
-
-	@ShellMethod("Save the current game")
-	public void showmap() {
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		return "Continent edited successfully";
 	}
 }

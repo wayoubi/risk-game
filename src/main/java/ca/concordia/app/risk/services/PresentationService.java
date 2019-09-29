@@ -39,7 +39,7 @@ public class PresentationService {
 		BeanUtils.copyProperties(playerModel, playerDto);
 		List<CountryModel> countries = playerDao.getCountries(RunningGame.getInstance(), playerModel);
 		countries.stream().forEach(c -> playerDto.getCountryDtoList()
-				.add(new CountryDto(c.getName(), c.getColor(), c.getNumberOfArmies(), "Not a problem now!")));
+				.add(new CountryDto(c.getName(), c.getNumberOfArmies(), "Not a problem now!")));
 		return playerDto;
 	}
 }
