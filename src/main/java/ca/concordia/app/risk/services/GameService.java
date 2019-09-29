@@ -209,7 +209,27 @@ public class GameService {
 		PlayerDaoImpl playerDao = new PlayerDaoImpl();
 		PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), playerDto.getName());
 		playerDao.delete(RunningGame.getInstance(), playerModel);
+	}
 
+	public void populateCountries() {
+		int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
+		int numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
+		int playerID=0;
 
+		Iterator it = RunningGame.getInstance().getCountries().getList().iterator();
+
+		while(it.hasNext())
+		{
+			if(playerID<numberOfPlayers)
+			{
+				playerID++;
+			}
+			else
+			{
+				playerID=1;
+			}
+			CountryModel countryModel = (CountryModel) it.next();
+			countryModel.setPlayerId(playerID);
+		}
 	}
 }

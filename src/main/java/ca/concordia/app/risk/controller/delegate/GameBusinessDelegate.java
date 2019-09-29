@@ -63,4 +63,8 @@ public class GameBusinessDelegate {
 	public void removePlayer(PlayerDto playerDto) throws Exception {
 		gameService.removePlayer(playerDto);
 	}
+
+	public void populateCountries() {
+		gameService.populateCountries();
+	}
 }

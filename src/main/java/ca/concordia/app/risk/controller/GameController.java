@@ -3,6 +3,7 @@ package ca.concordia.app.risk.controller;
 import javax.validation.ValidationException;
 
 import ca.concordia.app.risk.controller.dto.PlayerDto;
+import ca.concordia.app.risk.model.cache.RunningGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -77,7 +78,7 @@ public class GameController {
 	}
 	
 
-	@ShellMethod("Save the current game")
+	@ShellMethod("Add/Remove player")
 	public String gameplayer(@ShellOption(value = { "--add" }, defaultValue = "None") String player2Add,
 							 @ShellOption(value = { "--remove" }, defaultValue = "None") String player2Remove) {
 		try {
@@ -98,6 +99,15 @@ public class GameController {
 			e.printStackTrace();
 		}
 		return "Player edited successfully";
+	}
+
+	@ShellMethod("populate countries")
+	public String populatecountries() {
+
+		gameBusinessDelegate.populateCountries();
+
+
+		return "Countries has been randomly assigned to players.";
 	}
 
 
