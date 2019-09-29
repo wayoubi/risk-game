@@ -162,7 +162,5 @@ public class GameService {
 			throw new Exception("Country Does Not Exist");
 		}
 		countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+1);
-
-
 	}
 }
