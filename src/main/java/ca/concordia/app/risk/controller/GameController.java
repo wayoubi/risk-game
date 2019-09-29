@@ -111,10 +111,13 @@ public class GameController {
 
 	@ShellMethod("populate countries")
 	public String populatecountries() {
-
 		gameBusinessDelegate.populateCountries();
+		return "Countries has been randomly assigned to players.";
+	}
 
-
+	@ShellMethod("placearmy")
+	public String placearmy(@ShellOption(value = { "--countryname" }, defaultValue = "None") String countryName) throws Exception {
+		gameBusinessDelegate.placeArmy(countryName);
 		return "Countries has been randomly assigned to players.";
 	}
 

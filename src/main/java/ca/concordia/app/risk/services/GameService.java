@@ -153,4 +153,16 @@ public class GameService {
 			countryModel.setPlayerId(playerID);
 		}
 	}
+
+	public void placeArmy(String countryName) throws Exception {
+
+		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> c.getName()==countryName)).findAny().orElse(null);;
+
+		if (countryModel == null) {
+			throw new Exception("Country Does Not Exist");
+		}
+		countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+1);
+
+
+	}
 }
