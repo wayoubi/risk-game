@@ -2,6 +2,7 @@ package ca.concordia.app.risk.controller;
 
 import javax.validation.ValidationException;
 
+import ca.concordia.app.risk.controller.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -83,6 +84,30 @@ public class GameController {
 		}
 		return "Game saved successfully";
 	}
+
+	@ShellMethod("Save the current game")
+	public String gameplayer(@ShellOption(value = { "--add" }, defaultValue = "None") String player2Add,
+							 @ShellOption(value = { "--remove" }, defaultValue = "None") String player2Remove) {
+		try {
+			if (player2Add != null && !"None".equalsIgnoreCase(player2Add)) {
+				PlayerDto playerDto = new PlayerDto();
+				playerDto.setName(player2Add);
+				gameBusinessDelegate.addPlayer(playerDto);
+			}
+
+
+			if (player2Remove != null && !"None".equalsIgnoreCase(player2Remove)) {
+				PlayerDto playerDto = new PlayerDto();
+				playerDto.setName(player2Remove);
+				gameBusinessDelegate.removePlayer(playerDto);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "Player edited successfully";
+	}
+
 
 	/**
 	 * 

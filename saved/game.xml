@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <game xmlns="http://ca.concordia.app.risk/game">
-    <createdDate>2019-09-29T15:10:16.804-04:00</createdDate>
-    <lastSavedDate>2019-09-29T15:10:39.998-04:00</lastSavedDate>
-    <players/>
+    <createdDate>2019-09-29T17:17:28.525-04:00</createdDate>
+    <lastSavedDate>2019-09-29T17:17:30.321-04:00</lastSavedDate>
+    <players>
+        <player>
+            <controlValue>0</controlValue>
+            <numberOfCountries>0</numberOfCountries>
+            <id>1</id>
+            <name>Wasim</name>
+        </player>
+    </players>
     <continents/>
     <countries/>
     <borders/>
