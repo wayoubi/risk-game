@@ -33,6 +33,16 @@ import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
+import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
+import ca.concordia.app.risk.controller.dto.PlayerDto;
+import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.*;
+import org.springframework.beans.BeanUtils;
+
+import ca.concordia.app.risk.controller.dto.GameStarterDto;
+import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.CountryDaoImpl;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.utility.DateUtils;
 
 /**
@@ -68,6 +78,7 @@ public class GameService {
 			throw new RiskGameRuntimeException(GAME_CANNOT_BE_SAVED, jaxbException);
 		}
 	}
+	ObjectFactory objectFactory = new ObjectFactory();;
 
 	/**
 	 * 
@@ -184,5 +195,21 @@ public class GameService {
 	public boolean validateMap() {
 		ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(RunningGame.getInstance().getGraph());
 		return connectivityInspector.isConnected();
+	}
+
+    public void addPlayer(PlayerDto playerDto) throws Exception {
+		PlayerModel playerModel = objectFactory.createPlayerModel();
+		BeanUtils.copyProperties(playerDto, playerModel);
+		PlayerDaoImpl playerDaoImp = new PlayerDaoImpl();
+		playerDaoImp.assignID(RunningGame.getInstance(), playerModel);
+		RunningGame.getInstance().getPlayers().getList().add(playerModel);
+	}
+
+	public void removePlayer(PlayerDto playerDto) throws Exception {
+		PlayerDaoImpl playerDao = new PlayerDaoImpl();
+		PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), playerDto.getName());
+		playerDao.delete(RunningGame.getInstance(), playerModel);
+
+
 	}
 }
