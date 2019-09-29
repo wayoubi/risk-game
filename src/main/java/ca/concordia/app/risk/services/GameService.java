@@ -34,11 +34,18 @@ import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 import ca.concordia.app.risk.utility.DateUtils;
+import org.springframework.beans.BeanUtils;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.File;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
- * 
  * @author i857625
- *
  */
 public class GameService {
 	

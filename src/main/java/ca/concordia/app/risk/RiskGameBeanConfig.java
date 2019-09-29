@@ -1,14 +1,5 @@
 package ca.concordia.app.risk;
 
-import org.jline.reader.LineReader;
-import org.jline.terminal.Terminal;
-import org.jline.utils.AttributedString;
-import org.jline.utils.AttributedStyle;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.shell.jline.PromptProvider;
-
 import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
 import ca.concordia.app.risk.controller.delegate.MapBusinessDelegate;
 import ca.concordia.app.risk.controller.delegate.PlayBusinessDelegate;
@@ -22,9 +13,7 @@ import ca.concordia.app.risk.shell.SimpleSpinner;
 import ca.concordia.app.risk.utility.GameUtils;
 
 /**
- * 
  * @author i857625
- *
  */
 @Configuration
 public class RiskGameBeanConfig {

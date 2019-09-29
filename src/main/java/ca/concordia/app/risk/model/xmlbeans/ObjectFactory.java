@@ -1,4 +1,3 @@
-
 package ca.concordia.app.risk.model.xmlbeans;
 
 import javax.xml.bind.annotation.XmlRegistry;
@@ -13,89 +12,78 @@ import javax.xml.bind.annotation.XmlRegistry;
  * can consist of schema derived interfaces and classes representing the binding
  * of schema type definitions, element declarations and model groups. Factory
  * methods for each of these are provided in this class.
- * 
  */
 @XmlRegistry
 public class ObjectFactory {
 
-	/**
-	 * Create a new ObjectFactory that can be used to create new instances of schema
-	 * derived classes for package: ca.concordia.app.risk.model.xmlbeans
-	 * 
-	 */
-	public ObjectFactory() {
-	}
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema
+     * derived classes for package: ca.concordia.app.risk.model.xmlbeans
+     */
+    public ObjectFactory() {
+    }
 
-	/**
-	 * Create an instance of {@link GameModel }
-	 * 
-	 */
-	public GameModel createGameModel() {
-		return new GameModel();
-	}
+    /**
+     * Create an instance of {@link GameModel }
+     */
+    public GameModel createGameModel() {
+        return new GameModel();
+    }
 
-	/**
-	 * Create an instance of {@link PlayersModel }
-	 * 
-	 */
-	public PlayersModel createPlayersModel() {
-		return new PlayersModel();
-	}
+    /**
+     * Create an instance of {@link PlayersModel }
+     */
+    public PlayersModel createPlayersModel() {
+        return new PlayersModel();
+    }
 
-	/**
-	 * Create an instance of {@link ContinentsModel }
-	 * 
-	 */
-	public ContinentsModel createContinentsModel() {
-		return new ContinentsModel();
-	}
+    /**
+     * Create an instance of {@link ContinentsModel }
+     */
+    public ContinentsModel createContinentsModel() {
+        return new ContinentsModel();
+    }
 
-	/**
-	 * Create an instance of {@link CountriesModel }
-	 * 
-	 */
-	public CountriesModel createCountriesModel() {
-		return new CountriesModel();
-	}
+    /**
+     * Create an instance of {@link CountriesModel }
+     */
+    public CountriesModel createCountriesModel() {
+        return new CountriesModel();
+    }
 
-	/**
-	 * Create an instance of {@link BordersModel }
-	 * 
-	 */
-	public BordersModel createBordersModel() {
-		return new BordersModel();
-	}
+    /**
+     * Create an instance of {@link BordersModel }
+     */
+    public BordersModel createBordersModel() {
+        return new BordersModel();
+    }
 
-	/**
-	 * Create an instance of {@link ContinentModel }
-	 * 
-	 */
-	public ContinentModel createContinentModel() {
-		return new ContinentModel();
-	}
+    /**
+     * Create an instance of {@link ContinentModel }
+     */
+    public ContinentModel createContinentModel() {
+        return new ContinentModel();
+    }
 
-	/**
-	 * Create an instance of {@link BorderModel }
-	 * 
-	 */
-	public BorderModel createBorderModel() {
-		return new BorderModel();
-	}
+    /**
+     * Create an instance of {@link BorderModel }
+     */
+    public BorderModel createBorderModel() {
+        return new BorderModel();
+    }
 
-	/**
-	 * Create an instance of {@link CountryModel }
-	 * 
-	 */
-	public CountryModel createCountryModel() {
-		return new CountryModel();
-	}
+    /**
+     * Create an instance of {@link CountryModel }
+     */
+    public CountryModel createCountryModel() {
+        return new CountryModel();
+    }
 
-	/**
-	 * Create an instance of {@link PlayerModel }
-	 * 
-	 */
-	public PlayerModel createPlayerModel() {
-		return new PlayerModel();
-	}
+    /**
+     * Create an instance of {@link PlayerModel }
+     */
+    public PlayerModel createPlayerModel() {
+        return new PlayerModel();
+    }
 
 }

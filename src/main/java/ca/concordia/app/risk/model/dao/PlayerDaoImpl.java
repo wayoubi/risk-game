@@ -1,20 +1,17 @@
 package ca.concordia.app.risk.model.dao;
 
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
+import ca.concordia.app.risk.model.xmlbeans.GameModel;
+import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
+
+import javax.validation.constraints.NotNull;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
-
-import ca.concordia.app.risk.model.xmlbeans.CountryModel;
-import ca.concordia.app.risk.model.xmlbeans.GameModel;
-import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
-
 /**
- * 
  * @author i857625
- *
  */
 public class PlayerDaoImpl implements Dao<PlayerModel> {
 

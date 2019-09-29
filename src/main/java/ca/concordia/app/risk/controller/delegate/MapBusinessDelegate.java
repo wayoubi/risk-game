@@ -6,11 +6,12 @@ import ca.concordia.app.risk.controller.dto.BorderDto;
 import ca.concordia.app.risk.controller.dto.ContinentDto;
 import ca.concordia.app.risk.controller.dto.CountryDto;
 import ca.concordia.app.risk.services.MapService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MapBusinessDelegate {
 
-	@Autowired
-	private MapService mapService;
+    @Autowired
+    private MapService mapService;
 
 	/**
 	 * 
@@ -19,7 +20,7 @@ public class MapBusinessDelegate {
 	public void addContinent(ContinentDto continentDto){
 		mapService.addContinent(continentDto);
 
-	}
+    }
 
 	/**
 	 * 

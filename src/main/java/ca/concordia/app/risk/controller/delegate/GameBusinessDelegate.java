@@ -3,19 +3,18 @@ package ca.concordia.app.risk.controller.delegate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.concordia.app.risk.services.GameService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 
  * @author i857625
- *
  */
 public class GameBusinessDelegate {
 
-	/**
-	 * 
-	 */
-	@Autowired
-	GameService gameService;
+    /**
+     *
+     */
+    @Autowired
+    GameService gameService;
 
 	/**
 	 * 

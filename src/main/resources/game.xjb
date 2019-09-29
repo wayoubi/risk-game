@@ -1,48 +1,47 @@
 <jxb:bindings version="1.0"
-	xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-	jxb:extensionBindingPrefixes="xjc">
+              xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+              jxb:extensionBindingPrefixes="xjc">
 
-	<jxb:bindings schemaLocation="game.xsd" node="/xsd:schema">
+    <jxb:bindings schemaLocation="game.xsd" node="/xsd:schema">
 
-		<jxb:bindings node="//xsd:element[@name='players']">
-			<jxb:property name="players" />
-		</jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='players']">
+            <jxb:property name="players"/>
+        </jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='player']">
-			<jxb:property name="list" />
-		</jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='player']">
+            <jxb:property name="list"/>
+        </jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='countries']">
-			<jxb:property name="countries" />
-		</jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='countries']">
+            <jxb:property name="countries"/>
+        </jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='country']">
-			<jxb:property name="list" />
-		</jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='country']">
+            <jxb:property name="list"/>
+        </jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='continents']">
-			<jxb:property name="continents" />
-		</jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='continents']">
+            <jxb:property name="continents"/>
+        </jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='continent']">
-			<jxb:property name="list" />
-		</jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='continent']">
+            <jxb:property name="list"/>
+        </jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='borders']">
-			<jxb:property name="borders" />
-		</jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='borders']">
+            <jxb:property name="borders"/>
+        </jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='border']">
-			<jxb:property name="list" />
-		</jxb:bindings>
+        <jxb:bindings node="//xsd:element[@name='border']">
+            <jxb:property name="list"/>
+        </jxb:bindings>
 
-		<jxb:schemaBindings>
-			<jxb:nameXmlTransform>
-				<jxb:typeName suffix="Model" />
-				<jxb:elementName suffix="Model" />
-			</jxb:nameXmlTransform>
-		</jxb:schemaBindings>
-	</jxb:bindings>
+        <jxb:schemaBindings>
+            <jxb:nameXmlTransform>
+                <jxb:typeName suffix="Model"/>
+                <jxb:elementName suffix="Model"/>
+            </jxb:nameXmlTransform>
+        </jxb:schemaBindings>
+    </jxb:bindings>
 </jxb:bindings>

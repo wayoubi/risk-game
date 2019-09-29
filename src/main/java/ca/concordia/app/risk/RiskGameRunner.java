@@ -4,9 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
- * 
  * @author i857625
- *
  */
 @SpringBootApplication
 public class RiskGameRunner {

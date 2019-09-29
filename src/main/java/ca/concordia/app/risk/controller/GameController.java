@@ -10,9 +10,7 @@ import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
- * 
  * @author i857625
- *
  */
 @ShellComponent
 public class GameController {

@@ -1,14 +1,12 @@
 package ca.concordia.app.risk.model.dao;
 
-import javax.validation.constraints.NotNull;
-
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
+import javax.validation.constraints.NotNull;
+
 /**
- * 
- * @author i857625
- *
  * @param <T>
+ * @author i857625
  */
 public interface Dao<T> {
 	/**
@@ -34,9 +32,8 @@ public interface Dao<T> {
 	 */
 	void assignID(@NotNull GameModel gameModel, T t);
 
-	/**
-	 * 
-	 * @param t
-	 */
-	void delete(@NotNull GameModel gameModel, T t);
+    /**
+     * @param t
+     */
+    void delete(@NotNull GameModel gameModel, T t);
 }

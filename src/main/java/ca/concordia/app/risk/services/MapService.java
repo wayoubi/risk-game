@@ -14,10 +14,11 @@ import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
+import org.springframework.beans.BeanUtils;
 
 public class MapService {
 
-	private ObjectFactory objectFactory = new ObjectFactory();
+    private ObjectFactory objectFactory = new ObjectFactory();
 
 	/**
 	 * 

@@ -2,21 +2,15 @@ package ca.concordia.app.risk.controller.dto;
 
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import javax.validation.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
- * 
  * @author i857625
- *
  */
 public class PlayerDto implements Dto {
 
