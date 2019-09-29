@@ -67,4 +67,8 @@ public class GameBusinessDelegate {
 	public void populateCountries() {
 		gameService.populateCountries();
 	}
+
+	public void placeArmy(String countryName) throws Exception {
+		gameService.placeArmy(countryName);
+	}
 }
