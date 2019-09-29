@@ -11,18 +11,18 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>
- * Java class for contenents complex type.
+ * Java class for continents complex type.
  * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
  * 
  * <pre>
- * &lt;complexType name="contenents">
+ * &lt;complexType name="continents">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="contenent" type="{http://ca.concordia.app.risk/game}contenent" maxOccurs="unbounded"/>
+ *         &lt;element name="continent" type="{http://ca.concordia.app.risk/game}continent" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -32,11 +32,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "contenents", namespace = "http://ca.concordia.app.risk/game", propOrder = { "list" })
-public class ContenentsModel {
+@XmlType(name = "continents", namespace = "http://ca.concordia.app.risk/game", propOrder = { "list" })
+public class ContinentsModel {
 
-	@XmlElement(name = "contenent", namespace = "http://ca.concordia.app.risk/game", required = true)
-	protected List<ContenentModel> list;
+	@XmlElement(name = "continent", namespace = "http://ca.concordia.app.risk/game", required = true)
+	protected List<ContinentModel> list;
 
 	/**
 	 * Gets the value of the list property.
@@ -57,13 +57,13 @@ public class ContenentsModel {
 	 * 
 	 * <p>
 	 * Objects of the following type(s) are allowed in the list
-	 * {@link ContenentModel }
+	 * {@link ContinentModel }
 	 * 
 	 * 
 	 */
-	public List<ContenentModel> getList() {
+	public List<ContinentModel> getList() {
 		if (list == null) {
-			list = new ArrayList<ContenentModel>();
+			list = new ArrayList<ContinentModel>();
 		}
 		return this.list;
 	}

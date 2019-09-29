@@ -22,11 +22,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="autoSave" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="createdDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="lastSavedDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="players" type="{http://ca.concordia.app.risk/game}players"/>
- *         &lt;element name="contenents" type="{http://ca.concordia.app.risk/game}contenents"/>
+ *         &lt;element name="continents" type="{http://ca.concordia.app.risk/game}continents"/>
  *         &lt;element name="countries" type="{http://ca.concordia.app.risk/game}countries"/>
  *         &lt;element name="borders" type="{http://ca.concordia.app.risk/game}borders"/>
  *       &lt;/sequence>
@@ -38,13 +37,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "autoSave", "createdDate", "lastSavedDate", "players", "contenents", "countries",
-		"borders" })
+@XmlType(name = "", propOrder = { "createdDate", "lastSavedDate", "players", "continents", "countries", "borders" })
 @XmlRootElement(name = "game", namespace = "http://ca.concordia.app.risk/game")
 public class GameModel {
 
-	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
-	protected boolean autoSave;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
 	@XmlSchemaType(name = "dateTime")
 	protected XMLGregorianCalendar createdDate;
@@ -54,27 +50,11 @@ public class GameModel {
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
 	protected PlayersModel players;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-	protected ContenentsModel contenents;
+	protected ContinentsModel continents;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
 	protected CountriesModel countries;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
 	protected BordersModel borders;
-
-	/**
-	 * Gets the value of the autoSave property.
-	 * 
-	 */
-	public boolean isAutoSave() {
-		return autoSave;
-	}
-
-	/**
-	 * Sets the value of the autoSave property.
-	 * 
-	 */
-	public void setAutoSave(boolean value) {
-		this.autoSave = value;
-	}
 
 	/**
 	 * Gets the value of the createdDate property.
@@ -137,23 +117,23 @@ public class GameModel {
 	}
 
 	/**
-	 * Gets the value of the contenents property.
+	 * Gets the value of the continents property.
 	 * 
-	 * @return possible object is {@link ContenentsModel }
+	 * @return possible object is {@link ContinentsModel }
 	 * 
 	 */
-	public ContenentsModel getContenents() {
-		return contenents;
+	public ContinentsModel getContinents() {
+		return continents;
 	}
 
 	/**
-	 * Sets the value of the contenents property.
+	 * Sets the value of the continents property.
 	 * 
-	 * @param value allowed object is {@link ContenentsModel }
+	 * @param value allowed object is {@link ContinentsModel }
 	 * 
 	 */
-	public void setContenents(ContenentsModel value) {
-		this.contenents = value;
+	public void setContinents(ContinentsModel value) {
+		this.continents = value;
 	}
 
 	/**

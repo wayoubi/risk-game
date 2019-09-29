@@ -12,13 +12,12 @@ import ca.concordia.app.risk.services.PresentationService;
  */
 public class ViewBusinessDelegate {
 
-
 	/**
 	 * 
 	 */
 	@Autowired
 	PresentationService presentationService;
-	
+
 	/**
 	 * 
 	 * @param playerName
@@ -28,4 +27,5 @@ public class ViewBusinessDelegate {
 	public PlayerDto getPlayerDetails(String playerName) throws Exception {
 		return presentationService.getPlayerDetails(playerName);
 	}
+
 }

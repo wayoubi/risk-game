@@ -16,52 +16,53 @@ import ca.concordia.app.risk.shell.PromptColor;
 import ca.concordia.app.risk.shell.ShellHelper;
 
 public class GameView {
-	
+
 	/**
 	 * 
 	 */
 	@Autowired
-    private InputReader inputReader;
-	
+	private InputReader inputReader;
+
 	@Autowired
 	private ShellHelper shellHelper;
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public GameStarterDto read() {
 		GameStarterDto gameStarterDTO = new GameStarterDto();
-		int numberOfPlayers=0, numberOfCountries=0;
-		
+		int numberOfPlayers = 0, numberOfCountries = 0;
+
 		shellHelper.printInfo("Enter Game Information");
 		try {
 			numberOfPlayers = Integer.parseInt(inputReader.prompt("Enter Number of Players"));
 			gameStarterDTO.setNumberOfPlayers(numberOfPlayers);
 			numberOfCountries = Integer.parseInt(inputReader.prompt("Enter Number of Countries"));
 			gameStarterDTO.setNumberOfCountries(numberOfCountries);
-		} catch(NumberFormatException nfex) {
+		} catch (NumberFormatException nfex) {
 			shellHelper.printError("Integer Values only");
 			throw nfex;
 		}
 		List<PromptColor> availableColors = new ArrayList<PromptColor>(Arrays.asList(PromptColor.values()));
 		shellHelper.printInfo("Enter Players Information");
 		boolean repeat = false;
-		for(int i=0; i<numberOfPlayers; i++) {
-			if(repeat) {
+		for (int i = 0; i < numberOfPlayers; i++) {
+			if (repeat) {
 				--i;
 			}
-			int labelCounter = i+1;
+			int labelCounter = i + 1;
 			PlayerDto playerDTO = new PlayerDto();
-			
+
 			playerDTO.setName(inputReader.prompt(String.format("Enter Player %s name", labelCounter)));
-			shellHelper.printInfo("Choose from available colors: " + availableColors.stream().map( n -> n.toString()).collect(Collectors.joining( "," )));
+			shellHelper.printInfo("Choose from available colors: "
+					+ availableColors.stream().map(n -> n.toString()).collect(Collectors.joining(",")));
 			playerDTO.setColor(inputReader.prompt(String.format("Enter %s's color", playerDTO.getName())));
 			availableColors.remove(PromptColor.valueOf(playerDTO.getColor()));
 			try {
 				playerDTO.validate();
 				repeat = false;
-			} catch(ValidationException vex) {
+			} catch (ValidationException vex) {
 				shellHelper.printError(vex.getMessage());
 				shellHelper.printInfo("try again");
 				repeat = true;

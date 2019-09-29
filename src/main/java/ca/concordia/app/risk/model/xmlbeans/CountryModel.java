@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="color" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="numberOfArmies" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="playerId" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="contenentId" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="continentId" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "country", namespace = "http://ca.concordia.app.risk/game", propOrder = { "id", "name", "color",
-		"numberOfArmies", "playerId", "contenentId" })
+		"numberOfArmies", "playerId", "continentId" })
 public class CountryModel {
 
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
@@ -49,7 +49,7 @@ public class CountryModel {
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
 	protected int playerId;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
-	protected int contenentId;
+	protected int continentId;
 
 	/**
 	 * Gets the value of the id property.
@@ -140,19 +140,19 @@ public class CountryModel {
 	}
 
 	/**
-	 * Gets the value of the contenentId property.
+	 * Gets the value of the continentId property.
 	 * 
 	 */
-	public int getContenentId() {
-		return contenentId;
+	public int getContinentId() {
+		return continentId;
 	}
 
 	/**
-	 * Sets the value of the contenentId property.
+	 * Sets the value of the continentId property.
 	 * 
 	 */
-	public void setContenentId(int value) {
-		this.contenentId = value;
+	public void setContinentId(int value) {
+		this.continentId = value;
 	}
 
 }

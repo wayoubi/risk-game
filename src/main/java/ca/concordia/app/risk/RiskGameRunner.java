@@ -1,7 +1,7 @@
 package ca.concordia.app.risk;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
  * 
@@ -17,6 +17,9 @@ public class RiskGameRunner {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(RiskGameRunner.class, args);
+		// SpringApplication.run(RiskGameRunner.class, args);
+		SpringApplicationBuilder builder = new SpringApplicationBuilder(RiskGameRunner.class);
+		builder.headless(false);
+		builder.run(args);
 	}
 }

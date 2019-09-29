@@ -31,7 +31,7 @@ public class GameController {
 	 */
 	@Autowired
 	private ShellHelper shellHelper;
-	
+
 	/**
 	 * 
 	 */
@@ -53,7 +53,7 @@ public class GameController {
 	@ShellMethod("Start a new game")
 	public void init(@ShellOption(optOut = false) String autoSave) {
 		GameStarterDto gameStarterDTO = gameView.read();
-		
+
 		if (Boolean.getBoolean(autoSave)) {
 			gameStarterDTO.setAutoSave(true);
 		}
@@ -93,4 +93,5 @@ public class GameController {
 	public String load(@ShellOption(optOut = false) String file) {
 		return "loaded";
 	}
+
 }

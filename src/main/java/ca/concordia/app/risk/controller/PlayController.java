@@ -15,7 +15,7 @@ import ca.concordia.app.risk.utility.GameUtils;
  */
 @ShellComponent
 public class PlayController {
-	
+
 	/**
 	 * 
 	 */
@@ -27,7 +27,7 @@ public class PlayController {
 	 */
 	@Autowired
 	private PlayBusinessDelegate playBusinessDelegate;
-	
+
 	/**
 	 * 
 	 */
@@ -35,7 +35,7 @@ public class PlayController {
 	public PlayController() {
 		playBusinessDelegate = new PlayBusinessDelegate();
 	}
-	
+
 	/**
 	 * 
 	 * @param attacker
@@ -45,11 +45,8 @@ public class PlayController {
 	 * @return
 	 */
 	@ShellMethod("Attack a player")
-	public String attack(@ShellOption(optOut = false) String attacker,
-			@ShellOption(optOut = false) String defender, 
-			@ShellOption(optOut = false) String from, 
-			@ShellOption(optOut = false) String to
-			) {
+	public String attack(@ShellOption(optOut = false) String attacker, @ShellOption(optOut = false) String defender,
+			@ShellOption(optOut = false) String from, @ShellOption(optOut = false) String to) {
 		try {
 			gameUtils.rollDice();
 			playBusinessDelegate.attack(attacker);

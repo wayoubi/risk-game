@@ -9,7 +9,7 @@ import javax.validation.ValidationException;
  * @param <T>
  */
 public interface Dto {
-	
+
 	/**
 	 * 
 	 * @param t

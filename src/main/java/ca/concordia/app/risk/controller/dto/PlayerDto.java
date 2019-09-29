@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author i857625
  *
  */
-public class PlayerDto implements Dto{
+public class PlayerDto implements Dto {
 
 	/**
 	 * 
@@ -33,26 +33,25 @@ public class PlayerDto implements Dto{
 	@NotBlank(message = "Name cannot be null or empty")
 	@Size(min = 5, message = "Name must be minumum 5 characters")
 	private String name;
-	
-	/**
-	 * 
-	 */
-	@NotBlank(message = "Color cannot be null or empty" )
-	private String color;
-	
-	/**
-	 * 
-	 */
-	private List<CountryDto> countryDtoList;
-	
 
 	/**
 	 * 
 	 */
-	public PlayerDto() {	
+	@NotBlank(message = "Color cannot be null or empty")
+	private String color;
+
+	/**
+	 * 
+	 */
+	private List<CountryDto> countryDtoList;
+
+	/**
+	 * 
+	 */
+	public PlayerDto() {
 		this.setCountryDtoList(new ArrayList<CountryDto>());
 	}
-	
+
 	/**
 	 * 
 	 * @param name
@@ -62,7 +61,7 @@ public class PlayerDto implements Dto{
 		this.setName(name);
 		this.setColor(color);
 	}
-	
+
 	/**
 	 * @param playerDTO
 	 */
@@ -70,7 +69,7 @@ public class PlayerDto implements Dto{
 		this.setName(playerDTO.getName());
 		this.setColor(playerDTO.getColor());
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -86,7 +85,7 @@ public class PlayerDto implements Dto{
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -118,7 +117,7 @@ public class PlayerDto implements Dto{
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
+
 	public List<CountryDto> getCountryDtoList() {
 		return countryDtoList;
 	}
@@ -126,7 +125,7 @@ public class PlayerDto implements Dto{
 	public void setCountryDtoList(List<CountryDto> countryDtoList) {
 		this.countryDtoList = countryDtoList;
 	}
-	
+
 	@Override
 	public void validate() throws ValidationException {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -159,7 +158,7 @@ public class PlayerDto implements Dto{
 		if (color == null) {
 			if (other.color != null)
 				return false;
-		} else if(!color.equals(other.color)) {
+		} else if (!color.equals(other.color)) {
 			return false;
 		}
 		if (id != other.id)
@@ -168,7 +167,7 @@ public class PlayerDto implements Dto{
 			if (other.name != null) {
 				return false;
 			}
-		}else if(!name.equals(other.name)) {
+		} else if (!name.equals(other.name)) {
 			return false;
 		}
 		return true;
@@ -179,5 +178,4 @@ public class PlayerDto implements Dto{
 		return "PlayerDto [id=" + id + ", name=" + name + ", color=" + color + "]";
 	}
 
-	
 }

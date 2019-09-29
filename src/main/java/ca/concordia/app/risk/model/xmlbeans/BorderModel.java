@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -22,7 +23,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="countryId" type="{http://www.w3.org/2001/XMLSchema}int" maxOccurs="2" minOccurs="2"/>
+ *         &lt;element name="countryId" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="neighbours" type="{http://ca.concordia.app.risk/game}neighboursList"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -32,26 +34,45 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "border", namespace = "http://ca.concordia.app.risk/game", propOrder = { "countryId" })
+@XmlType(name = "border", namespace = "http://ca.concordia.app.risk/game", propOrder = { "countryId", "neighbours" })
 public class BorderModel {
 
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
+	protected int countryId;
+	@XmlList
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", type = Integer.class)
-	protected List<Integer> countryId;
+	protected List<Integer> neighbours;
 
 	/**
 	 * Gets the value of the countryId property.
+	 * 
+	 */
+	public int getCountryId() {
+		return countryId;
+	}
+
+	/**
+	 * Sets the value of the countryId property.
+	 * 
+	 */
+	public void setCountryId(int value) {
+		this.countryId = value;
+	}
+
+	/**
+	 * Gets the value of the neighbours property.
 	 * 
 	 * <p>
 	 * This accessor method returns a reference to the live list, not a snapshot.
 	 * Therefore any modification you make to the returned list will be present
 	 * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
-	 * for the countryId property.
+	 * for the neighbours property.
 	 * 
 	 * <p>
 	 * For example, to add a new item, do as follows:
 	 * 
 	 * <pre>
-	 * getCountryId().add(newItem);
+	 * getNeighbours().add(newItem);
 	 * </pre>
 	 * 
 	 * 
@@ -60,11 +81,11 @@ public class BorderModel {
 	 * 
 	 * 
 	 */
-	public List<Integer> getCountryId() {
-		if (countryId == null) {
-			countryId = new ArrayList<Integer>();
+	public List<Integer> getNeighbours() {
+		if (neighbours == null) {
+			neighbours = new ArrayList<Integer>();
 		}
-		return this.countryId;
+		return this.neighbours;
 	}
 
 }

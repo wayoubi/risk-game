@@ -43,11 +43,11 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Create an instance of {@link ContenentsModel }
+	 * Create an instance of {@link ContinentsModel }
 	 * 
 	 */
-	public ContenentsModel createContenentsModel() {
-		return new ContenentsModel();
+	public ContinentsModel createContinentsModel() {
+		return new ContinentsModel();
 	}
 
 	/**
@@ -67,6 +67,14 @@ public class ObjectFactory {
 	}
 
 	/**
+	 * Create an instance of {@link ContinentModel }
+	 * 
+	 */
+	public ContinentModel createContinentModel() {
+		return new ContinentModel();
+	}
+
+	/**
 	 * Create an instance of {@link BorderModel }
 	 * 
 	 */
@@ -80,14 +88,6 @@ public class ObjectFactory {
 	 */
 	public CountryModel createCountryModel() {
 		return new CountryModel();
-	}
-
-	/**
-	 * Create an instance of {@link ContenentModel }
-	 * 
-	 */
-	public ContenentModel createContenentModel() {
-		return new ContenentModel();
 	}
 
 	/**

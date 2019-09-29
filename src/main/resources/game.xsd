@@ -20,14 +20,14 @@
 			<xsd:element name="color" minOccurs="1" maxOccurs="1">
 				<xsd:simpleType>
 					<xsd:restriction base="xsd:string">
-						<xsd:enumeration value="BLACK"/>
-					    <xsd:enumeration value="RED"/>
-					    <xsd:enumeration value="GREEN"/>
-					    <xsd:enumeration value="YELLOW"/>
-					    <xsd:enumeration value="BLUE"/>
-					    <xsd:enumeration value="MAGENTA"/>
-					    <xsd:enumeration value="CYAN"/>
-					    <xsd:enumeration value="WHITE"/>
+						<xsd:enumeration value="BLACK" />
+						<xsd:enumeration value="RED" />
+						<xsd:enumeration value="GREEN" />
+						<xsd:enumeration value="YELLOW" />
+						<xsd:enumeration value="BLUE" />
+						<xsd:enumeration value="MAGENTA" />
+						<xsd:enumeration value="CYAN" />
+						<xsd:enumeration value="WHITE" />
 					</xsd:restriction>
 				</xsd:simpleType>
 			</xsd:element>
@@ -35,23 +35,23 @@
 	</xsd:complexType>
 
 
-	<xsd:complexType name="contenents">
+	<xsd:complexType name="continents">
 		<xsd:sequence>
-			<xsd:element name="contenent" type="riskgame:contenent"
+			<xsd:element name="continent" type="riskgame:continent"
 				minOccurs="1" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="contenent">
+	<xsd:complexType name="continent">
 		<xsd:sequence>
 			<xsd:element name="id" type="xsd:int" minOccurs="1"
 				maxOccurs="1" />
 			<xsd:element name="name" type="xsd:string" minOccurs="1"
 				maxOccurs="1" />
-			<xsd:element name="color" type="xsd:string" minOccurs="1"
-				maxOccurs="1" />
 			<xsd:element name="controlValue" type="xsd:int"
 				minOccurs="1" maxOccurs="1" />
+			<xsd:element name="numberOfCountries" type="xsd:int"
+				minOccurs="1" maxOccurs="1" />	
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -74,7 +74,7 @@
 				minOccurs="1" maxOccurs="1" />
 			<xsd:element name="playerId" type="xsd:int" minOccurs="1"
 				maxOccurs="1" />
-			<xsd:element name="contenentId" type="xsd:int"
+			<xsd:element name="continentId" type="xsd:int"
 				minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
@@ -86,10 +86,21 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
+
+	<xsd:simpleType name="neighboursList">
+		<xsd:list itemType="xsd:int" />
+	</xsd:simpleType>
+
 	<xsd:complexType name="border">
 		<xsd:sequence>
 			<xsd:element name="countryId" type="xsd:int"
-				minOccurs="2" maxOccurs="2" />
+				minOccurs="1" maxOccurs="1" />
+
+			<xsd:element name="neighbours" type="riskgame:neighboursList" minOccurs="1"
+				maxOccurs="1">
+
+			</xsd:element>
+
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -97,16 +108,14 @@
 	<xsd:element name="game">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="autoSave" type="xsd:boolean"
-					minOccurs="1" maxOccurs="1" />
 				<xsd:element name="createdDate" type="xsd:dateTime"
 					minOccurs="1" maxOccurs="1" />
 				<xsd:element name="lastSavedDate" type="xsd:dateTime"
 					minOccurs="1" maxOccurs="1" />
 				<xsd:element name="players" type="riskgame:players"
 					minOccurs="1" maxOccurs="1" />
-				<xsd:element name="contenents"
-					type="riskgame:contenents" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="continents"
+					type="riskgame:continents" minOccurs="1" maxOccurs="1" />
 				<xsd:element name="countries" type="riskgame:countries"
 					minOccurs="1" maxOccurs="1" />
 				<xsd:element name="borders" type="riskgame:borders"

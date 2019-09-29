@@ -10,9 +10,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.shell.jline.PromptProvider;
 
 import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
+import ca.concordia.app.risk.controller.delegate.MapBusinessDelegate;
 import ca.concordia.app.risk.controller.delegate.PlayBusinessDelegate;
 import ca.concordia.app.risk.controller.delegate.ViewBusinessDelegate;
 import ca.concordia.app.risk.services.GameService;
+import ca.concordia.app.risk.services.MapService;
 import ca.concordia.app.risk.services.PresentationService;
 import ca.concordia.app.risk.shell.InputReader;
 import ca.concordia.app.risk.shell.ShellHelper;
@@ -27,7 +29,7 @@ import ca.concordia.app.risk.view.GameView;
  */
 @Configuration
 public class RiskGameBeanConfig {
-    
+
 	/**
 	 * 
 	 * @return
@@ -37,17 +39,17 @@ public class RiskGameBeanConfig {
 		return () -> new AttributedString("Command# ",
 				AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW).background(AttributedStyle.RED));
 	}
-	
+
 	/**
-	 * 	
+	 * 
 	 * @param terminal
 	 * @return
 	 */
-    @Bean
-    public ShellHelper shellHelper(@Lazy Terminal terminal) {
-            return new ShellHelper(terminal);
-    }
-    
+	@Bean
+	public ShellHelper shellHelper(@Lazy Terminal terminal) {
+		return new ShellHelper(terminal);
+	}
+
 	/**
 	 * 
 	 * @param lineReader
@@ -57,7 +59,7 @@ public class RiskGameBeanConfig {
 	public InputReader inputReader(@Lazy LineReader lineReader) {
 		return new InputReader(lineReader);
 	}
-	
+
 	/**
 	 * 
 	 * @param terminal
@@ -65,9 +67,9 @@ public class RiskGameBeanConfig {
 	 */
 	@Bean
 	public SimpleSpinner simpleSpinner(@Lazy Terminal terminal) {
-	    return new SimpleSpinner(terminal);
+		return new SimpleSpinner(terminal);
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -76,7 +78,7 @@ public class RiskGameBeanConfig {
 	public GameUtils gameUtils() {
 		return new GameUtils();
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -85,7 +87,7 @@ public class RiskGameBeanConfig {
 	public GameBusinessDelegate gameBusinessDelegate() {
 		return new GameBusinessDelegate();
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -94,7 +96,7 @@ public class RiskGameBeanConfig {
 	public PlayBusinessDelegate playBusinessDelegate() {
 		return new PlayBusinessDelegate();
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -103,8 +105,7 @@ public class RiskGameBeanConfig {
 	public ViewBusinessDelegate viewBusinessDelegate() {
 		return new ViewBusinessDelegate();
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return
@@ -113,7 +114,7 @@ public class RiskGameBeanConfig {
 	public PresentationService presentationService() {
 		return new PresentationService();
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -122,13 +123,27 @@ public class RiskGameBeanConfig {
 	public GameService gameService() {
 		return new GameService();
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	@Bean
-	GameView gameView() {
+	public GameView gameView() {
 		return new GameView();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@Bean
+	public MapBusinessDelegate mapBusinessDelegate() {
+		return new MapBusinessDelegate();
+	}
+
+	@Bean
+	public MapService mapService() {
+		return new MapService();
 	}
 }

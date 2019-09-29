@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.concordia.app.risk.shell.SimpleSpinner;
 
-
 public class GameUtils {
 
 	@Autowired

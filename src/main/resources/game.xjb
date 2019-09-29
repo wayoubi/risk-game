@@ -22,11 +22,11 @@
 			<jxb:property name="list" />
 		</jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='contenents']">
-			<jxb:property name="contenents" />
+		<jxb:bindings node="//xsd:element[@name='continents']">
+			<jxb:property name="continents" />
 		</jxb:bindings>
 
-		<jxb:bindings node="//xsd:element[@name='contenent']">
+		<jxb:bindings node="//xsd:element[@name='continent']">
 			<jxb:property name="list" />
 		</jxb:bindings>
 

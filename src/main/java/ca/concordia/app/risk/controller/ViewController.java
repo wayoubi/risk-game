@@ -11,6 +11,7 @@ import ca.concordia.app.risk.controller.delegate.ViewBusinessDelegate;
 import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.shell.PromptColor;
 import ca.concordia.app.risk.shell.ShellHelper;
+import ca.concordia.app.risk.view.JGraphXAdapterView;
 
 /**
  * 
@@ -22,17 +23,17 @@ public class ViewController {
 
 	@Autowired
 	private ViewBusinessDelegate viewBusinessDelegate;
-	
+
 	@Autowired
 	private ShellHelper shellHelper;
-	
+
 	/**
 	 * 
 	 */
 	@Autowired
 	public ViewController() {
 	}
-	
+
 	/**
 	 * 
 	 * @param player
@@ -43,10 +44,21 @@ public class ViewController {
 		try {
 			PlayerDto playerDto = viewBusinessDelegate.getPlayerDetails(player);
 			shellHelper.print(playerDto.toString(), PromptColor.valueOf(playerDto.getColor()));
-			String countriesStr = playerDto.getCountryDtoList().stream().map(c -> c.toString()).collect(Collectors.joining( "," ));
-			shellHelper.print("Countries: "+countriesStr, PromptColor.valueOf(playerDto.getColor()));
+			String countriesStr = playerDto.getCountryDtoList().stream().map(c -> c.toString())
+					.collect(Collectors.joining(","));
+			shellHelper.print("Countries: " + countriesStr, PromptColor.valueOf(playerDto.getColor()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
+	@ShellMethod("Show Game Graph")
+	public void showMap() {
+		JGraphXAdapterView.main(null);
 	}
 }

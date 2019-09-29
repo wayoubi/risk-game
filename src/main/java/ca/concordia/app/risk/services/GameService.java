@@ -2,6 +2,7 @@ package ca.concordia.app.risk.services;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -49,28 +50,38 @@ public class GameService {
 		XMLGregorianCalendar xmlGregorianCalendar = DateUtils.getXMLDateTime(new Date());
 		RunningGame.getInstance().setCreatedDate(xmlGregorianCalendar);
 		RunningGame.getInstance().setLastSavedDate(xmlGregorianCalendar);
-		RunningGame.getInstance().setAutoSave(gameStarterDTO.isAutoSave());
 		RunningGame.getInstance().setPlayers(this.getObjectFactory().createPlayersModel());
 		for (int i = 0; i < gameStarterDTO.getPlayersList().size(); i++) {
 			PlayerModel playerModel = this.getObjectFactory().createPlayerModel();
 			BeanUtils.copyProperties(gameStarterDTO.getPlayersList().get(i), playerModel);
 			PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-			playerDaoImpl.assignID(playerModel);
+			playerDaoImpl.assignID(RunningGame.getInstance(), playerModel);
 			RunningGame.getInstance().getPlayers().getList().add(playerModel);
 		}
-		
+
 		RunningGame.getInstance().setCountries(this.getObjectFactory().createCountriesModel());
 		for (int i = 0; i < gameStarterDTO.getNumberOfCountries(); i++) {
 			CountryModel countryModel = this.getObjectFactory().createCountryModel();
 			CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-			countryDaoImpl.assignID(countryModel);
+			countryDaoImpl.assignID(RunningGame.getInstance(), countryModel);
 			countryModel.setColor("Black");
-			countryModel.setContenentId(1);
-			countryModel.setName("Country"+(i+1));
+			countryModel.setContinentId(1);
+			countryModel.setName("Country" + (i + 1));
 			countryModel.setNumberOfArmies(10);
 			countryModel.setPlayerId(1);
 			RunningGame.getInstance().getCountries().getList().add(countryModel);
 			RunningGame.getInstance().getGraph().addVertex(countryModel.getName());
+		}
+
+		Iterator<String> iterator = RunningGame.getInstance().getGraph().vertexSet().iterator();
+		while (iterator.hasNext()) {
+			String source = iterator.next();
+			for (int i = 1; i <= gameStarterDTO.getNumberOfCountries(); i++) {
+				String destination = "Country" + i;
+				if (!destination.equals(source)) {
+					RunningGame.getInstance().getGraph().addEdge(source, destination);
+				}
+			}
 		}
 	}
 

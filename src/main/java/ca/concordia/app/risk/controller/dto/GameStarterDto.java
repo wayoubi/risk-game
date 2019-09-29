@@ -117,8 +117,7 @@ public class GameStarterDto implements Dto {
 	}
 
 	/**
-	 * @param autoSave
-	 *            the autoSave to set
+	 * @param autoSave the autoSave to set
 	 */
 	public void setAutoSave(boolean autoSave) {
 		this.autoSave = autoSave;
