@@ -246,3 +246,4 @@ $RECYCLE.BIN/
 target/
 doc/
 saved/
+.idea/
