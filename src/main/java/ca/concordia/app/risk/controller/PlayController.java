@@ -56,11 +56,10 @@ public class PlayController {
 	public String fortify(@ShellOption(optOut = false) String fromcountry, @ShellOption(optOut = false) String tocountry,
 						 @ShellOption(optOut = false) int num) {
 		try {
-			gameUtils.rollDice();
-			playBusinessDelegate.attack(attacker);
+            System.out.printf("Here");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return attacker + " Lose!";
+		return "Fortification Complete!";
 	}
 }

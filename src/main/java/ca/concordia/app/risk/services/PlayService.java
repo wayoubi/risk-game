@@ -18,8 +18,7 @@ public class PlayService {
         PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), attacker);
         playerModel.setColor("White");
     }
-
-
+    
 	public void fortify() throws Exception{
 
 	}
