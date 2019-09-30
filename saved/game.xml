@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <game xmlns="http://ca.concordia.app.risk/game">
-    <createdDate>2019-09-30T00:12:32.673-04:00</createdDate>
-    <lastSavedDate>2019-09-30T00:12:34.703-04:00</lastSavedDate>
+    <createdDate>2019-09-30T00:25:20.642-04:00</createdDate>
+    <lastSavedDate>2019-09-30T00:25:23.627-04:00</lastSavedDate>
     <players/>
     <continents>
         <continent>
@@ -9,6 +9,12 @@
             <name>Asia</name>
             <controlValue>0</controlValue>
             <numberOfCountries>5</numberOfCountries>
+        </continent>
+        <continent>
+            <id>2</id>
+            <name>Africa</name>
+            <controlValue>0</controlValue>
+            <numberOfCountries>4</numberOfCountries>
         </continent>
         <continent>
             <id>3</id>
@@ -40,6 +46,20 @@
             <continentId>1</continentId>
         </country>
         <country>
+            <id>4</id>
+            <name>Egypt</name>
+            <numberOfArmies>0</numberOfArmies>
+            <playerId>0</playerId>
+            <continentId>2</continentId>
+        </country>
+        <country>
+            <id>5</id>
+            <name>Algeria</name>
+            <numberOfArmies>0</numberOfArmies>
+            <playerId>0</playerId>
+            <continentId>2</continentId>
+        </country>
+        <country>
             <id>6</id>
             <name>Spain</name>
             <numberOfArmies>0</numberOfArmies>
@@ -64,7 +84,7 @@
     <borders>
         <border>
             <countryId>1</countryId>
-            <neighbours>2 3</neighbours>
+            <neighbours>2 3 4</neighbours>
         </border>
         <border>
             <countryId>2</countryId>
@@ -75,12 +95,20 @@
             <neighbours>1</neighbours>
         </border>
         <border>
+            <countryId>4</countryId>
+            <neighbours>1 5</neighbours>
+        </border>
+        <border>
             <countryId>8</countryId>
             <neighbours>7 6</neighbours>
         </border>
         <border>
+            <countryId>5</countryId>
+            <neighbours>4 7</neighbours>
+        </border>
+        <border>
             <countryId>7</countryId>
-            <neighbours>8</neighbours>
+            <neighbours>5 8</neighbours>
         </border>
         <border>
             <countryId>6</countryId>

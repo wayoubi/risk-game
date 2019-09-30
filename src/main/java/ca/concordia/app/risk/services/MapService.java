@@ -37,7 +37,6 @@ public class MapService {
 	public void removeContinent(ContinentDto continentDto) throws Exception {
 		ContinentDaoImpl continentDao = new ContinentDaoImpl();
 		ContinentModel continentModel = continentDao.findByName(RunningGame.getInstance(), continentDto.getName());
-
 		continentDao.getCountries(RunningGame.getInstance(), continentModel).stream().forEach(countryModel -> {
 			CountryDto countryDto = new CountryDto();
 			BeanUtils.copyProperties(countryModel, countryDto);
@@ -65,6 +64,8 @@ public class MapService {
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		countryDaoImpl.assignID(RunningGame.getInstance(), countryModel);
 		RunningGame.getInstance().getCountries().getList().add(countryModel);
+		RunningGame.getInstance().getGraph().addVertex(countryModel.getName());
+		
 	}
 
 	/**
@@ -79,6 +80,7 @@ public class MapService {
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryDto.getName());
 		countryDaoImpl.delete(RunningGame.getInstance(), countryModel);
+		RunningGame.getInstance().getGraph().removeVertex(countryModel.getName());
 	}
 
 	/**
@@ -91,6 +93,8 @@ public class MapService {
 		borderDto2.setCountryName(borderDto.getNeighborCountryName());
 		borderDto2.setNeighborCountryName(borderDto.getCountryName());
 		this.makeBorder(borderDto2);
+		RunningGame.getInstance().getGraph().addEdge(borderDto.getCountryName(), borderDto.getNeighborCountryName());
+		
 	}
 
 	/**
@@ -123,6 +127,7 @@ public class MapService {
 		borderDto2.setCountryName(borderDto.getNeighborCountryName());
 		borderDto2.setNeighborCountryName(borderDto.getCountryName());
 		this.removeBorder(borderDto2);
+		RunningGame.getInstance().getGraph().removeEdge(borderDto.getCountryName(), borderDto.getNeighborCountryName());
 	}
 
 	/**

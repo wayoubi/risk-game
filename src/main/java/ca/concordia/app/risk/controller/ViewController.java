@@ -5,6 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import ca.concordia.app.risk.controller.delegate.ViewBusinessDelegate;
+import ca.concordia.app.risk.view.JGraphXAdapterView;
 
 /**
  * 
@@ -31,7 +32,6 @@ public class ViewController {
 	 */
 	@ShellMethod("Show Full Map")
 	public void showMap() {
-		viewBusinessDelegate.showmap();
-		//JGraphXAdapterView.main(null);
+		JGraphXAdapterView.main(null);
 	}
 }
