@@ -15,7 +15,7 @@ public class MapController {
 
 	@Autowired
 	private MapBusinessDelegate mapBusinessDelegate;
-
+	
 	/**
 	 * 
 	 * Example > editcontinent --add [continentName] --value [numberOfCountries]
@@ -101,8 +101,8 @@ public class MapController {
 	@ShellMethod("Add/ Remove Country, Sample: editneighbor --add [countryName] --neighborcountrytoadd [neighborCountryName] --remove [countryName]  --neighborcountrytoremove [neighborCountryName]")
 	public String editneighbor(@ShellOption(value = { "--add" }, defaultValue = "None") String countryNameAdd,
 			@ShellOption(value = { "--neighborcountrytoadd" }, defaultValue = "None") String neighborCountryNameAdd,
-			@ShellOption(value = { "--remove" }, defaultValue = "None") String countryNameRemove, @ShellOption(value = {
-					"--neighborcountrytoremove" }, defaultValue = "None") String neighborCountryNameRemove) {
+			@ShellOption(value = { "--remove" }, defaultValue = "None") String countryNameRemove, 
+			@ShellOption(value = {"--neighborcountrytoremove" }, defaultValue = "None") String neighborCountryNameRemove) {
 		try {
 			if (countryNameAdd != null && !"None".equalsIgnoreCase(countryNameAdd)) {
 				BorderDto borderDto = new BorderDto();
