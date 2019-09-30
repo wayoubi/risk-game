@@ -1,16 +1,11 @@
 package ca.concordia.app.risk.controller;
 
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
-import ca.concordia.app.risk.controller.dto.GameStarterDto;
-import ca.concordia.app.risk.shell.ShellHelper;
-import ca.concordia.app.risk.view.GameView;
 
 /**
  * 
@@ -25,50 +20,6 @@ public class GameController {
 	 */
 	@Autowired
 	private GameBusinessDelegate gameBusinessDelegate;
-
-	/**
-	 * 
-	 */
-	@Autowired
-	private ShellHelper shellHelper;
-
-	/**
-	 * 
-	 */
-	@Autowired
-	GameView gameView;
-
-	/**
-	 * 
-	 */
-	@Autowired
-	public GameController() {
-	}
-
-	/**
-	 * 
-	 * @param autoSave
-	 * @return
-	 */
-	@ShellMethod("Start a new game")
-	public void init(@ShellOption(optOut = false) String autoSave) {
-		GameStarterDto gameStarterDTO = gameView.read();
-
-		if (Boolean.getBoolean(autoSave)) {
-			gameStarterDTO.setAutoSave(true);
-		}
-		try {
-			gameStarterDTO.validate();
-		} catch (ValidationException vex) {
-			shellHelper.printError(vex.getMessage());
-		}
-		try {
-			gameBusinessDelegate.initGame(gameStarterDTO);
-		} catch (Exception ex) {
-			shellHelper.printError(ex.getMessage());
-		}
-		shellHelper.printSuccess("Game initiated successfully");
-	}
 
 	/**
 	 * 

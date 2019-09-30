@@ -2,23 +2,15 @@ package ca.concordia.app.risk.services;
 
 import java.io.File;
 import java.util.Date;
-import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.springframework.beans.BeanUtils;
-
-import ca.concordia.app.risk.controller.dto.GameStarterDto;
 import ca.concordia.app.risk.model.cache.RunningGame;
-import ca.concordia.app.risk.model.dao.CountryDaoImpl;
-import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
-import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
-import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.utility.DateUtils;
 
 /**
@@ -39,57 +31,12 @@ public class GameService {
 	public GameService() {
 		this.setObjectFactory(new ObjectFactory());
 	}
-
-	/**
-	 * 
-	 * @param gameStarterDTO
-	 * @throws Exception
-	 */
-	public void initGame(GameStarterDto gameStarterDTO) throws Exception {
-		RunningGame.reset();
-		XMLGregorianCalendar xmlGregorianCalendar = DateUtils.getXMLDateTime(new Date());
-		RunningGame.getInstance().setCreatedDate(xmlGregorianCalendar);
-		RunningGame.getInstance().setLastSavedDate(xmlGregorianCalendar);
-		RunningGame.getInstance().setPlayers(this.getObjectFactory().createPlayersModel());
-		for (int i = 0; i < gameStarterDTO.getPlayersList().size(); i++) {
-			PlayerModel playerModel = this.getObjectFactory().createPlayerModel();
-			BeanUtils.copyProperties(gameStarterDTO.getPlayersList().get(i), playerModel);
-			PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-			playerDaoImpl.assignID(RunningGame.getInstance(), playerModel);
-			RunningGame.getInstance().getPlayers().getList().add(playerModel);
-		}
-
-		RunningGame.getInstance().setCountries(this.getObjectFactory().createCountriesModel());
-		for (int i = 0; i < gameStarterDTO.getNumberOfCountries(); i++) {
-			CountryModel countryModel = this.getObjectFactory().createCountryModel();
-			CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-			countryDaoImpl.assignID(RunningGame.getInstance(), countryModel);
-			countryModel.setColor("Black");
-			countryModel.setContinentId(1);
-			countryModel.setName("Country" + (i + 1));
-			countryModel.setNumberOfArmies(10);
-			countryModel.setPlayerId(1);
-			RunningGame.getInstance().getCountries().getList().add(countryModel);
-			RunningGame.getInstance().getGraph().addVertex(countryModel.getName());
-		}
-
-		Iterator<String> iterator = RunningGame.getInstance().getGraph().vertexSet().iterator();
-		while (iterator.hasNext()) {
-			String source = iterator.next();
-			for (int i = 1; i <= gameStarterDTO.getNumberOfCountries(); i++) {
-				String destination = "Country" + i;
-				if (!destination.equals(source)) {
-					RunningGame.getInstance().getGraph().addEdge(source, destination);
-				}
-			}
-		}
-	}
-
+	
 	/**
 	 * 
 	 * @throws Exception
 	 */
-	public void saveGame() throws Exception {
+	public void saveGame() throws Exception{
 		XMLGregorianCalendar xmlGregorianCalendar = DateUtils.getXMLDateTime(new Date());
 		RunningGame.getInstance().setLastSavedDate(xmlGregorianCalendar);
 		try {

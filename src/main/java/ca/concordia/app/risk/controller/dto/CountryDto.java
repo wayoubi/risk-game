@@ -1,9 +1,10 @@
 package ca.concordia.app.risk.controller.dto;
 
-public class CountryDto {
+import javax.validation.ValidationException;
+
+public class CountryDto implements Dto {
 
 	private String name;
-	private String color;
 	private int numberOfArmies;
 	private String contenentName;
 
@@ -11,10 +12,9 @@ public class CountryDto {
 		super();
 	}
 
-	public CountryDto(String name, String color, int numberOfArmies, String contenentName) {
+	public CountryDto(String name, int numberOfArmies, String contenentName) {
 		super();
 		this.name = name;
-		this.color = color;
 		this.numberOfArmies = numberOfArmies;
 		this.contenentName = contenentName;
 	}
@@ -25,14 +25,6 @@ public class CountryDto {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
 	}
 
 	public int getNumberOfArmies() {
@@ -53,15 +45,14 @@ public class CountryDto {
 
 	@Override
 	public String toString() {
-		return "CountryDto [name=" + name + ", color=" + color + ", numberOfArmies=" + numberOfArmies
-				+ ", contenentName=" + contenentName + "]";
+		return "CountryDto [name=" + name + ", numberOfArmies=" + numberOfArmies + ", contenentName=" + contenentName
+				+ "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + ((contenentName == null) ? 0 : contenentName.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + numberOfArmies;
@@ -77,12 +68,6 @@ public class CountryDto {
 		if (getClass() != obj.getClass())
 			return false;
 		CountryDto other = (CountryDto) obj;
-		if (color == null) {
-			if (other.color != null)
-				return false;
-		} else if (!color.equals(other.color)) {
-			return false;
-		}
 		if (contenentName == null) {
 			if (other.contenentName != null) {
 				return false;
@@ -99,6 +84,12 @@ public class CountryDto {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void validate() throws ValidationException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

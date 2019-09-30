@@ -1,7 +1,5 @@
 package ca.concordia.app.risk.controller.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -43,13 +41,8 @@ public class PlayerDto implements Dto {
 	/**
 	 * 
 	 */
-	private List<CountryDto> countryDtoList;
-
-	/**
-	 * 
-	 */
 	public PlayerDto() {
-		this.setCountryDtoList(new ArrayList<CountryDto>());
+		super();
 	}
 
 	/**
@@ -116,14 +109,6 @@ public class PlayerDto implements Dto {
 	 */
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	public List<CountryDto> getCountryDtoList() {
-		return countryDtoList;
-	}
-
-	public void setCountryDtoList(List<CountryDto> countryDtoList) {
-		this.countryDtoList = countryDtoList;
 	}
 
 	@Override
