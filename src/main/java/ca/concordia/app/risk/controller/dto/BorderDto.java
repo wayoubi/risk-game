@@ -3,10 +3,10 @@ package ca.concordia.app.risk.controller.dto;
 import javax.validation.ValidationException;
 
 public class BorderDto implements Dto {
-	
+
 	private String countryName;
 	private String neighborCountryName;
-	
+
 	/**
 	 * 
 	 */
@@ -95,7 +95,7 @@ public class BorderDto implements Dto {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -103,14 +103,14 @@ public class BorderDto implements Dto {
 	public String toString() {
 		return "BorderDto [countryName=" + countryName + ", neighborCountryName=" + neighborCountryName + "]";
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Override
 	public void validate() throws ValidationException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

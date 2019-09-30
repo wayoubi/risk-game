@@ -16,7 +16,8 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	@Override
 	public ContinentModel findByName(@NotNull GameModel gameModel, String name) throws Exception {
-		ContinentModel continentModel = gameModel.getContinents().getList().stream().filter(c -> c.getName().equals(name)).findAny().orElse(null);
+		ContinentModel continentModel = gameModel.getContinents().getList().stream()
+				.filter(c -> c.getName().equals(name)).findAny().orElse(null);
 		if (continentModel == null) {
 			throw new Exception("Continent Does Not Exist");
 		}
@@ -25,7 +26,8 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	@Override
 	public ContinentModel findById(@NotNull GameModel gameModel, int id) throws Exception {
-		ContinentModel continentModel = gameModel.getContinents().getList().stream().filter(c -> c.getId() == id).findAny().orElse(null);
+		ContinentModel continentModel = gameModel.getContinents().getList().stream().filter(c -> c.getId() == id)
+				.findAny().orElse(null);
 		if (continentModel == null) {
 			throw new Exception("Continent Does Not Exist");
 		}

@@ -2,7 +2,7 @@ package ca.concordia.app.risk.controller.dto;
 
 import javax.validation.ValidationException;
 
-public class CountryDto implements Dto{
+public class CountryDto implements Dto {
 
 	private String name;
 	private int numberOfArmies;
@@ -27,7 +27,6 @@ public class CountryDto implements Dto{
 		this.name = name;
 	}
 
-
 	public int getNumberOfArmies() {
 		return numberOfArmies;
 	}
@@ -46,8 +45,8 @@ public class CountryDto implements Dto{
 
 	@Override
 	public String toString() {
-		return "CountryDto [name=" + name + ", numberOfArmies=" + numberOfArmies
-				+ ", contenentName=" + contenentName + "]";
+		return "CountryDto [name=" + name + ", numberOfArmies=" + numberOfArmies + ", contenentName=" + contenentName
+				+ "]";
 	}
 
 	@Override
@@ -90,7 +89,7 @@ public class CountryDto implements Dto{
 	@Override
 	public void validate() throws ValidationException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

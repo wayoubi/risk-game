@@ -98,6 +98,6 @@ public class ContinentDto implements Dto {
 	@Override
 	public void validate() throws ValidationException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

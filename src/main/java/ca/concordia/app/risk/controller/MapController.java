@@ -55,8 +55,8 @@ public class MapController {
 
 	/**
 	 * 
-	 * Example
-	 * editcountry -add [countryname] --continent [continentName] -remove [countryName]
+	 * Example editcountry -add [countryname] --continent [continentName] -remove
+	 * [countryName]
 	 * 
 	 * @param continentName2Add
 	 * @param numberOfCountries
@@ -73,7 +73,7 @@ public class MapController {
 				countryDto.setName(countryName2Add);
 				countryDto.setContenentName(continent);
 				mapBusinessDelegate.addCountry(countryDto);
-				
+
 			}
 			if (countryName2Remove != null && !"None".equalsIgnoreCase(countryName2Remove)) {
 				CountryDto countryDto = new CountryDto();
@@ -85,12 +85,12 @@ public class MapController {
 		}
 		return "Game Countries edited successfully";
 	}
-	
-	
+
 	/**
 	 * 
-	 * Example
-	 * > editneighbor --add [countryName] --neighborcountry [neighborCountryName] --remove [countryName]  --neighborcountry [neighborCountryName]
+	 * Example > editneighbor --add [countryName] --neighborcountry
+	 * [neighborCountryName] --remove [countryName] --neighborcountry
+	 * [neighborCountryName]
 	 * 
 	 * @param countryName
 	 * @param neighborCountryName
@@ -101,8 +101,8 @@ public class MapController {
 	@ShellMethod("Add/ Remove Country, Sample: editneighbor --add [countryName] --neighborcountrytoadd [neighborCountryName] --remove [countryName]  --neighborcountrytoremove [neighborCountryName]")
 	public String editneighbor(@ShellOption(value = { "--add" }, defaultValue = "None") String countryNameAdd,
 			@ShellOption(value = { "--neighborcountrytoadd" }, defaultValue = "None") String neighborCountryNameAdd,
-			@ShellOption(value = { "--remove" }, defaultValue = "None") String countryNameRemove,
-			@ShellOption(value = { "--neighborcountrytoremove" }, defaultValue = "None") String neighborCountryNameRemove) {
+			@ShellOption(value = { "--remove" }, defaultValue = "None") String countryNameRemove, @ShellOption(value = {
+					"--neighborcountrytoremove" }, defaultValue = "None") String neighborCountryNameRemove) {
 		try {
 			if (countryNameAdd != null && !"None".equalsIgnoreCase(countryNameAdd)) {
 				BorderDto borderDto = new BorderDto();
@@ -124,12 +124,11 @@ public class MapController {
 				}
 				mapBusinessDelegate.removeNeighbor(borderDto);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "Game Borders edited successfully";
 	}
-
 
 }

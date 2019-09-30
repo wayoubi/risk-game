@@ -12,7 +12,7 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
  * @author i857625
  *
  */
-public class BorderDaoImp implements Dao<BorderModel>{
+public class BorderDaoImp implements Dao<BorderModel> {
 
 	/**
 	 * 
@@ -28,10 +28,11 @@ public class BorderDaoImp implements Dao<BorderModel>{
 	 * 
 	 */
 	@Override
-	public BorderModel findById(@NotNull GameModel gameModel, int countryId){
-		return gameModel.getBorders().getList().stream().filter(b -> b.getCountryId()==countryId).findAny().orElse(null);
+	public BorderModel findById(@NotNull GameModel gameModel, int countryId) {
+		return gameModel.getBorders().getList().stream().filter(b -> b.getCountryId() == countryId).findAny()
+				.orElse(null);
 	}
-	
+
 	/**
 	 * 
 	 */
