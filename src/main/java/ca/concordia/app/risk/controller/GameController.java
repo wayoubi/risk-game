@@ -30,7 +30,7 @@ public class GameController {
 	 * 
 	 * @return
 	 */
-	@ShellMethod("Save the current game")
+	@ShellMethod("Save the current game state")
 	public String save() {
 		try {
 			gameBusinessDelegate.saveGame();
@@ -78,9 +78,29 @@ public class GameController {
 	 * @param file
 	 * @return
 	 */
-	@ShellMethod("Load a Saved game")
-	public String load(@ShellOption(optOut = false) String file) {
-		return "loaded";
+	@ShellMethod("Edit map saved in file")
+	public String editmap(@ShellOption(optOut = false) String fileName) {
+		try {
+			gameBusinessDelegate.editMap(fileName);
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return  shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
+		return shellHelper.getSuccessMessage("Map file is read, you can edit now");
+	}
+	
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	@ShellMethod("load map saved in file")
+	public String loadmap(@ShellOption(optOut = false) String fileName) {
+		try {
+			gameBusinessDelegate.loadMap(fileName);
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return  shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
+		return shellHelper.getSuccessMessage("Map file is read, map is loaded");
 	}
 
 }

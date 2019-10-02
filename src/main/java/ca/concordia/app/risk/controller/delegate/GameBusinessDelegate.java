@@ -40,4 +40,20 @@ public class GameBusinessDelegate {
 	public boolean validateMap() {
 		return gameService.validateMap();
 	}
+
+	/**
+	 * 
+	 * @param fileName
+	 */
+	public void editMap(String fileName) {
+		gameService.editMap(fileName);
+	}
+
+	/**
+	 * 
+	 * @param fileName
+	 */
+	public void loadMap(String fileName) {
+		gameService.loadMap(fileName);
+	}
 }
