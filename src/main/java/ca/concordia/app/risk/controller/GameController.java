@@ -27,8 +27,8 @@ public class GameController {
 	private GameBusinessDelegate gameBusinessDelegate;
 
 	/**
-	 * 
-	 * @return
+	 * message to the user if successful or return related error
+	 * @return 
 	 */
 	@ShellMethod("Save the current game state")
 	public String save() {
@@ -74,8 +74,8 @@ public class GameController {
 	}
 	
 	/**
-	 * 
-	 * @param file
+	 * message to the user after 'Loading' the game
+	 * @param (file)
 	 * @return
 	 */
 	@ShellMethod("Edit map saved in file")

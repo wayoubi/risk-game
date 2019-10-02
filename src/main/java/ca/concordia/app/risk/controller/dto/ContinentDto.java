@@ -8,10 +8,16 @@ public class ContinentDto implements Dto {
 	private String name;
 	private int controlValue;
 
+	/**
+	 * Constructor()
+	 */
 	public ContinentDto() {
 		super();
 	}
 
+	/**
+	 * Constructor(numberOfCountries, continentName, )
+	 */
 	public ContinentDto(int numberOfCountries, String name, int controlValue) {
 		super();
 		this.numberOfCountries = numberOfCountries;
@@ -20,47 +26,56 @@ public class ContinentDto implements Dto {
 	}
 
 	/**
-	 * @return the numberOfCountries
+	 * getter: the numberOfCountries
+	 * @return 
 	 */
 	public int getNumberOfCountries() {
 		return numberOfCountries;
 	}
 
 	/**
-	 * @param numberOfCountries the numberOfCountries to set
+	 * setter: numberOfCountries the numberOfCountries to set
+	 * @param (numberOfCountries)
 	 */
 	public void setNumberOfCountries(int numberOfCountries) {
 		this.numberOfCountries = numberOfCountries;
 	}
 
 	/**
-	 * @return the name
+	 * getter: the continentName
+	 * @return 
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name the name to set
+	 * setter: the continentName
+	 * @param (continentName)
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * @return the controlValue
+	 * getter: the controlValue
+	 * @return 
 	 */
 	public int getControlValue() {
 		return controlValue;
 	}
 
 	/**
-	 * @param controlValue the controlValue to set
+	 * setter: controlValue the controlValue to set
+	 * @param ()
 	 */
 	public void setControlValue(int controlValue) {
 		this.controlValue = controlValue;
 	}
 
+	/**
+	 * Override hashCode method, since 'equal' method is overridden
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -71,18 +86,28 @@ public class ContinentDto implements Dto {
 		return result;
 	}
 
+	/**
+	 * Override 'equals' method:
+	 * To make sure for 'numberOfCountries', it's only equal if current objects are the same, not only the name of strings.
+	 */ 
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		
 		ContinentDto other = (ContinentDto) obj;
+		
+		//controlValue
 		if (controlValue != other.controlValue) {
 			return false;
 		}
+		
+		//Continent name & numberOfCountries
 		if (name == null) {
 			if (other.name != null) {
 				return false;
@@ -92,6 +117,8 @@ public class ContinentDto implements Dto {
 		} else if (numberOfCountries != other.numberOfCountries) {
 			return false;
 		}
+		
+		
 		return true;
 	}
 

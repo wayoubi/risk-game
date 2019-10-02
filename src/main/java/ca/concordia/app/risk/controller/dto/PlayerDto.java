@@ -39,13 +39,14 @@ public class PlayerDto implements Dto {
 	private String color;
 
 	/**
-	 * 
+	 * Constructor()
 	 */
 	public PlayerDto() {
 		super();
 	}
 
 	/**
+	 * Constructor(name, color)
 	 * 
 	 * @param name
 	 * @param color
@@ -56,6 +57,8 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
+	 * Constructor(playerDTO)
+	 * 
 	 * @param playerDTO
 	 */
 	public PlayerDto(@NotNull final PlayerDto playerDTO) {
@@ -64,7 +67,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * getter: the player's id
 	 * @return
 	 */
 	public int getId() {
@@ -72,7 +75,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * setter: the player's id
 	 * @param id
 	 */
 	public void setId(int id) {
@@ -80,7 +83,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * getter: the player's name
 	 * @return
 	 */
 	public String getName() {
@@ -88,7 +91,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * setter: the player's name
 	 * @param name
 	 */
 	public void setName(String name) {
@@ -96,7 +99,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * getter: the player's color
 	 * @return
 	 */
 	public String getColor() {
@@ -104,23 +107,16 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * setter: the player's color
 	 * @param color
 	 */
 	public void setColor(String color) {
 		this.color = color;
 	}
 
-	@Override
-	public void validate() throws ValidationException {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<PlayerDto>> constraintViolations = validator.validate(this);
-		if (constraintViolations != null && !constraintViolations.isEmpty()) {
-			throw new ConstraintViolationException(constraintViolations);
-		}
-	}
-
+	/**
+	 * Override hashCode method, since 'equal' method is overridden
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -128,26 +124,39 @@ public class PlayerDto implements Dto {
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		
 		return result;
 	}
 
+	/**
+	 * Override 'equals' method:
+	 * To make sure for 'color' & 'id' & 'player name', it's only equal if current objects are the same, not only the name of strings.
+	 */ 
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		
 		PlayerDto other = (PlayerDto) obj;
+		
+		//color
 		if (color == null) {
 			if (other.color != null)
 				return false;
 		} else if (!color.equals(other.color)) {
 			return false;
 		}
+		
+		//id
 		if (id != other.id)
 			return false;
+		
+		//player name
 		if (name == null) {
 			if (other.name != null) {
 				return false;
@@ -155,12 +164,29 @@ public class PlayerDto implements Dto {
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
+		
+		
 		return true;
 	}
 
+	/**
+	 * Override toString method
+	 * @return current player's: ['id' & 'name' & 'color']
+	 */
 	@Override
 	public String toString() {
 		return "PlayerDto [id=" + id + ", name=" + name + ", color=" + color + "]";
+	}
+
+	@Override
+	public void validate() throws ValidationException {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		Set<ConstraintViolation<PlayerDto>> constraintViolations = validator.validate(this);
+		
+		if (constraintViolations != null && !constraintViolations.isEmpty()) {
+			throw new ConstraintViolationException(constraintViolations);
+		}
 	}
 
 }

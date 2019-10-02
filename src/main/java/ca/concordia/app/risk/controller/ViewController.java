@@ -14,9 +14,9 @@ import ca.concordia.app.risk.view.JGraphXAdapterView;
 public class ViewController {
 
 	/**
-	 * 
-	 * @param file
-	 * @return
+	 * Creates the graph
+	 * @param (file)
+	 * @return map of the world with details of the countries' owners
 	 */
 	@ShellMethod("Show Full Map")
 	public void showMap() {

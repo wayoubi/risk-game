@@ -37,7 +37,7 @@ public class PlayController {
 	}
 
 	/**
-	 * 
+	 * Attack
 	 * @param attacker
 	 * @param defender
 	 * @param from
