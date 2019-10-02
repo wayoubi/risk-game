@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <game xmlns="http://ca.concordia.app.risk/game">
-    <createdDate>2019-09-30T00:25:20.642-04:00</createdDate>
-    <lastSavedDate>2019-09-30T00:25:23.627-04:00</lastSavedDate>
+    <createdDate>2019-10-02T00:51:26.423-04:00</createdDate>
+    <lastSavedDate>2019-10-02T00:51:27.916-04:00</lastSavedDate>
     <players/>
     <continents>
         <continent>
@@ -96,11 +96,11 @@
         </border>
         <border>
             <countryId>4</countryId>
-            <neighbours>1 5</neighbours>
+            <neighbours>1 8 5</neighbours>
         </border>
         <border>
             <countryId>8</countryId>
-            <neighbours>7 6</neighbours>
+            <neighbours>4 7 6</neighbours>
         </border>
         <border>
             <countryId>5</countryId>

@@ -17,7 +17,7 @@ public interface Dao<T> {
 	 * @return
 	 * @throws Exception
 	 */
-	T findByName(@NotNull GameModel gameModel, String name) throws Exception;
+	T findByName(@NotNull GameModel gameModel, String name);
 
 	/**
 	 * 
@@ -25,14 +25,14 @@ public interface Dao<T> {
 	 * @return
 	 * @throws Exception
 	 */
-	T findById(@NotNull GameModel gameModel, int id) throws Exception;
+	T findById(@NotNull GameModel gameModel, int id);
 
 	/**
 	 * 
 	 * @param t
 	 * @throws Exception
 	 */
-	void assignID(@NotNull GameModel gameModel, T t) throws Exception;
+	void assignID(@NotNull GameModel gameModel, T t);
 
 	/**
 	 * 

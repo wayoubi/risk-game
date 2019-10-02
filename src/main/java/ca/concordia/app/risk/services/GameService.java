@@ -1,16 +1,28 @@
 package ca.concordia.app.risk.services;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.graph.DefaultEdge;
+
+import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.xmlbeans.BorderModel;
+import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
-import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
 import ca.concordia.app.risk.utility.DateUtils;
 
 /**
@@ -20,49 +32,69 @@ import ca.concordia.app.risk.utility.DateUtils;
  */
 public class GameService {
 
-	/**
-	 * 
-	 */
-	ObjectFactory objectFactory;
+	private static final String GAME_CANNOT_BE_SAVED = "Game caanot be saved!";
 
 	/**
 	 * 
 	 */
-	public GameService() {
-		this.setObjectFactory(new ObjectFactory());
-	}
-	
-	/**
-	 * 
-	 * @throws Exception
-	 */
-	public void saveGame() throws Exception{
-		XMLGregorianCalendar xmlGregorianCalendar = DateUtils.getXMLDateTime(new Date());
-		RunningGame.getInstance().setLastSavedDate(xmlGregorianCalendar);
+	public void saveGame() {
+		XMLGregorianCalendar xmlGregorianCalendar = null;
+		try {
+			xmlGregorianCalendar = DateUtils.getXMLDateTime(new Date());
+			RunningGame.getInstance().setLastSavedDate(xmlGregorianCalendar);
+		} catch (DatatypeConfigurationException configurationException) {
+			throw new RiskGameRuntimeException(GAME_CANNOT_BE_SAVED, configurationException);
+		}
 		try {
 			File file = new File("saved/game.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(GameModel.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(RunningGame.getInstance(), file);
-		} catch (JAXBException e) {
-			throw new Exception("Game caanot be saved");
+		} catch (JAXBException jaxbException) {
+			throw new RiskGameRuntimeException(GAME_CANNOT_BE_SAVED, jaxbException);
 		}
 	}
 
 	/**
 	 * 
-	 * @param objectFactory
+	 * @param fileName
 	 */
-	public void setObjectFactory(ObjectFactory objectFactory) {
-		this.objectFactory = objectFactory;
+	public void saveMap(String fileName) {
+		try (FileWriter fileWriter = new FileWriter("saved/" + fileName)) {
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			
+			//add continents
+			printWriter.printf("[continents]%s", System.lineSeparator());
+			Comparator<ContinentModel> continentModelComparator = Comparator.comparing(ContinentModel::getId);
+			RunningGame.getInstance().getContinents().getList().stream().sorted(continentModelComparator).forEach(continent -> printWriter
+					.printf("%s %s%s", continent.getName(), continent.getNumberOfCountries(), System.lineSeparator()));
+			printWriter.print(System.lineSeparator());
+			
+			//add countries		
+			Comparator<CountryModel> countryModelComparator = Comparator.comparing(CountryModel::getId);
+			printWriter.printf("[countries]%s", System.lineSeparator());
+			RunningGame.getInstance().getCountries().getList().stream().sorted(countryModelComparator)
+					.forEach(country -> printWriter.printf("%s %s %s %s", country.getId(), country.getName(),
+							country.getNumberOfArmies(), System.lineSeparator()));
+			printWriter.print(System.lineSeparator());
+			
+			//add borders
+			printWriter.printf("[borders]%s", System.lineSeparator());
+			Comparator<BorderModel> comparator = Comparator.comparing(BorderModel::getCountryId);
+			RunningGame.getInstance().getBorders().getList().stream().sorted(comparator)
+					.forEach(border -> printWriter.printf("%s %s %s", border.getCountryId(),
+							border.getNeighbours().stream().map(String::valueOf).collect(Collectors.joining(" ")),System.lineSeparator()));
+		} catch (IOException ioException) {
+			throw new RiskGameRuntimeException("Game file cannot be saved", ioException);
+		}
 	}
 
 	/**
 	 * 
-	 * @return
 	 */
-	public ObjectFactory getObjectFactory() {
-		return objectFactory;
+	public boolean validateMap() {
+		ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<String, DefaultEdge>(RunningGame.getInstance().getGraph());
+		return connectivityInspector.isConnected();
 	}
 }

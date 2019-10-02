@@ -1,6 +1,5 @@
 package ca.concordia.app.risk.model.dao;
 
-import javax.naming.OperationNotSupportedException;
 import javax.validation.constraints.NotNull;
 
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
@@ -18,10 +17,10 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	 * 
 	 */
 	@Override
-	public BorderModel findByName(@NotNull GameModel gameModel, String countryName) throws Exception {
+	public BorderModel findByName(@NotNull GameModel gameModel, String countryName) {
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(gameModel, countryName);
-		return this.findById(gameModel, new Integer(countryModel.getId()));
+		return this.findById(gameModel, countryModel.getId());
 	}
 
 	/**
@@ -37,8 +36,8 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	 * 
 	 */
 	@Override
-	public void assignID(@NotNull GameModel gameModel, BorderModel t) throws Exception {
-		throw new OperationNotSupportedException("Border Object does need to be assigned an Id.");
+	public void assignID(@NotNull GameModel gameModel, BorderModel t) {
+		throw new UnsupportedOperationException("Border Object does need to be assigned an Id.");
 	}
 
 	/**
@@ -46,7 +45,7 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, BorderModel t) {
-		gameModel.getBorders().getList().forEach(b -> b.getNeighbours().remove(new Integer(t.getCountryId())));
+		gameModel.getBorders().getList().forEach(b -> b.getNeighbours().remove(Integer.valueOf(t.getCountryId())));
 		gameModel.getBorders().getList().remove(t);
 	}
 
