@@ -32,4 +32,12 @@ public class GameBusinessDelegate {
 	public void saveMap(String fileName) {
 		gameService.saveMap(fileName);
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean validateMap() {
+		return gameService.validateMap();
+	}
 }

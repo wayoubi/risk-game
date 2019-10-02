@@ -14,6 +14,9 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.graph.DefaultEdge;
+
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
@@ -85,5 +88,13 @@ public class GameService {
 		} catch (IOException ioException) {
 			throw new RiskGameRuntimeException("Game file cannot be saved", ioException);
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public boolean validateMap() {
+		ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<String, DefaultEdge>(RunningGame.getInstance().getGraph());
+		return connectivityInspector.isConnected();
 	}
 }

@@ -54,7 +54,25 @@ public class GameController {
 		}
 		return shellHelper.getSuccessMessage("Game Map saved successfully");
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@ShellMethod("Validate the current gamemap to be connected")
+	public String validatemap() {
+		boolean isConnected = false;
+		try {
+			isConnected = gameBusinessDelegate.validateMap();
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return  shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
+		if(!isConnected) {
+			return shellHelper.getErrorMessage("Countries are not connected, Map is invalid");
+		}
+		return shellHelper.getSuccessMessage("Countries are connected, Map is valid");
+	}
+	
 	/**
 	 * 
 	 * @param file
