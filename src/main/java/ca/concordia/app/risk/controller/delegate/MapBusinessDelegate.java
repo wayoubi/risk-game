@@ -16,7 +16,7 @@ public class MapBusinessDelegate {
 	 * 
 	 * @param continentDto
 	 */
-	public void addContinent(ContinentDto continentDto) throws Exception {
+	public void addContinent(ContinentDto continentDto){
 		mapService.addContinent(continentDto);
 
 	}
@@ -25,7 +25,7 @@ public class MapBusinessDelegate {
 	 * 
 	 * @param continentDto
 	 */
-	public void removeContinent(ContinentDto continentDto) throws Exception {
+	public void removeContinent(ContinentDto continentDto){
 		mapService.removeContinent(continentDto);
 	}
 
@@ -34,7 +34,7 @@ public class MapBusinessDelegate {
 	 * @param countryDto
 	 * @throws Exception
 	 */
-	public void addCountry(CountryDto countryDto) throws Exception {
+	public void addCountry(CountryDto countryDto){
 		mapService.addCountry(countryDto);
 
 	}
@@ -44,7 +44,7 @@ public class MapBusinessDelegate {
 	 * @param countryDto
 	 * @throws Exception
 	 */
-	public void removeCountry(CountryDto countryDto) throws Exception {
+	public void removeCountry(CountryDto countryDto){
 		mapService.removeCountry(countryDto);
 
 	}
@@ -54,7 +54,7 @@ public class MapBusinessDelegate {
 	 * @param borderDto
 	 * @throws Exception
 	 */
-	public void addNeighbor(BorderDto borderDto) throws Exception {
+	public void addNeighbor(BorderDto borderDto){
 		mapService.addNeighbor(borderDto);
 	}
 
@@ -63,7 +63,7 @@ public class MapBusinessDelegate {
 	 * @param borderDto
 	 * @throws Exception
 	 */
-	public void removeNeighbor(BorderDto borderDto) throws Exception {
+	public void removeNeighbor(BorderDto borderDto){
 		mapService.removeNeighbor(borderDto);
 	}
 }
