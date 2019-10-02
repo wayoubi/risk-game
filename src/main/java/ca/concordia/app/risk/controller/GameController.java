@@ -6,6 +6,8 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
+import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
  * 
@@ -14,6 +16,9 @@ import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
  */
 @ShellComponent
 public class GameController {
+	
+	@Autowired
+	ShellHelper shellHelper;
 
 	/**
 	 * 
@@ -29,10 +34,25 @@ public class GameController {
 	public String save() {
 		try {
 			gameBusinessDelegate.saveGame();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return  shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
 		}
-		return "Game saved successfully";
+		return shellHelper.getSuccessMessage("Game saved successfully");
+	}
+	
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	@ShellMethod("Save the current gamemap using domination map file format under the saved direcory")
+	public String savemap(@ShellOption(value = { "--file"}) String fileName) {
+		try {
+			gameBusinessDelegate.saveMap(fileName);
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return  shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
+		return shellHelper.getSuccessMessage("Game Map saved successfully");
 	}
 
 	/**

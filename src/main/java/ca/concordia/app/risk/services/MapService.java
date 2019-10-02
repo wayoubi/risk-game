@@ -131,7 +131,7 @@ public class MapService {
 		borderModel.setCountryId(countryModel.getId());
 		countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), neighborCountryName);
 		if(borderModel.getNeighbours().contains(Integer.valueOf(countryModel.getId()))) {
-			throw new RiskGameRuntimeException(String.format("Border [%s][%s] already exist exist, border will be ignored", countryName, neighborCountryName)); 
+			throw new RiskGameRuntimeException(String.format("Border [%s][%s] already exist!", countryName, neighborCountryName)); 
 		}
 		borderModel.getNeighbours().add(Integer.valueOf(countryModel.getId()));
 	}

@@ -21,7 +21,15 @@ public class GameBusinessDelegate {
 	 * 
 	 * @throws Exception
 	 */
-	public void saveGame() throws Exception {
+	public void saveGame(){
 		gameService.saveGame();
+	}
+
+	/**
+	 * 
+	 * @param fileLocation
+	 */
+	public void saveMap(String fileName) {
+		gameService.saveMap(fileName);
 	}
 }

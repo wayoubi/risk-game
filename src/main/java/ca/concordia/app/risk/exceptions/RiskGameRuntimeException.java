@@ -14,4 +14,13 @@ public class RiskGameRuntimeException extends RuntimeException{
 	public RiskGameRuntimeException(String errorMessage) {
 		super(errorMessage);
 	}
+	
+	/**
+	 * 
+	 * @param errorMessage
+	 * @param exception
+	 */
+	public RiskGameRuntimeException(String errorMessage, Exception exception) {
+		super(errorMessage, exception);
+	}
 }

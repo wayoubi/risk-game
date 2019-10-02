@@ -10,6 +10,7 @@ import ca.concordia.app.risk.controller.dto.BorderDto;
 import ca.concordia.app.risk.controller.dto.ContinentDto;
 import ca.concordia.app.risk.controller.dto.CountryDto;
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.shell.ShellHelper;
 
 @ShellComponent
 public class MapController {
@@ -20,6 +21,9 @@ public class MapController {
 
 	@Autowired
 	private MapBusinessDelegate mapBusinessDelegate;
+	
+	@Autowired
+	private ShellHelper shellHelper;
 
 	/**
 	 * 
@@ -49,7 +53,7 @@ public class MapController {
 				mapBusinessDelegate.addContinent(continentDto2Add);
 			}
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			result.append(riskGameRuntimeException.getMessage());
+			result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
 		}
 		try {
 			if (continentName2Remove != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(continentName2Remove)) {
@@ -58,10 +62,10 @@ public class MapController {
 				mapBusinessDelegate.removeContinent(continentDto2Remove);
 			}	
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			result.append(riskGameRuntimeException.getMessage());
+			result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
 		}
 		if(result.length()==0) {
-			result.append(COMMAND_EXECUTED_SUCCESSFULLY);
+			result.append(shellHelper.getSuccessMessage(COMMAND_EXECUTED_SUCCESSFULLY));
 		}
 		return result.toString();
 	}
@@ -89,7 +93,7 @@ public class MapController {
 				mapBusinessDelegate.addCountry(countryDto);
 			}	
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			result.append(riskGameRuntimeException.getMessage());
+			result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
 		}	
 		try {
 			if (countryName2Remove != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(countryName2Remove)) {
@@ -98,10 +102,10 @@ public class MapController {
 				mapBusinessDelegate.removeCountry(countryDto);
 			}
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			result.append(riskGameRuntimeException.getMessage());
+			result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
 		}
 		if(result.length()==0) {
-			result.append(COMMAND_EXECUTED_SUCCESSFULLY);
+			result.append(shellHelper.getSuccessMessage(COMMAND_EXECUTED_SUCCESSFULLY));
 		}
 		return result.toString();
 	}
@@ -136,7 +140,7 @@ public class MapController {
 				mapBusinessDelegate.addNeighbor(borderDto);
 			}
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			result.append(riskGameRuntimeException.getMessage());
+			result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
 		}
 		try {
 			if (countryNameRemove != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(countryNameRemove)) {
@@ -150,10 +154,10 @@ public class MapController {
 				mapBusinessDelegate.removeNeighbor(borderDto);
 			}
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			result.append(riskGameRuntimeException.getMessage());
+			result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
 		}
 		if(result.length()==0) {
-			result.append(COMMAND_EXECUTED_SUCCESSFULLY);
+			result.append(shellHelper.getSuccessMessage(COMMAND_EXECUTED_SUCCESSFULLY));
 		}
 		return result.toString();
 	}
