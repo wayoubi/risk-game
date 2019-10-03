@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
@@ -33,6 +31,16 @@ import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
+import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
+import ca.concordia.app.risk.controller.dto.PlayerDto;
+import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.*;
+import org.springframework.beans.BeanUtils;
+
+//import ca.concordia.app.risk.controller.dto.GameStarterDto;
+import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.CountryDaoImpl;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.utility.DateUtils;
 
 /**
@@ -68,6 +76,7 @@ public class GameService {
 			throw new RiskGameRuntimeException(GAME_CANNOT_BE_SAVED, jaxbException);
 		}
 	}
+	ObjectFactory objectFactory = new ObjectFactory();
 
 	/**
 	 * 
@@ -184,5 +193,131 @@ public class GameService {
 	public boolean validateMap() {
 		ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(RunningGame.getInstance().getGraph());
 		return connectivityInspector.isConnected();
+	}
+
+    public void addPlayer(PlayerDto playerDto)  {
+		PlayerModel playerModel = objectFactory.createPlayerModel();
+		BeanUtils.copyProperties(playerDto, playerModel);
+		PlayerDaoImpl playerDaoImp = new PlayerDaoImpl();
+		playerDaoImp.assignID(RunningGame.getInstance(), playerModel);
+		RunningGame.getInstance().getPlayers().getList().add(playerModel);
+	}
+
+	public void removePlayer(PlayerDto playerDto)  {
+		PlayerDaoImpl playerDao = new PlayerDaoImpl();
+		PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), playerDto.getName());
+		playerDao.delete(RunningGame.getInstance(), playerModel);
+	}
+
+	public void populateCountries() {
+
+		int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
+		int numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
+		int playerID=0;
+
+		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().collect(Collectors.toList());               // convert list to stream
+
+		for (CountryModel countryModel :countryModels) {
+			if(playerID<numberOfPlayers) {
+				playerID++;
+			}
+			else {
+				playerID=1;
+			}
+			countryModel.setPlayerId(playerID);
+		}
+	}
+
+	public void placeArmy(String countryName)  {
+
+		int totalNumberOfArmiesPerPlayer=0;
+		int numberOfAssignedArmies = 0;
+		int	playerId=0;
+		int numberOfPlayers=0;
+
+		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getName().equals(countryName)))).findAny().orElse(null);
+		playerId = countryModel.getPlayerId();
+
+		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().collect(Collectors.toList());               // convert list to stream
+
+		for (CountryModel item :countryModels) {
+			if(item.getPlayerId()==playerId) {
+				numberOfAssignedArmies += item.getNumberOfArmies();
+			}
+		}
+
+		if (countryModel == null) {
+			throw new RiskGameRuntimeException("Country Does Not Exist");
+		}
+
+
+		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
+
+		if(numberOfPlayers == 2){
+			totalNumberOfArmiesPerPlayer= 40;
+		} else if(numberOfPlayers == 3){
+			totalNumberOfArmiesPerPlayer= 35;
+		} else if(numberOfPlayers == 4){
+			totalNumberOfArmiesPerPlayer= 30;
+		} else if(numberOfPlayers == 5){
+			totalNumberOfArmiesPerPlayer= 25;
+		}
+
+		if(numberOfAssignedArmies<totalNumberOfArmiesPerPlayer)
+			countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+1);
+		else
+			throw new RiskGameRuntimeException("Total Number of Armies has been exceeded");
+	}
+
+	public void reinforce(String countryName, int numberOfArmies) {
+
+		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> c.getName()==countryName)).findAny().orElse(null);
+		countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+numberOfArmies);
+
+	}
+
+	public void placeAll() {
+
+		int totalNumberOfArmiesPerPlayer = 0;
+		int numberOfAssignedArmies = 0;
+		int playerId = 0;
+		int numberOfPlayers = 0;
+
+		//get number of players
+		// check each player
+		// get all the countries for that player
+		// get all the assigned armies
+		// place the remaining randomly
+
+		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
+
+		if (numberOfPlayers == 2) {
+			totalNumberOfArmiesPerPlayer = 40;
+		} else if (numberOfPlayers == 3) {
+			totalNumberOfArmiesPerPlayer = 35;
+		} else if (numberOfPlayers == 4) {
+			totalNumberOfArmiesPerPlayer = 30;
+		} else if (numberOfPlayers == 5) {
+			totalNumberOfArmiesPerPlayer = 25;
+		}
+
+		List<PlayerModel> playerModels = RunningGame.getInstance().getPlayers().getList().stream().collect(Collectors.toList());              // convert list to stream
+
+		for (PlayerModel itemPlayerModel : playerModels) {
+			numberOfAssignedArmies=0;
+			List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getPlayerId())==(itemPlayerModel.getId()))).collect(Collectors.toList());
+			for (CountryModel cM : countryModels) {
+				numberOfAssignedArmies+=cM.getNumberOfArmies();
+			}
+
+			while (totalNumberOfArmiesPerPlayer - numberOfAssignedArmies > 0) {
+				for (CountryModel itemCountryModel : countryModels) {
+					if (totalNumberOfArmiesPerPlayer - numberOfAssignedArmies > 0) {
+						itemCountryModel.setNumberOfArmies(itemCountryModel.getNumberOfArmies() + 1);
+						numberOfAssignedArmies += 1;
+					}
+				}
+			}
+		}
 	}
 }
