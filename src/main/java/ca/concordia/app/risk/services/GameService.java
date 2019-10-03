@@ -195,7 +195,7 @@ public class GameService {
 		return connectivityInspector.isConnected();
 	}
 
-    public void addPlayer(PlayerDto playerDto) throws Exception {
+    public void addPlayer(PlayerDto playerDto)  {
 		PlayerModel playerModel = objectFactory.createPlayerModel();
 		BeanUtils.copyProperties(playerDto, playerModel);
 		PlayerDaoImpl playerDaoImp = new PlayerDaoImpl();
@@ -203,7 +203,7 @@ public class GameService {
 		RunningGame.getInstance().getPlayers().getList().add(playerModel);
 	}
 
-	public void removePlayer(PlayerDto playerDto) throws Exception {
+	public void removePlayer(PlayerDto playerDto)  {
 		PlayerDaoImpl playerDao = new PlayerDaoImpl();
 		PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), playerDto.getName());
 		playerDao.delete(RunningGame.getInstance(), playerModel);
@@ -228,7 +228,7 @@ public class GameService {
 		}
 	}
 
-	public void placeArmy(String countryName) throws Exception {
+	public void placeArmy(String countryName)  {
 
 		int totalNumberOfArmiesPerPlayer=0;
 		int numberOfAssignedArmies = 0;
@@ -247,7 +247,7 @@ public class GameService {
 		}
 
 		if (countryModel == null) {
-			throw new Exception("Country Does Not Exist");
+			throw new RiskGameRuntimeException("Country Does Not Exist");
 		}
 
 
@@ -261,14 +261,12 @@ public class GameService {
 			totalNumberOfArmiesPerPlayer= 30;
 		} else if(numberOfPlayers == 5){
 			totalNumberOfArmiesPerPlayer= 25;
-		} else if(numberOfPlayers == 5){
-			totalNumberOfArmiesPerPlayer= 20;
 		}
 
 		if(numberOfAssignedArmies<totalNumberOfArmiesPerPlayer)
 			countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+1);
 		else
-			throw new Exception("Total Number of Armies has been exceeded");
+			throw new RiskGameRuntimeException("Total Number of Armies has been exceeded");
 	}
 
 	public void reinforce(String countryName, int numberOfArmies) {
@@ -301,8 +299,6 @@ public class GameService {
 			totalNumberOfArmiesPerPlayer = 30;
 		} else if (numberOfPlayers == 5) {
 			totalNumberOfArmiesPerPlayer = 25;
-		} else if (numberOfPlayers == 5) {
-			totalNumberOfArmiesPerPlayer = 20;
 		}
 
 		List<PlayerModel> playerModels = RunningGame.getInstance().getPlayers().getList().stream().collect(Collectors.toList());              // convert list to stream

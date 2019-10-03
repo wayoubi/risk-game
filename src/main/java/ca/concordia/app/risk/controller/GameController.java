@@ -95,8 +95,8 @@ public class GameController {
 				gameBusinessDelegate.removePlayer(playerDto);
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return  shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
 		}
 		return "Player edited successfully";
 	}
@@ -108,8 +108,12 @@ public class GameController {
 	}
 
 	@ShellMethod("placearmy")
-	public String placearmy(@ShellOption(value = { "--countryname" }, defaultValue = "None") String countryName) throws Exception {
-		gameBusinessDelegate.placeArmy(countryName);
+	public String placearmy(@ShellOption(value = { "--countryname" }, defaultValue = "None") String countryName)  {
+		try {
+			gameBusinessDelegate.placeArmy(countryName);
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return  shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
 		return "An Army has been assigned to this country.";
 	}
 

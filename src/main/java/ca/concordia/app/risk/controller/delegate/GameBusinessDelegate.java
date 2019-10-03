@@ -58,11 +58,11 @@ public class GameBusinessDelegate {
 		gameService.loadMap(fileName);
 	}
 
-    public void addPlayer(PlayerDto playerDto) throws Exception {
+    public void addPlayer(PlayerDto playerDto)  {
 		gameService.addPlayer(playerDto);
     }
 
-	public void removePlayer(PlayerDto playerDto) throws Exception {
+	public void removePlayer(PlayerDto playerDto)  {
 		gameService.removePlayer(playerDto);
 	}
 
@@ -70,7 +70,7 @@ public class GameBusinessDelegate {
 		gameService.populateCountries();
 	}
 
-	public void placeArmy(String countryName) throws Exception {
+	public void placeArmy(String countryName)  {
 		gameService.placeArmy(countryName);
 	}
 
