@@ -254,7 +254,7 @@ public class GameService {
 		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
 		if(numberOfPlayers == 2){
-			totalNumberOfArmiesPerPlayer=0;
+			totalNumberOfArmiesPerPlayer= 40;
 		} else if(numberOfPlayers == 3){
 			totalNumberOfArmiesPerPlayer= 35;
 		} else if(numberOfPlayers == 4){
@@ -294,7 +294,7 @@ public class GameService {
 		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
 		if (numberOfPlayers == 2) {
-			totalNumberOfArmiesPerPlayer = 0;
+			totalNumberOfArmiesPerPlayer = 40;
 		} else if (numberOfPlayers == 3) {
 			totalNumberOfArmiesPerPlayer = 35;
 		} else if (numberOfPlayers == 4) {
