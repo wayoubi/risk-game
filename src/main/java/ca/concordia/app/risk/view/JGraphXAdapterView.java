@@ -57,8 +57,8 @@ public class JGraphXAdapterView extends JApplet {
 		
 		//Shows window in the middle of the screen
 		frame.setLocationRelativeTo(null);
-
 		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 	
