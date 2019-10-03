@@ -14,8 +14,10 @@ public class RiskGameRunner {
 	/**
 	 * 
 	 * @param args
+	 * @throws Exception
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception {
+		// SpringApplication.run(RiskGameRunner.class, args);
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(RiskGameRunner.class);
 		builder.headless(false);
 		builder.run(args);

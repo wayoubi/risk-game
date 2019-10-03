@@ -1,8 +1,6 @@
 package ca.concordia.app.risk.controller.dto;
 
-import javax.validation.ValidationException;
-
-public class ContinentDto implements Dto {
+public class ContinentDto {
 
 	private int numberOfCountries;
 	private String name;
@@ -93,11 +91,5 @@ public class ContinentDto implements Dto {
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public void validate() throws ValidationException {
-		// TODO Auto-generated method stub
-
 	}
 }

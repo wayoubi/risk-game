@@ -68,6 +68,8 @@
 				maxOccurs="1" />
 			<xsd:element name="name" type="xsd:string" minOccurs="1"
 				maxOccurs="1" />
+			<xsd:element name="color" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
 			<xsd:element name="numberOfArmies" type="xsd:int"
 				minOccurs="1" maxOccurs="1" />
 			<xsd:element name="playerId" type="xsd:int" minOccurs="1"
