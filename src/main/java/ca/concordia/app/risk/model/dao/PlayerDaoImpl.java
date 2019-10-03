@@ -18,29 +18,28 @@ import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
  */
 public class PlayerDaoImpl implements Dao<PlayerModel> {
 
-	/**
-	 * 
-	 */
 	@Override
-	public PlayerModel findByName(@NotNull GameModel gameModel, String name){
-		return gameModel.getPlayers().getList().stream().filter(p -> p.getName().equals(name)).findAny()
+	public PlayerModel findByName(@NotNull GameModel gameModel, String name) throws Exception {
+		PlayerModel player = gameModel.getPlayers().getList().stream().filter(p -> p.getName().equals(name)).findAny()
 				.orElse(null);
+		if (player == null) {
+			throw new Exception("Player Does Not Exist");
+		}
+		return player;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
-	public PlayerModel findById(@NotNull GameModel gameModel, int id){
-		return gameModel.getPlayers().getList().stream().filter(p -> p.getId() == id).findAny()
+	public PlayerModel findById(@NotNull GameModel gameModel, int id) throws Exception {
+		PlayerModel player = gameModel.getPlayers().getList().stream().filter(p -> p.getId() == id).findAny()
 				.orElse(null);
+		if (player == null) {
+			throw new Exception("Player Does Not Exist");
+		}
+		return player;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
-	public void assignID(@NotNull GameModel gameModel, PlayerModel t) {
+	public void assignID(@NotNull GameModel gameModel, PlayerModel t) throws Exception {
 		Comparator<PlayerModel> comparator = Comparator.comparing(PlayerModel::getId);
 		Optional<PlayerModel> optional = gameModel.getPlayers().getList().stream().max(comparator);
 		if (optional.isPresent()) {
@@ -50,9 +49,6 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 		}
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, PlayerModel t) {
 		gameModel.getPlayers().getList().remove(t);

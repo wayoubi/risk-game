@@ -12,29 +12,28 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 public class CountryDaoImpl implements Dao<CountryModel> {
 
-	/**
-	 * 
-	 */
 	@Override
-	public CountryModel findByName(@NotNull GameModel gameModel, String name){
-		return gameModel.getCountries().getList().stream().filter(c -> c.getName().equals(name))
+	public CountryModel findByName(@NotNull GameModel gameModel, String name) throws Exception {
+		CountryModel country = gameModel.getCountries().getList().stream().filter(c -> c.getName().equals(name))
 				.findAny().orElse(null);
+		if (country == null) {
+			throw new Exception("Country Does Not Exist");
+		}
+		return country;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
-	public CountryModel findById(@NotNull GameModel gameModel, int id){
-		return gameModel.getCountries().getList().stream().filter(c -> c.getId() == id).findAny()
+	public CountryModel findById(@NotNull GameModel gameModel, int id) throws Exception {
+		CountryModel country = gameModel.getCountries().getList().stream().filter(c -> c.getId() == id).findAny()
 				.orElse(null);
+		if (country == null) {
+			throw new Exception("Country Does Not Exist");
+		}
+		return country;
 	}
 
-	/**
-	 * 
-	 */
 	@Override
-	public void assignID(@NotNull GameModel gameModel, CountryModel t){
+	public void assignID(@NotNull GameModel gameModel, CountryModel t) throws Exception {
 		Comparator<CountryModel> comparator = Comparator.comparing(CountryModel::getId);
 		Optional<CountryModel> optional = gameModel.getCountries().getList().stream().max(comparator);
 		if (optional.isPresent()) {
@@ -44,11 +43,8 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 		}
 	}
 
-	/**
-	 * 
-	 */
 	@Override
-	public void delete(@NotNull GameModel gameModel, CountryModel t){
+	public void delete(@NotNull GameModel gameModel, CountryModel t) {
 		gameModel.getCountries().getList().remove(t);
 
 	}
@@ -58,7 +54,7 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	 * @param gameModel
 	 * @return
 	 */
-	public List<CountryModel> getCountries(@NotNull GameModel gameModel){
+	public List<CountryModel> getCountries(@NotNull GameModel gameModel) {
 		return gameModel.getCountries().getList().stream().collect(Collectors.toList());
 	}
 
