@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="color" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="numberOfArmies" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="playerId" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="continentId" type="{http://www.w3.org/2001/XMLSchema}int"/>
@@ -34,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "country", namespace = "http://ca.concordia.app.risk/game", propOrder = { "id", "name", "color",
+@XmlType(name = "country", namespace = "http://ca.concordia.app.risk/game", propOrder = { "id", "name",
 		"numberOfArmies", "playerId", "continentId" })
 public class CountryModel {
 
@@ -42,8 +41,6 @@ public class CountryModel {
 	protected int id;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
 	protected String name;
-	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-	protected String color;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
 	protected int numberOfArmies;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
@@ -85,26 +82,6 @@ public class CountryModel {
 	 */
 	public void setName(String value) {
 		this.name = value;
-	}
-
-	/**
-	 * Gets the value of the color property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getColor() {
-		return color;
-	}
-
-	/**
-	 * Sets the value of the color property.
-	 * 
-	 * @param value allowed object is {@link String }
-	 * 
-	 */
-	public void setColor(String value) {
-		this.color = value;
 	}
 
 	/**

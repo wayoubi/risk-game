@@ -35,35 +35,28 @@ public class JGraphXAdapterView extends JApplet {
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
-		System.setProperty("java.awt.headless", "true");
 		JGraphXAdapterView applet = new JGraphXAdapterView();
 		applet.init();
-
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(applet);
 		frame.setTitle(".:: RiskGame - Show Current Game Map");
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}
 
 	@Override
 	public void init() {
-//	  String one = new String("One");
-//	  String two = new String("Two");
-//	  RunningGame.getInstance().getGraph().addVertex(one);
-//	  RunningGame.getInstance().getGraph().addVertex(two);
-//	  RunningGame.getInstance().getGraph().addEdge(one, two);
-
 		ListenableGraph<String, DefaultEdge> g = new DefaultListenableGraph<>(RunningGame.getInstance().getGraph());
 
 		// create a visualization using JGraph, via an adapter
 		jgxAdapter = new JGraphXAdapter<>(g);
-
+		jgxAdapter.setLabelsVisible(true);
+		
 		setPreferredSize(DEFAULT_SIZE);
 		mxGraphComponent component = new mxGraphComponent(jgxAdapter);
 		component.setConnectable(false);
 		component.getGraph().setAllowDanglingEdges(false);
+		
 		getContentPane().add(component);
 		resize(DEFAULT_SIZE);
 
