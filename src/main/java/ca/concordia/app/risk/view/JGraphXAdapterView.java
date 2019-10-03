@@ -117,20 +117,24 @@ public class JGraphXAdapterView extends JApplet {
 		component.getGraph().alignCells("center");
 		getContentPane().add(component);
 		
+		//Setting for Vertices
+		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_AUTOSIZE, 1);
+		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_EDGE, mxConstants.EDGESTYLE_ELBOW);
+		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_CENTER);
+		
+		
+		//Setting alignment of text for Vertices
+		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_BOTTOM, 20);
+		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_LEFT, 20);
+		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_RIGHT, 20);
+		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_TOP, 20);
+		
 		
 		resize(DEFAULT_SIZE);
 
-		// positioning via jgraphx layouts
+		//Positioning
 		mxCircleLayout layout = new mxCircleLayout(jgxAdapter);
-
-		// center the circle
-		int radius = 170;
-		layout.setX0((DEFAULT_SIZE.width / 1.5) - radius);
-		layout.setY0((DEFAULT_SIZE.height / 1.5) - radius);
-		layout.setRadius(radius);
-		layout.setMoveCircle(true);
-
-		
+	
 		layout.execute(jgxAdapter.getDefaultParent());
 		// that's all there is to it!...
 	}
