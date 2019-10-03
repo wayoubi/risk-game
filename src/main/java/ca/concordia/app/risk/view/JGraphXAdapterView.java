@@ -82,41 +82,42 @@ public class JGraphXAdapterView extends JApplet {
 		
 		mxStylesheet stylesheet = jgxAdapter.getStylesheet();
 		
-		
+	    // Iterate into graph to change cells
+        for (Object c : cells) {
+            mxCell cell = (mxCell) c;
+            mxGeometry geometry = cell.getGeometry();
+
+            if (cell.isVertex()) {
+                // Here I can change vertex dimensions 
+                geometry.setWidth(100);
+                geometry.setHeight(100);
+            }
+        }
+        
 		//Make vertices style -> rounded instead of hard rectangle
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_ROUNDED, true);
-		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
-		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_FONTCOLOR, Color.WHITE);
 		
 		//Coloring the Vertices
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_FILLCOLOR, Color.YELLOW.getRGB());
+		
 		//Let's do add shadow
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_GRADIENTCOLOR, "#A9C4EB");
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SHADOW, true);
 		
-
-
 		
+		//Add styles to the adapter
 		jgxAdapter.setStylesheet(stylesheet);
 		jgxAdapter.getStylesheet().getDefaultEdgeStyle().put(mxConstants.STYLE_DASHED, "1");
 		
-
-		//setPreferredSize(DEFAULT_SIZE);
+		
 		mxGraphComponent component = new mxGraphComponent(jgxAdapter);
 	 
-		
 		//Perevents drawing edges from user side
 		component.getGraph().setAllowDanglingEdges(false);
 		component.getGraph().alignCells("center");
-		
-		//component.getGraph().setCellStyles(mxConstants.STYLE_STROKECOLOR,"red");
-		
-		//component.getGraph().setStylesheet(stylesheet);
-		
-		//set vertices color
-		//component.getGraph().setCellStyles(mxConstants.STYLE_FILLCOLOR, "red");
-		
 		getContentPane().add(component);
+		
+		
 		resize(DEFAULT_SIZE);
 
 		// positioning via jgraphx layouts
