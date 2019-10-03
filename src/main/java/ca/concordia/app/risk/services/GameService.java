@@ -308,9 +308,8 @@ public class GameService {
 		List<PlayerModel> playerModels = RunningGame.getInstance().getPlayers().getList().stream().collect(Collectors.toList());              // convert list to stream
 
 		for (PlayerModel itemPlayerModel : playerModels) {
-
-			List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().filter((c -> c.getPlayerId() == itemPlayerModel.getId())).collect(Collectors.toList());
-
+			numberOfAssignedArmies=0;
+			List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getPlayerId())==(itemPlayerModel.getId()))).collect(Collectors.toList());
 			for (CountryModel cM : countryModels) {
 				numberOfAssignedArmies+=cM.getNumberOfArmies();
 			}
