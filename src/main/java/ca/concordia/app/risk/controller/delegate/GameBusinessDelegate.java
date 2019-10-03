@@ -56,6 +56,8 @@ public class GameBusinessDelegate {
 	 */
 	public void loadMap(String fileName) {
 		gameService.loadMap(fileName);
+	}
+
     public void addPlayer(PlayerDto playerDto) throws Exception {
 		gameService.addPlayer(playerDto);
     }
@@ -70,5 +72,14 @@ public class GameBusinessDelegate {
 
 	public void placeArmy(String countryName) throws Exception {
 		gameService.placeArmy(countryName);
+	}
+
+	public void reinforce(String countryName, int numberOfArmies) {
+		gameService.reinforce(countryName,numberOfArmies);
+
+	}
+
+	public void placeall() {
+		gameService.placeAll();
 	}
 }

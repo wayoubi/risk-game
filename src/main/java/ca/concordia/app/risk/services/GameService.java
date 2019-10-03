@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
@@ -39,7 +37,7 @@ import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.*;
 import org.springframework.beans.BeanUtils;
 
-import ca.concordia.app.risk.controller.dto.GameStarterDto;
+//import ca.concordia.app.risk.controller.dto.GameStarterDto;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
@@ -212,34 +210,119 @@ public class GameService {
 	}
 
 	public void populateCountries() {
+
 		int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
 		int numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 		int playerID=0;
 
-		Iterator it = RunningGame.getInstance().getCountries().getList().iterator();
+		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().collect(Collectors.toList());               // convert list to stream
 
-		while(it.hasNext())
-		{
-			if(playerID<numberOfPlayers)
-			{
+		for (CountryModel countryModel :countryModels) {
+			if(playerID<numberOfPlayers) {
 				playerID++;
 			}
-			else
-			{
+			else {
 				playerID=1;
 			}
-			CountryModel countryModel = (CountryModel) it.next();
 			countryModel.setPlayerId(playerID);
 		}
 	}
 
 	public void placeArmy(String countryName) throws Exception {
 
-		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> c.getName()==countryName)).findAny().orElse(null);;
+		int totalNumberOfArmiesPerPlayer=0;
+		int numberOfAssignedArmies = 0;
+		int	playerId=0;
+		int numberOfPlayers=0;
+
+		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getName().equals(countryName)))).findAny().orElse(null);
+		playerId = countryModel.getPlayerId();
+
+		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().collect(Collectors.toList());               // convert list to stream
+
+		for (CountryModel item :countryModels) {
+			if(item.getPlayerId()==playerId) {
+				numberOfAssignedArmies += item.getNumberOfArmies();
+			}
+		}
 
 		if (countryModel == null) {
 			throw new Exception("Country Does Not Exist");
 		}
-		countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+1);
+
+
+		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
+
+		if(numberOfPlayers == 2){
+			totalNumberOfArmiesPerPlayer=0;
+		} else if(numberOfPlayers == 3){
+			totalNumberOfArmiesPerPlayer= 35;
+		} else if(numberOfPlayers == 4){
+			totalNumberOfArmiesPerPlayer= 30;
+		} else if(numberOfPlayers == 5){
+			totalNumberOfArmiesPerPlayer= 25;
+		} else if(numberOfPlayers == 5){
+			totalNumberOfArmiesPerPlayer= 20;
+		}
+
+		if(numberOfAssignedArmies<totalNumberOfArmiesPerPlayer)
+			countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+1);
+		else
+			throw new Exception("Total Number of Armies has been exceeded");
+	}
+
+	public void reinforce(String countryName, int numberOfArmies) {
+
+		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> c.getName()==countryName)).findAny().orElse(null);
+		countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+numberOfArmies);
+
+	}
+
+	public void placeAll() {
+
+		int totalNumberOfArmiesPerPlayer = 0;
+		int numberOfAssignedArmies = 0;
+		int playerId = 0;
+		int numberOfPlayers = 0;
+
+		//get number of players
+		// check each player
+		// get all the countries for that player
+		// get all the assigned armies
+		// place the remaining randomly
+
+		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
+
+		if (numberOfPlayers == 2) {
+			totalNumberOfArmiesPerPlayer = 0;
+		} else if (numberOfPlayers == 3) {
+			totalNumberOfArmiesPerPlayer = 35;
+		} else if (numberOfPlayers == 4) {
+			totalNumberOfArmiesPerPlayer = 30;
+		} else if (numberOfPlayers == 5) {
+			totalNumberOfArmiesPerPlayer = 25;
+		} else if (numberOfPlayers == 5) {
+			totalNumberOfArmiesPerPlayer = 20;
+		}
+
+		List<PlayerModel> playerModels = RunningGame.getInstance().getPlayers().getList().stream().collect(Collectors.toList());              // convert list to stream
+
+		for (PlayerModel itemPlayerModel : playerModels) {
+
+			List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().filter((c -> c.getPlayerId() == itemPlayerModel.getId())).collect(Collectors.toList());
+
+			for (CountryModel cM : countryModels) {
+				numberOfAssignedArmies+=cM.getNumberOfArmies();
+			}
+
+			while (totalNumberOfArmiesPerPlayer - numberOfAssignedArmies > 0) {
+				for (CountryModel itemCountryModel : countryModels) {
+					if (totalNumberOfArmiesPerPlayer - numberOfAssignedArmies > 0) {
+						itemCountryModel.setNumberOfArmies(itemCountryModel.getNumberOfArmies() + 1);
+						numberOfAssignedArmies += 1;
+					}
+				}
+			}
+		}
 	}
 }

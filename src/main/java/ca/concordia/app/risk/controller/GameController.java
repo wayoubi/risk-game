@@ -110,7 +110,7 @@ public class GameController {
 	@ShellMethod("placearmy")
 	public String placearmy(@ShellOption(value = { "--countryname" }, defaultValue = "None") String countryName) throws Exception {
 		gameBusinessDelegate.placeArmy(countryName);
-		return "Countries has been randomly assigned to players.";
+		return "An Army has been assigned to this country.";
 	}
 
 
@@ -144,4 +144,21 @@ public class GameController {
 		return shellHelper.getSuccessMessage("Map file is read, map is loaded");
 	}
 
+	/**
+	 *
+	 * @return
+	 */
+	@ShellMethod("reinforcement")
+	public String reinforce(@ShellOption(value = { "--countryName" }, defaultValue = "None") String countryName,
+							@ShellOption(value = { "--number" }, defaultValue = "None") int numberOfArmies) {
+		gameBusinessDelegate.reinforce(countryName,numberOfArmies);
+		return "reinforcement has been completed.";
+	}
+
+
+	@ShellMethod("Place All")
+	public String placeall() {
+		gameBusinessDelegate.placeall();
+		return "All remaining unplaced armies have been assigned.";
+	}
 }
