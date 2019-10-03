@@ -76,7 +76,7 @@ public class GameService {
 			throw new RiskGameRuntimeException(GAME_CANNOT_BE_SAVED, jaxbException);
 		}
 	}
-	ObjectFactory objectFactory = new ObjectFactory();;
+	ObjectFactory objectFactory = new ObjectFactory();
 
 	/**
 	 * 

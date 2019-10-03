@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="cardExchangeCount" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="reinforcementNoOfArmies" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="color">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -44,13 +46,18 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "player", namespace = "http://ca.concordia.app.risk/game", propOrder = { "id", "name", "color" })
+@XmlType(name = "player", namespace = "http://ca.concordia.app.risk/game", propOrder = { "id", "name",
+		"cardExchangeCount", "reinforcementNoOfArmies", "color" })
 public class PlayerModel {
 
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
 	protected int id;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
 	protected String name;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
+	protected int cardExchangeCount;
+	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
+	protected int reinforcementNoOfArmies;
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
 	protected String color;
 
@@ -88,6 +95,38 @@ public class PlayerModel {
 	 */
 	public void setName(String value) {
 		this.name = value;
+	}
+
+	/**
+	 * Gets the value of the cardExchangeCount property.
+	 * 
+	 */
+	public int getCardExchangeCount() {
+		return cardExchangeCount;
+	}
+
+	/**
+	 * Sets the value of the cardExchangeCount property.
+	 * 
+	 */
+	public void setCardExchangeCount(int value) {
+		this.cardExchangeCount = value;
+	}
+
+	/**
+	 * Gets the value of the reinforcementNoOfArmies property.
+	 * 
+	 */
+	public int getReinforcementNoOfArmies() {
+		return reinforcementNoOfArmies;
+	}
+
+	/**
+	 * Sets the value of the reinforcementNoOfArmies property.
+	 * 
+	 */
+	public void setReinforcementNoOfArmies(int value) {
+		this.reinforcementNoOfArmies = value;
 	}
 
 	/**
