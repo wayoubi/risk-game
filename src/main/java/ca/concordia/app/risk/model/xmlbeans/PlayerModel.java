@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "player", namespace = "http://ca.concordia.app.risk/game", propOrder = { "id", "name", "color" })
-public class PlayerModel extends ContinentModel {
+public class PlayerModel {
 
 	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
 	protected int id;
