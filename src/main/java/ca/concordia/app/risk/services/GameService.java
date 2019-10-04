@@ -236,6 +236,9 @@ public class GameService {
 
 	public void placeArmy(String countryName)  {
 
+		int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
+		PlayerModel activePlayerModel =RunningGame.getInstance().getPlayers().getList().stream().filter((c-> c.getId()== activePlayerId)).findAny().orElse(null);
+
 		int totalNumberOfArmiesPerPlayer=0;
 		int numberOfAssignedArmies = 0;
 		int	playerId=0;
@@ -246,6 +249,10 @@ public class GameService {
 
 		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().collect(Collectors.toList());               // convert list to stream
 
+		if((countryModel.getPlayerId())!=(activePlayerModel.getId())) {
+			throw new RiskGameRuntimeException(countryName + " is not assigned to " + activePlayerModel.getName());
+		}
+
 		for (CountryModel item :countryModels) {
 			if(item.getPlayerId()==playerId) {
 				numberOfAssignedArmies += item.getNumberOfArmies();
@@ -255,7 +262,6 @@ public class GameService {
 		if (countryModel == null) {
 			throw new RiskGameRuntimeException("Country Does Not Exist");
 		}
-
 
 		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
@@ -269,8 +275,16 @@ public class GameService {
 			totalNumberOfArmiesPerPlayer= 25;
 		}
 
-		if(numberOfAssignedArmies<totalNumberOfArmiesPerPlayer)
-			countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+1);
+		if(numberOfAssignedArmies<totalNumberOfArmiesPerPlayer) {
+            countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + 1);
+
+			if(activePlayerId <numberOfPlayers)
+            	RunningGame.getInstance().setCurrentPlayerId(activePlayerId+1);
+			else if (activePlayerId==numberOfPlayers)
+				RunningGame.getInstance().setCurrentPlayerId(1);
+			else
+				RunningGame.getInstance().setCurrentPlayerId(1);
+        }
 		else
 			throw new RiskGameRuntimeException("Total Number of Armies has been exceeded");
 	}
@@ -316,7 +330,7 @@ public class GameService {
 		PlayerModel activePlayerModel =RunningGame.getInstance().getPlayers().getList().stream().filter((c-> c.getId()== activePlayerId)).findAny().orElse(null);
 		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getName().equals(countryName)))).findAny().orElse(null);
 
-		if (activePlayerModel.getReinforcementNoOfArmies() ==0)
+		if (activePlayerModel.getReinforcementNoOfArmies() == 0)
 			 throw new RiskGameRuntimeException("Reinforcement phase has been completed");
 
 		if((countryModel.getPlayerId())==(activePlayerModel.getId())) {
