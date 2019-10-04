@@ -16,6 +16,9 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import ca.concordia.app.risk.exceptions.RiskGameException;
+import ch.qos.logback.core.net.SyslogOutputStream;
+//import com.sun.deploy.security.SelectableSecurityManager;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,7 @@ import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.utility.DateUtils;
+//import sun.lwawt.macosx.CSystemTray;
 
 /**
  * 
@@ -226,6 +230,8 @@ public class GameService {
 			}
 			countryModel.setPlayerId(playerID);
 		}
+        RunningGame.getInstance().setCurrentPlayerId(1);
+        reinforceInitialization(1);
 	}
 
 	public void placeArmy(String countryName)  {
@@ -301,19 +307,21 @@ public class GameService {
 				reinforcementArmies+=item.getControlValue();
 			}
 		}
+		activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
 	}
 
-	public void reinforce(String countryName, int numberOfArmies) {
+	public void reinforce(String countryName, int numberOfArmies)  {
 
 		int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
-		PlayerModel activePlayerModel =RunningGame.getInstance().getPlayers().getList().stream().filter((c-> c.getId()==activePlayerId)).findAny().orElse(null);
-		
+		PlayerModel activePlayerModel =RunningGame.getInstance().getPlayers().getList().stream().filter((c-> c.getId()== activePlayerId)).findAny().orElse(null);
 		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getName().equals(countryName)))).findAny().orElse(null);
 
-		System.out.println(countryModel.getName());
-		if(countryModel.getPlayerId()==activePlayerModel.getId()) {
+		if (activePlayerModel.getReinforcementNoOfArmies() ==0)
+			 throw new RiskGameRuntimeException("Reinforcement phase has been completed");
 
-			if (activePlayerModel.getReinforcementNoOfArmies() <= numberOfArmies) {
+		if((countryModel.getPlayerId())==(activePlayerModel.getId())) {
+
+			if (activePlayerModel.getReinforcementNoOfArmies() >= numberOfArmies) {
 				countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + numberOfArmies);
 				activePlayerModel.setReinforcementNoOfArmies(activePlayerModel.getReinforcementNoOfArmies()-numberOfArmies);
 			} else
