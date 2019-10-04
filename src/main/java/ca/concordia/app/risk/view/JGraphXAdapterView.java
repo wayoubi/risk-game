@@ -21,6 +21,11 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxStylesheet;
 
 import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
+import ca.concordia.app.risk.model.dao.CountryDaoImpl;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
+import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 /**
  * A demo applet that shows how to use JGraphX to visualize JGraphT graphs.
@@ -30,7 +35,7 @@ import ca.concordia.app.risk.model.cache.RunningGame;
 public class JGraphXAdapterView extends JApplet {
 	private static final long serialVersionUID = 2202072534703043194L;
 
-	private static final Dimension DEFAULT_SIZE = new Dimension(530, 420);
+	private static final Dimension DEFAULT_SIZE = new Dimension(550, 420);
 
 	private JGraphXAdapter<String, DefaultEdge> jgxAdapter;
 
@@ -89,8 +94,23 @@ public class JGraphXAdapterView extends JApplet {
 
             if (cell.isVertex()) {
                 // Here I can change vertex dimensions 
-                geometry.setWidth(100);
-                geometry.setHeight(100);
+                geometry.setWidth(120);
+                geometry.setHeight(65);
+                String countryName = (String)cell.getValue();
+                
+                
+                //Show Vertice label
+                CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+                CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
+                ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+                String continentName = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId()).getName(); 
+                String verticeLabel = String.format("Country: %s \n Continent: %s \n Number of Armies: %s \n",
+                		countryModel.getName(), continentName,countryModel.getNumberOfArmies());
+                
+                //PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+                //String color = playerDaoImpl.findById(RunningGame.getInstance(), countryModel.getPlayerId()).getColor();
+                
+                cell.setValue(verticeLabel);
             }
         }
         
@@ -124,10 +144,10 @@ public class JGraphXAdapterView extends JApplet {
 		
 		
 		//Setting alignment of text for Vertices
-		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_BOTTOM, 20);
-		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_LEFT, 20);
-		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_RIGHT, 20);
-		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_TOP, 20);
+		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_BOTTOM, 5);
+		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_LEFT, 5);
+		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_RIGHT, 5);
+		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_TOP, 5);
 		
 		
 		resize(DEFAULT_SIZE);

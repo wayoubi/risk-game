@@ -72,8 +72,7 @@ public class MapService {
 		countryModel.setContinentId(continentModel.getId());
 		countryDaoImpl.assignID(RunningGame.getInstance(), countryModel);
 		RunningGame.getInstance().getCountries().getList().add(countryModel);
-		RunningGame.getInstance().getGraph().addVertex(countryModel.getName());
-		
+		RunningGame.getInstance().getGraph().addVertex(String.format(countryModel.getName()));	
 	}
 
 	/**
