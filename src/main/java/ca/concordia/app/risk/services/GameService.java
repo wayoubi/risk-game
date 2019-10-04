@@ -269,11 +269,57 @@ public class GameService {
 			throw new RiskGameRuntimeException("Total Number of Armies has been exceeded");
 	}
 
+	public void reinforceInitialization(int playerID) {
+
+		int numberOfCountries = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getPlayerId())==(playerID))).collect(Collectors.toList()).size();
+		PlayerModel activePlayerModel =RunningGame.getInstance().getPlayers().getList().stream().filter((c-> c.getId()==playerID)).findAny().orElse(null);
+		int reinforcementArmies=0;
+		boolean fullContinentOccupy =false;
+
+
+		if(Math.floor(numberOfCountries/3)>3) {
+			reinforcementArmies = Math.floorDiv(numberOfCountries,3);
+		}
+		else {
+			reinforcementArmies=3;
+		}
+
+		List<ContinentModel> continentModels = RunningGame.getInstance().getContinents().getList().stream().collect(Collectors.toList());
+
+		for(ContinentModel item : continentModels){
+
+			fullContinentOccupy =true;
+			int continentModelId = item.getId();
+			List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().filter(c->c.getContinentId()==continentModelId).collect(Collectors.toList());
+
+			for(CountryModel countryModel : countryModels)
+			{
+				if(countryModel.getPlayerId()!=playerID)
+					fullContinentOccupy=false;
+			}
+			if(fullContinentOccupy){
+				reinforcementArmies+=item.getControlValue();
+			}
+		}
+	}
+
 	public void reinforce(String countryName, int numberOfArmies) {
 
-		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> c.getName()==countryName)).findAny().orElse(null);
-		countryModel.setNumberOfArmies(countryModel.getNumberOfArmies()+numberOfArmies);
+		int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
+		PlayerModel activePlayerModel =RunningGame.getInstance().getPlayers().getList().stream().filter((c-> c.getId()==activePlayerId)).findAny().orElse(null);
+		
+		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getName().equals(countryName)))).findAny().orElse(null);
 
+		System.out.println(countryModel.getName());
+		if(countryModel.getPlayerId()==activePlayerModel.getId()) {
+
+			if (activePlayerModel.getReinforcementNoOfArmies() <= numberOfArmies) {
+				countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + numberOfArmies);
+				activePlayerModel.setReinforcementNoOfArmies(activePlayerModel.getReinforcementNoOfArmies()-numberOfArmies);
+			} else
+				throw new RiskGameRuntimeException("Please reduce number of armies");
+		} else
+			throw new RiskGameRuntimeException("This country is not assigned to " + activePlayerModel.getName());
 	}
 
 	public void placeAll() {
