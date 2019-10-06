@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<!-- Disable most stdout logging by default -->
-	<root level="ERROR">
+	<root level="INFO">
 	</root>
 </configuration>
