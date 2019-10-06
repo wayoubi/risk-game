@@ -14,7 +14,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.concordia.app.risk.RiskGameBeanConfig;
 import ca.concordia.app.risk.controller.MapController;
-import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
@@ -70,7 +69,7 @@ public class MapControllerTest {
 	}
 	
 	@Test
-	public void testAddRemove() {
+	public void testAddRemoveContinent() {
 		mapController.editcontinent("Asia", "5", "None");
 		mapController.editcontinent("Africa", "6", "Asia");
 		assertEquals(1, RunningGame.getInstance().getContinents().getList().size());
@@ -79,7 +78,7 @@ public class MapControllerTest {
 	}
 	
 	@Test
-	public void testRemove() {
+	public void testRemoveContinent() {
 		mapController.editcontinent("Asia", "5", "None");
 		mapController.editcontinent("Africa", "6", "None");
 		assertEquals(2, RunningGame.getInstance().getContinents().getList().size());
@@ -92,7 +91,7 @@ public class MapControllerTest {
 	}
 	
 	@Test
-	public void testRemoveCountryDoesNotExist() {
+	public void testRemoveContinentDoesNotExist() {
 		mapController.editcontinent("Asia", "5", "None");
 		mapController.editcontinent("Africa", "6", "None");
 		assertEquals(2, RunningGame.getInstance().getContinents().getList().size());
@@ -102,6 +101,22 @@ public class MapControllerTest {
 		assertEquals(2, RunningGame.getInstance().getContinents().getList().size());
 		assertNotNull(continentDaoImpl.findByName(RunningGame.getInstance(), "Asia"));
 		assertNotNull(continentDaoImpl.findByName(RunningGame.getInstance(), "Africa"));
+	}
+
+	@Test
+	public void testContinentIDs() {
+		mapController.editcontinent("Asia", "5", "None");
+		mapController.editcontinent("Africa", "6", "None");
+		mapController.editcontinent("North America", "5", "None");
+		assertEquals(3, RunningGame.getInstance().getContinents().getList().size());
+		assertNotNull(continentDaoImpl.findByName(RunningGame.getInstance(), "Asia"));
+		assertNotNull(continentDaoImpl.findByName(RunningGame.getInstance(), "Africa"));
+		assertNotNull(continentDaoImpl.findByName(RunningGame.getInstance(), "North America"));
+		
+		assertNotNull("Asia", continentDaoImpl.findById(RunningGame.getInstance(), 1).getName());
+		assertNotNull("Africa", continentDaoImpl.findById(RunningGame.getInstance(), 2).getName());
+		assertNotNull("North America", continentDaoImpl.findById(RunningGame.getInstance(), 3).getName());
+
 	}
 	
 	
