@@ -13,9 +13,6 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
  */
 public class BorderDaoImp implements Dao<BorderModel> {
 
-	/**
-	 * 
-	 */
 	@Override
 	public BorderModel findByName(@NotNull GameModel gameModel, String countryName) {
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
