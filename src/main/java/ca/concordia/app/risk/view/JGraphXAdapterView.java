@@ -2,6 +2,8 @@ package ca.concordia.app.risk.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JApplet;
 import javax.swing.JFrame;
@@ -17,7 +19,9 @@ import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.view.mxCellEditor;
 import com.mxgraph.util.mxConstants;
+import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxStylesheet;
 
 import ca.concordia.app.risk.model.cache.RunningGame;
@@ -86,33 +90,7 @@ public class JGraphXAdapterView extends JApplet {
 		jgxAdapter.alignCells(mxConstants.ALIGN_CENTER);
 		
 		mxStylesheet stylesheet = jgxAdapter.getStylesheet();
-		
-	    // Iterate into graph to change cells
-        for (Object c : cells) {
-            mxCell cell = (mxCell) c;
-            mxGeometry geometry = cell.getGeometry();
 
-            if (cell.isVertex()) {
-                // Here I can change vertex dimensions 
-                geometry.setWidth(120);
-                geometry.setHeight(65);
-                String countryName = (String)cell.getValue();
-                
-                
-                //Show Vertice label
-                CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-                CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
-                ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-                String continentName = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId()).getName(); 
-                String verticeLabel = String.format("Country: %s \n Continent: %s \n Number of Armies: %s \n",
-                		countryModel.getName(), continentName,countryModel.getNumberOfArmies());
-                
-                //PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-                //String color = playerDaoImpl.findById(RunningGame.getInstance(), countryModel.getPlayerId()).getColor();
-                
-                cell.setValue(verticeLabel);
-            }
-        }
         
 		//Make vertices style -> rounded instead of hard rectangle
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_ROUNDED, true);
@@ -131,11 +109,41 @@ public class JGraphXAdapterView extends JApplet {
 		
 		
 		mxGraphComponent component = new mxGraphComponent(jgxAdapter);
-	 
+
 		//Perevents drawing edges from user side
 		component.getGraph().setAllowDanglingEdges(false);
 		component.getGraph().alignCells("center");
 		getContentPane().add(component);
+
+		
+	    // Iterate into graph to change cells
+        for (Object c : cells) {
+            mxCell cell = (mxCell) c;
+            mxGeometry geometry = cell.getGeometry();
+
+            if (cell.isVertex()) {
+                // Here I can change vertex dimensions 
+                geometry.setWidth(120);
+                geometry.setHeight(65);
+                String countryName = (String)cell.getValue();
+                
+                //Show Vertice label
+                CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+                CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
+                ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+                String continentName = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId()).getName(); 
+                String verticeLabel = String.format("Country: %s \n Continent: %s \n Number of Armies: %s \n",
+                		countryModel.getName(), continentName,countryModel.getNumberOfArmies());
+                
+                //PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+                //String color = playerDaoImpl.findById(RunningGame.getInstance(), countryModel.getPlayerId()).getColor();
+                
+                
+                component.getGraph().setCellStyle("fillColor=red", new Object[] {cell});
+                
+                cell.setValue(verticeLabel);
+            }
+        }
 		
 		//Setting for Vertices
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_AUTOSIZE, 1);
