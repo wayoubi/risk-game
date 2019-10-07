@@ -1,11 +1,15 @@
 package ca.concordia.app.risk.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import ca.concordia.app.risk.controller.delegate.PlayBusinessDelegate;
+import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.GameUtils;
 
 /**
@@ -15,6 +19,8 @@ import ca.concordia.app.risk.utility.GameUtils;
  */
 @ShellComponent
 public class PlayController {
+
+	private static Logger log = LoggerFactory.getLogger(PlayController.class);
 
 	/**
 	 * 
@@ -27,6 +33,12 @@ public class PlayController {
 	 */
 	@Autowired
 	private PlayBusinessDelegate playBusinessDelegate;
+
+	/**
+	 * 
+	 */
+	@Autowired
+	private ShellHelper shellHelper;
 
 	/**
 	 * 
@@ -47,12 +59,19 @@ public class PlayController {
 	@ShellMethod("Attack a player")
 	public String attack(@ShellOption(optOut = false) String attacker, @ShellOption(optOut = false) String defender,
 			@ShellOption(optOut = false) String from, @ShellOption(optOut = false) String to) {
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("inside attack, passed parameters [%s] [%s] [%s] [%s]", attacker, defender, from,
+					to));
+		}
 		try {
 			gameUtils.rollDice();
 			playBusinessDelegate.attack(attacker);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		} catch (InterruptedException interruptedException) {
+			Thread.currentThread().interrupt();
+			return shellHelper.getErrorMessage(interruptedException.getMessage());
 		}
-		return attacker + " Lose!";
+		return shellHelper.getInfoMessage(String.format("Attacker [%s] lose", attacker));
 	}
 }

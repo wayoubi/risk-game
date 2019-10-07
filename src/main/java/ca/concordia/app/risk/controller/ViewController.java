@@ -1,5 +1,7 @@
 package ca.concordia.app.risk.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
@@ -12,6 +14,8 @@ import ca.concordia.app.risk.view.JGraphXAdapterView;
  */
 @ShellComponent
 public class ViewController {
+	
+	private static Logger log = LoggerFactory.getLogger(ViewController.class);
 
 	/**
 	 * 
@@ -19,7 +23,10 @@ public class ViewController {
 	 * @return
 	 */
 	@ShellMethod("Show Full Map")
-	public void showMap() {
+	public void showmap() {
+		if (log.isDebugEnabled()) {
+			log.debug("inside showmap");
+		}
 		JGraphXAdapterView.main(null);
 	}
 }
