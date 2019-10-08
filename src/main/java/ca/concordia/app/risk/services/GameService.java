@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,8 +17,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import ca.concordia.app.risk.exceptions.RiskGameException;
-import ch.qos.logback.core.net.SyslogOutputStream;
 //import com.sun.deploy.security.SelectableSecurityManager;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
@@ -36,13 +35,10 @@ import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
 import ca.concordia.app.risk.controller.dto.PlayerDto;
-import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.*;
 import org.springframework.beans.BeanUtils;
 
 //import ca.concordia.app.risk.controller.dto.GameStarterDto;
-import ca.concordia.app.risk.model.cache.RunningGame;
-import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.utility.DateUtils;
 //import sun.lwawt.macosx.CSystemTray;
@@ -199,11 +195,41 @@ public class GameService {
 		return connectivityInspector.isConnected();
 	}
 
-    public void addPlayer(PlayerDto playerDto)  {
+	public void addPlayer(PlayerDto playerDto)  {
+
+		int numOfPlayers = 0;
+		String color = null;
+
+
 		PlayerModel playerModel = objectFactory.createPlayerModel();
+
+		//check if name exists
+		List<PlayerModel> isNameExist = RunningGame.getInstance().getPlayers().getList().stream().filter(c -> c.getName().equals(playerDto.getName())).collect(Collectors.toList());
+
+		if(isNameExist.size()!=0)
+			throw new RiskGameRuntimeException("Name already exists!");
+
 		BeanUtils.copyProperties(playerDto, playerModel);
 		PlayerDaoImpl playerDaoImp = new PlayerDaoImpl();
 		playerDaoImp.assignID(RunningGame.getInstance(), playerModel);
+
+		//Assign a random color
+
+		numOfPlayers=RunningGame.getInstance().getPlayers().getList().size();
+
+		if(numOfPlayers == 0)
+			color = "Red";
+		else if(numOfPlayers == 1)
+			color = "Blue";
+		else if (numOfPlayers == 2 )
+			color = "Green";
+		else if (numOfPlayers == 3)
+			color = "Yellow";
+		else if (numOfPlayers == 4)
+			color = "Black";
+
+		playerModel.setColor(color);
+
 		RunningGame.getInstance().getPlayers().getList().add(playerModel);
 	}
 
@@ -231,7 +257,6 @@ public class GameService {
 			countryModel.setPlayerId(playerID);
 		}
         RunningGame.getInstance().setCurrentPlayerId(1);
-        reinforceInitialization(1);
 	}
 
 	public void placeArmy(String countryName)  {
@@ -387,5 +412,7 @@ public class GameService {
 				}
 			}
 		}
+		reinforceInitialization(1);
+
 	}
 }
