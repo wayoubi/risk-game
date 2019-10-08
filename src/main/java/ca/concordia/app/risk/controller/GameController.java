@@ -20,224 +20,223 @@ import ca.concordia.app.risk.shell.ShellHelper;
 @ShellComponent
 public class GameController {
 
-	private static Logger log = LoggerFactory.getLogger(GameController.class);
+  private static Logger log = LoggerFactory.getLogger(GameController.class);
 
-	private static final String NONE_DEFAULT_VALUE = "None";
+  private static final String NONE_DEFAULT_VALUE = "None";
 
-	@Autowired
-	ShellHelper shellHelper;
+  @Autowired
+  ShellHelper shellHelper;
 
-	/**
-	 * 
-	 */
-	@Autowired
-	private GameBusinessDelegate gameBusinessDelegate;
+  /**
+   * 
+   */
+  @Autowired
+  private GameBusinessDelegate gameBusinessDelegate;
 
-	/**
-	 * This method saves the game into the file
-	 * Example -> save
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Save the current game state")
-	public String save() {
-		if (log.isDebugEnabled()) {
-			log.debug("inside save");
-		}
-		try {
-			gameBusinessDelegate.saveGame();
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		return shellHelper.getSuccessMessage("Game saved successfully");
-	}
+  /**
+   * This method saves the game into the file Example -> save
+   * 
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Save the current game state")
+  public String save() {
+    if (log.isDebugEnabled()) {
+      log.debug("inside save");
+    }
+    try {
+      gameBusinessDelegate.saveGame();
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return shellHelper.getSuccessMessage("Game saved successfully");
+  }
 
-	/**
-	 * This method saves the current map
-	 * Example -> savemap
-	 *
-	 * @param fileName
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Save the current gamemap using domination map file format under the saved directory")
-	public String savemap(@ShellOption(value = { "-file" }) String fileName) {
-		if (log.isDebugEnabled()) {
-			log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
-		}
-		try {
-			gameBusinessDelegate.saveMap(fileName);
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		return shellHelper.getSuccessMessage("Game Map saved successfully");
-	}
+  /**
+   * This method saves the current map Example -> savemap
+   *
+   * @param fileName
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Save the current gamemap using domination map file format under the saved directory")
+  public String savemap(@ShellOption(value = { "-file" }) String fileName) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
+    }
+    try {
+      gameBusinessDelegate.saveMap(fileName);
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return shellHelper.getSuccessMessage("Game Map saved successfully");
+  }
 
-	/**
-	 * This method validates map -> checks whether graph is connected or not
-	 * Example -> validatemap
-	 *
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Validate the current gamemap to be connected")
-	public String validatemap() {
-		if (log.isDebugEnabled()) {
-			log.debug("inside validatemap");
-		}
-		boolean isConnected = false;
-		try {
-			isConnected = gameBusinessDelegate.validateMap();
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		if (!isConnected) {
-			return shellHelper.getErrorMessage("Countries are not connected, Map is invalid");
-		}
-		return shellHelper.getSuccessMessage("Countries are connected, Map is valid");
-	}
+  /**
+   * This method validates map -> checks whether graph is connected or not Example
+   * -> validatemap
+   *
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Validate the current gamemap to be connected")
+  public String validatemap() {
+    if (log.isDebugEnabled()) {
+      log.debug("inside validatemap");
+    }
+    boolean isConnected = false;
+    try {
+      isConnected = gameBusinessDelegate.validateMap();
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    if (!isConnected) {
+      return shellHelper.getErrorMessage("Countries are not connected, Map is invalid");
+    }
+    return shellHelper.getSuccessMessage("Countries are connected, Map is valid");
+  }
 
-	/**
-	 * This method add/remove Player
-	 * Example -> editPlayer --add [playerName] --remove [playerName]
-	 *
-	 * @param player2Add
-	 * @param player2Remove
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Add/Remove player")
-	public String gameplayer(@ShellOption(value = { "--add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
-			@ShellOption(value = { "--remove" }, defaultValue = "None") String player2Remove) {
-		if (log.isDebugEnabled()) {
-			log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
-		}
-		try {
-			if (player2Add != null && !"None".equalsIgnoreCase(player2Add)) {
-				PlayerDto playerDto = new PlayerDto();
-				playerDto.setName(player2Add);
-				gameBusinessDelegate.addPlayer(playerDto);
-			}
-			if (player2Remove != null && !"None".equalsIgnoreCase(player2Remove)) {
-				PlayerDto playerDto = new PlayerDto();
-				playerDto.setName(player2Remove);
-				gameBusinessDelegate.removePlayer(playerDto);
-			}
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		return "Player edited successfully";
-	}
+  /**
+   * This method add/remove Player Example -> editPlayer --add [playerName]
+   * --remove [playerName]
+   *
+   * @param player2Add
+   * @param player2Remove
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Add/Remove player")
+  public String gameplayer(@ShellOption(value = { "--add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
+      @ShellOption(value = { "--remove" }, defaultValue = "None") String player2Remove) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
+    }
+    try {
+      if (player2Add != null && !"None".equalsIgnoreCase(player2Add)) {
+        PlayerDto playerDto = new PlayerDto();
+        playerDto.setName(player2Add);
+        gameBusinessDelegate.addPlayer(playerDto);
+      }
+      if (player2Remove != null && !"None".equalsIgnoreCase(player2Remove)) {
+        PlayerDto playerDto = new PlayerDto();
+        playerDto.setName(player2Remove);
+        gameBusinessDelegate.removePlayer(playerDto);
+      }
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return "Player edited successfully";
+  }
 
-	/**
-	 * This method assigns countries to the players - at the start of the game
-	 * Example -> populatecountries
-	 *
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Populate countries")
-	public String populatecountries() {
-		if (log.isDebugEnabled()) {
-			log.debug("inside populatecountries");
-		}
-		gameBusinessDelegate.populateCountries();
-		return "Countries has been randomly assigned to players.";
-	}
+  /**
+   * This method assigns countries to the players - at the start of the game
+   * Example -> populatecountries
+   *
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Populate countries")
+  public String populatecountries() {
+    if (log.isDebugEnabled()) {
+      log.debug("inside populatecountries");
+    }
+    gameBusinessDelegate.populateCountries();
+    return "Countries has been randomly assigned to players.";
+  }
 
-	/**
-	 * This method assigns armies to the countries
-	 * Example -> placearmy --countryname [countryName]
-	 *
-	 * @param countryName
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Placearmy")
-	public String placearmy(@ShellOption(value = { "--countryname" }, defaultValue = NONE_DEFAULT_VALUE) String countryName) {
-		if (log.isDebugEnabled()) {
-			log.debug(String.format("inside placearmy, passed parameters [%s]", countryName));
-		}
-		try {
-			gameBusinessDelegate.placeArmy(countryName);
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		return "An Army has been assigned to this country.";
-	}
+  /**
+   * This method assigns armies to the countries Example -> placearmy
+   * --countryname [countryName]
+   *
+   * @param countryName
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Placearmy")
+  public String placearmy(
+      @ShellOption(value = { "--countryname" }, defaultValue = NONE_DEFAULT_VALUE) String countryName) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("inside placearmy, passed parameters [%s]", countryName));
+    }
+    try {
+      gameBusinessDelegate.placeArmy(countryName);
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return "An Army has been assigned to this country.";
+  }
 
-	/**
-	 * This method open a map file - make it ready to user edit
-	 * Example -> editmap [fileName]
-	 *
-	 * @param fileName
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Edit map saved in file")
-	public String editmap(@ShellOption(optOut = false) String fileName) {
-		if (log.isDebugEnabled()) {
-			log.debug(String.format("inside editmap, passed parameters [%s]", fileName));
-		}
-		try {
-			gameBusinessDelegate.editMap(fileName);
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		return shellHelper.getSuccessMessage("Map file is read, you can edit now");
-	}
+  /**
+   * This method open a map file - make it ready to user edit Example -> editmap
+   * [fileName]
+   *
+   * @param fileName
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Edit map saved in file")
+  public String editmap(@ShellOption(optOut = false) String fileName) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("inside editmap, passed parameters [%s]", fileName));
+    }
+    try {
+      gameBusinessDelegate.editMap(fileName);
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return shellHelper.getSuccessMessage("Map file is read, you can edit now");
+  }
 
-	/**
-	 * This method load a saved map file
-	 * Example -> loadmap [fileName]
-	 *
-	 * @param fileName
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Load map saved in file")
-	public String loadmap(@ShellOption(optOut = false) String fileName) {
-		if (log.isDebugEnabled()) {
-			log.debug(String.format("inside loadmap, passed parameters [%s]", fileName));
-		}
-		try {
-			gameBusinessDelegate.loadMap(fileName);
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		return shellHelper.getSuccessMessage("Map file is read, map is loaded");
-	}
+  /**
+   * This method load a saved map file Example -> loadmap [fileName]
+   *
+   * @param fileName
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Load map saved in file")
+  public String loadmap(@ShellOption(optOut = false) String fileName) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("inside loadmap, passed parameters [%s]", fileName));
+    }
+    try {
+      gameBusinessDelegate.loadMap(fileName);
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return shellHelper.getSuccessMessage("Map file is read, map is loaded");
+  }
 
-	/**
-	 * This method does Reinforcement
-	 * Example -> reinforce [countryName] [numberOfArmies]
-	 *
-	 * @param countryName
-	 * @param numberOfArmies
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Reinforcement")
-	public String reinforce(@ShellOption(value = { "--countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
-			@ShellOption(value = { "--number" }, defaultValue = "None") int numberOfArmies) {
-		if (log.isDebugEnabled()) {
-			log.debug(String.format("inside loadmap, passed parameters [%s] [%s]", countryName, numberOfArmies));
-		}
-		try {
-			gameBusinessDelegate.reinforce(countryName, numberOfArmies);
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		return shellHelper.getSuccessMessage("reinforcement has been completed");
-	}
+  /**
+   * This method does Reinforcement Example -> reinforce [countryName]
+   * [numberOfArmies]
+   *
+   * @param countryName
+   * @param numberOfArmies
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Reinforcement")
+  public String reinforce(
+      @ShellOption(value = { "--countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
+      @ShellOption(value = { "--number" }, defaultValue = "None") int numberOfArmies) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("inside loadmap, passed parameters [%s] [%s]", countryName, numberOfArmies));
+    }
+    try {
+      gameBusinessDelegate.reinforce(countryName, numberOfArmies);
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return shellHelper.getSuccessMessage("reinforcement has been completed");
+  }
 
-	/**
-	 * This method place all remaining armies
-	 * Example -> placeall
-	 *
-	 * @return operation result (error/success)
-	 */
-	@ShellMethod("Place all")
-	public String placeall() {
-		if (log.isDebugEnabled()) {
-			log.debug("inside placeall");
-		}
-		try {
-			gameBusinessDelegate.placeall();
-		} catch (RiskGameRuntimeException riskGameRuntimeException) {
-			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-		}
-		return shellHelper.getSuccessMessage("All remaining unplaced armies have been assigned");
-	}
+  /**
+   * This method place all remaining armies Example -> placeall
+   *
+   * @return operation result (error/success)
+   */
+  @ShellMethod("Place all")
+  public String placeall() {
+    if (log.isDebugEnabled()) {
+      log.debug("inside placeall");
+    }
+    try {
+      gameBusinessDelegate.placeall();
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return shellHelper.getSuccessMessage("All remaining unplaced armies have been assigned");
+  }
 }

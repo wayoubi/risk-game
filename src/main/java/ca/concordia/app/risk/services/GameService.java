@@ -206,7 +206,7 @@ public class GameService {
 		//check if name exists
 		List<PlayerModel> isNameExist = RunningGame.getInstance().getPlayers().getList().stream().filter(c -> c.getName().equals(playerDto.getName())).collect(Collectors.toList());
 
-		if(isNameExist.size()!=0)
+		if(!isNameExist.isEmpty())
 			throw new RiskGameRuntimeException("Name already exists!");
 
 		BeanUtils.copyProperties(playerDto, playerModel);
@@ -245,6 +245,9 @@ public class GameService {
 		int numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 		int playerID=0;
 
+		if(numberOfCountries == 0)
+			throw new RiskGameRuntimeException("No Countries have been added to the game");
+
 		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().collect(Collectors.toList());               // convert list to stream
 
 		for (CountryModel countryModel :countryModels) {
@@ -275,11 +278,14 @@ public class GameService {
             throw new RiskGameRuntimeException("Country Does Not Exist");
         }
 
+       if(activePlayerModel!=null && activePlayerModel.getId() == 0) {
+			   throw new RiskGameRuntimeException("Players have not been added yet");
+	   }
 		playerId = countryModel.getPlayerId();
 
 		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().collect(Collectors.toList());               // convert list to stream
 
-		if((countryModel.getPlayerId())!=(activePlayerModel.getId())) {
+		if(activePlayerModel!=null && (countryModel.getPlayerId())!=(activePlayerModel.getId())) {
 			throw new RiskGameRuntimeException(countryName + " is not assigned to " + activePlayerModel.getName());
 		}
 
@@ -349,7 +355,9 @@ public class GameService {
 				reinforcementArmies+=item.getControlValue();
 			}
 		}
-		activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
+		if(activePlayerModel!=null) {
+			activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
+		}
 	}
 
 	public void reinforce(String countryName, int numberOfArmies)  {
@@ -357,6 +365,14 @@ public class GameService {
 		int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
 		PlayerModel activePlayerModel =RunningGame.getInstance().getPlayers().getList().stream().filter((c-> c.getId()== activePlayerId)).findAny().orElse(null);
 		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getName().equals(countryName)))).findAny().orElse(null);
+
+		if(activePlayerModel == null) {
+			throw new RiskGameRuntimeException("No Players have been added");
+		}
+
+		if(countryModel == null){
+			throw new RiskGameRuntimeException("Country doesn't exist");
+		}
 
 		if (activePlayerModel.getReinforcementNoOfArmies() == 0)
 			 throw new RiskGameRuntimeException("Reinforcement phase has been completed");
@@ -366,17 +382,18 @@ public class GameService {
 			if (activePlayerModel.getReinforcementNoOfArmies() >= numberOfArmies) {
 				countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + numberOfArmies);
 				activePlayerModel.setReinforcementNoOfArmies(activePlayerModel.getReinforcementNoOfArmies()-numberOfArmies);
-			} else
+			} else {
 				throw new RiskGameRuntimeException("Please reduce number of armies");
-		} else
+			}
+		} else {
 			throw new RiskGameRuntimeException("This country is not assigned to " + activePlayerModel.getName());
+		}
 	}
 
 	public void placeAll() {
 
 		int totalNumberOfArmiesPerPlayer = 0;
 		int numberOfAssignedArmies = 0;
-		int playerId = 0;
 		int numberOfPlayers = 0;
 
 		//get number of players
