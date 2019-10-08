@@ -1,5 +1,6 @@
 package ca.concordia.app.risk.controller.delegate;
 
+import ca.concordia.app.risk.controller.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.concordia.app.risk.services.GameService;
@@ -55,5 +56,30 @@ public class GameBusinessDelegate {
 	 */
 	public void loadMap(String fileName) {
 		gameService.loadMap(fileName);
+	}
+
+    public void addPlayer(PlayerDto playerDto)  {
+		gameService.addPlayer(playerDto);
+    }
+
+	public void removePlayer(PlayerDto playerDto)  {
+		gameService.removePlayer(playerDto);
+	}
+
+	public void populateCountries() {
+		gameService.populateCountries();
+	}
+
+	public void placeArmy(String countryName)  {
+		gameService.placeArmy(countryName);
+	}
+
+	public void reinforce(String countryName, int numberOfArmies) {
+		gameService.reinforce(countryName,numberOfArmies);
+
+	}
+
+	public void placeall() {
+		gameService.placeAll();
 	}
 }
