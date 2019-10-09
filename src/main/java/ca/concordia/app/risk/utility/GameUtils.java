@@ -1,6 +1,6 @@
 package ca.concordia.app.risk.utility;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,8 +15,8 @@ public class GameUtils {
 		int result = 0;
 		for (int i = 1; i <= 6; i++) {
 			Thread.sleep(100);
-			Random random = new Random();
-			int randomNumber = random.nextInt(6);
+			SecureRandom secureRandom = new SecureRandom();
+			int randomNumber = secureRandom.nextInt(6);
 
 			simpleSpinner.display(i, "Rolling Dice [" + i + "] + Random [" + randomNumber + "]");
 			if (randomNumber == i) {

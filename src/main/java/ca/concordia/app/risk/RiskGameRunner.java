@@ -18,6 +18,6 @@ public class RiskGameRunner {
 	public static void main(String[] args){
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(RiskGameRunner.class);
 		builder.headless(false);
-		builder.run(args);
+		builder.run();
 	}
 }

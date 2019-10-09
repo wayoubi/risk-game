@@ -55,7 +55,6 @@ public class MapService {
 	/**
 	 * 
 	 * @param countryDto
-	 * @throws Exception
 	 */
 	public void addCountry(CountryDto countryDto){
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
@@ -63,16 +62,20 @@ public class MapService {
 		if(countryModel!=null) {
 			throw new RiskGameRuntimeException(String.format("Country [%s] already exist, cannot be added!", countryDto.getName())); 
 		}
+		ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+		ContinentModel continentModel = continentDaoImpl.findByName(RunningGame.getInstance(), countryDto.getContenentName());
+		if(continentModel==null) {
+			throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist, Country [%s] cannot be added!", countryDto.getContenentName(), countryDto.getName())); 
+		}
+		if(continentDaoImpl.getCountries(RunningGame.getInstance(), continentModel).size() >= continentModel.getNumberOfCountries()) {
+			throw new RiskGameRuntimeException(String.format("No more countries can be added to Continent [%s], Country [%s] cannot be added!", countryDto.getContenentName(), countryDto.getName()));
+		}
 		countryModel = objectFactory.createCountryModel();
 		BeanUtils.copyProperties(countryDto, countryModel);
-		ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-		ContinentModel continentModel = continentDaoImpl.findByName(RunningGame.getInstance(),
-				countryDto.getContenentName());
 		countryModel.setContinentId(continentModel.getId());
 		countryDaoImpl.assignID(RunningGame.getInstance(), countryModel);
 		RunningGame.getInstance().getCountries().getList().add(countryModel);
 		RunningGame.getInstance().getGraph().addVertex(countryModel.getName());
-		
 	}
 
 	/**

@@ -1,5 +1,30 @@
 package ca.concordia.app.risk.services;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+//import com.sun.deploy.security.SelectableSecurityManager;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.graph.DefaultEdge;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import ca.concordia.app.risk.controller.dto.BorderDto;
 import ca.concordia.app.risk.controller.dto.ContinentDto;
 import ca.concordia.app.risk.controller.dto.CountryDto;
@@ -8,29 +33,15 @@ import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
+//import ca.concordia.app.risk.controller.dto.GameStarterDto;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
-import ca.concordia.app.risk.model.xmlbeans.*;
+import ca.concordia.app.risk.model.xmlbeans.BorderModel;
+import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
+import ca.concordia.app.risk.model.xmlbeans.GameModel;
+import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
+import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.utility.DateUtils;
-import org.jgrapht.alg.connectivity.ConnectivityInspector;
-import org.jgrapht.graph.DefaultEdge;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.io.*;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-
-// import com.sun.deploy.security.SelectableSecurityManager;
-// import ca.concordia.app.risk.controller.dto.GameStarterDto;
-// import sun.lwawt.macosx.CSystemTray;
 
 /**
  * @author i857625
@@ -391,6 +402,7 @@ public class GameService {
 
     int totalNumberOfArmiesPerPlayer = 0;
     int numberOfAssignedArmies = 0;
+    int playerId = 0;
     int numberOfPlayers = 0;
 
     // get number of players
