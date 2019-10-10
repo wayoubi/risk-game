@@ -1,19 +1,28 @@
 package ca.concordia.app.risk.model.dao;
 
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
+import ca.concordia.app.risk.model.xmlbeans.GameModel;
+
+import javax.validation.constraints.NotNull;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
-
-import ca.concordia.app.risk.model.xmlbeans.CountryModel;
-import ca.concordia.app.risk.model.xmlbeans.GameModel;
-
+/**
+ * This class is DAO(Data Access Layer) for country - to access a country's info
+ *
+ * @author i857625
+ *
+ */
 public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
-	 * 
+	 * This method finds a country by name
+	 *
+	 * @param gameModel
+	 * @param name
+	 * @return country object
 	 */
 	@Override
 	public CountryModel findByName(@NotNull GameModel gameModel, String name){
@@ -22,7 +31,11 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	}
 
 	/**
-	 * 
+	 * This method finds a country by id
+	 *
+	 * @param gameModel
+	 * @param id
+	 * @return country object
 	 */
 	@Override
 	public CountryModel findById(@NotNull GameModel gameModel, int id){
@@ -31,7 +44,10 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	}
 
 	/**
-	 * 
+	 * This method assigns id to a country
+	 *
+	 * @param gameModel
+	 * @param t
 	 */
 	@Override
 	public void assignID(@NotNull GameModel gameModel, CountryModel t){
@@ -45,7 +61,7 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	}
 
 	/**
-	 * 
+	 * This method removes a list of countries
 	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, CountryModel t){
@@ -54,9 +70,8 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	}
 
 	/**
-	 * 
 	 * @param gameModel
-	 * @return
+	 * @return list of countries
 	 */
 	public List<CountryModel> getCountries(@NotNull GameModel gameModel){
 		return gameModel.getCountries().getList().stream().collect(Collectors.toList());

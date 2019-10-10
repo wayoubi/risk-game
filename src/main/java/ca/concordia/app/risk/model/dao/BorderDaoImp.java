@@ -1,18 +1,26 @@
 package ca.concordia.app.risk.model.dao;
 
-import javax.validation.constraints.NotNull;
-
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
+import javax.validation.constraints.NotNull;
+
 /**
- * 
+ * This class is DAO(Data Access Layer) for borders - edges of the graph
+ *
  * @author i857625
  *
  */
 public class BorderDaoImp implements Dao<BorderModel> {
 
+	/**
+	 * This method finds border of a country by countryName
+	 *
+	 * @param gameModel
+	 * @param countryName
+	 * @return border object
+	 */
 	@Override
 	public BorderModel findByName(@NotNull GameModel gameModel, String countryName) {
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
@@ -21,7 +29,11 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	}
 
 	/**
-	 * 
+	 * This method finds a border by id
+	 *
+	 * @param gameModel
+	 * @param countryId
+	 * @return border object
 	 */
 	@Override
 	public BorderModel findById(@NotNull GameModel gameModel, int countryId) {
@@ -30,7 +42,9 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	}
 
 	/**
-	 * 
+	 * @param gameModel
+	 * @param t
+	 * @throws UnsupportedOperationException
 	 */
 	@Override
 	public void assignID(@NotNull GameModel gameModel, BorderModel t) {
@@ -38,7 +52,10 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	}
 
 	/**
-	 * 
+	 * This method removes a list of borders - edges
+	 *
+	 * @param gameModel
+	 * @param t
 	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, BorderModel t) {

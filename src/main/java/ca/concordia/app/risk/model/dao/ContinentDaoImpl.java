@@ -1,21 +1,30 @@
 package ca.concordia.app.risk.model.dao;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.validation.constraints.NotNull;
-
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
+import javax.validation.constraints.NotNull;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+/**
+ * This class is DAO(Data Access Layer) for continent - to access a continent's
+ *
+ * @author i857625
+ *
+ */
 public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	/**
-	 * 
+	 * This method finds a continent by name
+	 *
+	 * @param gameModel
+	 * @param name
+	 * @return continent object
 	 */
 	@Override
 	public ContinentModel findByName(@NotNull GameModel gameModel, String name) {
@@ -24,7 +33,11 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	}
 
 	/**
-	 * 
+	 * This method finds a continent by id
+	 *
+	 * @param gameModel
+	 * @param id
+	 * @return continent object
 	 */
 	@Override
 	public ContinentModel findById(@NotNull GameModel gameModel, int id) {
@@ -33,7 +46,10 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	}
 
 	/**
-	 * 
+	 * This method assigns id to a continent
+	 *
+	 * @param gameModel
+	 * @param t
 	 */
 	@Override
 	public void assignID(@NotNull GameModel gameModel, ContinentModel t) {
@@ -47,7 +63,7 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	}
 
 	/**
-	 * 
+	 * This method removes a list of continents
 	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, ContinentModel t) {
@@ -58,7 +74,7 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	 * 
 	 * @param gameModel
 	 * @param t
-	 * @return
+	 * @return list of continents
 	 */
 	public List<CountryModel> getCountries(@NotNull GameModel gameModel, ContinentModel t) {
 		return gameModel.getCountries().getList().stream().filter(c -> t.getId() == c.getContinentId())
