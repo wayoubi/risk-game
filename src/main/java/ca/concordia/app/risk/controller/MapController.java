@@ -29,13 +29,13 @@ public class MapController {
 	private ShellHelper shellHelper;
 
 	/**
-	 * 
+	 * This method edits(add/remove) Continent's properties: continentName, numberOfCountries
 	 * Example > editcontinent -add [continentName] [numberOfCountries] -remove [continentName]
 	 * 
 	 * @param continentName2Add
 	 * @param numberOfCountries
 	 * @param continentName2Remove
-	 * @return
+	 * @return operation result message(error/success)
 	 */
 	@ShellMethod("Add/ Remove Continent")
 	public String editcontinent(
@@ -78,13 +78,13 @@ public class MapController {
 	}
 
 	/**
+	 * This method edits(add/remove) Country's properties: countryName, continentName
+	 * Example > editcountry --add [countryName] [continentName] --remove [countryName]
 	 * 
-	 * Example > editcountry --add [countryname] [continentname] --remove [countryname]
-	 * 
-	 * @param continentName2Add
-	 * @param numberOfCountries
-	 * @param continentName2Remove
-	 * @return
+	 * @param countryName2Add
+	 * @param continent
+	 * @param countryName2Remove
+	 * @return operation result message(error/success)
 	 */
 	@ShellMethod("Add/ Remove Country")
 	public String editcountry(
@@ -121,14 +121,14 @@ public class MapController {
 	}
 
 	/**
-	 * 
+	 * This method edits(add/remove) Neighbors: neighborCountryName
 	 * Example > editneighbor -add [countryName] [neighborCountryName] -remove [countryName] [neighborCountryName]s
 	 * 
-	 * @param countryName
-	 * @param neighborCountryName
+	 * @param countryNameAdd
+	 * @param neighborCountryNameAdd
 	 * @param countryNameRemove
 	 * @param neighborCountryNameRemove
-	 * @return
+	 * @return operation result message(error/success)
 	 */
 	@ShellMethod("Add/ Remove Country ")
 	public String editneighbor(

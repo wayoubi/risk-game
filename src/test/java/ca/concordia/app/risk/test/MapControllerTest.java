@@ -1,7 +1,11 @@
 package ca.concordia.app.risk.test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import ca.concordia.app.risk.RiskGameBeanConfig;
+import ca.concordia.app.risk.controller.MapController;
+import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
+import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
+import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,12 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.concordia.app.risk.RiskGameBeanConfig;
-import ca.concordia.app.risk.controller.MapController;
-import ca.concordia.app.risk.model.cache.RunningGame;
-import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
-import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
-import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
