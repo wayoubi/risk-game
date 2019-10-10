@@ -1,7 +1,5 @@
 package ca.concordia.app.risk.services;
 
-import org.springframework.beans.BeanUtils;
-
 import ca.concordia.app.risk.controller.dto.BorderDto;
 import ca.concordia.app.risk.controller.dto.ContinentDto;
 import ca.concordia.app.risk.controller.dto.CountryDto;
@@ -14,6 +12,7 @@ import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
+import org.springframework.beans.BeanUtils;
 
 public class MapService {
 
