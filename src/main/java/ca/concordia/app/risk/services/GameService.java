@@ -130,6 +130,7 @@ public class GameService {
   public void loadMap(String fileName) {
     this.editMap(fileName);
     if (!this.validateMap()) {
+    	RunningGame.reset();
       throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
     }
   }
