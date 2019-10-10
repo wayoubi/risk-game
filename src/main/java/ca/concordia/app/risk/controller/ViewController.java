@@ -18,9 +18,8 @@ public class ViewController {
 	private static Logger log = LoggerFactory.getLogger(ViewController.class);
 
 	/**
-	 * 
-	 * @param file
-	 * @return
+	 * This method shows map of the world (Graph)
+	 * @return JGraph
 	 */
 	@ShellMethod("Show Full Map")
 	public void showmap() {
