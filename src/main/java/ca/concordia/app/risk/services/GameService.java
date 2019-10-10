@@ -266,8 +266,7 @@ public class GameService {
       throw new RiskGameRuntimeException("No Countries have been added to the game");
 
     List<CountryModel> countryModels =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .collect(Collectors.toList()); // convert list to stream
+            RunningGame.getInstance().getCountries().getList(); // convert list to stream
 
     for (CountryModel countryModel : countryModels) {
       if (playerID < numberOfPlayers) {
@@ -283,22 +282,22 @@ public class GameService {
   public void placeArmy(String countryName) {
 
     int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
-    PlayerModel activePlayerModel =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .filter((c -> c.getId() == activePlayerId))
-                    .findAny()
-                    .orElse(null);
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+    PlayerModel activePlayerModel = null;
+    CountryModel countryModel=null;
+
+
+    activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),RunningGame.getInstance().getCurrentPlayerId());
+
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+
 
     int totalNumberOfArmiesPerPlayer = 0;
     int numberOfAssignedArmies = 0;
     int playerId = 0;
     int numberOfPlayers = 0;
 
-    CountryModel countryModel =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .filter((c -> (c.getName().equals(countryName))))
-                    .findAny()
-                    .orElse(null);
+    countryModel = countryDaoImpl.findByName(RunningGame.getInstance(),countryName);
 
     if (countryModel == null) {
       throw new RiskGameRuntimeException("Country Does Not Exist");
@@ -309,9 +308,7 @@ public class GameService {
     }
     playerId = countryModel.getPlayerId();
 
-    List<CountryModel> countryModels =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .collect(Collectors.toList()); // convert list to stream
+    List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList();
 
     if (activePlayerModel != null && (countryModel.getPlayerId()) != (activePlayerModel.getId())) {
       throw new RiskGameRuntimeException(
@@ -348,36 +345,29 @@ public class GameService {
 
   public void reinforceInitialization(int playerID) {
 
-    int numberOfCountries =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .filter((c -> (c.getPlayerId()) == (playerID)))
-                    .collect(Collectors.toList())
-                    .size();
-    PlayerModel activePlayerModel =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .filter((c -> c.getId() == playerID))
-                    .findAny()
-                    .orElse(null);
+    int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
+
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+
+    PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),RunningGame.getInstance().getCurrentPlayerId());
+
     int reinforcementArmies = 0;
     boolean fullContinentOccupy = false;
 
-    if (Math.floor(numberOfCountries / 3) > 3) {
+    if (Math.floor((float)numberOfCountries / 3) > 3) {
       reinforcementArmies = Math.floorDiv(numberOfCountries, 3);
     } else {
       reinforcementArmies = 3;
     }
 
-    List<ContinentModel> continentModels =
-            RunningGame.getInstance().getContinents().getList().stream().collect(Collectors.toList());
+    List<ContinentModel> continentModels = RunningGame.getInstance().getContinents().getList();
+    ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+
 
     for (ContinentModel item : continentModels) {
 
       fullContinentOccupy = true;
-      int continentModelId = item.getId();
-      List<CountryModel> countryModels =
-              RunningGame.getInstance().getCountries().getList().stream()
-                      .filter(c -> c.getContinentId() == continentModelId)
-                      .collect(Collectors.toList());
+      List<CountryModel> countryModels =continentDaoImpl.getCountries(RunningGame.getInstance(),item);
 
       for (CountryModel countryModel : countryModels) {
         if (countryModel.getPlayerId() != playerID) fullContinentOccupy = false;
@@ -393,17 +383,11 @@ public class GameService {
 
   public void reinforce(String countryName, int numberOfArmies) {
 
-    int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
-    PlayerModel activePlayerModel =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .filter((c -> c.getId() == activePlayerId))
-                    .findAny()
-                    .orElse(null);
-    CountryModel countryModel =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .filter((c -> (c.getName().equals(countryName))))
-                    .findAny()
-                    .orElse(null);
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+    PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(), RunningGame.getInstance().getCurrentPlayerId());
+
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+    CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
 
     if (activePlayerModel == null) {
       throw new RiskGameRuntimeException("No Players have been added");
@@ -442,7 +426,6 @@ public class GameService {
     // get all the countries for that player
     // get all the assigned armies
     // place the remaining randomly
-
     numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
     if (numberOfPlayers == 2) {
@@ -455,9 +438,7 @@ public class GameService {
       totalNumberOfArmiesPerPlayer = 25;
     }
 
-    List<PlayerModel> playerModels =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .collect(Collectors.toList()); // convert list to stream
+    List<PlayerModel> playerModels = RunningGame.getInstance().getPlayers().getList(); // convert list to stream
 
     for (PlayerModel itemPlayerModel : playerModels) {
       numberOfAssignedArmies = 0;
