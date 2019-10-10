@@ -49,12 +49,15 @@ public class PlayController {
 	}
 
 	/**
-	 * 
+	 * This method "Attacks a player"
+	 * 1- roll dice & randomly assign a number for players on both sides of the attach
+	 * 2- checks business in {@link #playBusinessDelegate}
+	 * 3- display attack result
 	 * @param attacker
 	 * @param defender
 	 * @param from
 	 * @param to
-	 * @return
+	 * @return The result of attack -> Example: "player X lose"
 	 */
 	@ShellMethod("Attack a player")
 	public String attack(@ShellOption(optOut = false) String attacker, @ShellOption(optOut = false) String defender,
