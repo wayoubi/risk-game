@@ -1,21 +1,14 @@
 package ca.concordia.app.risk.model.cache;
 
-import java.util.Date;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-
+import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.model.xmlbeans.*;
+import ca.concordia.app.risk.utility.DateUtils;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 
-import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
-import ca.concordia.app.risk.model.xmlbeans.BordersModel;
-import ca.concordia.app.risk.model.xmlbeans.ContinentsModel;
-import ca.concordia.app.risk.model.xmlbeans.CountriesModel;
-import ca.concordia.app.risk.model.xmlbeans.GameModel;
-import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
-import ca.concordia.app.risk.model.xmlbeans.PlayersModel;
-import ca.concordia.app.risk.utility.DateUtils;
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.util.Date;
 
 /**
  * 
@@ -27,47 +20,56 @@ public class RunningGame extends GameModel {
 	private ObjectFactory objectFactory;
 
 	/**
-	 * 
+	 * The current running game
 	 */
 	private static RunningGame runningGame;
 
 	/**
-	 * 
+	 * The current games graph
 	 */
 	private Graph<String, DefaultEdge> graph;
 	
 	/**
-	 * 
+	 * Tha current player's id
 	 */
 	private int currentPlayerId;
 
 	/**
-	 * 
+	 * Make models to start a new game - ContinentsModel, PlayersModel, CountriesModel, BordersModel
+	 * Make the graph
+	 * No player yet
 	 */
 	private RunningGame() {
 		super();
+
 		try {
 			this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
 		} catch (DatatypeConfigurationException configurationException) {
 			throw new RiskGameRuntimeException(configurationException.getMessage());
 		}
+
 		objectFactory = new ObjectFactory();
+
 		ContinentsModel continentsModel = objectFactory.createContinentsModel();
 		this.setContinents(continentsModel);
+
 		PlayersModel playersModel = objectFactory.createPlayersModel();
 		this.setPlayers(playersModel);
+
 		CountriesModel countriesModel = objectFactory.createCountriesModel();
 		this.setCountries(countriesModel);
+
 		BordersModel bordersModel = objectFactory.createBordersModel();
 		this.setBorders(bordersModel);
+
 		graph = GraphTypeBuilder.<String, DefaultEdge>undirected().allowingMultipleEdges(false).allowingSelfLoops(false)
 				.edgeClass(DefaultEdge.class).weighted(false).buildGraph();
+
 		this.setCurrentPlayerId(0);
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return runningGame
 	 */
 	public static RunningGame getInstance() {
 		if (runningGame == null) {
@@ -77,7 +79,7 @@ public class RunningGame extends GameModel {
 	}
 
 	/**
-	 * 
+	 * This method restarts the runningGame - current game
 	 */
 	public static void reset() {
 		runningGame = new RunningGame();
@@ -85,7 +87,7 @@ public class RunningGame extends GameModel {
 
 	/**
 	 * 
-	 * @return
+	 * @return graph of the current game
 	 */
 	public Graph<String, DefaultEdge> getGraph() {
 		return this.graph;
@@ -99,7 +101,8 @@ public class RunningGame extends GameModel {
 	}
 
 	/**
-	 * @param currentPlayerId the currentPlayerId to set
+	 * This method set current player's id - setter for currentPlayerId
+	 * @param currentPlayerId
 	 */
 	public void setCurrentPlayerId(int currentPlayerId) {
 		this.currentPlayerId = currentPlayerId;
