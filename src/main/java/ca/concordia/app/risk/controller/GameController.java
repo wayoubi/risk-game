@@ -22,6 +22,8 @@ public class GameController {
 
 	private static Logger log = LoggerFactory.getLogger(GameController.class);
 
+	private static final String NONE_DEFAULT_VALUE = "None";
+
 	@Autowired
 	ShellHelper shellHelper;
 
@@ -32,8 +34,9 @@ public class GameController {
 	private GameBusinessDelegate gameBusinessDelegate;
 
 	/**
-	 * 
-	 * @return
+	 * This method saves the game into the file
+	 * Example -> save
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Save the current game state")
 	public String save() {
@@ -49,11 +52,13 @@ public class GameController {
 	}
 
 	/**
-	 * 
+	 * This method saves the current map
+	 * Example -> savemap
+	 *
 	 * @param fileName
-	 * @return
+	 * @return operation result (error/success)
 	 */
-	@ShellMethod("Save the current gamemap using domination map file format under the saved direcory")
+	@ShellMethod("Save the current gamemap using domination map file format under the saved directory")
 	public String savemap(@ShellOption(value = { "-file" }) String fileName) {
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
@@ -67,8 +72,10 @@ public class GameController {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * This method validates map -> checks whether graph is connected or not
+	 * Example -> validatemap
+	 *
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Validate the current gamemap to be connected")
 	public String validatemap() {
@@ -87,8 +94,16 @@ public class GameController {
 		return shellHelper.getSuccessMessage("Countries are connected, Map is valid");
 	}
 
+	/**
+	 * This method add/remove Player
+	 * Example -> editPlayer --add [playerName] --remove [playerName]
+	 *
+	 * @param player2Add
+	 * @param player2Remove
+	 * @return operation result (error/success)
+	 */
 	@ShellMethod("Add/Remove player")
-	public String gameplayer(@ShellOption(value = { "--add" }, defaultValue = "None") String player2Add,
+	public String gameplayer(@ShellOption(value = { "--add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
 			@ShellOption(value = { "--remove" }, defaultValue = "None") String player2Remove) {
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
@@ -111,8 +126,10 @@ public class GameController {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * This method assigns countries to the players - at the start of the game
+	 * Example -> populatecountries
+	 *
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Populate countries")
 	public String populatecountries() {
@@ -124,12 +141,14 @@ public class GameController {
 	}
 
 	/**
-	 * 
+	 * This method assigns armies to the countries
+	 * Example -> placearmy --countryname [countryName]
+	 *
 	 * @param countryName
-	 * @return
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Placearmy")
-	public String placearmy(@ShellOption(value = { "--countryname" }, defaultValue = "None") String countryName) {
+	public String placearmy(@ShellOption(value = { "--countryname" }, defaultValue = NONE_DEFAULT_VALUE) String countryName) {
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside placearmy, passed parameters [%s]", countryName));
 		}
@@ -142,9 +161,11 @@ public class GameController {
 	}
 
 	/**
-	 * 
-	 * @param file
-	 * @return
+	 * This method open a map file - make it ready to user edit
+	 * Example -> editmap [fileName]
+	 *
+	 * @param fileName
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Edit map saved in file")
 	public String editmap(@ShellOption(optOut = false) String fileName) {
@@ -160,9 +181,11 @@ public class GameController {
 	}
 
 	/**
-	 * 
+	 * This method load a saved map file
+	 * Example -> loadmap [fileName]
+	 *
 	 * @param fileName
-	 * @return
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Load map saved in file")
 	public String loadmap(@ShellOption(optOut = false) String fileName) {
@@ -178,11 +201,15 @@ public class GameController {
 	}
 
 	/**
+	 * This method does Reinforcement
+	 * Example -> reinforce [countryName] [numberOfArmies]
 	 *
-	 * @return
+	 * @param countryName
+	 * @param numberOfArmies
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Reinforcement")
-	public String reinforce(@ShellOption(value = { "--countryName" }, defaultValue = "None") String countryName,
+	public String reinforce(@ShellOption(value = { "--countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
 			@ShellOption(value = { "--number" }, defaultValue = "None") int numberOfArmies) {
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside loadmap, passed parameters [%s] [%s]", countryName, numberOfArmies));
@@ -196,8 +223,10 @@ public class GameController {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * This method place all remaining armies
+	 * Example -> placeall
+	 *
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Place all")
 	public String placeall() {

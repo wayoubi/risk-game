@@ -28,7 +28,7 @@ public class GameBusinessDelegate {
 
 	/**
 	 * 
-	 * @param fileLocation
+	 * @param fileName
 	 */
 	public void saveMap(String fileName) {
 		gameService.saveMap(fileName);

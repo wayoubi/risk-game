@@ -30,12 +30,12 @@ public class MapController {
 
 	/**
 	 * This method edits(add/remove) Continent's properties: continentName, numberOfCountries
-	 * Example > editcontinent -add [continentName] [numberOfCountries] -remove [continentName]
+	 * Example -> editcontinent -add [continentName] [numberOfCountries] -remove [continentName]
 	 * 
 	 * @param continentName2Add
 	 * @param numberOfCountries
 	 * @param continentName2Remove
-	 * @return operation result message(error/success)
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Add/ Remove Continent")
 	public String editcontinent(
@@ -79,12 +79,12 @@ public class MapController {
 
 	/**
 	 * This method edits(add/remove) Country's properties: countryName, continentName
-	 * Example > editcountry --add [countryName] [continentName] --remove [countryName]
+	 * Example -> editcountry --add [countryName] [continentName] --remove [countryName]
 	 * 
 	 * @param countryName2Add
 	 * @param continent
 	 * @param countryName2Remove
-	 * @return operation result message(error/success)
+	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Add/ Remove Country")
 	public String editcountry(
@@ -122,15 +122,15 @@ public class MapController {
 
 	/**
 	 * This method edits(add/remove) Neighbors: neighborCountryName
-	 * Example > editneighbor -add [countryName] [neighborCountryName] -remove [countryName] [neighborCountryName]s
+	 * Example -> editNeighbor -add [countryName] [neighborCountryName] -remove [countryName] [neighborCountryName]s
 	 * 
 	 * @param countryNameAdd
 	 * @param neighborCountryNameAdd
 	 * @param countryNameRemove
 	 * @param neighborCountryNameRemove
-	 * @return operation result message(error/success)
+	 * @return operation result (error/success)
 	 */
-	@ShellMethod("Add/ Remove Country ")
+	@ShellMethod("Add/Remove Country ")
 	public String editneighbor(
 			@ShellOption(value = {"-add"}, defaultValue = NONE_DEFAULT_VALUE) String countryNameAdd,
 			@ShellOption(value = {"-neighborcountrytoadd"}, defaultValue = NONE_DEFAULT_VALUE) String neighborCountryNameAdd,
