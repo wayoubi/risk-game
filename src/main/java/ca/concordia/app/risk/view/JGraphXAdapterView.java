@@ -143,7 +143,7 @@ public class JGraphXAdapterView extends JApplet {
                 
                 cell.setValue(verticeLabel);
             }
-        }
+        } 
 		
 		//Setting for Vertices
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_AUTOSIZE, 1);
