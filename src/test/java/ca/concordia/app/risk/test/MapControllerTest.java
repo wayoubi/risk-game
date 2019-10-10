@@ -42,7 +42,7 @@ public class MapControllerTest {
 	@Test
 	public void testAddContinent() {
 		log.info("Inside testAddContinent");
-		mapController.editcontinent("Asia", "5", "None");
+    mapController.editcontinent("Asia", "5", "None");
 		mapController.editcontinent("Africa", "6", "None");
 		assertEquals(2, RunningGame.getInstance().getContinents().getList().size());
 	}
