@@ -270,6 +270,11 @@ public class GameService {
 		int numberOfPlayers=0;
 
 		CountryModel countryModel = RunningGame.getInstance().getCountries().getList().stream().filter((c -> (c.getName().equals(countryName)))).findAny().orElse(null);
+
+        if (countryModel == null) {
+            throw new RiskGameRuntimeException("Country Does Not Exist");
+        }
+
 		playerId = countryModel.getPlayerId();
 
 		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream().collect(Collectors.toList());               // convert list to stream
@@ -284,9 +289,7 @@ public class GameService {
 			}
 		}
 
-		if (countryModel == null) {
-			throw new RiskGameRuntimeException("Country Does Not Exist");
-		}
+
 
 		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
