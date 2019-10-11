@@ -76,49 +76,27 @@ public class GameService {
 
       // add continents
       printWriter.printf("[continents]%s", System.lineSeparator());
-      Comparator<ContinentModel> continentModelComparator =
-              Comparator.comparing(ContinentModel::getId);
-      RunningGame.getInstance().getContinents().getList().stream()
-              .sorted(continentModelComparator)
-              .forEach(
-                      continent ->
-                              printWriter.printf(
-                                      "%s %s%s",
-                                      continent.getName(),
-                                      continent.getNumberOfCountries(),
-                                      System.lineSeparator()));
+      Comparator<ContinentModel> continentModelComparator = Comparator.comparing(ContinentModel::getId);
+      RunningGame.getInstance().getContinents().getList().stream().sorted(continentModelComparator)
+          .forEach(continent -> printWriter.printf("%s %s%s", continent.getName(), continent.getNumberOfCountries(),
+              System.lineSeparator()));
       printWriter.print(System.lineSeparator());
 
       // add countries
       Comparator<CountryModel> countryModelComparator = Comparator.comparing(CountryModel::getId);
       printWriter.printf("[countries]%s", System.lineSeparator());
-      RunningGame.getInstance().getCountries().getList().stream()
-              .sorted(countryModelComparator)
-              .forEach(
-                      country ->
-                              printWriter.printf(
-                                      "%s %s %s %s %s",
-                                      country.getId(),
-                                      country.getName(),
-                                      country.getContinentId(),
-                                      country.getNumberOfArmies(),
-                                      System.lineSeparator()));
+      RunningGame.getInstance().getCountries().getList().stream().sorted(countryModelComparator)
+          .forEach(country -> printWriter.printf("%s %s %s %s %s", country.getId(), country.getName(),
+              country.getContinentId(), country.getNumberOfArmies(), System.lineSeparator()));
       printWriter.print(System.lineSeparator());
 
       // add borders
       printWriter.printf("[borders]%s", System.lineSeparator());
       Comparator<BorderModel> comparator = Comparator.comparing(BorderModel::getCountryId);
-      RunningGame.getInstance().getBorders().getList().stream()
-              .sorted(comparator)
-              .forEach(
-                      border ->
-                              printWriter.printf(
-                                      "%s %s %s",
-                                      border.getCountryId(),
-                                      border.getNeighbours().stream()
-                                              .map(String::valueOf)
-                                              .collect(Collectors.joining(" ")),
-                                      System.lineSeparator()));
+      RunningGame.getInstance().getBorders().getList().stream().sorted(comparator)
+          .forEach(border -> printWriter.printf("%s %s %s", border.getCountryId(),
+              border.getNeighbours().stream().map(String::valueOf).collect(Collectors.joining(" ")),
+              System.lineSeparator()));
     } catch (IOException ioException) {
       throw new RiskGameRuntimeException("Game file cannot be saved", ioException);
     }
@@ -151,57 +129,48 @@ public class GameService {
           flag = 3;
         } else if (!System.lineSeparator().equalsIgnoreCase(line) && !"".equals(line.trim())) {
           switch (flag) {
-            case 1:
-              StringTokenizer continentLine = new StringTokenizer(line, " ");
-              ContinentDto continentDto = new ContinentDto();
-              continentDto.setName(continentLine.nextToken());
-              continentDto.setNumberOfCountries(Integer.parseInt(continentLine.nextToken()));
-              mapService.addContinent(continentDto);
-              break;
-            case 2:
-              StringTokenizer countryLine = new StringTokenizer(line, " ");
-              ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-              CountryDto countryDto = new CountryDto();
-              countryLine.nextToken();
-              countryDto.setName(countryLine.nextToken());
-              countryDto.setContenentName(
-                      continentDaoImpl
-                              .findById(
-                                      RunningGame.getInstance(), Integer.parseInt(countryLine.nextToken()))
-                              .getName());
-              countryDto.setNumberOfArmies(Integer.parseInt(countryLine.nextToken()));
-              mapService.addCountry(countryDto);
-              break;
-            case 3:
-              StringTokenizer borderLine = new StringTokenizer(line, " ");
-              CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-              BorderDto borderDto = new BorderDto();
-              borderDto.setCountryName(
-                      countryDaoImpl
-                              .findById(RunningGame.getInstance(), Integer.parseInt(borderLine.nextToken()))
-                              .getName());
-              while (borderLine.hasMoreTokens()) {
-                borderDto.setNeighborCountryName(
-                        countryDaoImpl
-                                .findById(
-                                        RunningGame.getInstance(), Integer.parseInt(borderLine.nextToken()))
-                                .getName());
-                try {
-                  mapService.addNeighbor(borderDto);
-                } catch (RiskGameRuntimeException riskGameRuntimeException) {
-                  // nothing to do
-                }
+          case 1:
+            StringTokenizer continentLine = new StringTokenizer(line, " ");
+            ContinentDto continentDto = new ContinentDto();
+            continentDto.setName(continentLine.nextToken());
+            continentDto.setNumberOfCountries(Integer.parseInt(continentLine.nextToken()));
+            mapService.addContinent(continentDto);
+            break;
+          case 2:
+            StringTokenizer countryLine = new StringTokenizer(line, " ");
+            ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+            CountryDto countryDto = new CountryDto();
+            countryLine.nextToken();
+            countryDto.setName(countryLine.nextToken());
+            countryDto.setContenentName(continentDaoImpl
+                .findById(RunningGame.getInstance(), Integer.parseInt(countryLine.nextToken())).getName());
+            countryDto.setNumberOfArmies(Integer.parseInt(countryLine.nextToken()));
+            mapService.addCountry(countryDto);
+            break;
+          case 3:
+            StringTokenizer borderLine = new StringTokenizer(line, " ");
+            CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+            BorderDto borderDto = new BorderDto();
+            borderDto.setCountryName(
+                countryDaoImpl.findById(RunningGame.getInstance(), Integer.parseInt(borderLine.nextToken())).getName());
+            while (borderLine.hasMoreTokens()) {
+              borderDto.setNeighborCountryName(countryDaoImpl
+                  .findById(RunningGame.getInstance(), Integer.parseInt(borderLine.nextToken())).getName());
+              try {
+                mapService.addNeighbor(borderDto);
+              } catch (RiskGameRuntimeException riskGameRuntimeException) {
+                // nothing to do
               }
-              break;
-            default:
-              break;
+            }
+            break;
+          default:
+            break;
           }
         }
       }
     } catch (FileNotFoundException fileNotFoundException) {
-      throw new RiskGameRuntimeException(
-              String.format("Map cannot be edited, [%s] does not exist", fileName),
-              fileNotFoundException);
+      throw new RiskGameRuntimeException(String.format("Map cannot be edited, [%s] does not exist", fileName),
+          fileNotFoundException);
     } catch (IOException ioException) {
       throw new RiskGameRuntimeException("Map cannot be edited", ioException);
     }
@@ -211,8 +180,8 @@ public class GameService {
    *
    */
   public boolean validateMap() {
-    ConnectivityInspector<String, DefaultEdge> connectivityInspector =
-            new ConnectivityInspector<>(RunningGame.getInstance().getGraph());
+    ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+        RunningGame.getInstance().getGraph());
     return connectivityInspector.isConnected();
   }
 
@@ -224,26 +193,29 @@ public class GameService {
     PlayerModel playerModel = objectFactory.createPlayerModel();
 
     // check if name exists
-    List<PlayerModel> isNameExist =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .filter(c -> c.getName().equals(playerDto.getName()))
-                    .collect(Collectors.toList());
+    List<PlayerModel> isNameExist = RunningGame.getInstance().getPlayers().getList().stream()
+        .filter(c -> c.getName().equals(playerDto.getName())).collect(Collectors.toList());
 
-    if (!isNameExist.isEmpty()) throw new RiskGameRuntimeException("Name already exists!");
+    if (!isNameExist.isEmpty())
+      throw new RiskGameRuntimeException("Name already exists!");
 
     BeanUtils.copyProperties(playerDto, playerModel);
     PlayerDaoImpl playerDaoImp = new PlayerDaoImpl();
     playerDaoImp.assignID(RunningGame.getInstance(), playerModel);
 
     // Assign a random color
-
     numOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
-    if (numOfPlayers == 0) color = "Red";
-    else if (numOfPlayers == 1) color = "Blue";
-    else if (numOfPlayers == 2) color = "Green";
-    else if (numOfPlayers == 3) color = "Yellow";
-    else if (numOfPlayers == 4) color = "Black";
+    if (numOfPlayers == 0)
+      color = "Red";
+    else if (numOfPlayers == 1)
+      color = "Blue";
+    else if (numOfPlayers == 2)
+      color = "Green";
+    else if (numOfPlayers == 3)
+      color = "Yellow";
+    else if (numOfPlayers == 4)
+      color = "Black";
 
     playerModel.setColor(color);
 
@@ -265,9 +237,7 @@ public class GameService {
     if (numberOfCountries == 0)
       throw new RiskGameRuntimeException("No Countries have been added to the game");
 
-    List<CountryModel> countryModels =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .collect(Collectors.toList()); // convert list to stream
+    List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList(); // convert list to stream
 
     for (CountryModel countryModel : countryModels) {
       if (playerID < numberOfPlayers) {
@@ -283,22 +253,21 @@ public class GameService {
   public void placeArmy(String countryName) {
 
     int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
-    PlayerModel activePlayerModel =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .filter((c -> c.getId() == activePlayerId))
-                    .findAny()
-                    .orElse(null);
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+    PlayerModel activePlayerModel = null;
+    CountryModel countryModel = null;
+
+    activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
+        RunningGame.getInstance().getCurrentPlayerId());
+
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 
     int totalNumberOfArmiesPerPlayer = 0;
     int numberOfAssignedArmies = 0;
     int playerId = 0;
     int numberOfPlayers = 0;
 
-    CountryModel countryModel =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .filter((c -> (c.getName().equals(countryName))))
-                    .findAny()
-                    .orElse(null);
+    countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
 
     if (countryModel == null) {
       throw new RiskGameRuntimeException("Country Does Not Exist");
@@ -309,13 +278,10 @@ public class GameService {
     }
     playerId = countryModel.getPlayerId();
 
-    List<CountryModel> countryModels =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .collect(Collectors.toList()); // convert list to stream
+    List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList();
 
     if (activePlayerModel != null && (countryModel.getPlayerId()) != (activePlayerModel.getId())) {
-      throw new RiskGameRuntimeException(
-              countryName + " is not assigned to " + activePlayerModel.getName());
+      throw new RiskGameRuntimeException(countryName + " is not assigned to " + activePlayerModel.getName());
     }
 
     for (CountryModel item : countryModels) {
@@ -341,46 +307,43 @@ public class GameService {
 
       if (activePlayerId < numberOfPlayers)
         RunningGame.getInstance().setCurrentPlayerId(activePlayerId + 1);
-      else if (activePlayerId == numberOfPlayers) RunningGame.getInstance().setCurrentPlayerId(1);
-      else RunningGame.getInstance().setCurrentPlayerId(1);
-    } else throw new RiskGameRuntimeException("Total Number of Armies has been exceeded");
+      else if (activePlayerId == numberOfPlayers)
+        RunningGame.getInstance().setCurrentPlayerId(1);
+      else
+        RunningGame.getInstance().setCurrentPlayerId(1);
+    } else
+      throw new RiskGameRuntimeException("Total Number of Armies has been exceeded");
   }
 
   public void reinforceInitialization(int playerID) {
 
-    int numberOfCountries =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .filter((c -> (c.getPlayerId()) == (playerID)))
-                    .collect(Collectors.toList())
-                    .size();
-    PlayerModel activePlayerModel =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .filter((c -> c.getId() == playerID))
-                    .findAny()
-                    .orElse(null);
+    int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
+
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+
+    PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
+        RunningGame.getInstance().getCurrentPlayerId());
+
     int reinforcementArmies = 0;
     boolean fullContinentOccupy = false;
 
-    if (Math.floor(numberOfCountries / 3) > 3) {
+    if (Math.floor((float) numberOfCountries / 3) > 3) {
       reinforcementArmies = Math.floorDiv(numberOfCountries, 3);
     } else {
       reinforcementArmies = 3;
     }
 
-    List<ContinentModel> continentModels =
-            RunningGame.getInstance().getContinents().getList().stream().collect(Collectors.toList());
+    List<ContinentModel> continentModels = RunningGame.getInstance().getContinents().getList();
+    ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
 
     for (ContinentModel item : continentModels) {
 
       fullContinentOccupy = true;
-      int continentModelId = item.getId();
-      List<CountryModel> countryModels =
-              RunningGame.getInstance().getCountries().getList().stream()
-                      .filter(c -> c.getContinentId() == continentModelId)
-                      .collect(Collectors.toList());
+      List<CountryModel> countryModels = continentDaoImpl.getCountries(RunningGame.getInstance(), item);
 
       for (CountryModel countryModel : countryModels) {
-        if (countryModel.getPlayerId() != playerID) fullContinentOccupy = false;
+        if (countryModel.getPlayerId() != playerID)
+          fullContinentOccupy = false;
       }
       if (fullContinentOccupy) {
         reinforcementArmies += item.getControlValue();
@@ -393,17 +356,12 @@ public class GameService {
 
   public void reinforce(String countryName, int numberOfArmies) {
 
-    int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
-    PlayerModel activePlayerModel =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .filter((c -> c.getId() == activePlayerId))
-                    .findAny()
-                    .orElse(null);
-    CountryModel countryModel =
-            RunningGame.getInstance().getCountries().getList().stream()
-                    .filter((c -> (c.getName().equals(countryName))))
-                    .findAny()
-                    .orElse(null);
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+    PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
+        RunningGame.getInstance().getCurrentPlayerId());
+
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+    CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
 
     if (activePlayerModel == null) {
       throw new RiskGameRuntimeException("No Players have been added");
@@ -420,14 +378,12 @@ public class GameService {
 
       if (activePlayerModel.getReinforcementNoOfArmies() >= numberOfArmies) {
         countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + numberOfArmies);
-        activePlayerModel.setReinforcementNoOfArmies(
-                activePlayerModel.getReinforcementNoOfArmies() - numberOfArmies);
+        activePlayerModel.setReinforcementNoOfArmies(activePlayerModel.getReinforcementNoOfArmies() - numberOfArmies);
       } else {
         throw new RiskGameRuntimeException("Please reduce number of armies");
       }
     } else {
-      throw new RiskGameRuntimeException(
-              "This country is not assigned to " + activePlayerModel.getName());
+      throw new RiskGameRuntimeException("This country is not assigned to " + activePlayerModel.getName());
     }
   }
 
@@ -442,7 +398,6 @@ public class GameService {
     // get all the countries for that player
     // get all the assigned armies
     // place the remaining randomly
-
     numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
     if (numberOfPlayers == 2) {
@@ -455,16 +410,12 @@ public class GameService {
       totalNumberOfArmiesPerPlayer = 25;
     }
 
-    List<PlayerModel> playerModels =
-            RunningGame.getInstance().getPlayers().getList().stream()
-                    .collect(Collectors.toList()); // convert list to stream
+    List<PlayerModel> playerModels = RunningGame.getInstance().getPlayers().getList(); // convert list to stream
 
     for (PlayerModel itemPlayerModel : playerModels) {
       numberOfAssignedArmies = 0;
-      List<CountryModel> countryModels =
-              RunningGame.getInstance().getCountries().getList().stream()
-                      .filter((c -> (c.getPlayerId()) == (itemPlayerModel.getId())))
-                      .collect(Collectors.toList());
+      List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList().stream()
+          .filter((c -> (c.getPlayerId()) == (itemPlayerModel.getId()))).collect(Collectors.toList());
       for (CountryModel cM : countryModels) {
         numberOfAssignedArmies += cM.getNumberOfArmies();
       }
