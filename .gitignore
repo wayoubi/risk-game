@@ -247,5 +247,5 @@ $RECYCLE.BIN/
 
 target/
 doc/
-saved/
+saved/game.xml
 .idea/

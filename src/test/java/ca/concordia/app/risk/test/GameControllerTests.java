@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,6 +45,15 @@ public class GameControllerTests {
 		log.info("Inside @BeforeEach");
 		assertNotNull(mapController);
 		RunningGame.reset();
+	}
+	
+	@AfterAll
+	public static void afterAll() {
+		log.info("Inside @afterAll");
+		File f = new File("saved/connectedmap.txt");
+		if(f.exists()) {
+			f.delete();
+		}
 	}
 	
 	@Test
