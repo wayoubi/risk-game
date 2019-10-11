@@ -8,6 +8,7 @@ import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,12 +80,13 @@ public class PlayerControllerTest {
     mapController.editcountry("Jordan", "Asia", "");
     mapController.editcountry("India", "Asia", "");
     mapController.editcountry("Iran", "Asia", "");
-    mapController.editcountry("Canada", "Africa", "");
+    mapController.editcountry("Canada", "North America", "");
 
     gameController.gameplayer("Michael", "");
     gameController.gameplayer("Wassim", "");
     gameController.populatecountries();
 
+    System.out.println(RunningGame.getInstance().getCountries().getList());
     assertEquals(
         3,
         RunningGame.getInstance().getCountries().getList().stream()
