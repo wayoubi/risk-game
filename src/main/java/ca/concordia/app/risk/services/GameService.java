@@ -401,8 +401,8 @@ public class GameService {
   public void placeAll() {
 
     int totalNumberOfArmiesPerPlayer = 0;
-    int numberOfAssignedArmies = 0;
     int playerId = 0;
+    int numberOfAssignedArmies = 0;
     int numberOfPlayers = 0;
 
     // get number of players
