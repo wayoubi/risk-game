@@ -1,4 +1,4 @@
-<img alt="Version" src="resources/ginacody.jpeg" />
+<center><img alt="Version" src="resources/ginacody.jpeg" /></center>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.9.01-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/wayoubi/RiskGame/wiki">
@@ -76,3 +76,5 @@ Wasim Alayoubi
 ## Show your support
 
 Give a ⭐️ if this project helped you!
+
+<center><img alt="Version" src="resources/riskgame.png" /></center>
