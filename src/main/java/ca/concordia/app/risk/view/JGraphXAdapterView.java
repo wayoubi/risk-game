@@ -24,6 +24,7 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxStylesheet;
 
+import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
@@ -60,7 +61,7 @@ public class JGraphXAdapterView extends JApplet {
 		frame.setTitle(".:: RiskGame - Show Current Game Map");
 		frame.pack();
 		frame.setVisible(true);
-		frame.setLocationByPlatform(true);
+		//frame.setLocationByPlatform(true);
 		
 		//Size of the frame
 		frame.setPreferredSize(DEFAULT_SIZE);
@@ -136,6 +137,22 @@ public class JGraphXAdapterView extends JApplet {
                 String verticeLabel = String.format("Country: %s \n Continent: %s \n Number of Armies: %s \n",
                 		countryModel.getName(), continentName,countryModel.getNumberOfArmies());
                 
+                if(RunningGame.getInstance().equals(null)) {
+                    //PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+                	//String color = playerDaoImpl.findById(RunningGame.getInstance(), countryModel.getPlayerId()).getColor();
+                	//System.out.println(color);
+                	
+                    //PlayerDto playerDto = new PlayerDto();
+                    //String color1 = playerDto.getColor();
+                	//System.out.println(color1);
+                    
+                	//if(color1 == color) {
+                		component.getGraph().setCellStyle("fillColor=red", new Object[] {cell});
+                	//}else {
+                		//component.getGraph().setCellStyle("fillColor="+color1, new Object[] {cell});
+                	//}
+                    
+                }
                 
                 cell.setValue(verticeLabel);
             }
