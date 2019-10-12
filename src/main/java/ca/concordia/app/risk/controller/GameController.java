@@ -76,13 +76,13 @@ public class GameController {
    * @return operation result (error/success)
    */
   @ShellMethod("Validate the current gamemap to be connected")
-  public String validatemap() {
+  public String validatemap(@ShellOption(value = { "-continent" }, defaultValue = "All") String continentName) {
     if (log.isDebugEnabled()) {
       log.debug("inside validatemap");
     }
     boolean isConnected = false;
     try {
-      isConnected = gameBusinessDelegate.validateMap();
+      isConnected = gameBusinessDelegate.validateMap(continentName);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }

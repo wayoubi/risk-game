@@ -1,4 +1,4 @@
-package ca.concordia.app.risk.test;
+package ca.concordia.app.risk.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -24,6 +24,7 @@ import ca.concordia.app.risk.controller.MapController;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
+import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
@@ -39,6 +40,9 @@ public class GameControllerTests {
 	
 	@Autowired
 	GameController gameController;
+	
+	@Autowired
+	ShellHelper shellHelper; 
 	
 	@BeforeEach
 	void init() {
@@ -130,5 +134,61 @@ public class GameControllerTests {
 		assertEquals(0, RunningGame.getInstance().getCountries().getList().size());
 		assertEquals(0, RunningGame.getInstance().getBorders().getList().size());
 	}
-
+	
+	@Test
+	public void testValidateMap() {
+		log.info("Inside testValidateMap");
+		mapController.editcontinent("Asia", "5", "None");
+		mapController.editcontinent("Africa", "5", "None");
+		mapController.editcontinent("Europe", "5", "None");
+		mapController.editcountry("Jordan", "Asia", "None");
+		mapController.editcountry("Iran", "Asia", "None");
+		mapController.editcountry("India", "Asia", "None");
+		mapController.editcountry("Lebanon", "Asia", "None");
+		mapController.editcountry("Egypt", "Africa", "None");
+		mapController.editcountry("Morocco", "Africa", "None");		
+		mapController.editcountry("France", "Europe", "None");
+		mapController.editcountry("Italy", "Europe", "None");		
+		mapController.editneighbor("Jordan", "Iran", "None", "None");
+		mapController.editneighbor("Iran", "India", "None", "None");
+		mapController.editneighbor("Jordan", "Lebanon", "None", "None");
+		mapController.editneighbor("Jordan", "Egypt", "None", "None");
+		mapController.editneighbor("Egypt", "Morocco", "None", "None");
+		mapController.editneighbor("Morocco", "France", "None", "None");
+		mapController.editneighbor("France", "Italy", "None", "None");
+		
+		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("All"));
+		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Asia"));
+		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Africa"));
+		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Europe"));
+	}
+	
+	@Test
+	public void testValidateMapPerContinent() {
+		log.info("Inside testPerContinent");
+		mapController.editcontinent("Asia", "5", "None");
+		mapController.editcontinent("Africa", "5", "None");
+		mapController.editcontinent("Europe", "5", "None");
+		mapController.editcountry("Jordan", "Asia", "None");
+		mapController.editcountry("Iran", "Asia", "None");
+		mapController.editcountry("India", "Asia", "None");
+		mapController.editcountry("Lebanon", "Asia", "None");
+		mapController.editcountry("Egypt", "Africa", "None");
+		mapController.editcountry("Morocco", "Africa", "None");		
+		mapController.editcountry("France", "Europe", "None");
+		mapController.editcountry("Italy", "Europe", "None");		
+		mapController.editneighbor("Jordan", "Iran", "None", "None");
+		mapController.editneighbor("Iran", "India", "None", "None");
+		mapController.editneighbor("Jordan", "Lebanon", "None", "None");
+		mapController.editneighbor("Jordan", "Egypt", "None", "None");
+		mapController.editneighbor("Egypt", "Morocco", "None", "None");
+		mapController.editneighbor("Morocco", "France", "None", "None");
+		mapController.editneighbor("Morocco", "Italy", "None", "None");
+		assertEquals(shellHelper.getErrorMessage("Countries are not connected, Map is invalid"), gameController.validatemap("All"));
+		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Asia"));
+		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Africa"));
+		assertEquals(shellHelper.getErrorMessage("Countries are not connected, Map is invalid"), gameController.validatemap("Europe"));
+		assertFalse(shellHelper.getErrorMessage("Countries are connected, Map is valid").equals(gameController.validatemap("Europe")));
+		
+	}
 }

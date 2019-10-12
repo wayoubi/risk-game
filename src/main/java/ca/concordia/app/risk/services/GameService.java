@@ -24,6 +24,8 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DefaultEdge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,7 +37,6 @@ import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
-//import ca.concordia.app.risk.controller.dto.GameStarterDto;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
@@ -43,6 +44,7 @@ import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
+import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.DateUtils;
 
 /**
@@ -51,9 +53,16 @@ import ca.concordia.app.risk.utility.DateUtils;
 public class GameService {
 
   private static final String GAME_CANNOT_BE_SAVED = "Game caanot be saved!";
+
   @Autowired
   MapService mapService;
+
+  @Autowired
+  ShellHelper shellHelper;
+
   ObjectFactory objectFactory = new ObjectFactory();
+
+  private static Logger log = LoggerFactory.getLogger(GameService.class);
 
   /**
    *
@@ -81,7 +90,7 @@ public class GameService {
    * @param fileName
    */
   public void saveMap(String fileName) {
-    if (!this.validateMap()) {
+    if (!this.validateMap("All")) {
       throw new RiskGameRuntimeException("Map cannot be saved, map in invalid");
     }
     try (FileWriter fileWriter = new FileWriter(String.format("saved/%s", fileName))) {
@@ -120,7 +129,7 @@ public class GameService {
    */
   public void loadMap(String fileName) {
     this.editMap(fileName);
-    if (!this.validateMap()) {
+    if (!this.validateMap("All")) {
       RunningGame.reset();
       throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
     }
@@ -156,7 +165,7 @@ public class GameService {
             CountryDto countryDto = new CountryDto();
             countryLine.nextToken();
             countryDto.setName(countryLine.nextToken());
-            countryDto.setContenentName(continentDaoImpl
+            countryDto.setContinentName(continentDaoImpl
                 .findById(RunningGame.getInstance(), Integer.parseInt(countryLine.nextToken())).getName());
             countryDto.setNumberOfArmies(Integer.parseInt(countryLine.nextToken()));
             mapService.addCountry(countryDto);
@@ -191,12 +200,40 @@ public class GameService {
   }
 
   /**
-   *
+   * 
+   * @param continentName
+   * @return
    */
-  public boolean validateMap() {
-    ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
-        RunningGame.getInstance().getGraph());
-    return connectivityInspector.isConnected();
+  public boolean validateMap(String continentName) {
+    if ("All".equals(continentName)) {
+      int numberOfNotConnectedContinent = 0;
+      List<ContinentModel> continentsList = RunningGame.getInstance().getContinents().getList();
+      for (ContinentModel continentModel : continentsList) {
+        ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+            RunningGame.getInstance().getContinentGraph(continentModel.getName()));
+        if (!connectivityInspector.isConnected()) {
+          log.info(
+              shellHelper.getErrorMessage(String.format("Continent [%s] is not connected", continentModel.getName())));
+          numberOfNotConnectedContinent++;
+        }
+      }
+      if (numberOfNotConnectedContinent > 0) {
+        return false;
+      } else {
+        ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+            RunningGame.getInstance().getGraph());
+        return connectivityInspector.isConnected();
+      }
+    } else {
+      ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+      ContinentModel continentModel = continentDaoImpl.findByName(RunningGame.getInstance(), continentName);
+      if (continentModel == null) {
+        throw new RiskGameRuntimeException(String.format("Continent [%s] doesn't exist", continentName));
+      }
+      ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+          RunningGame.getInstance().getContinentGraph(continentName));
+      return connectivityInspector.isConnected();
+    }
   }
 
   public void addPlayer(PlayerDto playerDto) {

@@ -1,4 +1,4 @@
-package ca.concordia.app.risk.test;
+package ca.concordia.app.risk.controller;
 
 import ca.concordia.app.risk.RiskGameBeanConfig;
 import ca.concordia.app.risk.controller.GameController;
@@ -86,7 +86,6 @@ public class PlayerControllerTest {
     gameController.gameplayer("Wassim", "");
     gameController.populatecountries();
 
-    System.out.println(RunningGame.getInstance().getCountries().getList());
     assertEquals(
         3,
         RunningGame.getInstance().getCountries().getList().stream()
