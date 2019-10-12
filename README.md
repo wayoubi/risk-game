@@ -7,7 +7,8 @@
   <a href="https://github.com/kefranabg/readme-md-generator/graphs/commit-activity">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="_blank" />
   </a>
-  <h1>Project for Advanced Programming Practices Course (SOEN 6411)</h1>
+  <h1>Project for Advanced Programming Practices Course</h1>
+  <h2>SOEN 6411</hw>
   <br/>
   <img alt="Version" src="resources/banner.png" />
 </p>
@@ -21,7 +22,7 @@ See how to install git
 See how to install JSDK1.8  
 [here](https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html)
 
-Please make sure your Java SDK (Not JRE) on the path, for example use
+Please make sure your Java SDK 1.8 on the path, for example use
 
 ```sh 
 $ java -version                                                                                                                                                                          ✔  10321  13:51:19
@@ -65,20 +66,12 @@ $ mvnw eclipse:eclipse
 ## Authors
 Pinkal Shah
 
-* Github: [@Pinkal-Shah](https://github.com/Pinkal-Shah)
-
 Nasim Adabi
-
-* Github: [@nasimadabi](https://github.com/nasimadabi)
 
 Michael Hanna
 
-* Github: [@HannaMichael](https://github.com/HannaMichael)
-
 Wasim Alayoubi
 
-* Twitter: [@w_alayoubi](https://twitter.com/w_alayoubi)
-* Github: [@wayoubi](https://github.com/wayoubi)
 
 ## Show your support
 
