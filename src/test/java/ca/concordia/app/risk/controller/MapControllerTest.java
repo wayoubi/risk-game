@@ -1,4 +1,4 @@
-package ca.concordia.app.risk.test;
+package ca.concordia.app.risk.controller;
 
 import ca.concordia.app.risk.RiskGameBeanConfig;
 import ca.concordia.app.risk.controller.MapController;

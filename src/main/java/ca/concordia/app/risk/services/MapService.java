@@ -33,6 +33,7 @@ public class MapService {
     BeanUtils.copyProperties(continentDto, continentModel);
     continentDaoImp.assignID(RunningGame.getInstance(), continentModel);
     RunningGame.getInstance().getContinents().getList().add(continentModel);
+    RunningGame.getInstance().addContinentGraph(continentModel.getName());
   }
 
   /**
@@ -52,8 +53,9 @@ public class MapService {
       removeCountry(countryDto);
     });
     continentDao.delete(RunningGame.getInstance(), continentModel);
+    RunningGame.getInstance().removeContinentGraph(continentModel.getName());
   }
-
+  
   /**
    * 
    * @param countryDto
@@ -67,16 +69,16 @@ public class MapService {
     }
     ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
     ContinentModel continentModel = continentDaoImpl.findByName(RunningGame.getInstance(),
-        countryDto.getContenentName());
+        countryDto.getContinentName());
     if (continentModel == null) {
       throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist, Country [%s] cannot be added!",
-          countryDto.getContenentName(), countryDto.getName()));
+          countryDto.getContinentName(), countryDto.getName()));
     }
     if (continentDaoImpl.getCountries(RunningGame.getInstance(), continentModel).size() >= continentModel
         .getNumberOfCountries()) {
       throw new RiskGameRuntimeException(
           String.format("No more countries can be added to Continent [%s], Country [%s] cannot be added!",
-              countryDto.getContenentName(), countryDto.getName()));
+              countryDto.getContinentName(), countryDto.getName()));
     }
     countryModel = objectFactory.createCountryModel();
     BeanUtils.copyProperties(countryDto, countryModel);
@@ -84,6 +86,7 @@ public class MapService {
     countryDaoImpl.assignID(RunningGame.getInstance(), countryModel);
     RunningGame.getInstance().getCountries().getList().add(countryModel);
     RunningGame.getInstance().getGraph().addVertex(countryModel.getName());
+    RunningGame.getInstance().getContinentGraph(continentModel.getName()).addVertex(countryModel.getName());
   }
 
   /**
@@ -103,6 +106,10 @@ public class MapService {
     borderDaoImp.delete(RunningGame.getInstance(), borderModel);
     countryDaoImpl.delete(RunningGame.getInstance(), countryModel);
     RunningGame.getInstance().getGraph().removeVertex(countryModel.getName());
+    
+    ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+    String continentName = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId()).getName();
+    RunningGame.getInstance().getContinentGraph(continentName).removeVertex(countryModel.getName());
   }
 
   /**
@@ -117,15 +124,13 @@ public class MapService {
       throw new RiskGameRuntimeException(
           String.format("Country [%s] doesn't exist, border will be ignored", borderDto.getCountryName()));
     }
-    countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), borderDto.getNeighborCountryName());
-    if (countryModel == null) {
+    CountryModel neighborCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), borderDto.getNeighborCountryName());
+    if (neighborCountryModel == null) {
       throw new RiskGameRuntimeException(
-          String.format("Country [%s] doesn't exist, border will be ignored", borderDto.getCountryName()));
+          String.format("Country [%s] doesn't exist, border will be ignored", borderDto.getNeighborCountryName()));
     }
-    this.makeBorder(borderDto.getCountryName(), borderDto.getNeighborCountryName());
-    this.makeBorder(borderDto.getNeighborCountryName(), borderDto.getCountryName());
-    RunningGame.getInstance().getGraph().addEdge(borderDto.getCountryName(), borderDto.getNeighborCountryName());
-
+    this.makeBorder(countryModel.getName(), neighborCountryModel.getName());
+    this.makeBorder(neighborCountryModel.getName(), countryModel.getName());
   }
 
   /**
@@ -143,12 +148,18 @@ public class MapService {
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
     CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
     borderModel.setCountryId(countryModel.getId());
-    countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), neighborCountryName);
-    if (borderModel.getNeighbours().contains(Integer.valueOf(countryModel.getId()))) {
+    CountryModel neighborCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), neighborCountryName);
+    if (borderModel.getNeighbours().contains(Integer.valueOf(neighborCountryModel.getId()))) {
       throw new RiskGameRuntimeException(
           String.format("Border [%s][%s] already exist!", countryName, neighborCountryName));
     }
-    borderModel.getNeighbours().add(Integer.valueOf(countryModel.getId()));
+    borderModel.getNeighbours().add(Integer.valueOf(neighborCountryModel.getId()));
+    RunningGame.getInstance().getGraph().addEdge(countryName, neighborCountryName);  
+    if(countryModel.getContinentId()==neighborCountryModel.getContinentId()) {
+    	ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+    	ContinentModel continentModel = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId());
+    	RunningGame.getInstance().getContinentGraph(continentModel.getName()).addEdge(countryModel.getName(), neighborCountryModel.getName());
+    }
   }
 
   /**
@@ -158,7 +169,6 @@ public class MapService {
   public void removeNeighbor(BorderDto borderDto) {
     this.removeBorder(borderDto.getCountryName(), borderDto.getNeighborCountryName());
     this.removeBorder(borderDto.getNeighborCountryName(), borderDto.getCountryName());
-    RunningGame.getInstance().getGraph().removeEdge(borderDto.getCountryName(), borderDto.getNeighborCountryName());
   }
 
   /**
@@ -167,13 +177,28 @@ public class MapService {
    * @param neighborCountryName
    */
   private void removeBorder(String countryName, String neighborCountryName) {
-    BorderDaoImp borderDaoImp = new BorderDaoImp();
-    BorderModel borderModel = borderDaoImp.findByName(RunningGame.getInstance(), countryName);
+	CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+	CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
+	if (countryModel == null) {
+	      throw new RiskGameRuntimeException(
+	          String.format("Country [%s] doesn't exist", countryName));
+	}
+	CountryModel neighborCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), neighborCountryName);
+	if (neighborCountryModel == null) {
+	      throw new RiskGameRuntimeException(
+	          String.format("Country [%s] doesn't exist", neighborCountryName));
+	}
+	BorderDaoImp borderDaoImp = new BorderDaoImp();
+    BorderModel borderModel = borderDaoImp.findByName(RunningGame.getInstance(), countryModel.getName());
     if (borderModel == null) {
       return;
+    } 
+    borderModel.getNeighbours().remove(Integer.valueOf(neighborCountryModel.getId()));
+    RunningGame.getInstance().getGraph().removeEdge(countryName, neighborCountryName);
+    if(countryModel.getContinentId()==neighborCountryModel.getContinentId()) {
+    	ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+    	ContinentModel continentModel = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId());
+    	RunningGame.getInstance().getContinentGraph(continentModel.getName()).removeEdge(countryModel.getName(), neighborCountryModel.getName());
     }
-    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-    CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), neighborCountryName);
-    borderModel.getNeighbours().remove(Integer.valueOf(countryModel.getId()));
   }
 }

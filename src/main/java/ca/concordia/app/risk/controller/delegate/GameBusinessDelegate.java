@@ -38,8 +38,8 @@ public class GameBusinessDelegate {
 	 * 
 	 * @return
 	 */
-	public boolean validateMap() {
-		return gameService.validateMap();
+	public boolean validateMap(String continentName) {
+		return gameService.validateMap(continentName);
 	}
 
 	/**
