@@ -30,6 +30,7 @@ import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
+import ca.concordia.app.risk.services.GameService;
 
 /**
  * A demo applet that shows how to use JGraphX to visualize JGraphT graphs.
@@ -79,7 +80,7 @@ public class JGraphXAdapterView extends JApplet {
 		jgxAdapter = new JGraphXAdapter<>(g);
 
 		jgxAdapter.selectAll();
-        Object[] cells = jgxAdapter.getSelectionCells(); //here you have all cells
+        Object[] cells = jgxAdapter.getSelectionCells();
 
 
         jgxAdapter.clearSelection(); 
@@ -92,7 +93,7 @@ public class JGraphXAdapterView extends JApplet {
 		mxStylesheet stylesheet = jgxAdapter.getStylesheet();
 
         
-		//Make vertices style -> rounded instead of hard rectangle
+		//Make vertices style
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_ROUNDED, true);
 		
 		//Coloring the Vertices
@@ -110,13 +111,13 @@ public class JGraphXAdapterView extends JApplet {
 		
 		mxGraphComponent component = new mxGraphComponent(jgxAdapter);
 
-		//Perevents drawing edges from user side
+		//Prevents drawing edges from user side
 		component.getGraph().setAllowDanglingEdges(false);
 		component.getGraph().alignCells("center");
 		getContentPane().add(component);
 
 		
-	    // Iterate into graph to change cells
+	    // Iterate graph cells
         for (Object c : cells) {
             mxCell cell = (mxCell) c;
             mxGeometry geometry = cell.getGeometry();
@@ -135,11 +136,6 @@ public class JGraphXAdapterView extends JApplet {
                 String verticeLabel = String.format("Country: %s \n Continent: %s \n Number of Armies: %s \n",
                 		countryModel.getName(), continentName,countryModel.getNumberOfArmies());
                 
-                //PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-                //String color = playerDaoImpl.findById(RunningGame.getInstance(), countryModel.getPlayerId()).getColor();
-                
-                
-                component.getGraph().setCellStyle("fillColor=red", new Object[] {cell});
                 
                 cell.setValue(verticeLabel);
             }
@@ -150,15 +146,15 @@ public class JGraphXAdapterView extends JApplet {
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_EDGE, mxConstants.EDGESTYLE_ELBOW);
 		stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_ALIGN, mxConstants.ALIGN_CENTER);
 		
+		//Make graph indercted
+		stylesheet.getDefaultEdgeStyle().put(mxConstants.STYLE_ENDARROW, mxConstants.NONE);
+		stylesheet.getDefaultEdgeStyle().put(mxConstants.STYLE_STARTARROW, mxConstants.NONE);
 		
 		//Setting alignment of text for Vertices
 		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_BOTTOM, 5);
 		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_LEFT, 5);
 		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_RIGHT, 5);
 		//stylesheet.getDefaultVertexStyle().put(mxConstants.STYLE_SPACING_TOP, 5);
-		
-		
-		resize(DEFAULT_SIZE);
 
 		//Positioning
 		mxCircleLayout layout = new mxCircleLayout(jgxAdapter);
