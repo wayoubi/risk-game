@@ -64,17 +64,20 @@ $ mvnw eclipse:eclipse
 
 
 ## Authors
-Pinkal Shah
 
-Nasim Adabi
+Michael Hanna - The Hustler
 
-Michael Hanna
+Nasim Adabi - The Hipster
 
-Wasim Alayoubi
+Pinkal Shah - The Hacker
 
+Wasim Alayoubi - The God Father
+
+<img alt="team" src="resources/team.jpg" />
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
 
 <center><img alt="Version" src="resources/riskgame.png" /></center>
+<right>Image Source: Wikipedia, https://en.wikipedia.org/wiki/Risk_(game)</right>
