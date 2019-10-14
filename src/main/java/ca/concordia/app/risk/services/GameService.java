@@ -288,6 +288,10 @@ public class GameService {
     if (numberOfCountries == 0)
       throw new RiskGameRuntimeException("No Countries have been added to the game");
 
+    if(numberOfPlayers == 0)
+      throw new RiskGameRuntimeException("No players have been added to the game");
+
+
     List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList(); // convert list to stream
 
     for (CountryModel countryModel : countryModels) {
@@ -323,6 +327,7 @@ public class GameService {
     if (countryModel == null) {
       throw new RiskGameRuntimeException("Country Does Not Exist");
     }
+
 
     if (activePlayerModel != null && activePlayerModel.getId() == 0) {
       throw new RiskGameRuntimeException("Players have not been added yet");
@@ -549,7 +554,9 @@ public class GameService {
     // place the remaining randomly
     numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
-    if (numberOfPlayers == 2) {
+    if(numberOfPlayers == 0) {
+      throw new RiskGameRuntimeException("No players have been added to the game");
+    } else if (numberOfPlayers == 2) {
       totalNumberOfArmiesPerPlayer = 40;
     } else if (numberOfPlayers == 3) {
       totalNumberOfArmiesPerPlayer = 35;
