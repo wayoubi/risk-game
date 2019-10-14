@@ -435,6 +435,11 @@ public class GameService {
           + "needs to have atleast one army after fortification. Please reduce the number of armies");
     }
 
+    ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+        RunningGame.getInstance().getGraph());
+
+    connectivityInspector.pathExists(fromCountryModel.getName(), toCountryModel.getName());
+
     fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() - numberOfArmies);
     toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() + numberOfArmies);
   }
