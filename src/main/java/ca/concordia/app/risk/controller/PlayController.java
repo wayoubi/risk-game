@@ -76,34 +76,4 @@ public class PlayController {
     }
     return shellHelper.getInfoMessage(String.format("Attacker [%s] lose", attacker));
   }
-
-  @ShellMethod("Fortify, Sample: fortify --fromcountry [countryname] --tocountry [countryname] --num [noofarmies]")
-  public String fortify(@ShellOption(value = { "--fromcountry" }, defaultValue = NONE_DEFAULT_VALUE) String fromCountry,
-      @ShellOption(value = { "--tocountry" }, defaultValue = NONE_DEFAULT_VALUE) String toCountry,
-      @ShellOption(value = { "--none" }, defaultValue = NONE_DEFAULT_VALUE) String none,
-      @ShellOption(value = { "--num" }, defaultValue = NONE_DEFAULT_VALUE) String noOfArmies) {
-    StringBuilder result = new StringBuilder();
-    try {
-      if (none != null && !NONE_DEFAULT_VALUE.equals(none)) {
-        return "Choose not to do a move";
-      }
-    } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
-    }
-    try {
-      if (fromCountry != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(fromCountry) && toCountry != null
-          && !NONE_DEFAULT_VALUE.equalsIgnoreCase(toCountry) && noOfArmies != null
-          && !NONE_DEFAULT_VALUE.equalsIgnoreCase(noOfArmies)) {
-        playBusinessDelegate.fortify(fromCountry, toCountry, Integer.parseInt(noOfArmies));
-      } else {
-        throw new RiskGameRuntimeException("From Country, to Country and No of Armies all are required");
-      }
-    } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
-    }
-    if (result.length() == 0) {
-      result.append(shellHelper.getSuccessMessage(COMMAND_EXECUTED_SUCCESSFULLY));
-    }
-    return result.toString();
-  }
 }

@@ -119,7 +119,7 @@ public class GameService {
   public void loadMap(String fileName) {
     this.editMap(fileName);
     if (!this.validateMap()) {
-    	RunningGame.reset();
+      RunningGame.reset();
       throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
     }
   }
@@ -397,6 +397,46 @@ public class GameService {
     } else {
       throw new RiskGameRuntimeException("This country is not assigned to " + activePlayerModel.getName());
     }
+  }
+
+  public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
+
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+    PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
+        RunningGame.getInstance().getCurrentPlayerId());
+
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+    CountryModel fromCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), fromCountry);
+    CountryModel toCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), toCountry);
+
+    if (activePlayerModel == null) {
+      throw new RiskGameRuntimeException("No Players have been added");
+    }
+
+    if (fromCountryModel == null) {
+      throw new RiskGameRuntimeException("From Country doesn't exist");
+    }
+
+    if (toCountryModel == null) {
+      throw new RiskGameRuntimeException("To Country doesn't exist");
+    }
+
+    if ((fromCountryModel.getPlayerId()) != (activePlayerModel.getId())) {
+      throw new RiskGameRuntimeException(
+          "From Country" + fromCountry + "is not owned by " + activePlayerModel.getName());
+    }
+
+    if ((toCountryModel.getPlayerId()) == (activePlayerModel.getId())) {
+      throw new RiskGameRuntimeException("To Country" + toCountry + "is not owned by " + activePlayerModel.getName());
+    }
+
+    if (fromCountryModel.getNumberOfArmies() - numberOfArmies < 1) {
+      throw new RiskGameRuntimeException("From Country" + fromCountry
+          + "needs to have atleast one army after fortification. Please reduce the number of armies");
+    }
+
+    fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() - numberOfArmies);
+    toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() + numberOfArmies);
   }
 
   public void placeAll() {
