@@ -33,7 +33,7 @@ import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 @Import({RiskGameBeanConfig.class, RiskGameTestBeanConfig.class})
 public class GameControllerTests {
 	
-	private static Logger log = LoggerFactory.getLogger(MapControllerTest.class);
+	private static Logger log = LoggerFactory.getLogger(EditContinentMapControllerTest.class);
 	
 	@Autowired
 	MapController mapController;
