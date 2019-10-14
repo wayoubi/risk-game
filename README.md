@@ -48,6 +48,9 @@ On Windows
 $ play.cmd
 ```
 
+## Project's JavaDocs are available here
+[https://wayoubi.github.io/RiskGameDocs](https://wayoubi.github.io/RiskGameDocs)
+
 ## Create Eclipse Project
 If you want to create an eclipse project execute the following command
 
