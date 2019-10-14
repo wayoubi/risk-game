@@ -308,6 +308,8 @@ public class GameService {
     PlayerModel activePlayerModel = null;
     CountryModel countryModel = null;
 
+
+
     activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
         RunningGame.getInstance().getCurrentPlayerId());
 
@@ -317,6 +319,13 @@ public class GameService {
     int numberOfAssignedArmies = 0;
     int playerId = 0;
     int numberOfPlayers = 0;
+
+
+    numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
+
+    if(numberOfPlayers == 0)
+      throw new RiskGameRuntimeException("No players have been added to the game");
+
 
     countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
 
