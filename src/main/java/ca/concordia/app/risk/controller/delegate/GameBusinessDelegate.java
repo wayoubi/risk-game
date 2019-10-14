@@ -82,6 +82,12 @@ public class GameBusinessDelegate {
     gameService.placeAll();
   }
 
+  /**
+   * 
+   * @param fromCountry
+   * @param toCountry
+   * @param numberOfArmies
+   */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
     gameService.fortify(fromCountry, toCountry, numberOfArmies);
   }

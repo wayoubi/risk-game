@@ -399,6 +399,12 @@ public class GameService {
     }
   }
 
+  /**
+   * 
+   * @param fromCountry
+   * @param toCountry
+   * @param numberOfArmies
+   */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
 
     PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();

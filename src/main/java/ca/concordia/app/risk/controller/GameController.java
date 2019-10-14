@@ -239,6 +239,12 @@ public class GameController {
     return shellHelper.getSuccessMessage("All remaining unplaced armies have been assigned");
   }
 
+  /**
+   * This method is used for fortification of armies from one country to another.
+   * The user could choose to not fortify at all.
+   * 
+   * @return operation result (error/success)
+   */
   @ShellMethod("Fortify, Sample: fortify -fromcountry [countryname] -tocountry [countryname] -num [noofarmies]")
   public String fortify(@ShellOption(value = { "-fromcountry" }, defaultValue = NONE_DEFAULT_VALUE) String fromCountry,
       @ShellOption(value = { "-tocountry" }, defaultValue = NONE_DEFAULT_VALUE) String toCountry,
