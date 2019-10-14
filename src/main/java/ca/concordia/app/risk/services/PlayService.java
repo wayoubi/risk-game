@@ -23,7 +23,7 @@ public class PlayService {
    * @param attacker
    * @throws Exception
    */
-  public void attack(String attacker) throws Exception {
+  public void attack(String attacker) {
     PlayerDaoImpl playerDao = new PlayerDaoImpl();
     PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), attacker);
     playerModel.setColor("White");
