@@ -101,8 +101,8 @@ public class GameController {
    * @return operation result (error/success)
    */
   @ShellMethod("Add/Remove player")
-  public String gameplayer(@ShellOption(value = { "--add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
-      @ShellOption(value = { "--remove" }, defaultValue = "None") String player2Remove) {
+  public String gameplayer(@ShellOption(value = { "-add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
+      @ShellOption(value = { "-remove" }, defaultValue = "None") String player2Remove) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
     }
@@ -147,7 +147,7 @@ public class GameController {
    */
   @ShellMethod("Placearmy")
   public String placearmy(
-      @ShellOption(value = { "--countryname" }, defaultValue = NONE_DEFAULT_VALUE) String countryName) {
+      @ShellOption(value = { "-countryname" }, defaultValue = NONE_DEFAULT_VALUE) String countryName) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside placearmy, passed parameters [%s]", countryName));
     }
@@ -208,8 +208,8 @@ public class GameController {
    */
   @ShellMethod("Reinforcement")
   public String reinforce(
-      @ShellOption(value = { "--countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
-      @ShellOption(value = { "--number" }, defaultValue = "None") int numberOfArmies) {
+      @ShellOption(value = { "-countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
+      @ShellOption(value = { "-number" }, defaultValue = "None") int numberOfArmies) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside loadmap, passed parameters [%s] [%s]", countryName, numberOfArmies));
     }
