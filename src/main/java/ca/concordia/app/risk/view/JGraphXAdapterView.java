@@ -137,22 +137,23 @@ public class JGraphXAdapterView extends JApplet {
                 String verticeLabel = String.format("Country: %s \n Continent: %s \n Number of Armies: %s \n",
                 		countryModel.getName(), continentName,countryModel.getNumberOfArmies());
                 
-                if(RunningGame.getInstance().equals(null)) {
-                    //PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+                //if(RunningGame.getInstance().equals(null)) {
+                    
+                //PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
                 	//String color = playerDaoImpl.findById(RunningGame.getInstance(), countryModel.getPlayerId()).getColor();
                 	//System.out.println(color);
                 	
-                    //PlayerDto playerDto = new PlayerDto();
-                    //String color1 = playerDto.getColor();
-                	//System.out.println(color1);
+                    PlayerDto playerDto = new PlayerDto();
+                    String color1 = playerDto.getColor();
+                	System.out.println(color1);
                     
                 	//if(color1 == color) {
-                		component.getGraph().setCellStyle("fillColor=red", new Object[] {cell});
+                		//component.getGraph().setCellStyle("fillColor="+color, new Object[] {cell});
                 	//}else {
-                		//component.getGraph().setCellStyle("fillColor="+color1, new Object[] {cell});
+                		component.getGraph().setCellStyle("fillColor=red", new Object[] {cell});
                 	//}
                     
-                }
+                //}
                 
                 cell.setValue(verticeLabel);
             }

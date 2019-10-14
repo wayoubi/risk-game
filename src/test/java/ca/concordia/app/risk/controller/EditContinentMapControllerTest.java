@@ -28,9 +28,9 @@ import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({ RiskGameBeanConfig.class, RiskGameTestBeanConfig.class })
-public class MapControllerTest {
+public class EditContinentMapControllerTest {
 
-  private static Logger log = LoggerFactory.getLogger(MapControllerTest.class);
+  private static Logger log = LoggerFactory.getLogger(EditContinentMapControllerTest.class);
 
   @Autowired
   MapController mapController;
