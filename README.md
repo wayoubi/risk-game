@@ -65,6 +65,23 @@ On Windows
 $ mvnw eclipse:eclipse
 ```
 
+## Analyze Project Code using SonarQube 
+(Make sure Docker is installed on your computer)
+
+```sh
+$ docker pull sonarqube
+$ docker run -d --name sonarqube -p 9000:9000 sonarqube
+
+#Wait for 5 minutes for SonarQube to load
+$ ./mvnw sonar:sonar \
+ -Dsonar.projectKey=RiskGame \
+ -Dsonar.host.url=http://localhost:9000
+```
+Using web browser go to [http://localhost:9000](http://localhost:9000)
+
+Username: admin
+
+Password: admin
 
 ## Authors
 
