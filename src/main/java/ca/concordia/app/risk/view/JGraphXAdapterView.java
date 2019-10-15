@@ -133,9 +133,11 @@ public class JGraphXAdapterView extends JApplet {
                 CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
                 CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
                 ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+                PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+                
                 String continentName = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId()).getName(); 
                 String verticeLabel = String.format("Country: %s \n Continent: %s \n Number of Armies: %s \n",
-                		countryModel.getName(), continentName,countryModel.getNumberOfArmies());
+                		countryModel.getName(), continentName, countryModel.getNumberOfArmies());
                 
                 //if(RunningGame.getInstance().equals(null)) {
                     

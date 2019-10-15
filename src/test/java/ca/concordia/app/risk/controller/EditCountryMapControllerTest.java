@@ -38,13 +38,14 @@ public class EditCountryMapControllerTest {
 	    assertNotNull(mapController);
 	    RunningGame.reset();
 	    countryDaoImpl = new CountryDaoImpl();
-	    //add a continent 
+
+	    //add continent
 	    mapController.editcontinent("Asia", "5", "None");
 	    mapController.editcontinent("Africa", "6", "None");
 	    mapController.editcontinent("Europe", "7", "None");
 	  }
 
-	  //editCountry - Add
+	  //editCountry - Add Only
 	  @Test
 	  public void testAddCountry() {
 	    log.info("Inside testAddCountry");
@@ -56,7 +57,7 @@ public class EditCountryMapControllerTest {
 	    assertEquals(2, RunningGame.getInstance().getCountries().getList().size());
 	  }
 	  
-	  //editCountry - Add
+	  //editCountry - Duplicate Add
 	  @Test
 	  public void testDuplicateCountryInSameContinent() {
 		log.info("Inside testDuplicateCountryInSameContinent");
@@ -70,7 +71,7 @@ public class EditCountryMapControllerTest {
 	  
 	  //editCountry - Add
 	  @Test
-	  public void testDuplicateCountryInDiffContinents() {
+	  public void testDuplicateCountryInDiffCountries() {
 		log.info("Inside testDuplicateCountryInDiffContinents");
 		  
 	    mapController.editcountry("Iran", "Asia", "None");
@@ -82,7 +83,9 @@ public class EditCountryMapControllerTest {
 	  
 	  //editCountry - Remove
 	  @Test
-	  public void testRemoveContinent() {
+	  public void testRemoveCountry() {
+		log.info("Inside testRemoveContinent");
+
 	    mapController.editcountry("Turkey", "Asia", "None");
 	    mapController.editcountry("France", "Europe", "None");
 
@@ -109,4 +112,23 @@ public class EditCountryMapControllerTest {
 	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Morocco"));
 	  }
 
+	  //editCountry - Remove
+	  @Test
+	  public void testRemoveCountryDoesNotExist() {
+		log.info("Inside testRemoveCountryDoesNotExist");
+
+		//Add
+		mapController.editcountry("Morocco", "Africa", "None");
+		mapController.editcountry("Iran", "Asia", "None");
+
+		//Check
+	    assertEquals(2, RunningGame.getInstance().getCountries().getList().size());
+	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Morocco"));
+	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Iran"));
+
+	    mapController.editcountry("none", "Europe", "France");
+	    assertEquals(2, RunningGame.getInstance().getCountries().getList().size());
+	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Morocco"));
+	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Iran"));
+	  }
 }

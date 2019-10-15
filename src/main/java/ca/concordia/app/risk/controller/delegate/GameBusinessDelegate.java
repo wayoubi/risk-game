@@ -12,74 +12,87 @@ import ca.concordia.app.risk.services.GameService;
  */
 public class GameBusinessDelegate {
 
-	/**
-	 * 
-	 */
-	@Autowired
-	GameService gameService;
+  /**
+   *
+   */
+  @Autowired
+  GameService gameService;
 
-	/**
-	 * 
-	 * @throws Exception
-	 */
-	public void saveGame(){
-		gameService.saveGame();
-	}
+  /**
+   *
+   * @throws Exception
+   */
+  public void saveGame() {
+    gameService.saveGame();
+  }
 
-	/**
-	 * 
-	 * @param fileName
-	 */
-	public void saveMap(String fileName) {
-		gameService.saveMap(fileName);
-	}
+  /**
+   *
+   * @param fileName
+   */
+  public void saveMap(String fileName) {
+    gameService.saveMap(fileName);
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean validateMap(String continentName) {
-		return gameService.validateMap(continentName);
-	}
+  /**
+   *
+   * @return
+   */
+  public boolean validateMap(String continentName) {
+    return gameService.validateMap(continentName);
+  }
 
-	/**
-	 * 
-	 * @param fileName
-	 */
-	public void editMap(String fileName) {
-		gameService.editMap(fileName);
-	}
+  /**
+   *
+   * @param fileName
+   */
+  public void editMap(String fileName) {
+    gameService.editMap(fileName);
+  }
 
-	/**
-	 * 
-	 * @param fileName
-	 */
-	public void loadMap(String fileName) {
-		gameService.loadMap(fileName);
-	}
+  /**
+   *
+   * @param fileName
+   */
+  public void loadMap(String fileName) {
+    gameService.loadMap(fileName);
+  }
 
-    public void addPlayer(PlayerDto playerDto)  {
-		gameService.addPlayer(playerDto);
-    }
+  public void addPlayer(PlayerDto playerDto) {
+    gameService.addPlayer(playerDto);
+  }
 
-	public void removePlayer(PlayerDto playerDto)  {
-		gameService.removePlayer(playerDto);
-	}
+  public void removePlayer(PlayerDto playerDto) {
+    gameService.removePlayer(playerDto);
+  }
 
-	public void populateCountries() {
-		gameService.populateCountries();
-	}
+  public void populateCountries() {
+    gameService.populateCountries();
+  }
 
-	public void placeArmy(String countryName)  {
-		gameService.placeArmy(countryName);
-	}
+  public void placeArmy(String countryName) {
+    gameService.placeArmy(countryName);
+  }
 
-	public void reinforce(String countryName, int numberOfArmies) {
-		gameService.reinforce(countryName,numberOfArmies);
+  public void reinforce(String countryName, int numberOfArmies) {
+    gameService.reinforce(countryName, numberOfArmies);
+  }
 
-	}
+  public void placeall() {
+    gameService.placeAll();
+  }
 
-	public void placeall() {
-		gameService.placeAll();
-	}
+  public void moveToNextPlayer() {
+    gameService.moveToNextPlayer();
+  }
+
+  /**
+   *
+   * @param fromCountry
+   * @param toCountry
+   * @param numberOfArmies
+   */
+  public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
+    gameService.fortify(fromCountry, toCountry, numberOfArmies);
+  }
 }

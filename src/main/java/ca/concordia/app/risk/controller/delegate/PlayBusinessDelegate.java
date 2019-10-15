@@ -9,13 +9,13 @@ import ca.concordia.app.risk.services.PlayService;
  */
 public class PlayBusinessDelegate {
 
-	/**
-	 * 
-	 * @param attacker
-	 * @throws Exception
-	 */
-	public void attack(String attacker) {
-		PlayService playService = new PlayService();
-		playService.attack(attacker);
-	}
+  /**
+   * 
+   * @param attacker
+   * @throws Exception
+   */
+  public void attack(String attacker) {
+    PlayService playService = new PlayService();
+    playService.attack(attacker);
+  }
 }

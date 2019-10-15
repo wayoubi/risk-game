@@ -62,7 +62,7 @@ public class MapService {
     continentDao.delete(RunningGame.getInstance(), continentModel);
     RunningGame.getInstance().removeContinentGraph(continentModel.getName());
   }
-  
+
   /**
    * 
    * @param countryDto
@@ -119,7 +119,7 @@ public class MapService {
     borderDaoImp.delete(RunningGame.getInstance(), borderModel);
     countryDaoImpl.delete(RunningGame.getInstance(), countryModel);
     RunningGame.getInstance().getGraph().removeVertex(countryModel.getName());
-    
+
     ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
     String continentName = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId()).getName();
     RunningGame.getInstance().getContinentGraph(continentName).removeVertex(countryModel.getName());
@@ -173,7 +173,7 @@ public class MapService {
           String.format("Border [%s][%s] already exist!", countryName, neighborCountryName));
     }
     borderModel.getNeighbours().add(Integer.valueOf(neighborCountryModel.getId()));
-    RunningGame.getInstance().getGraph().addEdge(countryName, neighborCountryName);  
+    RunningGame.getInstance().getGraph().addEdge(countryName, neighborCountryName);
     if(countryModel.getContinentId()==neighborCountryModel.getContinentId()) {
     	ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
     	ContinentModel continentModel = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId());
@@ -217,7 +217,7 @@ public class MapService {
     BorderModel borderModel = borderDaoImp.findByName(RunningGame.getInstance(), countryModel.getName());
     if (borderModel == null) {
       return;
-    } 
+    }
     borderModel.getNeighbours().remove(Integer.valueOf(neighborCountryModel.getId()));
     RunningGame.getInstance().getGraph().removeEdge(countryName, neighborCountryName);
     if(countryModel.getContinentId()==neighborCountryModel.getContinentId()) {
