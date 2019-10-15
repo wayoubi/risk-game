@@ -46,6 +46,8 @@ public class RunningGame extends GameModel {
 	private boolean mapLoaded = false;
 
 	private boolean countriesPopulated=false;
+
+	private boolean reinforceCompleted = false;
   /**
    * Make models to start a new game - ContinentsModel, PlayersModel,
    * CountriesModel, BordersModel Make the graph No player yet
@@ -181,4 +183,11 @@ public class RunningGame extends GameModel {
 		  this.countriesPopulated = countriesPopulated;
 	  }
 
+    public boolean isReinforceCompleted() {
+        return reinforceCompleted;
+    }
+
+    public void setReinforceCompleted(boolean reinforceCompleted) {
+        this.reinforceCompleted = reinforceCompleted;
+    }
 }

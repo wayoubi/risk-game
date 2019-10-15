@@ -480,6 +480,7 @@ public class GameService {
       if (activePlayerModel.getReinforcementNoOfArmies() >= numberOfArmies) {
         countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + numberOfArmies);
         activePlayerModel.setReinforcementNoOfArmies(activePlayerModel.getReinforcementNoOfArmies() - numberOfArmies);
+        RunningGame.getInstance().setReinforceCompleted(true);
       } else {
         throw new RiskGameRuntimeException("Please reduce number of armies");
       }
@@ -495,6 +496,9 @@ public class GameService {
    * @param numberOfArmies
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
+
+    if(!RunningGame.getInstance().isReinforceCompleted())
+      throw new RiskGameRuntimeException("Please reinforce first ");
 
     PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
     PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
