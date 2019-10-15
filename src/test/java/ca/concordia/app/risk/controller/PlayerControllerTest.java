@@ -1,4 +1,4 @@
-package ca.concordia.app.risk.test;
+package ca.concordia.app.risk.controller;
 
 import ca.concordia.app.risk.RiskGameBeanConfig;
 import ca.concordia.app.risk.controller.GameController;
@@ -49,6 +49,8 @@ public class PlayerControllerTest {
   @Test
   public void testAddPlayer() {
     log.info("Inside testAddContinent");
+    RunningGame.getInstance().setMapLoaded(true);
+
     gameController.gameplayer("Michael", "");
     gameController.gameplayer("Wassim", "");
     gameController.gameplayer("Pinkal", "Michael");
@@ -58,6 +60,8 @@ public class PlayerControllerTest {
 
   @Test
   public void testDuplicateName() {
+    RunningGame.getInstance().setMapLoaded(true);
+
     gameController.gameplayer("Michael", "");
     gameController.gameplayer("Michael", "");
     assertEquals(1, RunningGame.getInstance().getPlayers().getList().size());
@@ -65,6 +69,8 @@ public class PlayerControllerTest {
 
   @Test
   public void testPlayerColor() {
+    RunningGame.getInstance().setMapLoaded(true);
+
     gameController.gameplayer("Wassim", "");
     gameController.gameplayer("Pinkal", "");
     assertEquals("Blue", RunningGame.getInstance().getPlayers().getList().get(1).getColor());
@@ -72,6 +78,7 @@ public class PlayerControllerTest {
 
   @Test
   public void testPopulateCountries() {
+
     mapController.editcontinent("Africa", "1", "None");
     mapController.editcontinent("Asia", "3", "None");
     mapController.editcontinent("North America", "1", "None");
@@ -82,11 +89,12 @@ public class PlayerControllerTest {
     mapController.editcountry("Iran", "Asia", "");
     mapController.editcountry("Canada", "North America", "");
 
+    RunningGame.getInstance().setMapLoaded(true);
+
     gameController.gameplayer("Michael", "");
     gameController.gameplayer("Wassim", "");
     gameController.populatecountries();
 
-    System.out.println(RunningGame.getInstance().getCountries().getList());
     assertEquals(
         3,
         RunningGame.getInstance().getCountries().getList().stream()
@@ -109,6 +117,8 @@ public class PlayerControllerTest {
     mapController.editcountry("Jordan", "Asia", "");
     mapController.editcountry("India", "Asia", "");
     mapController.editcountry("Iran", "Asia", "");
+
+    RunningGame.getInstance().setMapLoaded(true);
 
     gameController.gameplayer("Nassim", "");
     gameController.gameplayer("Wassim", "");
@@ -134,6 +144,8 @@ public class PlayerControllerTest {
     mapController.editcountry("India", "Asia", "");
     mapController.editcountry("Iran", "Asia", "");
 
+    RunningGame.getInstance().setMapLoaded(true);
+
     gameController.gameplayer("Nassim", "");
     gameController.gameplayer("Wassim", "");
 
@@ -157,6 +169,8 @@ public class PlayerControllerTest {
     mapController.editcountry("Jordan", "Asia", "");
     mapController.editcountry("India", "Asia", "");
     mapController.editcountry("Iran", "Asia", "");
+
+    RunningGame.getInstance().setMapLoaded(true);
 
     gameController.gameplayer("Nassim", "");
     gameController.gameplayer("Wassim", "");
@@ -182,6 +196,8 @@ public class PlayerControllerTest {
     mapController.editcountry("Jordan", "Asia", "");
     mapController.editcountry("India", "Asia", "");
     mapController.editcountry("Iran", "Asia", "");
+
+    RunningGame.getInstance().setMapLoaded(true);
 
     gameController.gameplayer("Michael", "");
     gameController.gameplayer("Pinkal", "");
@@ -209,6 +225,8 @@ public class PlayerControllerTest {
     mapController.editcountry("Jordan", "Asia", "");
     mapController.editcountry("India", "Asia", "");
     mapController.editcountry("Iran", "Asia", "");
+
+    RunningGame.getInstance().setMapLoaded(true);
 
     gameController.gameplayer("Michael", "");
     gameController.gameplayer("Pinkal", "");
@@ -239,8 +257,11 @@ public class PlayerControllerTest {
     mapController.editcountry("India", "Asia", "");
     mapController.editcountry("Iran", "Asia", "");
 
+    RunningGame.getInstance().setMapLoaded(true);
+
     gameController.gameplayer("Michael", "");
     gameController.gameplayer("Pinkal", "");
+
 
     gameController.populatecountries();
     RunningGame.getInstance().setCurrentPlayerId(1);
@@ -267,6 +288,8 @@ public class PlayerControllerTest {
 
     mapController.editcountry("Egypt", "Africa", "");
     mapController.editcountry("Jordan", "Asia", "");
+
+    RunningGame.getInstance().setMapLoaded(true);
 
     gameController.gameplayer("Michael", "");
     gameController.gameplayer("Pinkal", "");

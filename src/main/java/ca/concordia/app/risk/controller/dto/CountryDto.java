@@ -6,7 +6,7 @@ public class CountryDto implements Dto {
 
 	private String name;
 	private int numberOfArmies;
-	private String contenentName;
+	private String continentName;
 
 	public CountryDto() {
 		super();
@@ -16,7 +16,7 @@ public class CountryDto implements Dto {
 		super();
 		this.name = name;
 		this.numberOfArmies = numberOfArmies;
-		this.contenentName = contenentName;
+		this.continentName = contenentName;
 	}
 
 	public String getName() {
@@ -35,17 +35,17 @@ public class CountryDto implements Dto {
 		this.numberOfArmies = numberOfArmies;
 	}
 
-	public String getContenentName() {
-		return contenentName;
+	public String getContinentName() {
+		return continentName;
 	}
 
-	public void setContenentName(String contenentName) {
-		this.contenentName = contenentName;
+	public void setContinentName(String contenentName) {
+		this.continentName = contenentName;
 	}
 
 	@Override
 	public String toString() {
-		return "CountryDto [name=" + name + ", numberOfArmies=" + numberOfArmies + ", contenentName=" + contenentName
+		return "CountryDto [name=" + name + ", numberOfArmies=" + numberOfArmies + ", contenentName=" + continentName
 				+ "]";
 	}
 
@@ -53,7 +53,7 @@ public class CountryDto implements Dto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contenentName == null) ? 0 : contenentName.hashCode());
+		result = prime * result + ((continentName == null) ? 0 : continentName.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + numberOfArmies;
 		return result;
@@ -68,11 +68,11 @@ public class CountryDto implements Dto {
 		if (getClass() != obj.getClass())
 			return false;
 		CountryDto other = (CountryDto) obj;
-		if (contenentName == null) {
-			if (other.contenentName != null) {
+		if (continentName == null) {
+			if (other.continentName != null) {
 				return false;
 			}
-		} else if (!contenentName.equals(other.contenentName)) {
+		} else if (!continentName.equals(other.continentName)) {
 			return false;
 		}
 		if (name == null) {

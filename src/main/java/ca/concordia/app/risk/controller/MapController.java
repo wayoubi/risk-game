@@ -99,7 +99,7 @@ public class MapController {
 			if (countryName2Add != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(countryName2Add)) {
 				CountryDto countryDto = new CountryDto();
 				countryDto.setName(countryName2Add);
-				countryDto.setContenentName(continent);
+				countryDto.setContinentName(continent);
 				mapBusinessDelegate.addCountry(countryDto);
 			}
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {

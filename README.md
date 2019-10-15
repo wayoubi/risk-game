@@ -1,4 +1,4 @@
-<h1 align="center"> Risk Game 👋</h1>
+<center><img alt="Version" src="resources/ginacody.jpeg" /></center>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.9.01-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/wayoubi/RiskGame/wiki">
@@ -7,70 +7,97 @@
   <a href="https://github.com/kefranabg/readme-md-generator/graphs/commit-activity">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="_blank" />
   </a>
-  <a href="https://twitter.com/w_alayoubi">
-    <img alt="Twitter: w_alayoubi" src="https://img.shields.io/twitter/follow/w_alayoubi.svg?style=social" target="_blank" />
-  </a>
+  <h1>Project for Advanced Programming Practices Course</h1>
+  <h2>SOEN 6411</hw>
+  <br/>
+  <img alt="Version" src="resources/banner.png" />
 </p>
 
-> Project for Advanced Programming Practices Course (SOEN 6411)
-> Graduate
-> Concordia University
-> Montreal Canada
+## How to Build and Play the Game
+Make sure you have github and Java JSDK installed on your computer
 
-### 🏠 [Homepage](https://github.com/wayoubi/RiskGame)
+See how to install git  
+[here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-## Build
+See how to install JSDK1.8  
+[here](https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html)
 
-```sh
-./mvnw package
+Please make sure your Java SDK 1.8 on the path, for example use
+
+```sh 
+$ java -version                                                                                                                                                                          ✔  10321  13:51:19
+java version "1.8.0_144"
+Java(TM) SE Runtime Environment (build 1.8.0_144-b01)
+Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
 ```
 
-## Run tests
+Download the source code from github, on your computer open new terminal
+
+```sh 
+$ git clone https://github.com/wayoubi/RiskGame.git
+```
+To play the game, use the play script file
+On Mac and Linux (Please make sure you have the access rights to execcute the script file)
 
 ```sh
-./mvnw test
+$ ./play.sh
 ```
-
-## Start game
+On Windows
 
 ```sh
-./mvnw -q -pl . spring-boot:run
+$ play.cmd
 ```
+
+## Project's JavaDocs are available here
+[https://wayoubi.github.io/RiskGameDocs](https://wayoubi.github.io/RiskGameDocs)
 
 ## Create Eclipse Project
+If you want to create an eclipse project execute the following command
+
+On Mac and Linux
 
 ```sh
-./mvnw eclipse:eclipse
+$ ./mvnw eclipse:eclipse
 ```
+On Windows
+
+```sh
+$ mvnw eclipse:eclipse
+```
+
+## Analyze Project Code using SonarQube 
+(Make sure Docker is installed on your computer)
+
+```sh
+$ docker pull sonarqube
+$ docker run -d --name sonarqube -p 9000:9000 sonarqube
+
+#Wait for 5 minutes for SonarQube to load
+$ ./mvnw sonar:sonar \
+ -Dsonar.projectKey=RiskGame \
+ -Dsonar.host.url=http://localhost:9000
+```
+Using web browser go to [http://localhost:9000](http://localhost:9000)
+
+Username: admin
+
+Password: admin
 
 ## Authors
 
+Michael Hanna - The Hustler
 
-👤 **Omar Ahmed**
+Nasim Adabi - The Hipster
 
-* Github: 
+Pinkal Shah - The Hacker
 
-👤 **Pinkal Shah**
+Wasim Alayoubi - The God Father
 
-* Github: [@Pinkal-Shah](https://github.com/Pinkal-Shah)
-
-👤 **Nasim Adabi**
-
-* Github: [@nasimadabi](https://github.com/nasimadabi)
-
-👤 **Michael Hanna**
-
-* Github: [@HannaMichael](https://github.com/HannaMichael)
-
-👤 **Wasim Alayoubi**
-
-* Twitter: [@w_alayoubi](https://twitter.com/w_alayoubi)
-* Github: [@wayoubi](https://github.com/wayoubi)
-
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/wayoubi/RiskGame/issues).
+<img alt="team" src="resources/team.jpg" />
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
+
+<center><img alt="Version" src="resources/riskgame.png" /></center>
+<right>Image Source: Wikipedia, https://en.wikipedia.org/wiki/Risk_(game)</right>

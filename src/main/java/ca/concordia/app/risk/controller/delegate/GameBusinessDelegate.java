@@ -13,13 +13,13 @@ import ca.concordia.app.risk.services.GameService;
 public class GameBusinessDelegate {
 
   /**
-   * 
+   *
    */
   @Autowired
   GameService gameService;
 
   /**
-   * 
+   *
    * @throws Exception
    */
   public void saveGame() {
@@ -27,7 +27,7 @@ public class GameBusinessDelegate {
   }
 
   /**
-   * 
+   *
    * @param fileName
    */
   public void saveMap(String fileName) {
@@ -35,15 +35,15 @@ public class GameBusinessDelegate {
   }
 
   /**
-   * 
+   *
    * @return
    */
-  public boolean validateMap() {
-    return gameService.validateMap();
+  public boolean validateMap(String continentName) {
+    return gameService.validateMap(continentName);
   }
 
   /**
-   * 
+   *
    * @param fileName
    */
   public void editMap(String fileName) {
@@ -51,7 +51,7 @@ public class GameBusinessDelegate {
   }
 
   /**
-   * 
+   *
    * @param fileName
    */
   public void loadMap(String fileName) {
@@ -87,7 +87,7 @@ public class GameBusinessDelegate {
   }
 
   /**
-   * 
+   *
    * @param fromCountry
    * @param toCountry
    * @param numberOfArmies

@@ -1,6 +1,7 @@
 package ca.concordia.app.risk.model.cache;
 
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.*;
 import ca.concordia.app.risk.utility.DateUtils;
 import org.jgrapht.Graph;
@@ -9,6 +10,7 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * 
@@ -30,10 +32,22 @@ public class RunningGame extends GameModel {
   private Graph<String, DefaultEdge> graph;
 
   /**
+   * A Hasmap holding continents graphs
+   */
+  private HashMap<String, Graph<String, DefaultEdge>> contientsGraphsMap;
+
+  /**
    * Tha current player's id
    */
   private int currentPlayerId;
 
+	private boolean gamePlay =false;
+
+	private boolean mapLoaded = false;
+
+	private boolean countriesPopulated=false;
+
+	private boolean reinforceCompleted = false;
   /**
    * Make models to start a new game - ContinentsModel, PlayersModel,
    * CountriesModel, BordersModel Make the graph No player yet
@@ -64,6 +78,8 @@ public class RunningGame extends GameModel {
     graph = GraphTypeBuilder.<String, DefaultEdge>directed().allowingMultipleEdges(false).allowingSelfLoops(false)
         .edgeClass(DefaultEdge.class).weighted(false).buildGraph();
 
+    contientsGraphsMap = new HashMap<>();
+
     this.setCurrentPlayerId(0);
   }
 
@@ -85,7 +101,7 @@ public class RunningGame extends GameModel {
   }
 
   /**
-   * 
+   *
    * @return graph of the current game
    */
   public Graph<String, DefaultEdge> getGraph() {
@@ -101,11 +117,77 @@ public class RunningGame extends GameModel {
 
   /**
    * This method set current player's id - setter for currentPlayerId
-   * 
+   *
    * @param currentPlayerId
    */
   public void setCurrentPlayerId(int currentPlayerId) {
     this.currentPlayerId = currentPlayerId;
   }
 
+  /**
+   * This methods return the graph of the passed as parameter continent
+   *
+   * @param continentName
+   * @return
+   */
+  public void addContinentGraph(String continentName) {
+    this.contientsGraphsMap.computeIfAbsent(continentName,
+        k -> GraphTypeBuilder.<String, DefaultEdge>undirected().allowingMultipleEdges(false).allowingSelfLoops(false)
+            .edgeClass(DefaultEdge.class).weighted(false).buildGraph());
+  }
+
+  /**
+   *
+   * @param continentName
+   */
+  public void removeContinentGraph(String continentName) {
+    this.contientsGraphsMap.remove(continentName);
+  }
+
+  /**
+   * This methods return the graph of the passed as parameter continent
+   *
+   * @param continentName
+   * @return
+   */
+  public Graph<String, DefaultEdge> getContinentGraph(String continentName) {
+    ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+    ContinentModel continentModel = continentDaoImpl.findByName(this, continentName);
+    if (continentModel == null) {
+      throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist", continentName));
+    }
+    return this.contientsGraphsMap.get(continentName);
+  }
+
+	  public boolean isGamePlay() {
+		  return gamePlay;
+	  }
+
+	  public void setGamePlay(boolean gamePlay) {
+		  this.gamePlay = gamePlay;
+	  }
+
+	  public boolean isMapLoaded() {
+		  return mapLoaded;
+	  }
+
+	  public void setMapLoaded(boolean mapLoaded) {
+		  this.mapLoaded = mapLoaded;
+	  }
+
+	  public boolean isCountriesPopulated() {
+		  return countriesPopulated;
+	  }
+
+	  public void setCountriesPopulated(boolean countriesPopulated) {
+		  this.countriesPopulated = countriesPopulated;
+	  }
+
+    public boolean isReinforceCompleted() {
+        return reinforceCompleted;
+    }
+
+    public void setReinforceCompleted(boolean reinforceCompleted) {
+        this.reinforceCompleted = reinforceCompleted;
+    }
 }
