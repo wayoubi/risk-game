@@ -41,6 +41,13 @@ public class RunningGame extends GameModel {
 	 */
 	private int currentPlayerId;
 
+	private boolean gamePlay =false;
+
+	private boolean mapLoaded = false;
+
+	private boolean countriesPopulated=false;
+
+
 	/**
 	 * Make models to start a new game - ContinentsModel, PlayersModel, CountriesModel, BordersModel
 	 * Make the graph
@@ -148,5 +155,28 @@ public class RunningGame extends GameModel {
 		}
 		return this.contientsGraphsMap.get(continentName);
 	}
-	
+
+	public boolean isGamePlay() {
+		return gamePlay;
+	}
+
+	public void setGamePlay(boolean gamePlay) {
+		this.gamePlay = gamePlay;
+	}
+
+	public boolean isMapLoaded() {
+		return mapLoaded;
+	}
+
+	public void setMapLoaded(boolean mapLoaded) {
+		this.mapLoaded = mapLoaded;
+	}
+
+	public boolean isCountriesPopulated() {
+		return countriesPopulated;
+	}
+
+	public void setCountriesPopulated(boolean countriesPopulated) {
+		this.countriesPopulated = countriesPopulated;
+	}
 }

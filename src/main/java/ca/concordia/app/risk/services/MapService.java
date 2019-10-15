@@ -23,6 +23,10 @@ public class MapService {
    * @param continentDto
    */
   public void addContinent(ContinentDto continentDto) {
+
+    if(RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+
     ContinentDaoImpl continentDaoImp = new ContinentDaoImpl();
     ContinentModel continentModel = continentDaoImp.findByName(RunningGame.getInstance(), continentDto.getName());
     if (continentModel != null) {
@@ -41,6 +45,9 @@ public class MapService {
    * @param continentDto
    */
   public void removeContinent(ContinentDto continentDto) {
+    if(RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+
     ContinentDaoImpl continentDao = new ContinentDaoImpl();
     ContinentModel continentModel = continentDao.findByName(RunningGame.getInstance(), continentDto.getName());
     if (continentModel == null) {
@@ -61,6 +68,9 @@ public class MapService {
    * @param countryDto
    */
   public void addCountry(CountryDto countryDto) {
+    if(RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
     CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryDto.getName());
     if (countryModel != null) {
@@ -95,6 +105,9 @@ public class MapService {
    * @throws Exception
    */
   public void removeCountry(CountryDto countryDto) {
+    if(RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
     CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryDto.getName());
     if (countryModel == null) {
@@ -118,6 +131,9 @@ public class MapService {
    * @param borderDto
    */
   public void addNeighbor(BorderDto borderDto) {
+    if(RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
     CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), borderDto.getCountryName());
     if (countryModel == null) {
@@ -139,6 +155,9 @@ public class MapService {
    * @param neighborCountryName
    */
   private void makeBorder(String countryName, String neighborCountryName) {
+    if(RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+
     BorderDaoImp borderDaoImp = new BorderDaoImp();
     BorderModel borderModel = borderDaoImp.findByName(RunningGame.getInstance(), countryName);
     if (borderModel == null) {
@@ -167,6 +186,9 @@ public class MapService {
    * @param borderDto
    */
   public void removeNeighbor(BorderDto borderDto) {
+    if(RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+
     this.removeBorder(borderDto.getCountryName(), borderDto.getNeighborCountryName());
     this.removeBorder(borderDto.getNeighborCountryName(), borderDto.getCountryName());
   }
@@ -177,7 +199,10 @@ public class MapService {
    * @param neighborCountryName
    */
   private void removeBorder(String countryName, String neighborCountryName) {
-	CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+    if(RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 	CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
 	if (countryModel == null) {
 	      throw new RiskGameRuntimeException(
