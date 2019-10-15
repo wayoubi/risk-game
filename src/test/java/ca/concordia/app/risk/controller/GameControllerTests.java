@@ -129,6 +129,7 @@ public class GameControllerTests {
 	@Test
 	public void testLoadDisconnectedmap() {
 		log.info("Inside testLoadDisconnectedmap");
+		RunningGame.getInstance().setGamePlay(true);
 		gameController.loadmap("saved/testloadinvalidmap.txt");
 		assertEquals(0, RunningGame.getInstance().getContinents().getList().size());
 		assertEquals(0, RunningGame.getInstance().getCountries().getList().size());
