@@ -125,8 +125,7 @@ public class EditNeighborCountryMapControllerTest {
 	    //Remove 2
 	    mapController.editneighbor("None", "None", "Iraq", "Jordan");
 	    mapController.editneighbor("None", "None","Jordan", "Egypt");
-		
-	    System.out.println(RunningGame.getInstance().getBorders().getList().toArray());
+
 		//Check
 	    assertEquals(4, RunningGame.getInstance().getBorders().getList().size());
 	    assertEquals(2, RunningGame.getInstance().getGraph().edgeSet().size());
