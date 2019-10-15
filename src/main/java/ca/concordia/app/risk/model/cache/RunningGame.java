@@ -53,14 +53,6 @@ public class RunningGame extends GameModel {
   private RunningGame() {
     super();
 
-	/**
-	 * Make models to start a new game - ContinentsModel, PlayersModel, CountriesModel, BordersModel
-	 * Make the graph
-	 * No player yet
-	 */
-	private RunningGame() {
-		super();
-
     try {
       this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
     } catch (DatatypeConfigurationException configurationException) {
