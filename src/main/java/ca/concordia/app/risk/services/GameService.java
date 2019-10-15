@@ -19,8 +19,10 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.jgrapht.GraphPath;
 //import com.sun.deploy.security.SelectableSecurityManager;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DefaultEdge;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +121,7 @@ public class GameService {
   public void loadMap(String fileName) {
     this.editMap(fileName);
     if (!this.validateMap()) {
-    	RunningGame.reset();
+      RunningGame.reset();
       throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
     }
   }
@@ -399,6 +401,103 @@ public class GameService {
     }
   }
 
+  /**
+   * 
+   * @param fromCountry
+   * @param toCountry
+   * @param numberOfArmies
+   */
+  public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
+
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+    PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
+        RunningGame.getInstance().getCurrentPlayerId());
+
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+    CountryModel fromCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), fromCountry);
+    CountryModel toCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), toCountry);
+
+    if (activePlayerModel == null) {
+      throw new RiskGameRuntimeException("No Players have been added");
+    }
+
+    if (fromCountryModel == null) {
+      throw new RiskGameRuntimeException("From Country doesn't exist");
+    }
+
+    if (toCountryModel == null) {
+      throw new RiskGameRuntimeException("To Country doesn't exist");
+    }
+
+    if ((fromCountryModel.getPlayerId()) != (activePlayerModel.getId())) {
+      throw new RiskGameRuntimeException(
+          "From Country " + fromCountry + " is not owned by " + activePlayerModel.getName());
+    }
+
+    if ((toCountryModel.getPlayerId()) != (activePlayerModel.getId())) {
+      throw new RiskGameRuntimeException("To Country " + toCountry + " is not owned by " + activePlayerModel.getName());
+    }
+
+    if (fromCountryModel.getNumberOfArmies() - numberOfArmies < 1) {
+      throw new RiskGameRuntimeException("From Country " + fromCountry
+          + " needs to have atleast one army after fortification. Please reduce the number of armies");
+    }
+
+    AllDirectedPaths<String, DefaultEdge> allDirectedPaths = new AllDirectedPaths<>(
+        RunningGame.getInstance().getGraph());
+    List<GraphPath<String, DefaultEdge>> allPaths = allDirectedPaths.getAllPaths(fromCountryModel.getName(),
+        toCountryModel.getName(), false, 100);
+    int counter = 0;
+    for (GraphPath<String, DefaultEdge> graphPath : allPaths) {
+      List<String> countriesInPath = graphPath.getVertexList();
+      boolean connected = true;
+      for (String countryName : countriesInPath) {
+        CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
+        if (activePlayerModel.getId() != countryModel.getPlayerId()) {
+          connected = false;
+          break;
+        }
+      }
+      if (connected) {
+        counter++;
+        break;
+      }
+    }
+
+    if (counter == 0) {
+
+      List<GraphPath<String, DefaultEdge>> allPathsReverse = allDirectedPaths.getAllPaths(toCountryModel.getName(),
+          fromCountryModel.getName(), false, 100);
+      int counterNew = 0;
+      for (GraphPath<String, DefaultEdge> graphPath : allPathsReverse) {
+        List<String> countriesInPath = graphPath.getVertexList();
+        boolean connected = true;
+        for (String countryName : countriesInPath) {
+          CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
+          if (activePlayerModel.getId() != countryModel.getPlayerId()) {
+            connected = false;
+            break;
+          }
+        }
+        if (connected) {
+          counterNew++;
+          break;
+        }
+      }
+      if (counterNew == 0) {
+        throw new RiskGameRuntimeException("No Path Available!");
+      } else {
+        toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() - numberOfArmies);
+        fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() + numberOfArmies);
+        moveToNextPlayer();
+      }
+    } else {
+      fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() - numberOfArmies);
+      toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() + numberOfArmies);
+      moveToNextPlayer();
+    }
+  }
+
   public void placeAll() {
 
     int totalNumberOfArmiesPerPlayer = 0;
@@ -443,5 +542,16 @@ public class GameService {
       }
     }
     reinforceInitialization(1);
+  }
+
+  public void moveToNextPlayer() {
+    int activePlayer = RunningGame.getInstance().getCurrentPlayerId();
+    if (activePlayer < RunningGame.getInstance().getPlayers().getList().size()) {
+      reinforceInitialization(activePlayer + 1);
+      RunningGame.getInstance().setCurrentPlayerId(activePlayer + 1);
+    } else if (activePlayer == RunningGame.getInstance().getPlayers().getList().size()) {
+      reinforceInitialization(1);
+      RunningGame.getInstance().setCurrentPlayerId(1);
+    }
   }
 }
