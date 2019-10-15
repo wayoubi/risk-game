@@ -17,95 +17,95 @@ import java.util.Date;
  */
 public class RunningGame extends GameModel {
 
-	private ObjectFactory objectFactory;
+  private ObjectFactory objectFactory;
 
-	/**
-	 * The current running game
-	 */
-	private static RunningGame runningGame;
+  /**
+   * The current running game
+   */
+  private static RunningGame runningGame;
 
-	/**
-	 * The current games graph
-	 */
-	private Graph<String, DefaultEdge> graph;
-	
-	/**
-	 * Tha current player's id
-	 */
-	private int currentPlayerId;
+  /**
+   * The current games graph
+   */
+  private Graph<String, DefaultEdge> graph;
 
-	/**
-	 * Make models to start a new game - ContinentsModel, PlayersModel, CountriesModel, BordersModel
-	 * Make the graph
-	 * No player yet
-	 */
-	private RunningGame() {
-		super();
+  /**
+   * Tha current player's id
+   */
+  private int currentPlayerId;
 
-		try {
-			this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
-		} catch (DatatypeConfigurationException configurationException) {
-			throw new RiskGameRuntimeException(configurationException.getMessage());
-		}
+  /**
+   * Make models to start a new game - ContinentsModel, PlayersModel,
+   * CountriesModel, BordersModel Make the graph No player yet
+   */
+  private RunningGame() {
+    super();
 
-		objectFactory = new ObjectFactory();
+    try {
+      this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
+    } catch (DatatypeConfigurationException configurationException) {
+      throw new RiskGameRuntimeException(configurationException.getMessage());
+    }
 
-		ContinentsModel continentsModel = objectFactory.createContinentsModel();
-		this.setContinents(continentsModel);
+    objectFactory = new ObjectFactory();
 
-		PlayersModel playersModel = objectFactory.createPlayersModel();
-		this.setPlayers(playersModel);
+    ContinentsModel continentsModel = objectFactory.createContinentsModel();
+    this.setContinents(continentsModel);
 
-		CountriesModel countriesModel = objectFactory.createCountriesModel();
-		this.setCountries(countriesModel);
+    PlayersModel playersModel = objectFactory.createPlayersModel();
+    this.setPlayers(playersModel);
 
-		BordersModel bordersModel = objectFactory.createBordersModel();
-		this.setBorders(bordersModel);
+    CountriesModel countriesModel = objectFactory.createCountriesModel();
+    this.setCountries(countriesModel);
 
-		graph = GraphTypeBuilder.<String, DefaultEdge>undirected().allowingMultipleEdges(false).allowingSelfLoops(false)
-				.edgeClass(DefaultEdge.class).weighted(false).buildGraph();
+    BordersModel bordersModel = objectFactory.createBordersModel();
+    this.setBorders(bordersModel);
 
-		this.setCurrentPlayerId(0);
-	}
+    graph = GraphTypeBuilder.<String, DefaultEdge>directed().allowingMultipleEdges(false).allowingSelfLoops(false)
+        .edgeClass(DefaultEdge.class).weighted(false).buildGraph();
 
-	/**
-	 * @return runningGame
-	 */
-	public static RunningGame getInstance() {
-		if (runningGame == null) {
-			runningGame = new RunningGame();
-		}
-		return runningGame;
-	}
+    this.setCurrentPlayerId(0);
+  }
 
-	/**
-	 * This method restarts the runningGame - current game
-	 */
-	public static void reset() {
-		runningGame = new RunningGame();
-	}
+  /**
+   * @return runningGame
+   */
+  public static RunningGame getInstance() {
+    if (runningGame == null) {
+      runningGame = new RunningGame();
+    }
+    return runningGame;
+  }
 
-	/**
-	 * 
-	 * @return graph of the current game
-	 */
-	public Graph<String, DefaultEdge> getGraph() {
-		return this.graph;
-	}
-	
-	/**
-	 * @return the currentPlayerId
-	 */
-	public int getCurrentPlayerId() {
-		return currentPlayerId;
-	}
+  /**
+   * This method restarts the runningGame - current game
+   */
+  public static void reset() {
+    runningGame = new RunningGame();
+  }
 
-	/**
-	 * This method set current player's id - setter for currentPlayerId
-	 * @param currentPlayerId
-	 */
-	public void setCurrentPlayerId(int currentPlayerId) {
-		this.currentPlayerId = currentPlayerId;
-	}
+  /**
+   * 
+   * @return graph of the current game
+   */
+  public Graph<String, DefaultEdge> getGraph() {
+    return this.graph;
+  }
+
+  /**
+   * @return the currentPlayerId
+   */
+  public int getCurrentPlayerId() {
+    return currentPlayerId;
+  }
+
+  /**
+   * This method set current player's id - setter for currentPlayerId
+   * 
+   * @param currentPlayerId
+   */
+  public void setCurrentPlayerId(int currentPlayerId) {
+    this.currentPlayerId = currentPlayerId;
+  }
 
 }

@@ -82,6 +82,10 @@ public class GameBusinessDelegate {
     gameService.placeAll();
   }
 
+  public void moveToNextPlayer() {
+    gameService.moveToNextPlayer();
+  }
+
   /**
    * 
    * @param fromCountry
