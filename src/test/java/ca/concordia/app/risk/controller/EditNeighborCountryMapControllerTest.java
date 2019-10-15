@@ -78,7 +78,7 @@ public class EditNeighborCountryMapControllerTest {
 	    mapController.editneighbor("Iran", "Iraq", "None", "None");
 	    mapController.editneighbor("Iraq", "Jordan", "None", "None");
 	    assertEquals(3, RunningGame.getInstance().getBorders().getList().size());
-	    assertEquals(2, RunningGame.getInstance().getGraph().edgeSet().size());
+	    assertEquals(4, RunningGame.getInstance().getGraph().edgeSet().size());
 	    
 	  }
 	  
@@ -91,7 +91,7 @@ public class EditNeighborCountryMapControllerTest {
 	    mapController.editneighbor("Iran", "France", "None", "None");
 	    mapController.editneighbor("France", "Moracco", "None", "None");
 	    assertEquals(3, RunningGame.getInstance().getBorders().getList().size());
-	    assertEquals(2, RunningGame.getInstance().getGraph().edgeSet().size());
+	    assertEquals(4, RunningGame.getInstance().getGraph().edgeSet().size());
 	  }
 	  
 	  
@@ -109,7 +109,7 @@ public class EditNeighborCountryMapControllerTest {
 	    mapController.editneighbor("None", "None", "Iran", "Iraq");
 	    
 	    assertEquals(4, RunningGame.getInstance().getBorders().getList().size());
-	    assertEquals(2, RunningGame.getInstance().getGraph().edgeSet().size());
+	    assertEquals(4, RunningGame.getInstance().getGraph().edgeSet().size());
 	  }
 
 	  //editNeighbor - Remove
@@ -125,11 +125,10 @@ public class EditNeighborCountryMapControllerTest {
 	    //Remove 2
 	    mapController.editneighbor("None", "None", "Iraq", "Jordan");
 	    mapController.editneighbor("None", "None","Jordan", "Egypt");
-		
-	    System.out.println(RunningGame.getInstance().getBorders().getList().toArray());
+
 		//Check
 	    assertEquals(4, RunningGame.getInstance().getBorders().getList().size());
-	    assertEquals(1, RunningGame.getInstance().getGraph().edgeSet().size());
+	    assertEquals(2, RunningGame.getInstance().getGraph().edgeSet().size());
 
 	  }
 	  
