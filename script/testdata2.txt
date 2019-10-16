@@ -18,6 +18,7 @@ editneighbor -add Algeria France
 editneighbor -add Italy France
 editneighbor -add Italy Spain
 editneighbor -add Iran France
+loadmap saved/testloadinvalidmap.txt
 gameplayer --add Pinkal
 gameplayer --add Wasim
 populatecountries
