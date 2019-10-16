@@ -2,6 +2,11 @@ package ca.concordia.app.risk.controller.dto;
 
 import javax.validation.ValidationException;
 
+/**
+ * 
+ * BorderDto
+ *
+ */
 public class BorderDto implements Dto {
 
 	private String countryName;
@@ -17,7 +22,9 @@ public class BorderDto implements Dto {
 	/**
 	 * 
 	 * @param countryName
+	 * country name
 	 * @param neighborCountryName
+	 * neighbor country name
 	 */
 	public BorderDto(String countryName, String neighborCountryName) {
 		super();
@@ -37,7 +44,8 @@ public class BorderDto implements Dto {
 	/**
 	 * sets {@link countryName}
 	 * 
-	 * @param countryName the countryName to set
+	 * @param countryName
+	 * sets country name
 	 */
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
@@ -56,6 +64,7 @@ public class BorderDto implements Dto {
 	 * sets {@link neighborCountryName}
 	 * 
 	 * @param neighborCountryName
+	 * neighbor country name
 	 */
 	public void setNeighborCountryName(String neighborCountryName) {
 		this.neighborCountryName = neighborCountryName;
@@ -76,7 +85,8 @@ public class BorderDto implements Dto {
 
 	/**
 	 * 
-	 * @param object
+	 * @param obj
+	 * check object is equals
 	 * @return true/false
 	 */
 	@Override

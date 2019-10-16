@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.NotBlank;
 /**
  * 
  * @author i857625
+ * PlayerDto
  *
  */
 public class PlayerDto implements Dto {
@@ -48,7 +49,9 @@ public class PlayerDto implements Dto {
 	/**
 	 * 
 	 * @param name
+	 * player name
 	 * @param color
+	 * player color
 	 */
 	public PlayerDto(String name, String color) {
 		this.setName(name);
@@ -58,6 +61,7 @@ public class PlayerDto implements Dto {
 	/**
 	 * 
 	 * @param playerDTO
+	 * player DTO
 	 */
 	public PlayerDto(@NotNull final PlayerDto playerDTO) {
 		this.setName(playerDTO.getName());
@@ -76,7 +80,8 @@ public class PlayerDto implements Dto {
 	/**
 	 * sets {@link id}
 	 * 
-	 * @param playerId
+	 * @param id
+	 * sets player Id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -94,7 +99,8 @@ public class PlayerDto implements Dto {
 	/**
 	 * sets {@link name}
 	 * 
-	 * @param playerName
+	 * @param name
+	 * sets player Name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -112,7 +118,8 @@ public class PlayerDto implements Dto {
 	/**
 	 * sets {@link color}
 	 * 
-	 * @param playerColor
+	 * @param color
+	 * sets player color
 	 */
 	public void setColor(String color) {
 		this.color = color;
@@ -148,7 +155,8 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * 
-	 * @param object
+	 * @param obj
+	 * check object is equals
 	 * @return true/false
 	 */
 	@Override

@@ -22,7 +22,7 @@ import ca.concordia.app.risk.shell.SimpleSpinner;
 import ca.concordia.app.risk.utility.GameUtils;
 
 /**
- * For Beans Configuration
+ * RiskGameBeanConfig
  * @author i857625
  *
  */
@@ -42,6 +42,7 @@ public class RiskGameBeanConfig {
 	/**
 	 * 
 	 * @param terminal
+	 * terminal
 	 * @return ShellHelper
 	 */
 	@Bean
@@ -52,6 +53,7 @@ public class RiskGameBeanConfig {
 	/**
 	 * 
 	 * @param lineReader
+	 * line reader
 	 * @return InputReader
 	 */
 	@Bean
@@ -62,6 +64,7 @@ public class RiskGameBeanConfig {
 	/**
 	 * 
 	 * @param terminal
+	 * terminal
 	 * @return SimpleSpinner
 	 */
 	@Bean

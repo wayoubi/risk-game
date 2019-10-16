@@ -2,7 +2,7 @@ package ca.concordia.app.risk.exceptions;
 
 
 /**
- * 
+ * RiskGameException
  * @author i857625
  *
  */
@@ -16,6 +16,7 @@ public class RiskGameException extends Exception{
 	/**
 	 * 
 	 * @param errorMessage
+	 * error message
 	 */
 	public RiskGameException(String errorMessage) {
 		super(errorMessage);

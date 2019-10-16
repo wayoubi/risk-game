@@ -28,6 +28,7 @@ public class InputReader {
 	/**
 	 * 
 	 * @param lineReader
+	 * line reader
 	 */
 	public InputReader(LineReader lineReader) {
 		this(lineReader, null);
@@ -36,7 +37,9 @@ public class InputReader {
 	/**
 	 * 
 	 * @param lineReader
+	 * line reader
 	 * @param mask
+	 * mask
 	 */
 	public InputReader(LineReader lineReader, Character mask) {
 		this.lineReader = lineReader;
@@ -46,7 +49,9 @@ public class InputReader {
 	/**
 	 * 
 	 * @param prompt
-	 * @return
+	 * prompt
+	 * @return 
+	 * result
 	 */
 	public String prompt(String prompt) {
 		return prompt(prompt, null, true);
@@ -55,8 +60,11 @@ public class InputReader {
 	/**
 	 * 
 	 * @param prompt
+	 * prompt
 	 * @param defaultValue
-	 * @return
+	 * default value
+	 * @return 
+	 * result
 	 */
 	public String prompt(String prompt, String defaultValue) {
 		return prompt(prompt, defaultValue, true);
@@ -65,9 +73,13 @@ public class InputReader {
 	/**
 	 * 
 	 * @param prompt
+	 * prompt
 	 * @param defaultValue
+	 * default value
 	 * @param echo
+	 * echo
 	 * @return
+	 * result
 	 */
 	public String prompt(String prompt, String defaultValue, boolean echo) {
 

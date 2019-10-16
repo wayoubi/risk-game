@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * 
  * @author i857625
  *
  */
@@ -102,7 +101,7 @@ public class RunningGame extends GameModel {
   }
 
   /**
-   *
+   * 
    * @return graph of current game
    */
   public Graph<String, DefaultEdge> getGraph() {
@@ -122,15 +121,17 @@ public class RunningGame extends GameModel {
   * sets {@link currentPlayerId}
   * 
   * @param currentPlayerId
+  * current player's id
   */
   public void setCurrentPlayerId(int currentPlayerId) {
     this.currentPlayerId = currentPlayerId;
   }
 
   /**
+   * add Continent to the Graph
    *
    * @param continentName
-   * @return Graph
+   * continent name
    */
   public void addContinentGraph(String continentName) {
     this.contientsGraphsMap.computeIfAbsent(continentName,
@@ -139,16 +140,19 @@ public class RunningGame extends GameModel {
   }
 
   /**
-   *
+   * remove Continent from the Graph
    * @param continentName
+   * continent name
    */
   public void removeContinentGraph(String continentName) {
     this.contientsGraphsMap.remove(continentName);
   }
 
   /**
-   *
+   * gets continent graph
+   * 
    * @param continentName
+   * continent name
    * @return Graph
    */
   public Graph<String, DefaultEdge> getContinentGraph(String continentName) {
@@ -162,6 +166,12 @@ public class RunningGame extends GameModel {
     return this.contientsGraphsMap.get(continentName);
   }
 
+  
+  /**
+   * boolean returns game playing status
+   * 
+   * @return gamePlay
+   */
   public boolean isGamePlay() {
 	  return gamePlay;
   }
@@ -170,13 +180,15 @@ public class RunningGame extends GameModel {
   * sets {@link gamePlay}
   * 
   * @param gamePlay
+  * set game play
   */
   public void setGamePlay(boolean gamePlay) {
      this.gamePlay = gamePlay;
   }
 
   /**
-  *
+  * boolean returns map loading status
+  * 
   * @return mapLoaded
   */
   public boolean isMapLoaded() {
@@ -187,13 +199,15 @@ public class RunningGame extends GameModel {
   * sets {@link mapLoaded}
   * 
   * @param mapLoaded
+  * set map loaded
   */
   public void setMapLoaded(boolean mapLoaded) {
      this.mapLoaded = mapLoaded;
   }
 
   /**
-  *
+  * boolean returns countries populated status
+  * 
   * @return countriesPopulated
   */
   public boolean isCountriesPopulated() {
@@ -204,12 +218,14 @@ public class RunningGame extends GameModel {
   * sets {@link countriesPopulated}
   * 
   * @param countriesPopulated
+  * set country populated
   */
   public void setCountriesPopulated(boolean countriesPopulated) {
     this.countriesPopulated = countriesPopulated;
   }
 
   /**
+  * boolean returns reinforce status
   *
   * @return reinforceCompleted
   */
@@ -221,6 +237,7 @@ public class RunningGame extends GameModel {
   * sets {@link reinforceCompleted}
   * 
   * @param reinforceCompleted
+  * set reinforcement completes
   */
   public void setReinforceCompleted(boolean reinforceCompleted) {
     this.reinforceCompleted = reinforceCompleted;

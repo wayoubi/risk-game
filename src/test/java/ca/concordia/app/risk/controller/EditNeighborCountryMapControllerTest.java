@@ -63,7 +63,7 @@ public class EditNeighborCountryMapControllerTest {
 
 	  /**
 	   * add neighbor country(borders)
-	   * -> should return number of countries if all the countries are connected by neighbors
+	   * should return number of countries if all the countries are connected by neighbors
 	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
 	   */
 	  @Test
@@ -76,8 +76,8 @@ public class EditNeighborCountryMapControllerTest {
 	  
 	  /**
 	   * add neighbor country(edge)-all countries are in the same continent 
-	   * -> should return number of countries if all the countries are connected by neighbors
-	   * -> should return number of edges in graph * 2, since graph is bidirectional
+	   * should return number of countries if all the countries are connected by neighbors
+	   * should return number of edges in graph * 2, since graph is bidirectional
 	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
 	   */
 	  @Test
@@ -92,8 +92,8 @@ public class EditNeighborCountryMapControllerTest {
 	  
 	  /**
 	   * add neighbor country(edge)-countries are in different continents
-	   * -> should return number of countries if all the countries are connected by neighbors
-	   * -> should return number of edges in graph * 2, since graph is bidirectional
+	   * should return number of countries if all the countries are connected by neighbors
+	   * should return number of edges in graph * 2, since graph is bidirectional
 	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
 	   */
 	  @Test
@@ -106,8 +106,8 @@ public class EditNeighborCountryMapControllerTest {
 	  }
 	  
 	  /**
-	   * add & remove operations on neighbor countries(borders)
-	   * -> should return number of edges in graph * 2, since graph is bidirectional
+	   * add and remove operations on neighbor countries(borders)
+	   * should return number of edges in graph * 2, since graph is bidirectional
 	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
 	   */
 	  @Test
@@ -123,7 +123,7 @@ public class EditNeighborCountryMapControllerTest {
 
 	  /**
 	   * remove operation on neighbor countries(borders)
-	   * -> should return number of edges in graph * 2, since graph is bidirectional
+	   * should return number of edges in graph * 2, since graph is bidirectional
 	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
 	   */
 	  @Test

@@ -24,8 +24,11 @@ public class DateUtils {
 	/**
 	 * 
 	 * @param date
+	 * date
 	 * @return
+	 * XML calendar
 	 * @throws DatatypeConfigurationException
+	 * data type exception
 	 */
 	public static XMLGregorianCalendar getXMLDateTime(Date date) throws DatatypeConfigurationException {
 		GregorianCalendar gregorianCalendar = new GregorianCalendar();

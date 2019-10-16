@@ -12,7 +12,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 /**
- * 
+ * GameController
  * @author i857625
  *
  */
@@ -34,7 +34,7 @@ public class GameController {
 
   /**
    * This method saves current game state.
-   * Command -> save
+   * Command: save
    * 
    * @return operation result (error/success)
    */
@@ -56,9 +56,10 @@ public class GameController {
   
   /**
    * This method saves the current map file under the saved directory.
-   * Command -> savemap -file [fileName]
+   * Command: savemap -file [fileName]
    *
    * @param fileName
+   * file name to save
    * @return operation result (error/success)
    */
   @ShellMethod("Save the current gamemap using domination map file format under the saved directory")
@@ -79,9 +80,10 @@ public class GameController {
   
   /**
    * This method validates map, whether graph is connected or not (per continent).
-   * Command -> validatemap -continent [continentName]
+   * Command: validatemap -continent [continentName]
    *
    * @param continentName
+   * continent name for validation
    * @return operation result (error/success)
    */
   @ShellMethod("Validate the current gamemap to be connected")
@@ -107,12 +109,14 @@ public class GameController {
   /**
    * This method add/remove/edit Player. 
    * 
-   * Add Command -> gameplayer -add [player2Add]
-   * Edit Command  -> gameplayer -add [player2Add] [player2Remove]
-   * Remove Command -> gameplayer -remove [player2Remove]
+   * Add Command: gameplayer -add [player2Add]
+   * Edit Command: gameplayer -add [player2Add] [player2Remove]
+   * Remove Command: gameplayer -remove [player2Remove]
    *
    * @param player2Add
+   * player name to add
    * @param player2Remove
+   * player name to remove
    * @return operation result (error/success)
    */
   @ShellMethod("Add/Remove player")
@@ -143,7 +147,7 @@ public class GameController {
   
   /**
    * This method assigns countries to the players.
-   * Command -> populatecountries
+   * Command: populatecountries
    *
    * @return operation result (error/success)
    */
@@ -161,9 +165,10 @@ public class GameController {
   
   /**
    * This method assigns armies to the countries. 
-   * Command -> placearmy -countryname [countryName]
+   * Command: placearmy -countryname [countryName]
    *
    * @param countryName
+   * country name to place the army
    * @return operation result (error/success)
    */
   @ShellMethod("Placearmy")
@@ -185,9 +190,10 @@ public class GameController {
   
   /**
    * This method open a map file to edit.
-   * Command -> editmap --file-name [fileName]
+   * Command: editmap --file-name [fileName]
    *
    * @param fileName
+   * file name to edit the map
    * @return operation result (error/success)
    */
   @ShellMethod("Edit map saved in file")
@@ -208,9 +214,10 @@ public class GameController {
   
   /**
    * This method load a saved map file.
-   * Command -> loadmap --file-name [fileName]
+   * Command: loadmap --file-name [fileName]
    *
    * @param fileName
+   * file name to load the map
    * @return operation result (error/success)
    */
   @ShellMethod("Load map saved in file")
@@ -231,10 +238,12 @@ public class GameController {
   
   /**
    * This method does Reinforcement.
-   * Command -> reinforce -countryName [countryName] -number [numberOfArmies]
+   * Command: reinforce -countryName [countryName] -number [numberOfArmies]
    *
    * @param countryName
+   * country name which is doing reinforcement
    * @param numberOfArmies
+   * number of armies
    * @return operation result (error/success)
    */
   @ShellMethod("Reinforcement")
@@ -257,7 +266,7 @@ public class GameController {
   
   /**
    * This method place all remaining armies. 
-   * Command -> placeall
+   * Command: placeall
    *
    * @return operation result (error/success)
    */
@@ -281,11 +290,14 @@ public class GameController {
    * This method is used for fortification of armies from one country to another.
    * The user can choose to not fortify at all.
    * 
-   * Command -> fortify -fromcountry [fromCountryname] -tocountry [toCountryname] -num [numberOfArmies]
+   * Command: fortify -fromcountry [fromCountryname] -tocountry [toCountryname] -num [numberOfArmies]
    * 
    * @param fromCountry
+   * origin country to fortify from
    * @param toCountry
+   * destination country to fortify to
    * @param numberOfArmies
+   * number of armies to fortify
    * @return operation result (error/success)
    */
   @ShellMethod("Fortify, Sample: fortify -fromcountry [countryname] -tocountry [countryname] -num [noofarmies]")

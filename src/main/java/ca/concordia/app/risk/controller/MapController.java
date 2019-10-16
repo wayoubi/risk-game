@@ -14,6 +14,11 @@ import ca.concordia.app.risk.controller.dto.CountryDto;
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.shell.ShellHelper;
 
+/**
+ * MapController
+ * @author i857625
+ *
+ */
 @ShellComponent
 public class MapController {
 
@@ -37,13 +42,16 @@ public class MapController {
   /**
    * This method add/remove/edit Continent
    * 
-   * Add Command -> editcontinent -add [continentName2Add]
-   * Edit Command  -> editcontinent -add [continentName2Add] [numberOfCountries] [continentName2Remove]
-   * Remove Command -> editcontinent -remove [continentName2Remove]
+   * Add Command: editcontinent -add [continentName2Add]
+   * Edit Command: editcontinent -add [continentName2Add] [numberOfCountries] [continentName2Remove]
+   * Remove Command: editcontinent -remove [continentName2Remove]
    * 
    * @param continentName2Add
+   * name of the continent to add
    * @param numberOfCountries
+   * maximum number of countries of the continent
    * @param continentName2Remove
+   * name of the continent to remove
    * @return operation result (error/success)
    */
   @ShellMethod("Add/ Remove Continent")
@@ -93,13 +101,16 @@ public class MapController {
   /**
    * This method add/remove/edit Country
    * 
-   * Add Command -> editcountry -add [countryName2Add] [continent] | editcountry -add [countryName2Add] -continent [continent]
-   * Edit Command  -> editcountry -add [countryName2Add] [countryName2Remove] [continent] -remove [countryName2Remove]
-   * Remove Command -> editcountry -remove [countryName2Remove]
+   * Add Command: editcountry -add [countryName2Add] [continent] | editcountry -add [countryName2Add] -continent [continent]
+   * Edit Command: editcountry -add [countryName2Add] [countryName2Remove] [continent] -remove [countryName2Remove]
+   * Remove Command: editcountry -remove [countryName2Remove]
    * 
    * @param countryName2Add
+   * name of country to add
    * @param continent
+   * name of continent to add the country
    * @param countryName2Remove
+   * name of country to remove
    * @return operation result (error/success)
    */
   @ShellMethod("Add/ Remove Country")
@@ -143,14 +154,18 @@ public class MapController {
   /**
    * This method add/remove/edit Neighbor Country(borders)
    * 
-   * Add Command -> editneighbor -add [countryNameAdd] -neighborcountrytoadd [neighborCountryNameAdd]
-   * Edit Command  -> editneighbor -add [countryNameAdd] -neighborcountrytoadd [neighborCountryNameAdd] -remove [countryNameRemove] -neighborcountrytoremove [neighborCountryNameRemove]
-   * Remove Command -> editneighbor -remove [countryNameRemove] -neighborcountrytoremove [neighborCountryNameRemove]
+   * Add Command: editneighbor -add [countryNameAdd] -neighborcountrytoadd [neighborCountryNameAdd]
+   * Edit Command: editneighbor -add [countryNameAdd] -neighborcountrytoadd [neighborCountryNameAdd] -remove [countryNameRemove] -neighborcountrytoremove [neighborCountryNameRemove]
+   * Remove Command: editneighbor -remove [countryNameRemove] -neighborcountrytoremove [neighborCountryNameRemove]
    *
    * @param countryNameAdd
+   * name of the country to add the neighbor to
    * @param neighborCountryNameAdd
+   * name of the neighboring country
    * @param countryNameRemove
+   * name of the country to remove the neighbor from
    * @param neighborCountryNameRemove
+   * name of the neighboring country
    * @return operation result (error/success)
    */
   @ShellMethod("Add/Remove Country ")

@@ -2,6 +2,11 @@ package ca.concordia.app.risk.controller.dto;
 
 import javax.validation.ValidationException;
 
+/**
+ * 
+ * ContinentDto
+ *
+ */
 public class ContinentDto implements Dto {
 
 	private int numberOfCountries;
@@ -14,9 +19,14 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * 
+	 * Initialize Class Properties
+	 * 
 	 * @param numberOfCountries
-	 * @param continent name
+	 * number of countries
+	 * @param name
+	 * continent name
 	 * @param controlValue
+	 * control value
 	 */
 	public ContinentDto(int numberOfCountries, String name, int controlValue) {
 		super();
@@ -38,6 +48,7 @@ public class ContinentDto implements Dto {
 	 * sets {@link numberOfCountries}
 	 * 
 	 * @param numberOfCountries
+	 * sets number of countries
 	 */
 	public void setNumberOfCountries(int numberOfCountries) {
 		this.numberOfCountries = numberOfCountries;
@@ -55,7 +66,8 @@ public class ContinentDto implements Dto {
 	/**
 	 * sets {@link name}
 	 * 
-	 * @param continent name
+	 * @param name
+	 * sets continent name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -74,6 +86,7 @@ public class ContinentDto implements Dto {
 	 * sets {@link controlValue}
 	 * 
 	 * @param controlValue
+	 * sets control value
 	 */
 	public void setControlValue(int controlValue) {
 		this.controlValue = controlValue;
@@ -95,7 +108,8 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * 
-	 * @param object
+	 * @param obj
+	 * check object is equals
 	 * @return true/false
 	 */
 	@Override

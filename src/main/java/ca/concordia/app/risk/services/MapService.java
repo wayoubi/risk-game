@@ -19,8 +19,10 @@ public class MapService {
   private ObjectFactory objectFactory = new ObjectFactory();
 
   /**
+   * This method adds continent to the map
    * 
    * @param continentDto
+   * continent DTO
    */
   public void addContinent(ContinentDto continentDto) {
 
@@ -41,8 +43,10 @@ public class MapService {
   }
 
   /**
+   * This method removes continent from the map
    * 
    * @param continentDto
+   * continent DTO
    */
   public void removeContinent(ContinentDto continentDto) {
     if(RunningGame.getInstance().isGamePlay())
@@ -64,8 +68,10 @@ public class MapService {
   }
 
   /**
+   * This method adds country to the continent
    * 
    * @param countryDto
+   * country DTO
    */
   public void addCountry(CountryDto countryDto) {
     if(RunningGame.getInstance().isGamePlay())
@@ -100,9 +106,10 @@ public class MapService {
   }
 
   /**
+   * This method removes country from a continent
    * 
    * @param countryDto
-   * @throws Exception
+   * country DTO
    */
   public void removeCountry(CountryDto countryDto) {
     if(RunningGame.getInstance().isGamePlay())
@@ -126,9 +133,10 @@ public class MapService {
   }
 
   /**
-   * This method is used to add neighbour to a country
+   * This method is used to add neighbor to a country
    * 
    * @param borderDto
+   * border DTO
    */
   public void addNeighbor(BorderDto borderDto) {
     if(RunningGame.getInstance().isGamePlay())
@@ -150,9 +158,12 @@ public class MapService {
   }
 
   /**
+   * This method makes the borders from one country to another
    * 
    * @param countryName
+   * country name to make the border from
    * @param neighborCountryName
+   * country name to make the border to
    */
   private void makeBorder(String countryName, String neighborCountryName) {
     if(RunningGame.getInstance().isGamePlay())
@@ -182,8 +193,10 @@ public class MapService {
   }
 
   /**
+   * This method removes neighbor of a country 
    * 
    * @param borderDto
+   * border DTO
    */
   public void removeNeighbor(BorderDto borderDto) {
     if(RunningGame.getInstance().isGamePlay())
@@ -194,9 +207,12 @@ public class MapService {
   }
 
   /**
+   * This method removes a border between two countries
    * 
    * @param countryName
+   * country name
    * @param neighborCountryName
+   * neighbor country name
    */
   private void removeBorder(String countryName, String neighborCountryName) {
     if(RunningGame.getInstance().isGamePlay())

@@ -87,7 +87,10 @@ public class GameService {
   }
 
   /**
+   * This method saves the map file
+   * 
    * @param fileName
+   * file name
    */
   public void saveMap(String fileName) {
     if (!this.validateMap("All")) {
@@ -125,7 +128,10 @@ public class GameService {
   }
 
   /**
+   * This method loads the map file
+   * 
    * @param fileName
+   * file name
    */
   public void loadMap(String fileName) {
       if(RunningGame.getInstance().isGamePlay())
@@ -139,7 +145,10 @@ public class GameService {
   }
 
   /**
+   * This method edits map file
+   * 
    * @param fileName
+   * file name
    */
   public void editMap(String fileName) {
       if(RunningGame.getInstance().isGamePlay())
@@ -206,9 +215,12 @@ public class GameService {
   }
 
   /**
+   * This method validates the map
    *
    * @param continentName
+   * continent name to validate
    * @return
+   * returns connectivity status of the graph vertices
    */
   public boolean validateMap(String continentName) {
       if(RunningGame.getInstance().isGamePlay())
@@ -491,10 +503,14 @@ public class GameService {
   }
 
   /**
+   * This method do fortify operation
    *
    * @param fromCountry
+   * origin country to fortify
    * @param toCountry
+   * destination country to fortify
    * @param numberOfArmies
+   * number of armies
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
 

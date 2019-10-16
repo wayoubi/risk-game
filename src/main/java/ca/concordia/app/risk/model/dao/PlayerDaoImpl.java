@@ -22,7 +22,9 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 	 * This method finds a player by name
 	 *
 	 * @param gameModel
+	 * game model
 	 * @param name
+	 * player name
 	 * @return player object
 	 */
 	@Override
@@ -35,7 +37,9 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 	 * This method finds a player by id
 	 *
 	 * @param gameModel
+	 * game model
 	 * @param id
+	 * player id
 	 * @return player object
 	 */
 	@Override
@@ -48,7 +52,9 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 	 * This method assigns id to a player
 	 *
 	 * @param gameModel
+	 * game model
 	 * @param t
+	 * player model
 	 */
 	@Override
 	public void assignID(@NotNull GameModel gameModel, PlayerModel t) {
@@ -63,6 +69,11 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 
 	/**
 	 * This method removes a list of players
+	 * 
+	 * @param gameModel
+	 * game model
+	 * @param t
+	 * player model
 	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, PlayerModel t) {
@@ -70,8 +81,12 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 	}
 
 	/**
+	 * This method gets countries of the player
+	 * 
 	 * @param gameModel
+	 * game model
 	 * @param t
+	 * player model
 	 * @return list of countries of the current player
 	 */
 	public List<CountryModel> getCountries(@NotNull GameModel gameModel, PlayerModel t) {

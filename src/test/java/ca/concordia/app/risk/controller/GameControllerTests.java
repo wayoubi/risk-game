@@ -68,7 +68,7 @@ public class GameControllerTests {
 
 	/**
 	 * save operation for a connected map
-	 * -> file should exists after save a connected map
+	 * file should exists after save a connected map
 	 * @see ca.concordia.app.risk.controller.GameController#savemap(String)
 	 */	
 	@Test
@@ -101,7 +101,7 @@ public class GameControllerTests {
 
 	/**
 	 * save operation for a disconnected map
-	 * -> file should not exists after save a disconnected map
+	 * file should not exists after save a disconnected map
 	 * @see ca.concordia.app.risk.controller.GameController#savemap(String)
 	 */	
 	@Test
@@ -132,7 +132,7 @@ public class GameControllerTests {
 
 	/**
 	 * load operation for a connected map
-	 * -> country model should exists after load a connected map
+	 * country model should exists after load a connected map
 	 * @see ca.concordia.app.risk.controller.GameController#loadmap(String)
 	 */	
 	@Test
@@ -148,7 +148,7 @@ public class GameControllerTests {
 
 	/**
 	 * load operation for a disconnected map
-	 * -> no continent/country/border should exist after load a disconnected map
+	 * no continent/country/border should exist after load a disconnected map
 	 * @see ca.concordia.app.risk.controller.GameController#loadmap(String)
 	 */	
 	@Test
@@ -163,7 +163,7 @@ public class GameControllerTests {
 
 	/**
 	 * map validation operation
-	 * -> should receive success message after validation operation
+	 * should receive success message after validation operation
 	 * @see ca.concordia.app.risk.controller.GameController#validatemap(String)
 	 */	
 	@Test
@@ -196,7 +196,7 @@ public class GameControllerTests {
 
 	/**
 	 * map validation operation per continent
-	 * -> should receive successful/unsuccessful message after validation operation for each continent
+	 * should receive successful/unsuccessful message after validation operation for each continent
 	 * @see ca.concordia.app.risk.controller.GameController#validatemap(String)
 	 */	
 	@Test

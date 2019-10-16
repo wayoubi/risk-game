@@ -21,7 +21,7 @@ public class PlayService {
   /**
    * 
    * @param attacker
-   * @throws Exception
+   * attacker country name
    */
   public void attack(String attacker) {
     PlayerDaoImpl playerDao = new PlayerDaoImpl();

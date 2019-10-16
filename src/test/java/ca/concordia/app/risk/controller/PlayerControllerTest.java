@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * @verifies player commands
+ * player commands
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
@@ -50,8 +50,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies add player
-   * -> should return number of players even in case of edit a player's name
+   * add player
+   * should return number of players even in case of edit a player's name
    * @see ca.concordia.app.risk.controller.GameController#gameplayer(String, String)
    */
   @Test
@@ -67,8 +67,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies duplicate player entries
-   * -> should return non-duplicated count of players if a player added 2 times
+   * duplicate player entries
+   * should return non-duplicated count of players if a player added 2 times
    * @see ca.concordia.app.risk.controller.GameController#gameplayer(String, String)
    */
   @Test
@@ -82,8 +82,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies color of the player
-   * -> should return color of the related player
+   * color of the player
+   * should return color of the related player
    * @see ca.concordia.app.risk.controller.GameController#gameplayer(String, String)
    */
   @Test
@@ -97,8 +97,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies populate countries among player
-   * -> should return number of countries per player
+   * populate countries among player
+   * should return number of countries per player
    * @see ca.concordia.app.risk.controller.GameController#populatecountries()
    */
   @Test
@@ -135,8 +135,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies place army for non-active player
-   * -> should return 0 as a number of armies placed for a non-active player
+   * place army for non-active player
+   * should return 0 as a number of armies placed for a non-active player
    * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
    */
   @Test
@@ -166,8 +166,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies place army for active player
-   * -> should return 1 as a number of armies placed for an active player
+   * place army for active player
+   * should return 1 as a number of armies placed for an active player
    * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
    */
   @Test
@@ -197,8 +197,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies place army for non-exists country
-   * -> should return 0 as a number of armies placed for a player
+   * place army for non-exists country
+   * should return 0 as a number of armies placed for a player
    * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
    */
   @Test
@@ -227,8 +227,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies number of armies after placing army in countries
-   * -> should return corresponding number
+   * number of armies after placing army in countries
+   * should return corresponding number
    * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
    */
   @Test
@@ -261,8 +261,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies number of armies do not exceed number maximum
-   * -> should return maximum of 40 armies per country
+   * number of armies do not exceed number maximum
+   * should return maximum of 40 armies per country
    * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
    */
   @Test
@@ -297,8 +297,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies placing all armies
-   * -> should return maximum of 40 armies per country
+   * placing all armies
+   * should return maximum of 40 armies per country
    * @see ca.concordia.app.risk.controller.GameController#placeall()
    */
   @Test
@@ -336,8 +336,8 @@ public class PlayerControllerTest {
   }
 
   /**
-   * @verifies armies reinforcement
-   * -> should return corresponding number of armies
+   * armies reinforcement
+   * should return corresponding number of armies
    * @see ca.concordia.app.risk.controller.GameController#reinforce(String, int)
    */
   @Test

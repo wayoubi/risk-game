@@ -20,7 +20,7 @@ import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
 /**
- * @verifies editcountry command
+ * editcountry command
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
@@ -48,8 +48,8 @@ public class EditCountryMapControllerTest {
 	  }
 
 	  /**
-	   * @verifies add country 
-	   * -> should return number of countries if countries added properly
+	   * add country 
+	   * should return number of countries if countries added properly
 	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
 	   */
 	  @Test
@@ -61,8 +61,8 @@ public class EditCountryMapControllerTest {
 	  }
 	  
 	  /**
-	   * @verifies duplicate country entries in the same continent
-	   * -> should return non-duplicated count if a country added 2 times in the same continent
+	   * duplicate country entries in the same continent
+	   * should return non-duplicated count if a country added 2 times in the same continent
 	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
 	   */
 	  @Test
@@ -74,8 +74,8 @@ public class EditCountryMapControllerTest {
 	  }
 	  
 	  /**
-	   * @verifies duplicate country entries in the whole map(different continents)
-	   * -> should return non-duplicated count if a country added 2 times in the map
+	   * duplicate country entries in the whole map(different continents)
+	   * should return non-duplicated count if a country added 2 times in the map
 	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
 	   */
 	  @Test
@@ -87,8 +87,8 @@ public class EditCountryMapControllerTest {
 	  }
 	  
 	  /**
-	   * @verifies remove operation on a country
-	   * -> should return null after remove
+	   * remove operation on a country
+	   * should return null after remove
 	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
 	   */
 	  @Test
@@ -103,9 +103,9 @@ public class EditCountryMapControllerTest {
 	  }
 	  
 	  /**
-	   * @verifies add & remove operations on a country
-	   * -> should return not null after add
-	   * -> should return null after remove
+	   * add and remove operations on a country
+	   * should return not null after add
+	   * should return null after remove
 	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
 	   */
 	  @Test
@@ -120,8 +120,8 @@ public class EditCountryMapControllerTest {
 	  }
 
 	  /**
-	   * @verifies remove country that doesn't exist
-	   * -> should return not null for existing countries after removing a country that doesn't exist
+	   * remove country that doesn't exist
+	   * should return not null for existing countries after removing a country that doesn't exist
 	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
 	   */
 	  @Test

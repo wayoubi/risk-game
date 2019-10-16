@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.concordia.app.risk.services.PresentationService;
 
 /**
- * 
+ * ViewBusinessDelegate
  * @author i857625
  *
  */
@@ -19,7 +19,7 @@ public class ViewBusinessDelegate {
 	PresentationService presentationService;
 	
 	/**
-	 * This method shows map
+	 * show map
 	 */
 	public void showmap() {
 		presentationService.showmap();

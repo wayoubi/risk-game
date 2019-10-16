@@ -15,7 +15,7 @@ import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
- * 
+ * PlayController
  * @author i857625
  *
  */
@@ -54,17 +54,21 @@ public class PlayController {
 
   /**
    * This method "Attacks a player" 
-   * 1- roll dice & randomly assign a number for players on both sides of the attach 
+   * 1- roll dice and randomly assign a number for players on both sides of the attach 
    * 2- checks business in {@link #playBusinessDelegate} 
    * 3- display attack result
    * 
-   * Command -> attack --attacker [attackerPlayerName] --defender [defenderPlayerName] --from [attackerCountryName] --to [defenderCountryName]
+   * Command: attack --attacker [attackerPlayerName] --defender [defenderPlayerName] --from [attackerCountryName] --to [defenderCountryName]
    * 
    * @param attacker
+   * attacker's country name
    * @param defender
+   * defender's country name
    * @param from
+   * origin country of attack
    * @param to
-   * @return The result of attack -> Example: "player X lose"
+   * destination country of the attack (defender's country)
+   * @return The result of attack, Example: "player X lose"
    */
   @ShellMethod("Attack a player")
   public String attack(@ShellOption(optOut = false) String attacker, @ShellOption(optOut = false) String defender,
