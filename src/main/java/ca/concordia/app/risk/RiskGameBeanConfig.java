@@ -22,7 +22,7 @@ import ca.concordia.app.risk.shell.SimpleSpinner;
 import ca.concordia.app.risk.utility.GameUtils;
 
 /**
- * 
+ * For Beans Configuration
  * @author i857625
  *
  */
@@ -31,7 +31,7 @@ public class RiskGameBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return PromptProvider
 	 */
 	@Bean
 	public PromptProvider myPromptProvider() {
@@ -42,7 +42,7 @@ public class RiskGameBeanConfig {
 	/**
 	 * 
 	 * @param terminal
-	 * @return
+	 * @return ShellHelper
 	 */
 	@Bean
 	public ShellHelper shellHelper(@Lazy Terminal terminal) {
@@ -52,7 +52,7 @@ public class RiskGameBeanConfig {
 	/**
 	 * 
 	 * @param lineReader
-	 * @return
+	 * @return InputReader
 	 */
 	@Bean
 	public InputReader inputReader(@Lazy LineReader lineReader) {
@@ -62,7 +62,7 @@ public class RiskGameBeanConfig {
 	/**
 	 * 
 	 * @param terminal
-	 * @return
+	 * @return SimpleSpinner
 	 */
 	@Bean
 	public SimpleSpinner simpleSpinner(@Lazy Terminal terminal) {
@@ -71,7 +71,7 @@ public class RiskGameBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return GameUtils
 	 */
 	@Bean
 	public GameUtils gameUtils() {
@@ -80,7 +80,7 @@ public class RiskGameBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return GameBusinessDelegate
 	 */
 	@Bean
 	public GameBusinessDelegate gameBusinessDelegate() {
@@ -89,7 +89,7 @@ public class RiskGameBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return PlayBusinessDelegate
 	 */
 	@Bean
 	public PlayBusinessDelegate playBusinessDelegate() {
@@ -98,8 +98,8 @@ public class RiskGameBeanConfig {
 
 	/**
 	 * 
-	 * @return
-	 */
+	 * @return ViewBusinessDelegate
+	 */ 
 	@Bean
 	public ViewBusinessDelegate viewBusinessDelegate() {
 		return new ViewBusinessDelegate();
@@ -107,7 +107,7 @@ public class RiskGameBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return PresentationService
 	 */
 	@Bean
 	public PresentationService presentationService() {
@@ -116,7 +116,7 @@ public class RiskGameBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return GameService
 	 */
 	@Bean
 	public GameService gameService() {
@@ -125,13 +125,17 @@ public class RiskGameBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return MapBusinessDelegate
 	 */
 	@Bean
 	public MapBusinessDelegate mapBusinessDelegate() {
 		return new MapBusinessDelegate();
 	}
 
+	/**
+	 * 
+	 * @return MapService
+	 */
 	@Bean
 	public MapService mapService() {
 		return new MapService();

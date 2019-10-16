@@ -26,6 +26,7 @@ public class ViewController {
 		if (log.isDebugEnabled()) {
 			log.debug("inside showmap");
 		}
+		
 		JGraphXAdapterView.main(null);
 	}
 }

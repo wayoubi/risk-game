@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 /**
- * 
+ * Class to Run the Game
  * @author i857625
  *
  */
@@ -12,7 +12,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class RiskGameRunner {
 
 	/**
-	 * 
+	 * Runs the Spring application
 	 * @param args
 	 */
 	public static void main(String[] args){

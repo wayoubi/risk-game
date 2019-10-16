@@ -27,18 +27,20 @@ public class GameController {
   ShellHelper shellHelper;
 
   /**
-   * 
+   * Dependency injection from GameBusinessDelegate
    */
   @Autowired
   private GameBusinessDelegate gameBusinessDelegate;
 
   /**
-   * This method saves the game into the file Example -> save
+   * This method saves current game state.
+   * Command -> save
    * 
    * @return operation result (error/success)
    */
   @ShellMethod("Save the current game state")
   public String save() {
+	  
     if (log.isDebugEnabled()) {
       log.debug("inside save");
     }
@@ -47,17 +49,21 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return shellHelper.getSuccessMessage("Game saved successfully");
   }
 
+  
   /**
-   * This method saves the current map Example -> savemap
+   * This method saves the current map file under the saved directory.
+   * Command -> savemap -file [fileName]
    *
    * @param fileName
    * @return operation result (error/success)
    */
   @ShellMethod("Save the current gamemap using domination map file format under the saved directory")
   public String savemap(@ShellOption(value = { "-file" }) String fileName) {
+	  
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
     }
@@ -66,17 +72,21 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return shellHelper.getSuccessMessage("Game Map saved successfully");
   }
 
+  
   /**
-   * This method validates map -> checks whether graph is connected or not Example
-   * -> validatemap
+   * This method validates map, whether graph is connected or not (per continent).
+   * Command -> validatemap -continent [continentName]
    *
+   * @param continentName
    * @return operation result (error/success)
    */
   @ShellMethod("Validate the current gamemap to be connected")
   public String validatemap(@ShellOption(value = { "-continent" }, defaultValue = "All") String continentName) {
+	  
     if (log.isDebugEnabled()) {
       log.debug("inside validatemap");
     }
@@ -89,12 +99,17 @@ public class GameController {
     if (!isConnected) {
       return shellHelper.getErrorMessage("Countries are not connected, Map is invalid");
     }
+    
     return shellHelper.getSuccessMessage("Countries are connected, Map is valid");
   }
 
+  
   /**
-   * This method add/remove Player Example -> editPlayer --add [playerName]
-   * --remove [playerName]
+   * This method add/remove/edit Player. 
+   * 
+   * Add Command -> gameplayer -add [player2Add]
+   * Edit Command  -> gameplayer -add [player2Add] [player2Remove]
+   * Remove Command -> gameplayer -remove [player2Remove]
    *
    * @param player2Add
    * @param player2Remove
@@ -103,6 +118,7 @@ public class GameController {
   @ShellMethod("Add/Remove player")
   public String gameplayer(@ShellOption(value = { "-add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
       @ShellOption(value = { "-remove" }, defaultValue = "None") String player2Remove) {
+	  
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
     }
@@ -120,27 +136,32 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return "Player edited successfully";
   }
 
+  
   /**
-   * This method assigns countries to the players - at the start of the game
-   * Example -> populatecountries
+   * This method assigns countries to the players.
+   * Command -> populatecountries
    *
    * @return operation result (error/success)
    */
   @ShellMethod("Populate countries")
   public String populatecountries() {
+	  
     if (log.isDebugEnabled()) {
       log.debug("inside populatecountries");
     }
     gameBusinessDelegate.populateCountries();
+    
     return "Countries has been randomly assigned to players.";
   }
 
+  
   /**
-   * This method assigns armies to the countries Example -> placearmy
-   * --countryname [countryName]
+   * This method assigns armies to the countries. 
+   * Command -> placearmy -countryname [countryName]
    *
    * @param countryName
    * @return operation result (error/success)
@@ -148,6 +169,7 @@ public class GameController {
   @ShellMethod("Placearmy")
   public String placearmy(
       @ShellOption(value = { "-countryname" }, defaultValue = NONE_DEFAULT_VALUE) String countryName) {
+	  
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside placearmy, passed parameters [%s]", countryName));
     }
@@ -156,18 +178,21 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return "An Army has been assigned to this country.";
   }
 
+  
   /**
-   * This method open a map file - make it ready to user edit Example -> editmap
-   * [fileName]
+   * This method open a map file to edit.
+   * Command -> editmap --file-name [fileName]
    *
    * @param fileName
    * @return operation result (error/success)
    */
   @ShellMethod("Edit map saved in file")
   public String editmap(@ShellOption(optOut = false) String fileName) {
+	  
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside editmap, passed parameters [%s]", fileName));
     }
@@ -176,17 +201,21 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return shellHelper.getSuccessMessage("Map file is read, you can edit now");
   }
 
+  
   /**
-   * This method load a saved map file Example -> loadmap [fileName]
+   * This method load a saved map file.
+   * Command -> loadmap --file-name [fileName]
    *
    * @param fileName
    * @return operation result (error/success)
    */
   @ShellMethod("Load map saved in file")
   public String loadmap(@ShellOption(optOut = false) String fileName) {
+	  
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside loadmap, passed parameters [%s]", fileName));
     }
@@ -196,11 +225,13 @@ public class GameController {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
     return shellHelper.getSuccessMessage("Map file is read, map is loaded");
+    
   }
 
+  
   /**
-   * This method does Reinforcement Example -> reinforce [countryName]
-   * [numberOfArmies]
+   * This method does Reinforcement.
+   * Command -> reinforce -countryName [countryName] -number [numberOfArmies]
    *
    * @param countryName
    * @param numberOfArmies
@@ -208,6 +239,7 @@ public class GameController {
    */
   @ShellMethod("Reinforcement")
   public String reinforce(
+		  
       @ShellOption(value = { "-countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
       @ShellOption(value = { "-number" }, defaultValue = "None") int numberOfArmies) {
     if (log.isDebugEnabled()) {
@@ -218,16 +250,20 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return shellHelper.getSuccessMessage("reinforcement has been completed");
   }
 
+  
   /**
-   * This method place all remaining armies Example -> placeall
+   * This method place all remaining armies. 
+   * Command -> placeall
    *
    * @return operation result (error/success)
    */
   @ShellMethod("Place all")
   public String placeall() {
+	  
     if (log.isDebugEnabled()) {
       log.debug("inside placeall");
     }
@@ -236,20 +272,29 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return shellHelper.getSuccessMessage("All remaining unplaced armies have been assigned");
   }
 
+  
   /**
    * This method is used for fortification of armies from one country to another.
-   * The user could choose to not fortify at all.
+   * The user can choose to not fortify at all.
    * 
+   * Command -> fortify -fromcountry [fromCountryname] -tocountry [toCountryname] -num [numberOfArmies]
+   * 
+   * @param fromCountry
+   * @param toCountry
+   * @param numberOfArmies
    * @return operation result (error/success)
    */
   @ShellMethod("Fortify, Sample: fortify -fromcountry [countryname] -tocountry [countryname] -num [noofarmies]")
   public String fortify(@ShellOption(value = { "-fromcountry" }, defaultValue = NONE_DEFAULT_VALUE) String fromCountry,
       @ShellOption(value = { "-tocountry" }, defaultValue = NONE_DEFAULT_VALUE) String toCountry,
       @ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String numberOfArmies) {
+	  
     StringBuilder result = new StringBuilder();
+    
     try {
       if (fromCountry != null && "none".equals(fromCountry)) {
         gameBusinessDelegate.moveToNextPlayer();
@@ -258,6 +303,7 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       result.append(shellHelper.getErrorMessage(riskGameRuntimeException.getMessage()));
     }
+    
     try {
       if (fromCountry != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(fromCountry) && toCountry != null
           && !NONE_DEFAULT_VALUE.equalsIgnoreCase(toCountry) && numberOfArmies != null
@@ -269,6 +315,7 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return shellHelper.getSuccessMessage("Fortification was successful");
   }
 }

@@ -25,23 +25,27 @@ public class PlayController {
   private static final String NONE_DEFAULT_VALUE = "None";
   private static final String COMMAND_EXECUTED_SUCCESSFULLY = "Command executed successfully";
   private static Logger log = LoggerFactory.getLogger(PlayController.class);
+
   /**
-   * 
+   * Dependency injection from GameUtils
    */
   @Autowired
   private GameUtils gameUtils;
 
   /**
-   * 
+   * Dependency injection from PlayBusinessDelegate
    */
   @Autowired
   private PlayBusinessDelegate playBusinessDelegate;
 
+  /**
+   * Dependency injection from ShellHelper
+   */
   @Autowired
   private ShellHelper shellHelper;
 
   /**
-   * 
+   * Dependency injection from PlayBusinessDelegate
    */
   @Autowired
   public PlayController() {
@@ -49,9 +53,12 @@ public class PlayController {
   }
 
   /**
-   * This method "Attacks a player" 1- roll dice & randomly assign a number for
-   * players on both sides of the attach 2- checks business in
-   * {@link #playBusinessDelegate} 3- display attack result
+   * This method "Attacks a player" 
+   * 1- roll dice & randomly assign a number for players on both sides of the attach 
+   * 2- checks business in {@link #playBusinessDelegate} 
+   * 3- display attack result
+   * 
+   * Command -> attack --attacker [attackerPlayerName] --defender [defenderPlayerName] --from [attackerCountryName] --to [defenderCountryName]
    * 
    * @param attacker
    * @param defender
