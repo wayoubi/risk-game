@@ -56,6 +56,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
+	 * 
 	 * @param playerDTO
 	 */
 	public PlayerDto(@NotNull final PlayerDto playerDTO) {
@@ -64,53 +65,63 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * gets {@link id}
+	 *  
+	 * @return playerId
 	 */
 	public int getId() {
 		return id;
 	}
 
 	/**
+	 * sets {@link id}
 	 * 
-	 * @param id
+	 * @param playerId
 	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * gets {@link name}
+	 *  
+	 * @return playerName
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
+	 * sets {@link name}
 	 * 
-	 * @param name
+	 * @param playerName
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * gets {@link color}
+	 *  
+	 * @return playerColor
 	 */
 	public String getColor() {
 		return color;
 	}
 
 	/**
+	 * sets {@link color}
 	 * 
-	 * @param color
+	 * @param playerColor
 	 */
 	public void setColor(String color) {
 		this.color = color;
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void validate() throws ValidationException {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -121,6 +132,10 @@ public class PlayerDto implements Dto {
 		}
 	}
 
+	/**
+	 * 
+	 * @return result
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -131,8 +146,14 @@ public class PlayerDto implements Dto {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param object
+	 * @return true/false
+	 */
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -155,9 +176,14 @@ public class PlayerDto implements Dto {
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
+		
 		return true;
 	}
 
+	/**
+	 * 
+	 * @return PlayerDto [id, name, color]
+	 */
 	@Override
 	public String toString() {
 		return "PlayerDto [id=" + id + ", name=" + name + ", color=" + color + "]";

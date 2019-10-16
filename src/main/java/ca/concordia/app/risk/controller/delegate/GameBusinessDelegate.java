@@ -13,13 +13,14 @@ import ca.concordia.app.risk.services.GameService;
 public class GameBusinessDelegate {
 
   /**
-   *
+   * 
+   * Dependency injection from GameService
    */
   @Autowired
   GameService gameService;
 
   /**
-   *
+   * 
    * @throws Exception
    */
   public void saveGame() {
@@ -27,7 +28,7 @@ public class GameBusinessDelegate {
   }
 
   /**
-   *
+   * 
    * @param fileName
    */
   public void saveMap(String fileName) {
@@ -35,15 +36,15 @@ public class GameBusinessDelegate {
   }
 
   /**
-   *
-   * @return
+   * 
+   * @return true if map is valid
    */
   public boolean validateMap(String continentName) {
     return gameService.validateMap(continentName);
   }
 
   /**
-   *
+   * 
    * @param fileName
    */
   public void editMap(String fileName) {
@@ -51,29 +52,50 @@ public class GameBusinessDelegate {
   }
 
   /**
-   *
+   * 
    * @param fileName
    */
   public void loadMap(String fileName) {
     gameService.loadMap(fileName);
   }
 
+  /**
+   * 
+   * @param playerDto
+   */
   public void addPlayer(PlayerDto playerDto) {
     gameService.addPlayer(playerDto);
   }
 
+  /**
+   * 
+   * @param playerDto
+   */
   public void removePlayer(PlayerDto playerDto) {
     gameService.removePlayer(playerDto);
   }
 
+  /**
+   * 
+   * @param populateCountries
+   */
   public void populateCountries() {
     gameService.populateCountries();
   }
 
+  /**
+   * 
+   * @param countryName
+   */
   public void placeArmy(String countryName) {
     gameService.placeArmy(countryName);
   }
 
+  /**
+   * 
+   * @param countryName
+   * @param numberOfArmies
+   */
   public void reinforce(String countryName, int numberOfArmies) {
     gameService.reinforce(countryName, numberOfArmies);
   }

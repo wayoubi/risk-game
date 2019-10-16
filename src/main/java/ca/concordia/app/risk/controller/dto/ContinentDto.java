@@ -12,6 +12,12 @@ public class ContinentDto implements Dto {
 		super();
 	}
 
+	/**
+	 * 
+	 * @param numberOfCountries
+	 * @param continent name
+	 * @param controlValue
+	 */
 	public ContinentDto(int numberOfCountries, String name, int controlValue) {
 		super();
 		this.numberOfCountries = numberOfCountries;
@@ -20,47 +26,63 @@ public class ContinentDto implements Dto {
 	}
 
 	/**
-	 * @return the numberOfCountries
+	 * gets {@link numberOfCountries}
+	 *  
+	 * @return numberOfCountries
 	 */
 	public int getNumberOfCountries() {
 		return numberOfCountries;
 	}
 
 	/**
-	 * @param numberOfCountries the numberOfCountries to set
+	 * sets {@link numberOfCountries}
+	 * 
+	 * @param numberOfCountries
 	 */
 	public void setNumberOfCountries(int numberOfCountries) {
 		this.numberOfCountries = numberOfCountries;
 	}
 
 	/**
-	 * @return the name
+	 * gets {@link name}
+	 * 
+	 * @return continent name
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name the name to set
+	 * sets {@link name}
+	 * 
+	 * @param continent name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * @return the controlValue
+	 * gets {@link controlValue}
+	 * 
+	 * @return controlValue
 	 */
 	public int getControlValue() {
 		return controlValue;
 	}
 
 	/**
-	 * @param controlValue the controlValue to set
+	 * sets {@link controlValue}
+	 * 
+	 * @param controlValue
 	 */
 	public void setControlValue(int controlValue) {
 		this.controlValue = controlValue;
 	}
 
+	/**
+	 * 
+	 * @return result
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -71,6 +93,11 @@ public class ContinentDto implements Dto {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param object
+	 * @return true/false
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

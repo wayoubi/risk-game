@@ -12,7 +12,6 @@ public interface Dto {
 
 	/**
 	 * 
-	 * @param t
 	 * @throws ValidationException
 	 */
 	void validate() throws ValidationException;

@@ -9,6 +9,10 @@ import ca.concordia.app.risk.services.MapService;
 
 public class MapBusinessDelegate {
 
+    /**
+     * 
+     * Dependency injection from GameService
+     */
 	@Autowired
 	private MapService mapService;
 
