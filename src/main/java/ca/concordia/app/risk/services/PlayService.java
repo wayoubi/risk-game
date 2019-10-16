@@ -20,8 +20,7 @@ public class PlayService {
 
   /**
    * 
-   * @param attacker
-   * attacker country name
+   * @param attacker attacker country name
    */
   public void attack(String attacker) {
     PlayerDaoImpl playerDao = new PlayerDaoImpl();
