@@ -26,7 +26,7 @@ import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
 /**
- * @verifies editcontinent command
+ * editcontinent command
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
@@ -49,7 +49,7 @@ public class EditContinentMapControllerTest {
   }
 
   /**
-   * @verifies add continents 
+   * add continents 
    * -> should return number of continents if continents added properly
    * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
    */
@@ -62,7 +62,7 @@ public class EditContinentMapControllerTest {
   }
   
   /**
-   * @verifies duplicate continent entries 
+   * duplicate continent entries 
    * -> should return non-duplicated count if a continent added 2 times
    * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
    */
@@ -75,7 +75,7 @@ public class EditContinentMapControllerTest {
   }
 
   /**
-   * @verifies number of countries in a continent 
+   * number of countries in a continent 
    * -> should return not null if continent has at least 1 country
    * -> should return null if continent has 0 country
    * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
@@ -94,7 +94,7 @@ public class EditContinentMapControllerTest {
   }
 
   /**
-   * @verifies number of countries do not exceed number of countries allowed in a continent
+   * number of countries do not exceed number of countries allowed in a continent
    * -> should return maximum number of countries in a continent after adding extra countries
    * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
    */
@@ -111,7 +111,7 @@ public class EditContinentMapControllerTest {
   }
 
   /**
-   * @verifies add & remove operations on a continent
+   * add & remove operations on a continent
    * -> should return not null after add
    * -> should return null after remove
    * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
@@ -127,7 +127,7 @@ public class EditContinentMapControllerTest {
   }
 
   /**
-   * @verifies remove operation on a continent
+   * remove operation on a continent
    * -> should return null after remove
    * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
    */
@@ -146,7 +146,7 @@ public class EditContinentMapControllerTest {
   }
 
   /**
-   * @verifies remove continent that doesn't exist
+   * remove continent that doesn't exist
    * -> should return not null for existing continents after removing a continent that doesn't exist
    * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
    */
@@ -165,7 +165,7 @@ public class EditContinentMapControllerTest {
   }
 
   /**
-   * @verifies continent IDs after adding a continent
+   * continent IDs after adding a continent
    * -> should return not null for the continent's corresponding ID
    * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
    */

@@ -29,7 +29,7 @@ import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
 /**
- * @verifies map commands - Save/Load/Validate
+ * map commands - Save/Load/Validate
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
@@ -67,7 +67,7 @@ public class GameControllerTests {
 	}
 
 	/**
-	 * @verifies save operation for a connected map
+	 * save operation for a connected map
 	 * -> file should exists after save a connected map
 	 * @see ca.concordia.app.risk.controller.GameController#savemap(String)
 	 */	
@@ -100,7 +100,7 @@ public class GameControllerTests {
 	}
 
 	/**
-	 * @verifies save operation for a disconnected map
+	 * save operation for a disconnected map
 	 * -> file should not exists after save a disconnected map
 	 * @see ca.concordia.app.risk.controller.GameController#savemap(String)
 	 */	
@@ -131,7 +131,7 @@ public class GameControllerTests {
 	}
 
 	/**
-	 * @verifies load operation for a connected map
+	 * load operation for a connected map
 	 * -> country model should exists after load a connected map
 	 * @see ca.concordia.app.risk.controller.GameController#loadmap(String)
 	 */	
@@ -147,7 +147,7 @@ public class GameControllerTests {
 	}
 
 	/**
-	 * @verifies load operation for a disconnected map
+	 * load operation for a disconnected map
 	 * -> no continent/country/border should exist after load a disconnected map
 	 * @see ca.concordia.app.risk.controller.GameController#loadmap(String)
 	 */	
@@ -162,7 +162,7 @@ public class GameControllerTests {
 	}
 
 	/**
-	 * @verifies map validation operation
+	 * map validation operation
 	 * -> should receive success message after validation operation
 	 * @see ca.concordia.app.risk.controller.GameController#validatemap(String)
 	 */	
@@ -195,7 +195,7 @@ public class GameControllerTests {
 	}
 
 	/**
-	 * @verifies map validation operation per continent
+	 * map validation operation per continent
 	 * -> should receive successful/unsuccessful message after validation operation for each continent
 	 * @see ca.concordia.app.risk.controller.GameController#validatemap(String)
 	 */	
