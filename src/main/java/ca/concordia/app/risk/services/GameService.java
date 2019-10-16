@@ -131,8 +131,6 @@ public class GameService {
       if(RunningGame.getInstance().isGamePlay())
           throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
     this.editMap(fileName);
-    RunningGame.getInstance().setGamePlay(true);
-    RunningGame.getInstance().setMapLoaded(true);
 
       if (!this.validateMap("All")) {
     	RunningGame.reset();
@@ -216,7 +214,10 @@ public class GameService {
       if(RunningGame.getInstance().isGamePlay())
           throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
-      if("All".equals(continentName)){
+    RunningGame.getInstance().setMapLoaded(true);
+
+
+    if("All".equals(continentName)){
 		int numberOfNotConnectedContinent = 0;
 		List<ContinentModel> continentsList = RunningGame.getInstance().getContinents().getList();
 		for(ContinentModel continentModel : continentsList) {
