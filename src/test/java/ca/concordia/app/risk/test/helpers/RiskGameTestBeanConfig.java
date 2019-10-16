@@ -8,12 +8,16 @@ import ca.concordia.app.risk.controller.MapController;
 import ca.concordia.app.risk.controller.PlayController;
 import ca.concordia.app.risk.controller.ViewController;
 
+
+/**
+ * Helper class for Beans Configuration
+ */
 @TestConfiguration
 public class RiskGameTestBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return MapController
 	 */
 	@Bean
 	public MapController mapController() {
@@ -22,7 +26,7 @@ public class RiskGameTestBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return GameController
 	 */
 	@Bean
 	public GameController gameController() {
@@ -31,7 +35,7 @@ public class RiskGameTestBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return PlayController
 	 */
 	@Bean
 	public PlayController playController() {
@@ -40,7 +44,7 @@ public class RiskGameTestBeanConfig {
 
 	/**
 	 * 
-	 * @return
+	 * @return ViewController
 	 */
 	@Bean
 	public ViewController ViewController() {

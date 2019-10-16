@@ -28,6 +28,9 @@ import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
+/**
+ * @verifies map commands - Save/Load/Validate
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({RiskGameBeanConfig.class, RiskGameTestBeanConfig.class})
@@ -50,7 +53,10 @@ public class GameControllerTests {
 		assertNotNull(mapController);
 		RunningGame.reset();
 	}
-	
+
+	/**
+	 * Clean resources after all tests
+	 */	
 	@AfterAll
 	public static void afterAll() {
 		log.info("Inside @afterAll");
@@ -59,7 +65,12 @@ public class GameControllerTests {
 			f.delete();
 		}
 	}
-	
+
+	/**
+	 * @verifies save operation for a connected map
+	 * -> file should exists after save a connected map
+	 * @see ca.concordia.app.risk.controller.GameController#savemap(String)
+	 */	
 	@Test
 	public void testSaveConnectedmap() {
 		log.info("Inside testSaveConnectedmap");
@@ -86,9 +97,13 @@ public class GameControllerTests {
 		File file = new File("saved/connectedmap.txt");
 		assertTrue(file.exists());
 		
-		
 	}
-	
+
+	/**
+	 * @verifies save operation for a disconnected map
+	 * -> file should not exists after save a disconnected map
+	 * @see ca.concordia.app.risk.controller.GameController#savemap(String)
+	 */	
 	@Test
 	public void testSaveDisconnectedmap() {
 		log.info("Inside testSaveDisconnectedmap");
@@ -114,7 +129,12 @@ public class GameControllerTests {
 		File file = new File("saved/disconnectedmap.txt");
 		assertFalse(file.exists()); 
 	}
-	
+
+	/**
+	 * @verifies load operation for a connected map
+	 * -> country model should exists after load a connected map
+	 * @see ca.concordia.app.risk.controller.GameController#loadmap(String)
+	 */	
 	@Test
 	public void testLoadConnectedmap() {
 		log.info("Inside testLoadmap");
@@ -125,7 +145,12 @@ public class GameControllerTests {
 		assertEquals(1, countryModel.getId());
 
 	}
-	
+
+	/**
+	 * @verifies load operation for a disconnected map
+	 * -> no continent/country/border should exist after load a disconnected map
+	 * @see ca.concordia.app.risk.controller.GameController#loadmap(String)
+	 */	
 	@Test
 	public void testLoadDisconnectedmap() {
 		log.info("Inside testLoadDisconnectedmap");
@@ -135,7 +160,12 @@ public class GameControllerTests {
 		assertEquals(0, RunningGame.getInstance().getCountries().getList().size());
 		assertEquals(0, RunningGame.getInstance().getBorders().getList().size());
 	}
-	
+
+	/**
+	 * @verifies map validation operation
+	 * -> should receive success message after validation operation
+	 * @see ca.concordia.app.risk.controller.GameController#validatemap(String)
+	 */	
 	@Test
 	public void testValidateMap() {
 		log.info("Inside testValidateMap");
@@ -163,7 +193,12 @@ public class GameControllerTests {
 		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Africa"));
 		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Europe"));
 	}
-	
+
+	/**
+	 * @verifies map validation operation per continent
+	 * -> should receive successful/unsuccessful message after validation operation for each continent
+	 * @see ca.concordia.app.risk.controller.GameController#validatemap(String)
+	 */	
 	@Test
 	public void testValidateMapPerContinent() {
 		log.info("Inside testPerContinent");

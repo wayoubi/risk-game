@@ -25,6 +25,9 @@ import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
+/**
+ * @verifies editcontinent command
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({ RiskGameBeanConfig.class, RiskGameTestBeanConfig.class })
@@ -45,6 +48,11 @@ public class EditContinentMapControllerTest {
     continentDaoImpl = new ContinentDaoImpl();
   }
 
+  /**
+   * @verifies add continents 
+   * -> should return number of continents if continents added properly
+   * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
+   */
   @Test
   public void testAddContinent() {
     log.info("Inside testAddContinent");
@@ -52,14 +60,26 @@ public class EditContinentMapControllerTest {
     mapController.editcontinent("Africa", "6", "None");
     assertEquals(2, RunningGame.getInstance().getContinents().getList().size());
   }
-
+  
+  /**
+   * @verifies duplicate continent entries 
+   * -> should return non-duplicated count if a continent added 2 times
+   * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
+   */
   @Test
   public void testDuplicateContinent() {
+	log.info("Inside testDuplicateContinent");
     mapController.editcontinent("Asia", "5", "None");
     mapController.editcontinent("Asia", "6", "None");
     assertEquals(1, RunningGame.getInstance().getContinents().getList().size());
   }
 
+  /**
+   * @verifies number of countries in a continent 
+   * -> should return not null if continent has at least 1 country
+   * -> should return null if continent has 0 country
+   * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
+   */
   @Test
   public void testNumberOfCountriesInContinent() {
     log.info("Inside testNumberOfCountriesInContinent");
@@ -73,6 +93,11 @@ public class EditContinentMapControllerTest {
     assertNull(continentDaoImpl.findByName(RunningGame.getInstance(), "North America"));
   }
 
+  /**
+   * @verifies number of countries do not exceed number of countries allowed in a continent
+   * -> should return maximum number of countries in a continent after adding extra countries
+   * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
+   */
   @Test
   public void testExceedNumberOfCountriesInContinent() {
     log.info("Inside testExceedNumberOfCountriesInContinent");
@@ -85,8 +110,15 @@ public class EditContinentMapControllerTest {
     assertEquals(3, continentDaoImpl.getCountries(RunningGame.getInstance(), continentModel).size());
   }
 
+  /**
+   * @verifies add & remove operations on a continent
+   * -> should return not null after add
+   * -> should return null after remove
+   * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
+   */
   @Test
   public void testAddRemoveContinent() {
+	log.info("Inside testAddRemoveContinent");
     mapController.editcontinent("Asia", "5", "None");
     mapController.editcontinent("Africa", "6", "Asia");
     assertEquals(1, RunningGame.getInstance().getContinents().getList().size());
@@ -94,8 +126,14 @@ public class EditContinentMapControllerTest {
     assertNotNull(continentDaoImpl.findByName(RunningGame.getInstance(), "Africa"));
   }
 
+  /**
+   * @verifies remove operation on a continent
+   * -> should return null after remove
+   * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
+   */
   @Test
   public void testRemoveContinent() {
+	log.info("Inside testRemoveContinent");
     mapController.editcontinent("Asia", "5", "None");
     mapController.editcontinent("Africa", "6", "None");
     assertEquals(2, RunningGame.getInstance().getContinents().getList().size());
@@ -107,8 +145,14 @@ public class EditContinentMapControllerTest {
     assertNotNull(continentDaoImpl.findByName(RunningGame.getInstance(), "Africa"));
   }
 
+  /**
+   * @verifies remove continent that doesn't exist
+   * -> should return not null for existing continents after removing a continent that doesn't exist
+   * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
+   */
   @Test
   public void testRemoveContinentDoesNotExist() {
+	log.info("Inside testRemoveContinentDoesNotExist");
     mapController.editcontinent("Asia", "5", "None");
     mapController.editcontinent("Africa", "6", "None");
     assertEquals(2, RunningGame.getInstance().getContinents().getList().size());
@@ -120,8 +164,14 @@ public class EditContinentMapControllerTest {
     assertNotNull(continentDaoImpl.findByName(RunningGame.getInstance(), "Africa"));
   }
 
+  /**
+   * @verifies continent IDs after adding a continent
+   * -> should return not null for the continent's corresponding ID
+   * @see ca.concordia.app.risk.controller.MapController#editcontinent(String, String, String)
+   */
   @Test
   public void testContinentIDs() {
+	log.info("Inside testContinentIDs");
     mapController.editcontinent("Asia", "5", "None");
     mapController.editcontinent("Africa", "6", "None");
     mapController.editcontinent("North America", "5", "None");
