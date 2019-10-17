@@ -7,5 +7,5 @@ ${Ansi.RED}# \____/\____/_/ /_/\__, /\__,_/\___/_/  🌎  \__/_/ /_/\___/ 🌍  
 ${Ansi.RED}#                    /_/                                                               
 ${Ansi.YELLOW}#
 # A Game designed for Advanced Programming Practices (SOEN 6441) 
-# (c) Concordia University, Fall 2019 (version 0.9.a️)
+# (c) Concordia University, Fall 2019 (version 1.0.0 ️)
 ${Ansi.RED}#=============================================================================================
