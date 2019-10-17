@@ -482,8 +482,10 @@ public class GameService {
 
       if (activePlayerModel.getReinforcementNoOfArmies() >= numberOfArmies) {
         countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + numberOfArmies);
+        if (activePlayerModel.getReinforcementNoOfArmies() - numberOfArmies == 0) {
+          RunningGame.getInstance().setReinforceCompleted(true);
+        }
         activePlayerModel.setReinforcementNoOfArmies(activePlayerModel.getReinforcementNoOfArmies() - numberOfArmies);
-        RunningGame.getInstance().setReinforceCompleted(true);
       } else {
         throw new RiskGameRuntimeException("Please reduce number of armies");
       }

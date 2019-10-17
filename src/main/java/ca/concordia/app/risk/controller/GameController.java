@@ -240,7 +240,7 @@ public class GameController {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
 
-    return shellHelper.getSuccessMessage("reinforcement has been completed");
+    return shellHelper.getSuccessMessage("Reinforcement has been completed");
   }
 
   /**
