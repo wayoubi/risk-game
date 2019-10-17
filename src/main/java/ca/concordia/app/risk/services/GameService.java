@@ -89,8 +89,7 @@ public class GameService {
   /**
    * This method saves the map file
    * 
-   * @param fileName
-   * file name
+   * @param fileName file name
    */
   public void saveMap(String fileName) {
     if (!this.validateMap("All")) {
@@ -130,16 +129,15 @@ public class GameService {
   /**
    * This method loads the map file
    * 
-   * @param fileName
-   * file name
+   * @param fileName file name
    */
   public void loadMap(String fileName) {
-      if(RunningGame.getInstance().isGamePlay())
-          throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    if (RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
     this.editMap(fileName);
 
-      if (!this.validateMap("All")) {
-    	RunningGame.reset();
+    if (!this.validateMap("All")) {
+      RunningGame.reset();
       throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
     }
   }
@@ -147,14 +145,13 @@ public class GameService {
   /**
    * This method edits map file
    * 
-   * @param fileName
-   * file name
+   * @param fileName file name
    */
   public void editMap(String fileName) {
-      if(RunningGame.getInstance().isGamePlay())
-          throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    if (RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
-      RunningGame.reset();
+    RunningGame.reset();
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(fileName)))) {
       int flag = 0;
       String line;
@@ -217,62 +214,59 @@ public class GameService {
   /**
    * This method validates the map
    *
-   * @param continentName
-   * continent name to validate
-   * @return
-   * returns connectivity status of the graph vertices
+   * @param continentName continent name to validate
+   * @return returns connectivity status of the graph vertices
    */
   public boolean validateMap(String continentName) {
-      if(RunningGame.getInstance().isGamePlay())
-          throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    if (RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
     RunningGame.getInstance().setMapLoaded(true);
 
-
-    if("All".equals(continentName)){
-		int numberOfNotConnectedContinent = 0;
-		List<ContinentModel> continentsList = RunningGame.getInstance().getContinents().getList();
-		for(ContinentModel continentModel : continentsList) {
-			ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(RunningGame.getInstance().getContinentGraph(continentModel.getName()));
-			if(!connectivityInspector.isConnected()) {
-				log.info(shellHelper.getErrorMessage(String.format("Continent [%s] is not connected", continentModel.getName())));
-				numberOfNotConnectedContinent++;
-			}
-		}
-		if(numberOfNotConnectedContinent>0) {
-			return false;
-		} else {
-			ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
-			        RunningGame.getInstance().getGraph());
-			    return connectivityInspector.isConnected();
-		}
-	} else {
-		ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-		ContinentModel continentModel = continentDaoImpl.findByName(RunningGame.getInstance(), continentName);
-		if(continentModel == null) {
-			 throw new RiskGameRuntimeException(
-			          String.format("Continent [%s] doesn't exist", continentName));
-		}
-		ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
-		        RunningGame.getInstance().getContinentGraph(continentName));
-		    return connectivityInspector.isConnected();
-	}
+    if ("All".equals(continentName)) {
+      int numberOfNotConnectedContinent = 0;
+      List<ContinentModel> continentsList = RunningGame.getInstance().getContinents().getList();
+      for (ContinentModel continentModel : continentsList) {
+        ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+            RunningGame.getInstance().getContinentGraph(continentModel.getName()));
+        if (!connectivityInspector.isConnected()) {
+          log.info(
+              shellHelper.getErrorMessage(String.format("Continent [%s] is not connected", continentModel.getName())));
+          numberOfNotConnectedContinent++;
+        }
+      }
+      if (numberOfNotConnectedContinent > 0) {
+        return false;
+      } else {
+        ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+            RunningGame.getInstance().getGraph());
+        return connectivityInspector.isConnected();
+      }
+    } else {
+      ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+      ContinentModel continentModel = continentDaoImpl.findByName(RunningGame.getInstance(), continentName);
+      if (continentModel == null) {
+        throw new RiskGameRuntimeException(String.format("Continent [%s] doesn't exist", continentName));
+      }
+      ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+          RunningGame.getInstance().getContinentGraph(continentName));
+      return connectivityInspector.isConnected();
+    }
   }
 
   public void addPlayer(PlayerDto playerDto) {
 
-      if(!RunningGame.getInstance().isMapLoaded())
-          throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
+    if (!RunningGame.getInstance().isMapLoaded())
+      throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
 
-      if(RunningGame.getInstance().isCountriesPopulated())
-          throw new RiskGameRuntimeException("Command cannot be performed, countries has been populated");
+    if (RunningGame.getInstance().isCountriesPopulated())
+      throw new RiskGameRuntimeException("Command cannot be performed, countries has been populated");
 
-      if(RunningGame.getInstance().isGamePlay())
-          throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    if (RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
-
-      int numOfPlayers = 0;
-     String color = null;
+    int numOfPlayers = 0;
+    String color = null;
 
     PlayerModel playerModel = objectFactory.createPlayerModel();
 
@@ -307,37 +301,34 @@ public class GameService {
   }
 
   public void removePlayer(PlayerDto playerDto) {
-      if(!RunningGame.getInstance().isMapLoaded())
-          throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
+    if (!RunningGame.getInstance().isMapLoaded())
+      throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
 
-      if(RunningGame.getInstance().isCountriesPopulated())
-          throw new RiskGameRuntimeException("Command cannot be performed, countries has been populated");
+    if (RunningGame.getInstance().isCountriesPopulated())
+      throw new RiskGameRuntimeException("Command cannot be performed, countries has been populated");
 
-      if(RunningGame.getInstance().isGamePlay())
-          throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    if (RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
-      PlayerDaoImpl playerDao = new PlayerDaoImpl();
-      PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), playerDto.getName());
-      playerDao.delete(RunningGame.getInstance(), playerModel);
+    PlayerDaoImpl playerDao = new PlayerDaoImpl();
+    PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), playerDto.getName());
+    playerDao.delete(RunningGame.getInstance(), playerModel);
   }
 
   public void populateCountries() {
 
-      if(RunningGame.getInstance().isGamePlay())
-          throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    if (RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
-
-      int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
+    int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
     int numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
     int playerID = 0;
 
     if (numberOfCountries == 0)
       throw new RiskGameRuntimeException("No Countries have been added to the game");
 
-    if(numberOfPlayers == 0)
+    if (numberOfPlayers == 0)
       throw new RiskGameRuntimeException("No players have been added to the game");
-
-
 
     List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList(); // convert list to stream
 
@@ -356,10 +347,10 @@ public class GameService {
 
   public void placeArmy(String countryName) {
 
-      if(RunningGame.getInstance().isGamePlay())
-          throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    if (RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
-      int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
+    int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
     PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
     PlayerModel activePlayerModel = null;
     CountryModel countryModel = null;
@@ -374,12 +365,10 @@ public class GameService {
     int playerId = 0;
     int numberOfPlayers = 0;
 
-
     numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
-    if(numberOfPlayers == 0)
+    if (numberOfPlayers == 0)
       throw new RiskGameRuntimeException("No players have been added to the game");
-
 
     countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
 
@@ -465,6 +454,7 @@ public class GameService {
     }
     if (activePlayerModel != null) {
       activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
+      RunningGame.getInstance().setReinforceCompleted(false);
     }
   }
 
@@ -505,16 +495,13 @@ public class GameService {
   /**
    * This method do fortify operation
    *
-   * @param fromCountry
-   * origin country to fortify
-   * @param toCountry
-   * destination country to fortify
-   * @param numberOfArmies
-   * number of armies
+   * @param fromCountry    origin country to fortify
+   * @param toCountry      destination country to fortify
+   * @param numberOfArmies number of armies
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
 
-    if(!RunningGame.getInstance().isReinforceCompleted())
+    if (!RunningGame.getInstance().isReinforceCompleted())
       throw new RiskGameRuntimeException("Please reinforce first ");
 
     PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
@@ -554,7 +541,7 @@ public class GameService {
     AllDirectedPaths<String, DefaultEdge> allDirectedPaths = new AllDirectedPaths<>(
         RunningGame.getInstance().getGraph());
     List<GraphPath<String, DefaultEdge>> allPaths = allDirectedPaths.getAllPaths(fromCountryModel.getName(),
-        toCountryModel.getName(), false, 100);
+        toCountryModel.getName(), false, 10);
     int counter = 0;
     for (GraphPath<String, DefaultEdge> graphPath : allPaths) {
       List<String> countriesInPath = graphPath.getVertexList();
@@ -575,7 +562,7 @@ public class GameService {
     if (counter == 0) {
 
       List<GraphPath<String, DefaultEdge>> allPathsReverse = allDirectedPaths.getAllPaths(toCountryModel.getName(),
-          fromCountryModel.getName(), false, 100);
+          fromCountryModel.getName(), false, 10);
       int counterNew = 0;
       for (GraphPath<String, DefaultEdge> graphPath : allPathsReverse) {
         List<String> countriesInPath = graphPath.getVertexList();
@@ -608,10 +595,10 @@ public class GameService {
 
   public void placeAll() {
 
-      if(RunningGame.getInstance().isGamePlay())
-          throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    if (RunningGame.getInstance().isGamePlay())
+      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
-      int totalNumberOfArmiesPerPlayer = 0;
+    int totalNumberOfArmiesPerPlayer = 0;
     int playerId = 0;
     int numberOfAssignedArmies = 0;
     int numberOfPlayers = 0;
@@ -623,7 +610,7 @@ public class GameService {
     // place the remaining randomly
     numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
-    if(numberOfPlayers == 0) {
+    if (numberOfPlayers == 0) {
       throw new RiskGameRuntimeException("No players have been added to the game");
     }
 
@@ -661,13 +648,15 @@ public class GameService {
   }
 
   public void moveToNextPlayer() {
+    if (!RunningGame.getInstance().isReinforceCompleted())
+      throw new RiskGameRuntimeException("Please reinforce first");
     int activePlayer = RunningGame.getInstance().getCurrentPlayerId();
     if (activePlayer < RunningGame.getInstance().getPlayers().getList().size()) {
-      reinforceInitialization(activePlayer + 1);
       RunningGame.getInstance().setCurrentPlayerId(activePlayer + 1);
+      reinforceInitialization(activePlayer + 1);
     } else if (activePlayer == RunningGame.getInstance().getPlayers().getList().size()) {
-      reinforceInitialization(1);
       RunningGame.getInstance().setCurrentPlayerId(1);
+      reinforceInitialization(1);
     }
   }
 }
