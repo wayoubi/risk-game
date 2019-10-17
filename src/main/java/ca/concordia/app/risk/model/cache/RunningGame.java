@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * 
  * @author i857625
  *
  */
@@ -22,32 +21,33 @@ public class RunningGame extends GameModel {
   private ObjectFactory objectFactory;
 
   /**
-   * The current running game
+   * Current running game
    */
   private static RunningGame runningGame;
 
   /**
-   * The current games graph
+   * Current games graph
    */
   private Graph<String, DefaultEdge> graph;
 
   /**
-   * A Hasmap holding continents graphs
+   * A Hashmap holding continents graphs
    */
   private HashMap<String, Graph<String, DefaultEdge>> contientsGraphsMap;
 
   /**
-   * Tha current player's id
+   * Current player's id
    */
   private int currentPlayerId;
 
-	private boolean gamePlay =false;
+  private boolean gamePlay = false;
 
-	private boolean mapLoaded = false;
+  private boolean mapLoaded = false;
 
-	private boolean countriesPopulated=false;
+  private boolean countriesPopulated = false;
 
-	private boolean reinforceCompleted = false;
+  private boolean reinforceCompleted = false;
+  
   /**
    * Make models to start a new game - ContinentsModel, PlayersModel,
    * CountriesModel, BordersModel Make the graph No player yet
@@ -94,41 +94,44 @@ public class RunningGame extends GameModel {
   }
 
   /**
-   * This method restarts the runningGame - current game
+   * This method restarts the runningGame (current game)
    */
   public static void reset() {
     runningGame = new RunningGame();
   }
 
   /**
-   *
-   * @return graph of the current game
+   * 
+   * @return graph of current game
    */
   public Graph<String, DefaultEdge> getGraph() {
     return this.graph;
   }
 
   /**
-   * @return the currentPlayerId
+   * gets {@link currentPlayerId}
+   * 
+   * @return currentPlayerId
    */
   public int getCurrentPlayerId() {
     return currentPlayerId;
   }
 
   /**
-   * This method set current player's id - setter for currentPlayerId
-   *
-   * @param currentPlayerId
-   */
+  * sets {@link currentPlayerId}
+  * 
+  * @param currentPlayerId
+  * current player's id
+  */
   public void setCurrentPlayerId(int currentPlayerId) {
     this.currentPlayerId = currentPlayerId;
   }
 
   /**
-   * This methods return the graph of the passed as parameter continent
+   * add Continent to the Graph
    *
    * @param continentName
-   * @return
+   * continent name
    */
   public void addContinentGraph(String continentName) {
     this.contientsGraphsMap.computeIfAbsent(continentName,
@@ -137,57 +140,106 @@ public class RunningGame extends GameModel {
   }
 
   /**
-   *
+   * remove Continent from the Graph
    * @param continentName
+   * continent name
    */
   public void removeContinentGraph(String continentName) {
     this.contientsGraphsMap.remove(continentName);
   }
 
   /**
-   * This methods return the graph of the passed as parameter continent
-   *
+   * gets continent graph
+   * 
    * @param continentName
-   * @return
+   * continent name
+   * @return Graph
    */
   public Graph<String, DefaultEdge> getContinentGraph(String continentName) {
+	  
     ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
     ContinentModel continentModel = continentDaoImpl.findByName(this, continentName);
     if (continentModel == null) {
       throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist", continentName));
     }
+    
     return this.contientsGraphsMap.get(continentName);
   }
 
-	  public boolean isGamePlay() {
-		  return gamePlay;
-	  }
+  
+  /**
+   * boolean returns game playing status
+   * 
+   * @return gamePlay
+   */
+  public boolean isGamePlay() {
+	  return gamePlay;
+  }
 
-	  public void setGamePlay(boolean gamePlay) {
-		  this.gamePlay = gamePlay;
-	  }
+  /**
+  * sets {@link gamePlay}
+  * 
+  * @param gamePlay
+  * set game play
+  */
+  public void setGamePlay(boolean gamePlay) {
+     this.gamePlay = gamePlay;
+  }
 
-	  public boolean isMapLoaded() {
-		  return mapLoaded;
-	  }
+  /**
+  * boolean returns map loading status
+  * 
+  * @return mapLoaded
+  */
+  public boolean isMapLoaded() {
+     return mapLoaded;
+  }
 
-	  public void setMapLoaded(boolean mapLoaded) {
-		  this.mapLoaded = mapLoaded;
-	  }
+  /**
+  * sets {@link mapLoaded}
+  * 
+  * @param mapLoaded
+  * set map loaded
+  */
+  public void setMapLoaded(boolean mapLoaded) {
+     this.mapLoaded = mapLoaded;
+  }
 
-	  public boolean isCountriesPopulated() {
-		  return countriesPopulated;
-	  }
+  /**
+  * boolean returns countries populated status
+  * 
+  * @return countriesPopulated
+  */
+  public boolean isCountriesPopulated() {
+    return countriesPopulated;
+  }
 
-	  public void setCountriesPopulated(boolean countriesPopulated) {
-		  this.countriesPopulated = countriesPopulated;
-	  }
+  /**
+  * sets {@link countriesPopulated}
+  * 
+  * @param countriesPopulated
+  * set country populated
+  */
+  public void setCountriesPopulated(boolean countriesPopulated) {
+    this.countriesPopulated = countriesPopulated;
+  }
 
-    public boolean isReinforceCompleted() {
-        return reinforceCompleted;
-    }
+  /**
+  * boolean returns reinforce status
+  *
+  * @return reinforceCompleted
+  */
+  public boolean isReinforceCompleted() {
+    return reinforceCompleted;
+  }
 
-    public void setReinforceCompleted(boolean reinforceCompleted) {
-        this.reinforceCompleted = reinforceCompleted;
-    }
+  /**
+  * sets {@link reinforceCompleted}
+  * 
+  * @param reinforceCompleted
+  * set reinforcement completes
+  */
+  public void setReinforceCompleted(boolean reinforceCompleted) {
+    this.reinforceCompleted = reinforceCompleted;
+  }
 }

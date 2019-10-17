@@ -20,6 +20,9 @@ import ca.concordia.app.risk.model.dao.BorderDaoImp;
 import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
+/**
+ * editneighbor command
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({ RiskGameBeanConfig.class, RiskGameTestBeanConfig.class })
@@ -58,23 +61,28 @@ public class EditNeighborCountryMapControllerTest {
 	    
 	  }
 
-	  //editNeighbor - Add
-	  //Check borders of only one country
+	  /**
+	   * add neighbor country(borders)
+	   * should return number of countries if all the countries are connected by neighbors
+	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
+	   */
 	  @Test
 	  public void testAddNeighborCountry() {
 	    log.info("Inside testAddNeighborCountry");
-	    
 	    mapController.editneighbor("Iran", "Iraq", "None", "None");
 	    mapController.editneighbor("Iran", "Jordan", "None", "None");
 	    assertEquals(3, RunningGame.getInstance().getBorders().getList().size());
 	  }
 	  
-	  //editNeighbor - Add
-	  //Borders between different Countries in the same Continent
+	  /**
+	   * add neighbor country(edge)-all countries are in the same continent 
+	   * should return number of countries if all the countries are connected by neighbors
+	   * should return number of edges in graph * 2, since graph is bidirectional
+	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
+	   */
 	  @Test
 	  public void testAddNeighborCountrySameContinent() {
 	    log.info("Inside testAddNeighborCountrySameContinent");
-	    
 	    mapController.editneighbor("Iran", "Iraq", "None", "None");
 	    mapController.editneighbor("Iraq", "Jordan", "None", "None");
 	    assertEquals(3, RunningGame.getInstance().getBorders().getList().size());
@@ -82,51 +90,50 @@ public class EditNeighborCountryMapControllerTest {
 	    
 	  }
 	  
-	  //editNeighbor - Add
-	  //Borders between different Countries in the different Continent
+	  /**
+	   * add neighbor country(edge)-countries are in different continents
+	   * should return number of countries if all the countries are connected by neighbors
+	   * should return number of edges in graph * 2, since graph is bidirectional
+	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
+	   */
 	  @Test
 	  public void testAddNeighborCountryDiffContinent() {
 	    log.info("Inside testAddNeighborCountryDiffContinent");
-	    
 	    mapController.editneighbor("Iran", "France", "None", "None");
 	    mapController.editneighbor("France", "Moracco", "None", "None");
 	    assertEquals(3, RunningGame.getInstance().getBorders().getList().size());
 	    assertEquals(4, RunningGame.getInstance().getGraph().edgeSet().size());
 	  }
 	  
-	  
-	  //editNeighbor - Add/Remove
+	  /**
+	   * add and remove operations on neighbor countries(borders)
+	   * should return number of edges in graph * 2, since graph is bidirectional
+	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
+	   */
 	  @Test
 	  public void testAddRemoveNeighborCountry() {
 		log.info("Inside testAddRemoveNeighborCountry");
-		
-		//Add
-	    mapController.editneighbor("Iran", "Iraq", "None", "None");
+		mapController.editneighbor("Iran", "Iraq", "None", "None");
 	    mapController.editneighbor("Iraq", "Jordan", "None", "None");
-		
-		//Add & Remove
-	    mapController.editneighbor("Jordan", "Egypt", "None", "None");
+		mapController.editneighbor("Jordan", "Egypt", "None", "None");
 	    mapController.editneighbor("None", "None", "Iran", "Iraq");
-	    
 	    assertEquals(4, RunningGame.getInstance().getBorders().getList().size());
 	    assertEquals(4, RunningGame.getInstance().getGraph().edgeSet().size());
 	  }
 
-	  //editNeighbor - Remove
+	  /**
+	   * remove operation on neighbor countries(borders)
+	   * should return number of edges in graph * 2, since graph is bidirectional
+	   * @see ca.concordia.app.risk.controller.MapController#editneighbor(String, String, String, String)
+	   */
 	  @Test
 	  public void testRemoveNeighborCountryDoesNotExist() {
 		log.info("Inside testRemoveNeighborCountryDoesNotExist");
-		  
-		//Add
-	    mapController.editneighbor("Iran", "Iraq", "None", "None");
+		mapController.editneighbor("Iran", "Iraq", "None", "None");
 	    mapController.editneighbor("Iraq", "Jordan", "None", "None");
 	    mapController.editneighbor("Jordan", "Egypt", "None", "None");
-	    
-	    //Remove 2
 	    mapController.editneighbor("None", "None", "Iraq", "Jordan");
 	    mapController.editneighbor("None", "None","Jordan", "Egypt");
-
-		//Check
 	    assertEquals(4, RunningGame.getInstance().getBorders().getList().size());
 	    assertEquals(2, RunningGame.getInstance().getGraph().edgeSet().size());
 

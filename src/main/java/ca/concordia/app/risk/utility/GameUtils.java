@@ -8,9 +8,18 @@ import ca.concordia.app.risk.shell.SimpleSpinner;
 
 public class GameUtils {
 
+    /**
+     * Dependency injection from SimpleSpinner
+	 */
 	@Autowired
 	SimpleSpinner simpleSpinner;
 
+    /**
+     * @exception InterruptedException
+     * Interrupted Exception
+     * @return
+     * result
+	 */
 	public int rollDice() throws InterruptedException {
 		int result = 0;
 		for (int i = 1; i <= 6; i++) {

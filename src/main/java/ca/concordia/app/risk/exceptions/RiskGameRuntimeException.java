@@ -1,5 +1,9 @@
 package ca.concordia.app.risk.exceptions;
 
+/**
+ * RiskGameRuntimeException
+ *
+ */
 public class RiskGameRuntimeException extends RuntimeException{
 
 	/**
@@ -10,6 +14,7 @@ public class RiskGameRuntimeException extends RuntimeException{
 	/**
 	 * 
 	 * @param errorMessage
+	 * error message
 	 */
 	public RiskGameRuntimeException(String errorMessage) {
 		super(errorMessage);
@@ -18,7 +23,9 @@ public class RiskGameRuntimeException extends RuntimeException{
 	/**
 	 * 
 	 * @param errorMessage
+	 * error message
 	 * @param exception
+	 * exception
 	 */
 	public RiskGameRuntimeException(String errorMessage, Exception exception) {
 		super(errorMessage, exception);

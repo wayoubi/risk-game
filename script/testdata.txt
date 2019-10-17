@@ -15,5 +15,5 @@ editneighbor -add Jordan Egypt
 editneighbor -add Egypt Italy
 editneighbor -add Egypt Algeria
 editneighbor -add Algeria France
-editneighbor -add Italy France
 editneighbor -add Italy Spain
+editneighbor -add Italy France

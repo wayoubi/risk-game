@@ -21,7 +21,9 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	 * This method finds a country by name
 	 *
 	 * @param gameModel
+	 * game model
 	 * @param name
+	 * country name
 	 * @return country object
 	 */
 	@Override
@@ -34,7 +36,9 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	 * This method finds a country by id
 	 *
 	 * @param gameModel
+	 * game model
 	 * @param id
+	 * id
 	 * @return country object
 	 */
 	@Override
@@ -47,7 +51,9 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	 * This method assigns id to a country
 	 *
 	 * @param gameModel
+	 * game model
 	 * @param t
+	 * country model
 	 */
 	@Override
 	public void assignID(@NotNull GameModel gameModel, CountryModel t){
@@ -62,6 +68,11 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
 	 * This method removes a list of countries
+	 * 
+	 * @param gameModel
+	 * game model
+	 * @param t
+	 * country model
 	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, CountryModel t){
@@ -70,7 +81,10 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	}
 
 	/**
+	 * This method gets list of countries
+	 * 
 	 * @param gameModel
+	 * game model
 	 * @return list of countries
 	 */
 	public List<CountryModel> getCountries(@NotNull GameModel gameModel){

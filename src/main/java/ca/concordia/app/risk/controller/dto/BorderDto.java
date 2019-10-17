@@ -2,6 +2,11 @@ package ca.concordia.app.risk.controller.dto;
 
 import javax.validation.ValidationException;
 
+/**
+ * 
+ * BorderDto
+ *
+ */
 public class BorderDto implements Dto {
 
 	private String countryName;
@@ -17,7 +22,9 @@ public class BorderDto implements Dto {
 	/**
 	 * 
 	 * @param countryName
+	 * country name
 	 * @param neighborCountryName
+	 * neighbor country name
 	 */
 	public BorderDto(String countryName, String neighborCountryName) {
 		super();
@@ -26,6 +33,8 @@ public class BorderDto implements Dto {
 	}
 
 	/**
+	 * gets {@link countryName}
+	 * 
 	 * @return the countryName
 	 */
 	public String getCountryName() {
@@ -33,21 +42,29 @@ public class BorderDto implements Dto {
 	}
 
 	/**
-	 * @param countryName the countryName to set
+	 * sets {@link countryName}
+	 * 
+	 * @param countryName
+	 * sets country name
 	 */
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
 	}
 
 	/**
-	 * @return the neighborCountryName
+	 * gets {@link neighborCountryName}
+	 * 
+	 * @return neighborCountryName
 	 */
 	public String getNeighborCountryName() {
 		return neighborCountryName;
 	}
 
 	/**
-	 * @param neighborCountryName the neighborCountryName to set
+	 * sets {@link neighborCountryName}
+	 * 
+	 * @param neighborCountryName
+	 * neighbor country name
 	 */
 	public void setNeighborCountryName(String neighborCountryName) {
 		this.neighborCountryName = neighborCountryName;
@@ -55,6 +72,7 @@ public class BorderDto implements Dto {
 
 	/**
 	 * 
+	 * @return result
 	 */
 	@Override
 	public int hashCode() {
@@ -67,9 +85,13 @@ public class BorderDto implements Dto {
 
 	/**
 	 * 
+	 * @param obj
+	 * check object is equals
+	 * @return true/false
 	 */
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (obj == null) {
@@ -93,11 +115,13 @@ public class BorderDto implements Dto {
 		} else if (!neighborCountryName.equals(other.neighborCountryName)) {
 			return false;
 		}
+		
 		return true;
 	}
 
 	/**
 	 * 
+	 * @return BorderDto [countryName, neighborCountryName]
 	 */
 	@Override
 	public String toString() {

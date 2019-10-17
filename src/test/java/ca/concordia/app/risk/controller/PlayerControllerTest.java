@@ -25,6 +25,9 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * player commands
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({RiskGameBeanConfig.class, RiskGameTestBeanConfig.class})
@@ -46,6 +49,11 @@ public class PlayerControllerTest {
     playerDaoImpl = new PlayerDaoImpl();
   }
 
+  /**
+   * add player
+   * should return number of players even in case of edit a player's name
+   * @see ca.concordia.app.risk.controller.GameController#gameplayer(String, String)
+   */
   @Test
   public void testAddPlayer() {
     log.info("Inside testAddContinent");
@@ -58,8 +66,14 @@ public class PlayerControllerTest {
     assertEquals(3, RunningGame.getInstance().getPlayers().getList().size());
   }
 
+  /**
+   * duplicate player entries
+   * should return non-duplicated count of players if a player added 2 times
+   * @see ca.concordia.app.risk.controller.GameController#gameplayer(String, String)
+   */
   @Test
   public void testDuplicateName() {
+	log.info("Inside testDuplicateName");
     RunningGame.getInstance().setMapLoaded(true);
 
     gameController.gameplayer("Michael", "");
@@ -67,8 +81,14 @@ public class PlayerControllerTest {
     assertEquals(1, RunningGame.getInstance().getPlayers().getList().size());
   }
 
+  /**
+   * color of the player
+   * should return color of the related player
+   * @see ca.concordia.app.risk.controller.GameController#gameplayer(String, String)
+   */
   @Test
   public void testPlayerColor() {
+	log.info("Inside testPlayerColor");
     RunningGame.getInstance().setMapLoaded(true);
 
     gameController.gameplayer("Wassim", "");
@@ -76,9 +96,14 @@ public class PlayerControllerTest {
     assertEquals("Blue", RunningGame.getInstance().getPlayers().getList().get(1).getColor());
   }
 
+  /**
+   * populate countries among player
+   * should return number of countries per player
+   * @see ca.concordia.app.risk.controller.GameController#populatecountries()
+   */
   @Test
   public void testPopulateCountries() {
-
+	log.info("Inside testPopulateCountries");
     mapController.editcontinent("Africa", "1", "None");
     mapController.editcontinent("Asia", "3", "None");
     mapController.editcontinent("North America", "1", "None");
@@ -109,9 +134,14 @@ public class PlayerControllerTest {
             .size());
   }
 
+  /**
+   * place army for non-active player
+   * should return 0 as a number of armies placed for a non-active player
+   * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
+   */
   @Test
-  public void testplaceArmyNotActivePlayerTurn() {
-
+  public void testPlaceArmyNotActivePlayerTurn() {
+	log.info("Inside testPlaceArmyNotActivePlayerTurn");
     mapController.editcontinent("Asia", "3", "None");
 
     mapController.editcountry("Jordan", "Asia", "");
@@ -135,9 +165,14 @@ public class PlayerControllerTest {
     assertEquals(0, actual);
   }
 
+  /**
+   * place army for active player
+   * should return 1 as a number of armies placed for an active player
+   * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
+   */
   @Test
-  public void testplaceArmyActivePlayerTurn() {
-
+  public void testPlaceArmyActivePlayerTurn() {
+	log.info("Inside testPlaceArmyActivePlayerTurn");
     mapController.editcontinent("Asia", "3", "None");
 
     mapController.editcountry("Jordan", "Asia", "");
@@ -161,9 +196,14 @@ public class PlayerControllerTest {
     assertEquals(1, actual);
   }
 
+  /**
+   * place army for non-exists country
+   * should return 0 as a number of armies placed for a player
+   * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
+   */
   @Test
-  public void testplaceArmyCountryDoesNotExist() {
-
+  public void testPlaceArmyCountryDoesNotExist() {
+	log.info("Inside testPlaceArmyCountryDoesNotExist");
     mapController.editcontinent("Asia", "3", "None");
 
     mapController.editcountry("Jordan", "Asia", "");
@@ -186,9 +226,14 @@ public class PlayerControllerTest {
     assertEquals(0, countryModel.size());
   }
 
+  /**
+   * number of armies after placing army in countries
+   * should return corresponding number
+   * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
+   */
   @Test
-  public void testplaceArmyNumberOfArmies() {
-
+  public void testPlaceArmyNumberOfArmies() {
+	log.info("Inside testPlaceArmyNumberOfArmies");
     mapController.editcontinent("Asia", "3", "None");
     mapController.editcontinent("Africa", "1", "None");
 
@@ -215,9 +260,14 @@ public class PlayerControllerTest {
     assertEquals(2, countryModel.get(0).getNumberOfArmies());
   }
 
+  /**
+   * number of armies do not exceed number maximum
+   * should return maximum of 40 armies per country
+   * @see ca.concordia.app.risk.controller.GameController#placearmy(String)
+   */
   @Test
-  public void testplaceArmyExceedNumberOfArmies() {
-
+  public void testPlaceArmyExceedNumberOfArmies() {
+	log.info("Inside testPlaceArmyExceedNumberOfArmies");
     mapController.editcontinent("Asia", "3", "None");
     mapController.editcontinent("Africa", "1", "None");
 
@@ -246,9 +296,14 @@ public class PlayerControllerTest {
     assertEquals(40, countryModel.get(0).getNumberOfArmies());
   }
 
+  /**
+   * placing all armies
+   * should return maximum of 40 armies per country
+   * @see ca.concordia.app.risk.controller.GameController#placeall()
+   */
   @Test
-  public void testplaceAll() {
-
+  public void testPlaceAll() {
+	log.info("Inside testPlaceAll");
     mapController.editcontinent("Asia", "3", "None");
     mapController.editcontinent("Africa", "1", "None");
 
@@ -280,9 +335,14 @@ public class PlayerControllerTest {
         40, countryModel.get(0).getNumberOfArmies() + countryModel.get(1).getNumberOfArmies());
   }
 
+  /**
+   * armies reinforcement
+   * should return corresponding number of armies
+   * @see ca.concordia.app.risk.controller.GameController#reinforce(String, int)
+   */
   @Test
   public void testReinforceActivePlayerTurn() {
-
+	log.info("Inside testReinforceActivePlayerTurn");
     mapController.editcontinent("Asia", "2", "None");
     mapController.editcontinent("Africa", "1", "None");
 

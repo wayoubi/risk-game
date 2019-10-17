@@ -8,7 +8,7 @@ import org.springframework.shell.standard.ShellMethod;
 import ca.concordia.app.risk.view.JGraphXAdapterView;
 
 /**
- * 
+ * ViewController
  * @author i857625
  *
  */
@@ -19,13 +19,13 @@ public class ViewController {
 
 	/**
 	 * This method shows map of the world (Graph)
-	 * @return JGraph
 	 */
 	@ShellMethod("Show Full Map")
 	public void showmap() {
 		if (log.isDebugEnabled()) {
 			log.debug("inside showmap");
 		}
+		
 		JGraphXAdapterView.main(null);
 	}
 }

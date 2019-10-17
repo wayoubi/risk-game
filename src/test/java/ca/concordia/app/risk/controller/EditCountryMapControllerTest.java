@@ -19,7 +19,9 @@ import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
-
+/**
+ * editcountry command
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({ RiskGameBeanConfig.class, RiskGameTestBeanConfig.class })
@@ -45,87 +47,91 @@ public class EditCountryMapControllerTest {
 	    mapController.editcontinent("Europe", "7", "None");
 	  }
 
-	  //editCountry - Add Only
+	  /**
+	   * add country 
+	   * should return number of countries if countries added properly
+	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
+	   */
 	  @Test
 	  public void testAddCountry() {
 	    log.info("Inside testAddCountry");
-
 	    mapController.editcountry("Iran", "Asia", "None");
 	    mapController.editcountry("Pakistan", "Asia", "None");
-	    
-	    //test
 	    assertEquals(2, RunningGame.getInstance().getCountries().getList().size());
 	  }
 	  
-	  //editCountry - Duplicate Add
+	  /**
+	   * duplicate country entries in the same continent
+	   * should return non-duplicated count if a country added 2 times in the same continent
+	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
+	   */
 	  @Test
 	  public void testDuplicateCountryInSameContinent() {
-		log.info("Inside testDuplicateCountryInSameContinent");
-		  
+		log.info("Inside testDuplicateCountryInSameContinent"); 
 	    mapController.editcountry("Iran", "Asia", "None");
 	    mapController.editcountry("Iran", "Asia", "None");
-	    
-	    //test
 	    assertEquals(1, RunningGame.getInstance().getCountries().getList().size());
 	  }
 	  
-	  //editCountry - Add
+	  /**
+	   * duplicate country entries in the whole map(different continents)
+	   * should return non-duplicated count if a country added 2 times in the map
+	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
+	   */
 	  @Test
 	  public void testDuplicateCountryInDiffCountries() {
 		log.info("Inside testDuplicateCountryInDiffContinents");
-		  
 	    mapController.editcountry("Iran", "Asia", "None");
 	    mapController.editcountry("Iran", "Africa", "None");
-	    
-	    //test
 	    assertEquals(1, RunningGame.getInstance().getCountries().getList().size());
 	  }
 	  
-	  //editCountry - Remove
+	  /**
+	   * remove operation on a country
+	   * should return null after remove
+	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
+	   */
 	  @Test
 	  public void testRemoveCountry() {
 		log.info("Inside testRemoveContinent");
-
 	    mapController.editcountry("Turkey", "Asia", "None");
 	    mapController.editcountry("France", "Europe", "None");
-
 	    mapController.editcountry("none", "Asia", "Turkey");
 	    assertEquals(1, RunningGame.getInstance().getCountries().getList().size());
 	    assertNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Turkey"));
 	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "France"));
 	  }
 	  
-	  //editCountry - Add/Remove
+	  /**
+	   * add and remove operations on a country
+	   * should return not null after add
+	   * should return null after remove
+	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
+	   */
 	  @Test
 	  public void testAddRemoveCountry() {
 		log.info("Inside testAddRemoveCountry");
-		
-		//Add
 		mapController.editcountry("Morocco", "Africa", "None");
-		
-		//Add & Remove
 	    mapController.editcountry("Iran", "Asia", "None");
 	    mapController.editcountry("none", "Asia", "Iran");
-	    
 	    assertEquals(1, RunningGame.getInstance().getCountries().getList().size());
 	    assertNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Iran"));
 	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Morocco"));
 	  }
 
-	  //editCountry - Remove
+	  /**
+	   * remove country that doesn't exist
+	   * should return not null for existing countries after removing a country that doesn't exist
+	   * @see ca.concordia.app.risk.controller.MapController#editcountry(String, String, String)
+	   */
 	  @Test
 	  public void testRemoveCountryDoesNotExist() {
 		log.info("Inside testRemoveCountryDoesNotExist");
-
-		//Add
 		mapController.editcountry("Morocco", "Africa", "None");
 		mapController.editcountry("Iran", "Asia", "None");
-
-		//Check
 	    assertEquals(2, RunningGame.getInstance().getCountries().getList().size());
 	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Morocco"));
 	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Iran"));
-
 	    mapController.editcountry("none", "Europe", "France");
 	    assertEquals(2, RunningGame.getInstance().getCountries().getList().size());
 	    assertNotNull(countryDaoImpl.findByName(RunningGame.getInstance(), "Morocco"));
