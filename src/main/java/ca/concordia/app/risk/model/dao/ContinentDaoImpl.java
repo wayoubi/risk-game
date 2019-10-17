@@ -22,40 +22,33 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	/**
 	 * This method finds a continent by name
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param name
-	 * name
+	 * @param gameModel game model
+	 * @param name      name
 	 * @return continent object
 	 */
 	@Override
 	public ContinentModel findByName(@NotNull GameModel gameModel, String name) {
-		return gameModel.getContinents().getList().stream()
-				.filter(c -> c.getName().equals(name)).findAny().orElse(null);
+		return gameModel.getContinents().getList().stream().filter(c -> c.getName().equals(name)).findAny()
+				.orElse(null);
 	}
 
 	/**
 	 * This method finds a continent by id
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param id
-	 * id
+	 * @param gameModel game model
+	 * @param id        id
 	 * @return continent object
 	 */
 	@Override
 	public ContinentModel findById(@NotNull GameModel gameModel, int id) {
-		return gameModel.getContinents().getList().stream().filter(c -> c.getId() == id)
-				.findAny().orElse(null);
+		return gameModel.getContinents().getList().stream().filter(c -> c.getId() == id).findAny().orElse(null);
 	}
 
 	/**
 	 * This method assigns id to a continent
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param t
-	 * continent model
+	 * @param gameModel game model
+	 * @param t         continent model
 	 */
 	@Override
 	public void assignID(@NotNull GameModel gameModel, ContinentModel t) {
@@ -71,10 +64,8 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	/**
 	 * This method removes a list of continents
 	 * 
-	 * @param gameModel
-	 * game model
-	 * @param t
-	 * continent model
+	 * @param gameModel game model
+	 * @param t         continent model
 	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, ContinentModel t) {
@@ -84,10 +75,8 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	/**
 	 * This method gets list of countries of a continent
 	 * 
-	 * @param gameModel
-	 * game model
-	 * @param t
-	 * continent model
+	 * @param gameModel game model
+	 * @param t         continent model
 	 * @return list of continents
 	 */
 	public List<CountryModel> getCountries(@NotNull GameModel gameModel, ContinentModel t) {

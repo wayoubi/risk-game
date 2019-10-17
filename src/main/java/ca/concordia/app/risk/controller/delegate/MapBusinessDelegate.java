@@ -8,25 +8,26 @@ import ca.concordia.app.risk.controller.dto.CountryDto;
 import ca.concordia.app.risk.services.MapService;
 
 /**
- * MapBusinessDelegate
- *
+ * MapBusinessDelegate The facade class to access the MapService
+ * 
+ * @see MapService
+ * 
  */
 public class MapBusinessDelegate {
 
-    /**
-     * 
-     * Dependency injection from GameService
-     */
+	/**
+	 * 
+	 * Dependency injection from GameService
+	 */
 	@Autowired
 	private MapService mapService;
 
 	/**
 	 * add Continent
 	 * 
-	 * @param continentDto
-	 * continent DTO
+	 * @param continentDto continent DTO
 	 */
-	public void addContinent(ContinentDto continentDto){
+	public void addContinent(ContinentDto continentDto) {
 		mapService.addContinent(continentDto);
 
 	}
@@ -34,20 +35,18 @@ public class MapBusinessDelegate {
 	/**
 	 * remove Continent
 	 * 
-	 * @param continentDto
-	 * continent DTO
+	 * @param continentDto continent DTO
 	 */
-	public void removeContinent(ContinentDto continentDto){
+	public void removeContinent(ContinentDto continentDto) {
 		mapService.removeContinent(continentDto);
 	}
 
 	/**
 	 * add Country
 	 * 
-	 * @param countryDto
-	 * country DTO
+	 * @param countryDto country DTO
 	 */
-	public void addCountry(CountryDto countryDto){
+	public void addCountry(CountryDto countryDto) {
 		mapService.addCountry(countryDto);
 
 	}
@@ -55,10 +54,9 @@ public class MapBusinessDelegate {
 	/**
 	 * remove Country
 	 * 
-	 * @param countryDto
-	 * country DTO
+	 * @param countryDto country DTO
 	 */
-	public void removeCountry(CountryDto countryDto){
+	public void removeCountry(CountryDto countryDto) {
 		mapService.removeCountry(countryDto);
 
 	}
@@ -66,20 +64,18 @@ public class MapBusinessDelegate {
 	/**
 	 * add Neighbor
 	 * 
-	 * @param borderDto
-	 * border Dto
+	 * @param borderDto border Dto
 	 */
-	public void addNeighbor(BorderDto borderDto){
+	public void addNeighbor(BorderDto borderDto) {
 		mapService.addNeighbor(borderDto);
 	}
 
 	/**
 	 * remove Neighbor
 	 * 
-	 * @param borderDto
-	 * border Dto
+	 * @param borderDto border Dto
 	 */
-	public void removeNeighbor(BorderDto borderDto){
+	public void removeNeighbor(BorderDto borderDto) {
 		mapService.removeNeighbor(borderDto);
 	}
 }

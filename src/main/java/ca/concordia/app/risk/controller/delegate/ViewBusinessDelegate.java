@@ -5,21 +5,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.concordia.app.risk.services.PresentationService;
 
 /**
- * ViewBusinessDelegate
+ * ViewBusinessDelegate, The facade class to access the PresentationService
+ * 
  * @author i857625
  *
  */
 public class ViewBusinessDelegate {
 
-   /**
-	* 
-	* Dependency injection from PresentationService
-	*/
+	/**
+	 * 
+	 * Dependency injection from PresentationService
+	 */
 	@Autowired
 	PresentationService presentationService;
-	
+
 	/**
-	 * show map
+	 * show map details
 	 */
 	public void showmap() {
 		presentationService.showmap();

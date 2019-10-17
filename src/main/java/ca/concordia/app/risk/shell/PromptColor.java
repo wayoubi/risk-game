@@ -21,8 +21,7 @@ public enum PromptColor {
 	}
 
 	/**
-	 * @return
-	 * Jline style
+	 * @return Jline style
 	 */
 	public int toJlineAttributedStyle() {
 		return this.value;

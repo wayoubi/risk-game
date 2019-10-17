@@ -13,233 +13,246 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
+ * This is the most important class, it is implemented using the singleton
+ * design pattern There is one RunningGame object in the JVM during the whole
+ * game This object holds the state of the running game
+ * 
  * @author i857625
  *
  */
 public class RunningGame extends GameModel {
 
-  private ObjectFactory objectFactory;
+	/**
+	 * objectFactory to create Game model objects
+	 */
+	private ObjectFactory objectFactory;
 
-  /**
-   * Current running game
-   */
-  private static RunningGame runningGame;
+	/**
+	 * Current running game
+	 */
+	private static RunningGame runningGame;
 
-  /**
-   * Current games graph
-   */
-  private Graph<String, DefaultEdge> graph;
+	/**
+	 * Current games graph
+	 */
+	private Graph<String, DefaultEdge> graph;
 
-  /**
-   * A Hashmap holding continents graphs
-   */
-  private HashMap<String, Graph<String, DefaultEdge>> contientsGraphsMap;
+	/**
+	 * A Hashmap holding continents graphs
+	 */
+	private HashMap<String, Graph<String, DefaultEdge>> contientsGraphsMap;
 
-  /**
-   * Current player's id
-   */
-  private int currentPlayerId;
+	/**
+	 * Current player's id
+	 */
+	private int currentPlayerId;
 
-  private boolean gamePlay = false;
+	/**
+	 * determines if a game is active or not
+	 */
+	private boolean gamePlay = false;
 
-  private boolean mapLoaded = false;
+	/**
+	 * determines if a map is active or not
+	 */
+	private boolean mapLoaded = false;
 
-  private boolean countriesPopulated = false;
+	/**
+	 * determines if a countries has been populated
+	 */
+	private boolean countriesPopulated = false;
 
-  private boolean reinforceCompleted = false;
-  
-  /**
-   * Make models to start a new game - ContinentsModel, PlayersModel,
-   * CountriesModel, BordersModel Make the graph No player yet
-   */
-  private RunningGame() {
-    super();
+	/**
+	 * determines if the reinforcement phase is completed or not
+	 */
+	private boolean reinforceCompleted = false;
 
-    try {
-      this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
-    } catch (DatatypeConfigurationException configurationException) {
-      throw new RiskGameRuntimeException(configurationException.getMessage());
-    }
+	/**
+	 * Make models to start a new game - ContinentsModel, PlayersModel,
+	 * CountriesModel, BordersModel Make the graph No player yet
+	 */
+	private RunningGame() {
+		super();
 
-    objectFactory = new ObjectFactory();
+		try {
+			this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
+		} catch (DatatypeConfigurationException configurationException) {
+			throw new RiskGameRuntimeException(configurationException.getMessage());
+		}
 
-    ContinentsModel continentsModel = objectFactory.createContinentsModel();
-    this.setContinents(continentsModel);
+		objectFactory = new ObjectFactory();
 
-    PlayersModel playersModel = objectFactory.createPlayersModel();
-    this.setPlayers(playersModel);
+		ContinentsModel continentsModel = objectFactory.createContinentsModel();
+		this.setContinents(continentsModel);
 
-    CountriesModel countriesModel = objectFactory.createCountriesModel();
-    this.setCountries(countriesModel);
+		PlayersModel playersModel = objectFactory.createPlayersModel();
+		this.setPlayers(playersModel);
 
-    BordersModel bordersModel = objectFactory.createBordersModel();
-    this.setBorders(bordersModel);
+		CountriesModel countriesModel = objectFactory.createCountriesModel();
+		this.setCountries(countriesModel);
 
-    graph = GraphTypeBuilder.<String, DefaultEdge>directed().allowingMultipleEdges(false).allowingSelfLoops(false)
-        .edgeClass(DefaultEdge.class).weighted(false).buildGraph();
+		BordersModel bordersModel = objectFactory.createBordersModel();
+		this.setBorders(bordersModel);
 
-    contientsGraphsMap = new HashMap<>();
+		graph = GraphTypeBuilder.<String, DefaultEdge>directed().allowingMultipleEdges(false).allowingSelfLoops(false)
+				.edgeClass(DefaultEdge.class).weighted(false).buildGraph();
 
-    this.setCurrentPlayerId(0);
-  }
+		contientsGraphsMap = new HashMap<>();
 
-  /**
-   * @return runningGame
-   */
-  public static RunningGame getInstance() {
-    if (runningGame == null) {
-      runningGame = new RunningGame();
-    }
-    return runningGame;
-  }
+		this.setCurrentPlayerId(0);
+	}
 
-  /**
-   * This method restarts the runningGame (current game)
-   */
-  public static void reset() {
-    runningGame = new RunningGame();
-  }
+	/**
+	 * retrun the only one Running Game object
+	 * 
+	 * @return runningGame
+	 */
+	public static RunningGame getInstance() {
+		if (runningGame == null) {
+			runningGame = new RunningGame();
+		}
+		return runningGame;
+	}
 
-  /**
-   * 
-   * @return graph of current game
-   */
-  public Graph<String, DefaultEdge> getGraph() {
-    return this.graph;
-  }
+	/**
+	 * This method restarts the runningGame (current game)
+	 */
+	public static void reset() {
+		runningGame = new RunningGame();
+	}
 
-  /**
-   * gets {@link currentPlayerId}
-   * 
-   * @return currentPlayerId
-   */
-  public int getCurrentPlayerId() {
-    return currentPlayerId;
-  }
+	/**
+	 * 
+	 * @return graph of current game
+	 */
+	public Graph<String, DefaultEdge> getGraph() {
+		return this.graph;
+	}
 
-  /**
-  * sets {@link currentPlayerId}
-  * 
-  * @param currentPlayerId
-  * current player's id
-  */
-  public void setCurrentPlayerId(int currentPlayerId) {
-    this.currentPlayerId = currentPlayerId;
-  }
+	/**
+	 * gets {@link currentPlayerId}
+	 * 
+	 * @return currentPlayerId
+	 */
+	public int getCurrentPlayerId() {
+		return currentPlayerId;
+	}
 
-  /**
-   * add Continent to the Graph
-   *
-   * @param continentName
-   * continent name
-   */
-  public void addContinentGraph(String continentName) {
-    this.contientsGraphsMap.computeIfAbsent(continentName,
-        k -> GraphTypeBuilder.<String, DefaultEdge>undirected().allowingMultipleEdges(false).allowingSelfLoops(false)
-            .edgeClass(DefaultEdge.class).weighted(false).buildGraph());
-  }
+	/**
+	 * sets {@link currentPlayerId}
+	 * 
+	 * @param currentPlayerId current player's id
+	 */
+	public void setCurrentPlayerId(int currentPlayerId) {
+		this.currentPlayerId = currentPlayerId;
+	}
 
-  /**
-   * remove Continent from the Graph
-   * @param continentName
-   * continent name
-   */
-  public void removeContinentGraph(String continentName) {
-    this.contientsGraphsMap.remove(continentName);
-  }
+	/**
+	 * add Continent to the Graph
+	 *
+	 * @param continentName continent name
+	 */
+	public void addContinentGraph(String continentName) {
+		this.contientsGraphsMap.computeIfAbsent(continentName,
+				k -> GraphTypeBuilder.<String, DefaultEdge>undirected().allowingMultipleEdges(false)
+						.allowingSelfLoops(false).edgeClass(DefaultEdge.class).weighted(false).buildGraph());
+	}
 
-  /**
-   * gets continent graph
-   * 
-   * @param continentName
-   * continent name
-   * @return Graph
-   */
-  public Graph<String, DefaultEdge> getContinentGraph(String continentName) {
-	  
-    ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-    ContinentModel continentModel = continentDaoImpl.findByName(this, continentName);
-    if (continentModel == null) {
-      throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist", continentName));
-    }
-    
-    return this.contientsGraphsMap.get(continentName);
-  }
+	/**
+	 * remove Continent from the Graph
+	 * 
+	 * @param continentName continent name
+	 */
+	public void removeContinentGraph(String continentName) {
+		this.contientsGraphsMap.remove(continentName);
+	}
 
-  
-  /**
-   * boolean returns game playing status
-   * 
-   * @return gamePlay
-   */
-  public boolean isGamePlay() {
-	  return gamePlay;
-  }
+	/**
+	 * gets continent graph
+	 * 
+	 * @param continentName continent name
+	 * @return Graph
+	 */
+	public Graph<String, DefaultEdge> getContinentGraph(String continentName) {
 
-  /**
-  * sets {@link gamePlay}
-  * 
-  * @param gamePlay
-  * set game play
-  */
-  public void setGamePlay(boolean gamePlay) {
-     this.gamePlay = gamePlay;
-  }
+		ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+		ContinentModel continentModel = continentDaoImpl.findByName(this, continentName);
+		if (continentModel == null) {
+			throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist", continentName));
+		}
 
-  /**
-  * boolean returns map loading status
-  * 
-  * @return mapLoaded
-  */
-  public boolean isMapLoaded() {
-     return mapLoaded;
-  }
+		return this.contientsGraphsMap.get(continentName);
+	}
 
-  /**
-  * sets {@link mapLoaded}
-  * 
-  * @param mapLoaded
-  * set map loaded
-  */
-  public void setMapLoaded(boolean mapLoaded) {
-     this.mapLoaded = mapLoaded;
-  }
+	/**
+	 * boolean returns game playing status
+	 * 
+	 * @return gamePlay
+	 */
+	public boolean isGamePlay() {
+		return gamePlay;
+	}
 
-  /**
-  * boolean returns countries populated status
-  * 
-  * @return countriesPopulated
-  */
-  public boolean isCountriesPopulated() {
-    return countriesPopulated;
-  }
+	/**
+	 * sets {@link gamePlay}
+	 * 
+	 * @param gamePlay set game play
+	 */
+	public void setGamePlay(boolean gamePlay) {
+		this.gamePlay = gamePlay;
+	}
 
-  /**
-  * sets {@link countriesPopulated}
-  * 
-  * @param countriesPopulated
-  * set country populated
-  */
-  public void setCountriesPopulated(boolean countriesPopulated) {
-    this.countriesPopulated = countriesPopulated;
-  }
+	/**
+	 * boolean returns map loading status
+	 * 
+	 * @return mapLoaded
+	 */
+	public boolean isMapLoaded() {
+		return mapLoaded;
+	}
 
-  /**
-  * boolean returns reinforce status
-  *
-  * @return reinforceCompleted
-  */
-  public boolean isReinforceCompleted() {
-    return reinforceCompleted;
-  }
+	/**
+	 * sets {@link mapLoaded}
+	 * 
+	 * @param mapLoaded set map loaded
+	 */
+	public void setMapLoaded(boolean mapLoaded) {
+		this.mapLoaded = mapLoaded;
+	}
 
-  /**
-  * sets {@link reinforceCompleted}
-  * 
-  * @param reinforceCompleted
-  * set reinforcement completes
-  */
-  public void setReinforceCompleted(boolean reinforceCompleted) {
-    this.reinforceCompleted = reinforceCompleted;
-  }
+	/**
+	 * boolean returns countries populated status
+	 * 
+	 * @return countriesPopulated
+	 */
+	public boolean isCountriesPopulated() {
+		return countriesPopulated;
+	}
+
+	/**
+	 * sets {@link countriesPopulated}
+	 * 
+	 * @param countriesPopulated set country populated
+	 */
+	public void setCountriesPopulated(boolean countriesPopulated) {
+		this.countriesPopulated = countriesPopulated;
+	}
+
+	/**
+	 * boolean returns reinforce status
+	 *
+	 * @return reinforceCompleted
+	 */
+	public boolean isReinforceCompleted() {
+		return reinforceCompleted;
+	}
+
+	/**
+	 * sets {@link reinforceCompleted}
+	 * 
+	 * @param reinforceCompleted set reinforcement completes
+	 */
+	public void setReinforceCompleted(boolean reinforceCompleted) {
+		this.reinforceCompleted = reinforceCompleted;
+	}
 }

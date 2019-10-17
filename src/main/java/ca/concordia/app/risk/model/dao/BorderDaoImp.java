@@ -17,10 +17,8 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	/**
 	 * This method finds border of a country by countryName
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param countryName
-	 * country name
+	 * @param gameModel   game model
+	 * @param countryName country name
 	 * @return border object
 	 */
 	@Override
@@ -33,10 +31,8 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	/**
 	 * This method finds a border by id
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param countryId
-	 * country id
+	 * @param gameModel game model
+	 * @param countryId country id
 	 * @return border object
 	 */
 	@Override
@@ -47,10 +43,9 @@ public class BorderDaoImp implements Dao<BorderModel> {
 
 	/**
 	 * This method assign id
-	 * @param gameModel
-	 * game model
-	 * @param t
-	 * border Model
+	 * 
+	 * @param gameModel game model
+	 * @param t         border Model
 	 * @throws UnsupportedOperationException
 	 */
 	@Override
@@ -61,10 +56,8 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	/**
 	 * This method removes a list of borders - edges
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param t
-	 * border model
+	 * @param gameModel game model
+	 * @param t         border model
 	 */
 	@Override
 	public void delete(@NotNull GameModel gameModel, BorderModel t) {

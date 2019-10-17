@@ -4,7 +4,7 @@ import javax.validation.ValidationException;
 
 /**
  * 
- * CountryDto
+ * CountryDto, used as a place holder across layers
  *
  */
 public class CountryDto implements Dto {
@@ -20,12 +20,9 @@ public class CountryDto implements Dto {
 	/**
 	 * Initialize Class Properties
 	 * 
-	 * @param name
-	 * country name
-	 * @param numberOfArmies
-	 * number of armies of the country
-	 * @param continentName
-	 * continent name of the country
+	 * @param name           country name
+	 * @param numberOfArmies number of armies of the country
+	 * @param continentName  continent name of the country
 	 */
 	public CountryDto(String name, int numberOfArmies, String continentName) {
 		super();
@@ -36,7 +33,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link name}
-	 *  
+	 * 
 	 * @return country name
 	 */
 	public String getName() {
@@ -47,8 +44,7 @@ public class CountryDto implements Dto {
 	 * 
 	 * sets {@link name}
 	 * 
-	 * @param name
-	 * sets country name
+	 * @param name sets country name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -56,7 +52,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link numberOfArmies}
-	 *  
+	 * 
 	 * @return number Of Armies
 	 */
 	public int getNumberOfArmies() {
@@ -66,8 +62,7 @@ public class CountryDto implements Dto {
 	/**
 	 * sets {@link numberOfArmies}
 	 * 
-	 * @param numberOfArmies
-	 * sets number of armies
+	 * @param numberOfArmies sets number of armies
 	 */
 	public void setNumberOfArmies(int numberOfArmies) {
 		this.numberOfArmies = numberOfArmies;
@@ -75,7 +70,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link continentName}
-	 *  
+	 * 
 	 * @return continent name
 	 */
 	public String getContinentName() {
@@ -86,8 +81,7 @@ public class CountryDto implements Dto {
 	 * 
 	 * sets {@link continentName}
 	 * 
-	 * @param continentName
-	 * sets continent Name
+	 * @param continentName sets continent Name
 	 */
 	public void setContinentName(String continentName) {
 		this.continentName = continentName;
@@ -119,8 +113,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * 
-	 * @param obj
-	 * check object is equals
+	 * @param obj check object is equals
 	 * @return true/false
 	 */
 	@Override

@@ -10,21 +10,24 @@ import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 
 /**
  * 
+ * PlayController class has all commanded for playing the game example
+ * attachking other player
+ * 
  * @author i857625
  *
  */
 public class PlayService {
 
-  @Autowired
-  ShellHelper shellHelper;
+	@Autowired
+	ShellHelper shellHelper;
 
-  /**
-   * 
-   * @param attacker attacker country name
-   */
-  public void attack(String attacker) {
-    PlayerDaoImpl playerDao = new PlayerDaoImpl();
-    PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), attacker);
-    playerModel.setColor("White");
-  }
+	/**
+	 * 
+	 * @param attacker attacker country name
+	 */
+	public void attack(String attacker) {
+		PlayerDaoImpl playerDao = new PlayerDaoImpl();
+		PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), attacker);
+		playerModel.setColor("White");
+	}
 }

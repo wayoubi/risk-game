@@ -4,7 +4,7 @@ import javax.validation.ValidationException;
 
 /**
  * 
- * BorderDto
+ * BorderDto, used as a place holder across layers
  *
  */
 public class BorderDto implements Dto {
@@ -21,10 +21,8 @@ public class BorderDto implements Dto {
 
 	/**
 	 * 
-	 * @param countryName
-	 * country name
-	 * @param neighborCountryName
-	 * neighbor country name
+	 * @param countryName         country name
+	 * @param neighborCountryName neighbor country name
 	 */
 	public BorderDto(String countryName, String neighborCountryName) {
 		super();
@@ -44,8 +42,7 @@ public class BorderDto implements Dto {
 	/**
 	 * sets {@link countryName}
 	 * 
-	 * @param countryName
-	 * sets country name
+	 * @param countryName sets country name
 	 */
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
@@ -63,8 +60,7 @@ public class BorderDto implements Dto {
 	/**
 	 * sets {@link neighborCountryName}
 	 * 
-	 * @param neighborCountryName
-	 * neighbor country name
+	 * @param neighborCountryName neighbor country name
 	 */
 	public void setNeighborCountryName(String neighborCountryName) {
 		this.neighborCountryName = neighborCountryName;
@@ -85,13 +81,12 @@ public class BorderDto implements Dto {
 
 	/**
 	 * 
-	 * @param obj
-	 * check object is equals
+	 * @param obj check object is equals
 	 * @return true/false
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if (this == obj)
 			return true;
 		if (obj == null) {
@@ -115,7 +110,7 @@ public class BorderDto implements Dto {
 		} else if (!neighborCountryName.equals(other.neighborCountryName)) {
 			return false;
 		}
-		
+
 		return true;
 	}
 

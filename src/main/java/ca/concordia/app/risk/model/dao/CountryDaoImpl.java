@@ -20,43 +20,35 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	/**
 	 * This method finds a country by name
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param name
-	 * country name
+	 * @param gameModel game model
+	 * @param name      country name
 	 * @return country object
 	 */
 	@Override
-	public CountryModel findByName(@NotNull GameModel gameModel, String name){
-		return gameModel.getCountries().getList().stream().filter(c -> c.getName().equals(name))
-				.findAny().orElse(null);
+	public CountryModel findByName(@NotNull GameModel gameModel, String name) {
+		return gameModel.getCountries().getList().stream().filter(c -> c.getName().equals(name)).findAny().orElse(null);
 	}
 
 	/**
 	 * This method finds a country by id
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param id
-	 * id
+	 * @param gameModel game model
+	 * @param id        id
 	 * @return country object
 	 */
 	@Override
-	public CountryModel findById(@NotNull GameModel gameModel, int id){
-		return gameModel.getCountries().getList().stream().filter(c -> c.getId() == id).findAny()
-				.orElse(null);
+	public CountryModel findById(@NotNull GameModel gameModel, int id) {
+		return gameModel.getCountries().getList().stream().filter(c -> c.getId() == id).findAny().orElse(null);
 	}
 
 	/**
 	 * This method assigns id to a country
 	 *
-	 * @param gameModel
-	 * game model
-	 * @param t
-	 * country model
+	 * @param gameModel game model
+	 * @param t         country model
 	 */
 	@Override
-	public void assignID(@NotNull GameModel gameModel, CountryModel t){
+	public void assignID(@NotNull GameModel gameModel, CountryModel t) {
 		Comparator<CountryModel> comparator = Comparator.comparing(CountryModel::getId);
 		Optional<CountryModel> optional = gameModel.getCountries().getList().stream().max(comparator);
 		if (optional.isPresent()) {
@@ -69,13 +61,11 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	/**
 	 * This method removes a list of countries
 	 * 
-	 * @param gameModel
-	 * game model
-	 * @param t
-	 * country model
+	 * @param gameModel game model
+	 * @param t         country model
 	 */
 	@Override
-	public void delete(@NotNull GameModel gameModel, CountryModel t){
+	public void delete(@NotNull GameModel gameModel, CountryModel t) {
 		gameModel.getCountries().getList().remove(t);
 
 	}
@@ -83,11 +73,10 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	/**
 	 * This method gets list of countries
 	 * 
-	 * @param gameModel
-	 * game model
+	 * @param gameModel game model
 	 * @return list of countries
 	 */
-	public List<CountryModel> getCountries(@NotNull GameModel gameModel){
+	public List<CountryModel> getCountries(@NotNull GameModel gameModel) {
 		return gameModel.getCountries().getList().stream().collect(Collectors.toList());
 	}
 

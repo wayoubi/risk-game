@@ -22,14 +22,15 @@ import ca.concordia.app.risk.shell.SimpleSpinner;
 import ca.concordia.app.risk.utility.GameUtils;
 
 /**
- * RiskGameBeanConfig
+ * RiskGameBeanConfig created necessary Spring Beans
+ * 
  * @author i857625
- *
  */
 @Configuration
 public class RiskGameBeanConfig {
 
 	/**
+	 * Creates PromptProvider bean
 	 * 
 	 * @return PromptProvider
 	 */
@@ -40,9 +41,9 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates ShellHelper bean
 	 * 
-	 * @param terminal
-	 * terminal
+	 * @param terminal terminal
 	 * @return ShellHelper
 	 */
 	@Bean
@@ -51,9 +52,9 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates InputReader bean
 	 * 
-	 * @param lineReader
-	 * line reader
+	 * @param lineReader line reader
 	 * @return InputReader
 	 */
 	@Bean
@@ -62,9 +63,9 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates SimpleSpinner bean
 	 * 
-	 * @param terminal
-	 * terminal
+	 * @param terminal terminal
 	 * @return SimpleSpinner
 	 */
 	@Bean
@@ -73,6 +74,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates GameUtils bean
 	 * 
 	 * @return GameUtils
 	 */
@@ -82,6 +84,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates GameBusinessDelegate bean
 	 * 
 	 * @return GameBusinessDelegate
 	 */
@@ -91,6 +94,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates PlayBusinessDelegate bean
 	 * 
 	 * @return PlayBusinessDelegate
 	 */
@@ -100,15 +104,17 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates ViewBusinessDelegate bean
 	 * 
 	 * @return ViewBusinessDelegate
-	 */ 
+	 */
 	@Bean
 	public ViewBusinessDelegate viewBusinessDelegate() {
 		return new ViewBusinessDelegate();
 	}
 
 	/**
+	 * Creates PresentationService bean
 	 * 
 	 * @return PresentationService
 	 */
@@ -118,6 +124,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates GameService bean
 	 * 
 	 * @return GameService
 	 */
@@ -127,6 +134,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates MapBusinessDelegate bean
 	 * 
 	 * @return MapBusinessDelegate
 	 */
@@ -136,6 +144,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
+	 * Creates MapService bean
 	 * 
 	 * @return MapService
 	 */

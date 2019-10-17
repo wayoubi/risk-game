@@ -15,8 +15,9 @@ import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 
- * @author i857625
- * PlayerDto
+ * PlayerDTO, used as a place holder across layers
+ * 
+ * @author i857625 PlayerDto
  *
  */
 public class PlayerDto implements Dto {
@@ -48,10 +49,8 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * 
-	 * @param name
-	 * player name
-	 * @param color
-	 * player color
+	 * @param name  player name
+	 * @param color player color
 	 */
 	public PlayerDto(String name, String color) {
 		this.setName(name);
@@ -60,8 +59,7 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * 
-	 * @param playerDTO
-	 * player DTO
+	 * @param playerDTO player DTO
 	 */
 	public PlayerDto(@NotNull final PlayerDto playerDTO) {
 		this.setName(playerDTO.getName());
@@ -70,7 +68,7 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * gets {@link id}
-	 *  
+	 * 
 	 * @return playerId
 	 */
 	public int getId() {
@@ -80,8 +78,7 @@ public class PlayerDto implements Dto {
 	/**
 	 * sets {@link id}
 	 * 
-	 * @param id
-	 * sets player Id
+	 * @param id sets player Id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -89,7 +86,7 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * gets {@link name}
-	 *  
+	 * 
 	 * @return playerName
 	 */
 	public String getName() {
@@ -99,8 +96,7 @@ public class PlayerDto implements Dto {
 	/**
 	 * sets {@link name}
 	 * 
-	 * @param name
-	 * sets player Name
+	 * @param name sets player Name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -108,7 +104,7 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * gets {@link color}
-	 *  
+	 * 
 	 * @return playerColor
 	 */
 	public String getColor() {
@@ -118,8 +114,7 @@ public class PlayerDto implements Dto {
 	/**
 	 * sets {@link color}
 	 * 
-	 * @param color
-	 * sets player color
+	 * @param color sets player color
 	 */
 	public void setColor(String color) {
 		this.color = color;
@@ -155,13 +150,12 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * 
-	 * @param obj
-	 * check object is equals
+	 * @param obj check object is equals
 	 * @return true/false
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -184,7 +178,7 @@ public class PlayerDto implements Dto {
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
-		
+
 		return true;
 	}
 

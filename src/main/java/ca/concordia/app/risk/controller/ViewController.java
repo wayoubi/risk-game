@@ -8,24 +8,27 @@ import org.springframework.shell.standard.ShellMethod;
 import ca.concordia.app.risk.view.JGraphXAdapterView;
 
 /**
- * ViewController
+ * ViewController has the commands that shows the details of the game
+ * 
  * @author i857625
- *
  */
 @ShellComponent
 public class ViewController {
-	
+
+	/**
+	 * Class Logger
+	 */
 	private static Logger log = LoggerFactory.getLogger(ViewController.class);
 
 	/**
-	 * This method shows map of the world (Graph)
+	 * This method shows map of the world (Graph) using Applet
 	 */
 	@ShellMethod("Show Full Map")
 	public void showmap() {
 		if (log.isDebugEnabled()) {
 			log.debug("inside showmap");
 		}
-		
+
 		JGraphXAdapterView.main(null);
 	}
 }

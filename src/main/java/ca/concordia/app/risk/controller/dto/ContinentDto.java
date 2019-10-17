@@ -4,7 +4,7 @@ import javax.validation.ValidationException;
 
 /**
  * 
- * ContinentDto
+ * ContinentDto, used as a place holder across layers
  *
  */
 public class ContinentDto implements Dto {
@@ -21,12 +21,9 @@ public class ContinentDto implements Dto {
 	 * 
 	 * Initialize Class Properties
 	 * 
-	 * @param numberOfCountries
-	 * number of countries
-	 * @param name
-	 * continent name
-	 * @param controlValue
-	 * control value
+	 * @param numberOfCountries number of countries
+	 * @param name              continent name
+	 * @param controlValue      control value
 	 */
 	public ContinentDto(int numberOfCountries, String name, int controlValue) {
 		super();
@@ -37,7 +34,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * gets {@link numberOfCountries}
-	 *  
+	 * 
 	 * @return numberOfCountries
 	 */
 	public int getNumberOfCountries() {
@@ -47,8 +44,7 @@ public class ContinentDto implements Dto {
 	/**
 	 * sets {@link numberOfCountries}
 	 * 
-	 * @param numberOfCountries
-	 * sets number of countries
+	 * @param numberOfCountries sets number of countries
 	 */
 	public void setNumberOfCountries(int numberOfCountries) {
 		this.numberOfCountries = numberOfCountries;
@@ -66,8 +62,7 @@ public class ContinentDto implements Dto {
 	/**
 	 * sets {@link name}
 	 * 
-	 * @param name
-	 * sets continent name
+	 * @param name sets continent name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -85,8 +80,7 @@ public class ContinentDto implements Dto {
 	/**
 	 * sets {@link controlValue}
 	 * 
-	 * @param controlValue
-	 * sets control value
+	 * @param controlValue sets control value
 	 */
 	public void setControlValue(int controlValue) {
 		this.controlValue = controlValue;
@@ -108,8 +102,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * 
-	 * @param obj
-	 * check object is equals
+	 * @param obj check object is equals
 	 * @return true/false
 	 */
 	@Override

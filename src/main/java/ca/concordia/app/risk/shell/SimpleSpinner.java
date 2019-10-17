@@ -10,24 +10,59 @@ import org.jline.terminal.Terminal;
  */
 public class SimpleSpinner {
 
+	/**
+	 * 
+	 */
 	private static final String CUU = "\u001B[A";
 
+	/**
+	 *
+	 */
 	private Terminal terminal;
+
+	/**
+	 * 
+	 */
 	private char[] spinner = { '|', '/', '-', '\\' };
 
+	/**
+	 * 
+	 */
 	private String pattern = " %s: %d ";
 
+	/**
+	 * 
+	 */
 	private int spinCounter = 0;
+
+	/**
+	 * 
+	 */
 	private boolean started;
 
+	/**
+	 * 
+	 * @param terminal
+	 */
 	public SimpleSpinner(Terminal terminal) {
 		this(terminal, null);
 	}
 
+	/**
+	 * 
+	 * @param terminal
+	 * @param pattern
+	 */
 	public SimpleSpinner(Terminal terminal, String pattern) {
 		this(terminal, pattern, null);
 	}
 
+	/**
+	 * 
+	 * @param terminal
+	 * @param pattern
+	 * @param spinner
+	 */
 	public SimpleSpinner(Terminal terminal, String pattern, char[] spinner) {
 		this.terminal = terminal;
 
@@ -39,6 +74,11 @@ public class SimpleSpinner {
 		}
 	}
 
+	/**
+	 * 
+	 * @param count
+	 * @param message
+	 */
 	public void display(int count, String message) {
 		if (!started) {
 			terminal.writer().println();
@@ -50,6 +90,9 @@ public class SimpleSpinner {
 		terminal.flush();
 	}
 
+	/**
+	 * 
+	 */
 	public void display() {
 		if (!started) {
 			terminal.writer().println();

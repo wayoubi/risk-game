@@ -6,19 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.concordia.app.risk.shell.SimpleSpinner;
 
+/**
+ * Has all Game helper methods like rolling dice
+ * 
+ * @author i857625
+ *
+ */
 public class GameUtils {
 
-    /**
-     * Dependency injection from SimpleSpinner
+	/**
+	 * Dependency injection from SimpleSpinner
 	 */
 	@Autowired
 	SimpleSpinner simpleSpinner;
 
-    /**
-     * @exception InterruptedException
-     * Interrupted Exception
-     * @return
-     * result
+	/**
+	 * @exception InterruptedException Interrupted Exception
+	 * @return result
 	 */
 	public int rollDice() throws InterruptedException {
 		int result = 0;
