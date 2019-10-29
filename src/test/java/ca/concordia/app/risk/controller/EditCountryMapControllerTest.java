@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import ca.concordia.app.risk.RiskGameBeanConfig;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
@@ -25,6 +27,7 @@ import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({ RiskGameBeanConfig.class, RiskGameTestBeanConfig.class })
+@ActiveProfiles("test")
 public class EditCountryMapControllerTest {
 	
 	private static Logger log = LoggerFactory.getLogger(EditCountryMapControllerTest.class);

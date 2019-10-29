@@ -1,16 +1,24 @@
 package ca.concordia.app.risk.model.cache;
 
-import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
-import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
-import ca.concordia.app.risk.model.xmlbeans.*;
-import ca.concordia.app.risk.utility.DateUtils;
+import java.util.Date;
+import java.util.HashMap;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.util.Date;
-import java.util.HashMap;
+import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.BordersModel;
+import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
+import ca.concordia.app.risk.model.xmlbeans.ContinentsModel;
+import ca.concordia.app.risk.model.xmlbeans.CountriesModel;
+import ca.concordia.app.risk.model.xmlbeans.GameModel;
+import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
+import ca.concordia.app.risk.model.xmlbeans.PlayersModel;
+import ca.concordia.app.risk.utility.DateUtils;
 
 /**
  * This is the most important class, it is implemented using the singleton
@@ -21,6 +29,11 @@ import java.util.HashMap;
  *
  */
 public class RunningGame extends GameModel {
+	
+	/**
+	 * 
+	 */
+	RunningGameSubject subject;
 
 	/**
 	 * objectFactory to create Game model objects
@@ -73,7 +86,9 @@ public class RunningGame extends GameModel {
 	 */
 	private RunningGame() {
 		super();
-
+		
+		this.setSubject(new RunningGameSubject());
+		
 		try {
 			this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
 		} catch (DatatypeConfigurationException configurationException) {
@@ -118,7 +133,9 @@ public class RunningGame extends GameModel {
 	 * This method restarts the runningGame (current game)
 	 */
 	public static void reset() {
+		RunningGameSubject subject = RunningGame.getInstance().getSubject();
 		runningGame = new RunningGame();
+		RunningGame.getInstance().setSubject(subject);
 	}
 
 	/**
@@ -254,5 +271,21 @@ public class RunningGame extends GameModel {
 	 */
 	public void setReinforceCompleted(boolean reinforceCompleted) {
 		this.reinforceCompleted = reinforceCompleted;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public RunningGameSubject getSubject() {
+		return subject;
+	}
+
+	/**
+	 * 
+	 * @param observer
+	 */
+	private void setSubject(RunningGameSubject subject) {
+		this.subject = subject;
 	}
 }

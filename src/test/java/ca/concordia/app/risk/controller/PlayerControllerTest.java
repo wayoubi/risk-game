@@ -1,14 +1,11 @@
 package ca.concordia.app.risk.controller;
 
-import ca.concordia.app.risk.RiskGameBeanConfig;
-import ca.concordia.app.risk.controller.GameController;
-import ca.concordia.app.risk.controller.MapController;
-import ca.concordia.app.risk.model.cache.RunningGame;
-import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
-import ca.concordia.app.risk.model.xmlbeans.CountryModel;
-import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
-import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
-import ch.qos.logback.core.net.SyslogOutputStream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,13 +14,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import ca.concordia.app.risk.RiskGameBeanConfig;
+import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
+import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
+import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 
 /**
  * player commands
@@ -31,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({RiskGameBeanConfig.class, RiskGameTestBeanConfig.class})
+@ActiveProfiles("test")
 public class PlayerControllerTest {
 
   private static Logger log = LoggerFactory.getLogger(PlayerControllerTest.class);

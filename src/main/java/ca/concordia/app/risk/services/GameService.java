@@ -144,6 +144,8 @@ public class GameService {
 			RunningGame.reset();
 			throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
 		}
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -216,6 +218,7 @@ public class GameService {
 		} catch (IOException ioException) {
 			throw new RiskGameRuntimeException("Map cannot be edited", ioException);
 		}
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -261,6 +264,10 @@ public class GameService {
 		}
 	}
 
+	/**
+	 * 
+	 * @param playerDto
+	 */
 	public void addPlayer(PlayerDto playerDto) {
 
 		if (!RunningGame.getInstance().isMapLoaded())
@@ -305,8 +312,13 @@ public class GameService {
 		playerModel.setColor(color);
 
 		RunningGame.getInstance().getPlayers().getList().add(playerModel);
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 * @param playerDto
+	 */
 	public void removePlayer(PlayerDto playerDto) {
 		if (!RunningGame.getInstance().isMapLoaded())
 			throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
@@ -322,6 +334,9 @@ public class GameService {
 		playerDao.delete(RunningGame.getInstance(), playerModel);
 	}
 
+	/**
+	 * 
+	 */
 	public void populateCountries() {
 
 		if (RunningGame.getInstance().isGamePlay())
@@ -350,8 +365,14 @@ public class GameService {
 
 		RunningGame.getInstance().setCountriesPopulated(true);
 		RunningGame.getInstance().setCurrentPlayerId(1);
+		RunningGame.getInstance().getSubject().markAndNotify();
+		
 	}
 
+	/**
+	 * 
+	 * @param countryName
+	 */
 	public void placeArmy(String countryName) {
 
 		if (RunningGame.getInstance().isGamePlay())
@@ -423,8 +444,13 @@ public class GameService {
 				RunningGame.getInstance().setCurrentPlayerId(1);
 		} else
 			throw new RiskGameRuntimeException("Total Number of Armies has been exceeded");
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 * @param playerID
+	 */
 	public void reinforceInitialization(int playerID) {
 
 		int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
@@ -463,6 +489,7 @@ public class GameService {
 			activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
 			RunningGame.getInstance().setReinforceCompleted(false);
 		}
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	public void reinforce(String countryName, int numberOfArmies) {
@@ -500,6 +527,9 @@ public class GameService {
 		} else {
 			throw new RiskGameRuntimeException("This country is not assigned to " + activePlayerModel.getName());
 		}
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
+		
 	}
 
 	/**
@@ -602,8 +632,13 @@ public class GameService {
 			toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() + numberOfArmies);
 			moveToNextPlayer();
 		}
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 */
 	public void placeAll() {
 
 		if (RunningGame.getInstance().isGamePlay())
@@ -656,8 +691,12 @@ public class GameService {
 		}
 		RunningGame.getInstance().setGamePlay(true);
 		reinforceInitialization(1);
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 */
 	public void moveToNextPlayer() {
 		if (!RunningGame.getInstance().isReinforceCompleted())
 			throw new RiskGameRuntimeException("Please reinforce first");
@@ -669,5 +708,6 @@ public class GameService {
 			RunningGame.getInstance().setCurrentPlayerId(1);
 			reinforceInitialization(1);
 		}
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 }
