@@ -1,10 +1,10 @@
 package ca.concordia.app.risk.model.dao;
 
+import javax.validation.constraints.NotNull;
+
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * This class is DAO(Data Access Layer) for borders - edges of the graph

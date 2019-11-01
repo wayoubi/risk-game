@@ -1,12 +1,11 @@
 package ca.concordia.app.risk.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
-import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.shell.ShellHelper;
-import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 
 /**
  * 

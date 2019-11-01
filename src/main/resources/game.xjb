@@ -37,6 +37,14 @@
 		<jxb:bindings node="//xsd:element[@name='border']">
 			<jxb:property name="list" />
 		</jxb:bindings>
+		
+		<jxb:bindings node="//xsd:element[@name='cards']">
+			<jxb:property name="cards" />
+		</jxb:bindings>
+
+		<jxb:bindings node="//xsd:element[@name='card']">
+			<jxb:property name="list" />
+		</jxb:bindings>
 
 		<jxb:schemaBindings>
 			<jxb:nameXmlTransform>

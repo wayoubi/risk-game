@@ -11,6 +11,7 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.BordersModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentsModel;
@@ -58,7 +59,12 @@ public class RunningGame extends GameModel {
 	/**
 	 * Current player's id
 	 */
-	private int currentPlayerId;
+	//private int currentPlayerId;
+	
+	/**
+	 * 
+	 */
+	private Player currentPlayer;
 
 	/**
 	 * determines if a game is active or not
@@ -114,7 +120,8 @@ public class RunningGame extends GameModel {
 
 		contientsGraphsMap = new HashMap<>();
 
-		this.setCurrentPlayerId(0);
+		//this.setCurrentPlayerId(0);
+		//this.setCurrentPlayer(new Player());
 	}
 
 	/**
@@ -151,18 +158,18 @@ public class RunningGame extends GameModel {
 	 * 
 	 * @return currentPlayerId
 	 */
-	public int getCurrentPlayerId() {
-		return currentPlayerId;
-	}
-
-	/**
-	 * sets {@link currentPlayerId}
-	 * 
-	 * @param currentPlayerId current player's id
-	 */
-	public void setCurrentPlayerId(int currentPlayerId) {
-		this.currentPlayerId = currentPlayerId;
-	}
+//	public int getCurrentPlayerId() {
+//		return currentPlayerId;
+//	}
+//
+//	/**
+//	 * sets {@link currentPlayerId}
+//	 * 
+//	 * @param currentPlayerId current player's id
+//	 */
+//	public void setCurrentPlayerId(int currentPlayerId) {
+//		this.currentPlayerId = currentPlayerId;
+//	}
 
 	/**
 	 * add Continent to the Graph
@@ -287,5 +294,38 @@ public class RunningGame extends GameModel {
 	 */
 	private void setSubject(RunningGameSubject subject) {
 		this.subject = subject;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	/**
+	 * 
+	 * @param currentPlayer
+	 */
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+	/**
+	 * 
+	 */
+	public void moveToNextPlayer() {
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+		if(this.getCurrentPlayer()==null) {
+			this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(),1)));
+		} else {
+			int turn = this.getCurrentPlayer().getPlayerModel().getId();
+			if(turn==this.getPlayers().getList().size()) {
+				this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(),1)));
+			} else {
+				this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(),++turn)));
+			}	
+		}
 	}
 }

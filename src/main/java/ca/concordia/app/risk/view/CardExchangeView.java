@@ -9,37 +9,49 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
+import ca.concordia.app.risk.model.cache.Player;
+import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
+
 public class CardExchangeView extends JPanel implements Observer {
 
 	JTabbedPane tabbedPane;
 
-	private JPanel jPanel1;
-	private JPanel jPanel2;
-	private JPanel jPanel3;
-	private JPanel jPanel4;
-
-	public CardExchangeView() {
-
+	/**
+	 * 
+	 */
+	public CardExchangeView() {	
 		this.setLayout(new GridLayout(1, 1));
-
 		tabbedPane = new JTabbedPane();
-
-		jPanel1 = new JPanel();
-		jPanel2 = new JPanel();
-		jPanel3 = new JPanel();
-		jPanel4 = new JPanel();
-
-		tabbedPane.add("Wasim", jPanel1);
-		tabbedPane.add("Pinkal", jPanel2);
-		tabbedPane.add("Michael", jPanel3);
-		tabbedPane.add("Nasim", jPanel4);
-
 		Border border = BorderFactory.createTitledBorder("Cards View");
 		this.setBorder(border);
 		this.add(tabbedPane);
+		
+		Player player = RunningGame.getInstance().getCurrentPlayer();
+		if(player!=null) {
+			PlayerModel playerModel = player.getPlayerModel();
+			if(playerModel!=null) {
+				JPanel jPanel = new JPanel();
+				this.tabbedPane.add(jPanel, playerModel.getName());
+			}
+		}	
 	}
 
+	/**
+	 *
+	 */
 	public void update(Observable observable, Object object) {
+		this.tabbedPane.removeAll();
+		
+		Player player = RunningGame.getInstance().getCurrentPlayer();
+		if(player!=null) {
+			PlayerModel playerModel = player.getPlayerModel();
+			if(playerModel!=null) {
+				JPanel jPanel = new JPanel();
+				this.tabbedPane.add(jPanel, playerModel.getName());
+			}
+		}	
 	}
 
 }

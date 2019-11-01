@@ -154,7 +154,7 @@ public class PlayerControllerTest {
     gameController.gameplayer("Wassim", "");
 
     gameController.populatecountries();
-    RunningGame.getInstance().setCurrentPlayerId(1);
+    //RunningGame.getInstance().setCurrentPlayerId(1);
     gameController.placearmy("India");
 
     List<CountryModel> countryModel =
@@ -185,7 +185,7 @@ public class PlayerControllerTest {
     gameController.gameplayer("Wassim", "");
 
     gameController.populatecountries();
-    RunningGame.getInstance().setCurrentPlayerId(1);
+    //RunningGame.getInstance().setCurrentPlayerId(1);
     gameController.placearmy("Jordan");
 
     List<CountryModel> countryModel =
@@ -216,7 +216,7 @@ public class PlayerControllerTest {
     gameController.gameplayer("Wassim", "");
 
     gameController.populatecountries();
-    RunningGame.getInstance().setCurrentPlayerId(1);
+    //RunningGame.getInstance().setCurrentPlayerId(1);
     gameController.placearmy("Egypt");
 
     List<CountryModel> countryModel =
@@ -248,7 +248,7 @@ public class PlayerControllerTest {
     gameController.gameplayer("Pinkal", "");
 
     gameController.populatecountries();
-    RunningGame.getInstance().setCurrentPlayerId(1);
+    //RunningGame.getInstance().setCurrentPlayerId(1);
     gameController.placearmy("Egypt");
     gameController.placearmy("Jordan");
     gameController.placearmy("Egypt");
@@ -282,7 +282,7 @@ public class PlayerControllerTest {
     gameController.gameplayer("Pinkal", "");
 
     gameController.populatecountries();
-    RunningGame.getInstance().setCurrentPlayerId(1);
+    //RunningGame.getInstance().setCurrentPlayerId(1);
 
     for (int i = 0; i < 50; i++) {
       gameController.placearmy("Egypt");
@@ -319,7 +319,7 @@ public class PlayerControllerTest {
 
 
     gameController.populatecountries();
-    RunningGame.getInstance().setCurrentPlayerId(1);
+    //RunningGame.getInstance().setCurrentPlayerId(1);
 
     for (int i = 0; i < 30; i++) {
       gameController.placearmy("Egypt");
@@ -355,7 +355,7 @@ public class PlayerControllerTest {
     gameController.gameplayer("Pinkal", "");
 
     gameController.populatecountries();
-    RunningGame.getInstance().setCurrentPlayerId(1);
+    //RunningGame.getInstance().setCurrentPlayerId(1);
 
     gameController.placeall();
 

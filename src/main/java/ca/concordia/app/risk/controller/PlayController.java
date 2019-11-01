@@ -11,8 +11,6 @@ import ca.concordia.app.risk.controller.delegate.PlayBusinessDelegate;
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.GameUtils;
-import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
-import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
  * PlayController class has all commanded for playing the game example
