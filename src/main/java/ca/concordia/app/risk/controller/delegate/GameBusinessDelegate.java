@@ -1,8 +1,8 @@
 package ca.concordia.app.risk.controller.delegate;
 
-import ca.concordia.app.risk.controller.dto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.services.GameService;
 
 /**
@@ -117,14 +117,6 @@ public class GameBusinessDelegate {
 	 */
 	public void placeall() {
 		gameService.placeAll();
-	}
-
-	/**
-	 * move round To Next Player
-	 * 
-	 */
-	public void moveToNextPlayer() {
-		gameService.moveToNextPlayer();
 	}
 
 	/**

@@ -6,13 +6,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+
 /**
- * <p>
- * Java class for player complex type.
+ * <p>Java class for player complex type.
  * 
- * <p>
- * The following schema fragment specifies the expected content contained within
- * this class.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="player">
@@ -37,6 +35,8 @@ import javax.xml.bind.annotation.XmlType;
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
+ *         &lt;element name="cards" type="{http://ca.concordia.app.risk/game}cards"/>
+ *         &lt;element name="playingPhase" type="{http://ca.concordia.app.risk/game}cards"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -46,107 +46,174 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "player", namespace = "http://ca.concordia.app.risk/game", propOrder = { "id", "name",
-		"cardExchangeCount", "reinforcementNoOfArmies", "color" })
+@XmlType(name = "player", namespace = "http://ca.concordia.app.risk/game", propOrder = {
+    "id",
+    "name",
+    "cardExchangeCount",
+    "reinforcementNoOfArmies",
+    "color",
+    "cards",
+    "playingPhase"
+})
 public class PlayerModel {
 
-	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
-	protected int id;
-	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-	protected String name;
-	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
-	protected int cardExchangeCount;
-	@XmlElement(namespace = "http://ca.concordia.app.risk/game")
-	protected int reinforcementNoOfArmies;
-	@XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-	protected String color;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game")
+    protected int id;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+    protected String name;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game")
+    protected int cardExchangeCount;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game")
+    protected int reinforcementNoOfArmies;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+    protected String color;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+    protected CardsModel cards;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+    protected CardsModel playingPhase;
 
-	/**
-	 * Gets the value of the id property.
-	 * 
-	 */
-	public int getId() {
-		return id;
-	}
+    /**
+     * Gets the value of the id property.
+     * 
+     */
+    public int getId() {
+        return id;
+    }
 
-	/**
-	 * Sets the value of the id property.
-	 * 
-	 */
-	public void setId(int value) {
-		this.id = value;
-	}
+    /**
+     * Sets the value of the id property.
+     * 
+     */
+    public void setId(int value) {
+        this.id = value;
+    }
 
-	/**
-	 * Gets the value of the name property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Gets the value of the name property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Sets the value of the name property.
-	 * 
-	 * @param value allowed object is {@link String }
-	 * 
-	 */
-	public void setName(String value) {
-		this.name = value;
-	}
+    /**
+     * Sets the value of the name property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setName(String value) {
+        this.name = value;
+    }
 
-	/**
-	 * Gets the value of the cardExchangeCount property.
-	 * 
-	 */
-	public int getCardExchangeCount() {
-		return cardExchangeCount;
-	}
+    /**
+     * Gets the value of the cardExchangeCount property.
+     * 
+     */
+    public int getCardExchangeCount() {
+        return cardExchangeCount;
+    }
 
-	/**
-	 * Sets the value of the cardExchangeCount property.
-	 * 
-	 */
-	public void setCardExchangeCount(int value) {
-		this.cardExchangeCount = value;
-	}
+    /**
+     * Sets the value of the cardExchangeCount property.
+     * 
+     */
+    public void setCardExchangeCount(int value) {
+        this.cardExchangeCount = value;
+    }
 
-	/**
-	 * Gets the value of the reinforcementNoOfArmies property.
-	 * 
-	 */
-	public int getReinforcementNoOfArmies() {
-		return reinforcementNoOfArmies;
-	}
+    /**
+     * Gets the value of the reinforcementNoOfArmies property.
+     * 
+     */
+    public int getReinforcementNoOfArmies() {
+        return reinforcementNoOfArmies;
+    }
 
-	/**
-	 * Sets the value of the reinforcementNoOfArmies property.
-	 * 
-	 */
-	public void setReinforcementNoOfArmies(int value) {
-		this.reinforcementNoOfArmies = value;
-	}
+    /**
+     * Sets the value of the reinforcementNoOfArmies property.
+     * 
+     */
+    public void setReinforcementNoOfArmies(int value) {
+        this.reinforcementNoOfArmies = value;
+    }
 
-	/**
-	 * Gets the value of the color property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getColor() {
-		return color;
-	}
+    /**
+     * Gets the value of the color property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getColor() {
+        return color;
+    }
 
-	/**
-	 * Sets the value of the color property.
-	 * 
-	 * @param value allowed object is {@link String }
-	 * 
-	 */
-	public void setColor(String value) {
-		this.color = value;
-	}
+    /**
+     * Sets the value of the color property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setColor(String value) {
+        this.color = value;
+    }
+
+    /**
+     * Gets the value of the cards property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CardsModel }
+     *     
+     */
+    public CardsModel getCards() {
+        return cards;
+    }
+
+    /**
+     * Sets the value of the cards property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CardsModel }
+     *     
+     */
+    public void setCards(CardsModel value) {
+        this.cards = value;
+    }
+
+    /**
+     * Gets the value of the playingPhase property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CardsModel }
+     *     
+     */
+    public CardsModel getPlayingPhase() {
+        return playingPhase;
+    }
+
+    /**
+     * Sets the value of the playingPhase property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CardsModel }
+     *     
+     */
+    public void setPlayingPhase(CardsModel value) {
+        this.playingPhase = value;
+    }
 
 }

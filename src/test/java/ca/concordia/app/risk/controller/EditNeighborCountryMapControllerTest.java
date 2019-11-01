@@ -2,7 +2,6 @@ package ca.concordia.app.risk.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.concordia.app.risk.RiskGameBeanConfig;
@@ -26,6 +26,7 @@ import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({ RiskGameBeanConfig.class, RiskGameTestBeanConfig.class })
+@ActiveProfiles("test")
 public class EditNeighborCountryMapControllerTest {
 	
 	private static Logger log = LoggerFactory.getLogger(EditNeighborCountryMapControllerTest.class);

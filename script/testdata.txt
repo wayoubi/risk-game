@@ -17,3 +17,12 @@ editneighbor -add Egypt Algeria
 editneighbor -add Algeria France
 editneighbor -add Italy Spain
 editneighbor -add Italy France
+savemap fffff.txt
+loadmap saved/fffff.txt
+gameplayer -add Wasim
+gameplayer -add Nasim
+gameplayer -add Pinkal
+gameplayer -add Michael
+populatecountries
+placeall
+

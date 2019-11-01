@@ -1,15 +1,17 @@
 package ca.concordia.app.risk.controller;
 
-import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
-import ca.concordia.app.risk.controller.dto.PlayerDto;
-import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
-import ca.concordia.app.risk.shell.ShellHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+
+import ca.concordia.app.risk.controller.delegate.GameBusinessDelegate;
+import ca.concordia.app.risk.controller.dto.PlayerDto;
+import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
  * GameController has all the commands related to saving, loading and editing
@@ -294,13 +296,14 @@ public class GameController {
 
 		try {
 			if (fromCountry != null && "none".equals(fromCountry)) {
-				gameBusinessDelegate.moveToNextPlayer();
+				RunningGame.getInstance().moveToNextPlayer();
+				RunningGame.getInstance().getSubject().markAndNotify();
 				return "Choose not to do a move";
 			}
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {
 			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
 		}
-
+		
 		try {
 			if (fromCountry != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(fromCountry) && toCountry != null
 					&& !NONE_DEFAULT_VALUE.equalsIgnoreCase(toCountry) && numberOfArmies != null

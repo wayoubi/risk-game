@@ -144,6 +144,8 @@ public class GameService {
 			RunningGame.reset();
 			throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
 		}
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -216,6 +218,7 @@ public class GameService {
 		} catch (IOException ioException) {
 			throw new RiskGameRuntimeException("Map cannot be edited", ioException);
 		}
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -261,6 +264,10 @@ public class GameService {
 		}
 	}
 
+	/**
+	 * 
+	 * @param playerDto
+	 */
 	public void addPlayer(PlayerDto playerDto) {
 
 		if (!RunningGame.getInstance().isMapLoaded())
@@ -305,8 +312,13 @@ public class GameService {
 		playerModel.setColor(color);
 
 		RunningGame.getInstance().getPlayers().getList().add(playerModel);
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 * @param playerDto
+	 */
 	public void removePlayer(PlayerDto playerDto) {
 		if (!RunningGame.getInstance().isMapLoaded())
 			throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
@@ -322,6 +334,9 @@ public class GameService {
 		playerDao.delete(RunningGame.getInstance(), playerModel);
 	}
 
+	/**
+	 * 
+	 */
 	public void populateCountries() {
 
 		if (RunningGame.getInstance().isGamePlay())
@@ -349,58 +364,52 @@ public class GameService {
 		}
 
 		RunningGame.getInstance().setCountriesPopulated(true);
-		RunningGame.getInstance().setCurrentPlayerId(1);
+		RunningGame.getInstance().moveToNextPlayer();
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 * @param countryName
+	 */
 	public void placeArmy(String countryName) {
+		
+		
 
-		if (RunningGame.getInstance().isGamePlay())
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
-
-		int activePlayerId = RunningGame.getInstance().getCurrentPlayerId();
-		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-		PlayerModel activePlayerModel = null;
-		CountryModel countryModel = null;
-
-		activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
-				RunningGame.getInstance().getCurrentPlayerId());
-
-		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-
-		int totalNumberOfArmiesPerPlayer = 0;
-		int numberOfAssignedArmies = 0;
-		int playerId = 0;
-		int numberOfPlayers = 0;
-
-		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
-
-		if (numberOfPlayers == 0)
+		}
+		
+		int numberOfPlayers  = RunningGame.getInstance().getPlayers().getList().size();
+		if (numberOfPlayers == 0) {
 			throw new RiskGameRuntimeException("No players have been added to the game");
-
+		}
+		
+		PlayerModel activePlayerModel = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
+		if (activePlayerModel == null) {
+			throw new RiskGameRuntimeException("Theer is no current player assigned yet");
+		}
+		
+		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+		CountryModel countryModel = null;
 		countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
-
 		if (countryModel == null) {
 			throw new RiskGameRuntimeException("Country Does Not Exist");
 		}
-
-		if (activePlayerModel != null && activePlayerModel.getId() == 0) {
-			throw new RiskGameRuntimeException("Players have not been added yet");
-		}
-		playerId = countryModel.getPlayerId();
-
-		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList();
-
-		if (activePlayerModel != null && (countryModel.getPlayerId()) != (activePlayerModel.getId())) {
+		
+		if (countryModel.getPlayerId() != activePlayerModel.getId()) {
 			throw new RiskGameRuntimeException(countryName + " is not assigned to " + activePlayerModel.getName());
 		}
+		
+		int totalNumberOfArmiesPerPlayer = 0;
+		int numberOfAssignedArmies = 0;
 
+		List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList();
 		for (CountryModel item : countryModels) {
-			if (item.getPlayerId() == playerId) {
+			if (item.getPlayerId() == activePlayerModel.getId()) {
 				numberOfAssignedArmies += item.getNumberOfArmies();
 			}
 		}
-
-		numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
 		if (numberOfPlayers == 2) {
 			totalNumberOfArmiesPerPlayer = 40;
@@ -415,24 +424,23 @@ public class GameService {
 		if (numberOfAssignedArmies < totalNumberOfArmiesPerPlayer) {
 			countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + 1);
 
-			if (activePlayerId < numberOfPlayers)
-				RunningGame.getInstance().setCurrentPlayerId(activePlayerId + 1);
-			else if (activePlayerId == numberOfPlayers)
-				RunningGame.getInstance().setCurrentPlayerId(1);
-			else
-				RunningGame.getInstance().setCurrentPlayerId(1);
-		} else
+		} else {
 			throw new RiskGameRuntimeException("Total Number of Armies has been exceeded");
+		}
+			
+		RunningGame.getInstance().moveToNextPlayer();
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 * @param playerID
+	 */
 	public void reinforceInitialization(int playerID) {
 
 		int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
-
-		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-
-		PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
-				RunningGame.getInstance().getCurrentPlayerId());
+		
+		PlayerModel activePlayerModel = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
 
 		int reinforcementArmies = 0;
 		boolean fullContinentOccupy = false;
@@ -463,43 +471,32 @@ public class GameService {
 			activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
 			RunningGame.getInstance().setReinforceCompleted(false);
 		}
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 * @param countryName
+	 * @param numberOfArmies
+	 */
 	public void reinforce(String countryName, int numberOfArmies) {
-
-		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-		PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
-				RunningGame.getInstance().getCurrentPlayerId());
-
+		
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
-
-		if (activePlayerModel == null) {
-			throw new RiskGameRuntimeException("No Players have been added");
-		}
-
 		if (countryModel == null) {
 			throw new RiskGameRuntimeException("Country doesn't exist");
 		}
-
-		if (activePlayerModel.getReinforcementNoOfArmies() == 0)
-			throw new RiskGameRuntimeException("Reinforcement phase has been completed");
-
-		if ((countryModel.getPlayerId()) == (activePlayerModel.getId())) {
-
-			if (activePlayerModel.getReinforcementNoOfArmies() >= numberOfArmies) {
-				countryModel.setNumberOfArmies(countryModel.getNumberOfArmies() + numberOfArmies);
-				if (activePlayerModel.getReinforcementNoOfArmies() - numberOfArmies == 0) {
-					RunningGame.getInstance().setReinforceCompleted(true);
-				}
-				activePlayerModel
-						.setReinforcementNoOfArmies(activePlayerModel.getReinforcementNoOfArmies() - numberOfArmies);
-			} else {
-				throw new RiskGameRuntimeException("Please reduce number of armies");
-			}
-		} else {
+		
+		PlayerModel activePlayerModel = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
+		if (activePlayerModel == null) {
+			throw new RiskGameRuntimeException("No Players have been added");
+		}
+		
+		if (countryModel.getPlayerId()!=activePlayerModel.getId()) {
 			throw new RiskGameRuntimeException("This country is not assigned to " + activePlayerModel.getName());
 		}
+		RunningGame.getInstance().getCurrentPlayer().reinforce(countryModel, numberOfArmies);
+		RunningGame.getInstance().getSubject().markAndNotify();	
 	}
 
 	/**
@@ -514,9 +511,11 @@ public class GameService {
 		if (!RunningGame.getInstance().isReinforceCompleted())
 			throw new RiskGameRuntimeException("Please reinforce first ");
 
-		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-		PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
-				RunningGame.getInstance().getCurrentPlayerId());
+//		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+//		PlayerModel activePlayerModel = playerDaoImpl.findById(RunningGame.getInstance(),
+//				RunningGame.getInstance().getCurrentPlayerId());
+		
+		PlayerModel activePlayerModel = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
 
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel fromCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), fromCountry);
@@ -595,22 +594,36 @@ public class GameService {
 			} else {
 				toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() - numberOfArmies);
 				fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() + numberOfArmies);
-				moveToNextPlayer();
+				
+				if (!RunningGame.getInstance().isReinforceCompleted()) {
+					throw new RiskGameRuntimeException("Please reinforce first");
+				} else {
+					RunningGame.getInstance().moveToNextPlayer();
+				}
+				
 			}
 		} else {
 			fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() - numberOfArmies);
 			toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() + numberOfArmies);
-			moveToNextPlayer();
+			if (!RunningGame.getInstance().isReinforceCompleted()) {
+				throw new RiskGameRuntimeException("Please reinforce first");
+			} else {
+				RunningGame.getInstance().moveToNextPlayer();
+			}
 		}
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 * 
+	 */
 	public void placeAll() {
 
 		if (RunningGame.getInstance().isGamePlay())
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
 
 		int totalNumberOfArmiesPerPlayer = 0;
-		int playerId = 0;
 		int numberOfAssignedArmies = 0;
 		int numberOfPlayers = 0;
 
@@ -656,18 +669,6 @@ public class GameService {
 		}
 		RunningGame.getInstance().setGamePlay(true);
 		reinforceInitialization(1);
-	}
-
-	public void moveToNextPlayer() {
-		if (!RunningGame.getInstance().isReinforceCompleted())
-			throw new RiskGameRuntimeException("Please reinforce first");
-		int activePlayer = RunningGame.getInstance().getCurrentPlayerId();
-		if (activePlayer < RunningGame.getInstance().getPlayers().getList().size()) {
-			RunningGame.getInstance().setCurrentPlayerId(activePlayer + 1);
-			reinforceInitialization(activePlayer + 1);
-		} else if (activePlayer == RunningGame.getInstance().getPlayers().getList().size()) {
-			RunningGame.getInstance().setCurrentPlayerId(1);
-			reinforceInitialization(1);
-		}
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 }

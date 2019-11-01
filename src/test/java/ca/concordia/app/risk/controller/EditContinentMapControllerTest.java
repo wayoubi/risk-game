@@ -1,11 +1,9 @@
 package ca.concordia.app.risk.controller;
 
-import ca.concordia.app.risk.RiskGameBeanConfig;
-import ca.concordia.app.risk.controller.MapController;
-import ca.concordia.app.risk.model.cache.RunningGame;
-import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
-import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
-import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,11 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import ca.concordia.app.risk.RiskGameBeanConfig;
-import ca.concordia.app.risk.controller.MapController;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
@@ -31,6 +28,7 @@ import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplicationRunner.class)
 @Import({ RiskGameBeanConfig.class, RiskGameTestBeanConfig.class })
+@ActiveProfiles("test")
 public class EditContinentMapControllerTest {
 
   private static Logger log = LoggerFactory.getLogger(EditContinentMapControllerTest.class);

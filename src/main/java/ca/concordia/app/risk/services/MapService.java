@@ -49,6 +49,8 @@ public class MapService {
 		continentDaoImp.assignID(RunningGame.getInstance(), continentModel);
 		RunningGame.getInstance().getContinents().getList().add(continentModel);
 		RunningGame.getInstance().addContinentGraph(continentModel.getName());
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -73,6 +75,8 @@ public class MapService {
 		});
 		continentDao.delete(RunningGame.getInstance(), continentModel);
 		RunningGame.getInstance().removeContinentGraph(continentModel.getName());
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -111,6 +115,8 @@ public class MapService {
 		RunningGame.getInstance().getCountries().getList().add(countryModel);
 		RunningGame.getInstance().getGraph().addVertex(countryModel.getName());
 		RunningGame.getInstance().getContinentGraph(continentModel.getName()).addVertex(countryModel.getName());
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -138,6 +144,8 @@ public class MapService {
 		String continentName = continentDaoImpl.findById(RunningGame.getInstance(), countryModel.getContinentId())
 				.getName();
 		RunningGame.getInstance().getContinentGraph(continentName).removeVertex(countryModel.getName());
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -163,6 +171,8 @@ public class MapService {
 		}
 		this.makeBorder(countryModel.getName(), neighborCountryModel.getName());
 		this.makeBorder(neighborCountryModel.getName(), countryModel.getName());
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
@@ -211,6 +221,8 @@ public class MapService {
 
 		this.removeBorder(borderDto.getCountryName(), borderDto.getNeighborCountryName());
 		this.removeBorder(borderDto.getNeighborCountryName(), borderDto.getCountryName());
+		
+		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
 	/**
