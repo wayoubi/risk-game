@@ -46,6 +46,7 @@ import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.DateUtils;
+import sun.lwawt.macosx.CSystemTray;
 
 /**
  * 
@@ -673,5 +674,41 @@ public class GameService {
 	}
 
     public void exchangecards(String[] cardsArray) {
-    }
+
+		// check if there are three cards to be exchanged
+		if(cardsArray.length!=3){
+			throw new RiskGameRuntimeException("Please enter three valid numbers");
+		}
+
+		//check for negative values
+		for (int i =0; i<cardsArray.length; i++){
+			if(Integer.parseInt(cardsArray[i]) < 0){
+				throw new RiskGameRuntimeException(cardsArray[i] + " is not a valid number, Please enter a positive number");
+			}
+		}
+
+		//Get card list
+		List cards =RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+
+		//validate requested exchange cards are not null
+		for (int i =0; i<cardsArray.length; i++){
+			if(cards.get(Integer.parseInt(cardsArray[i]))==null) {
+				throw new RiskGameRuntimeException(cardsArray[i] + " does not exist");
+			}
+		}
+
+		//check if all cards are of same type
+		if (cards.get(Integer.parseInt(cardsArray[0])) == cards.get(Integer.parseInt(cardsArray[1]))
+				&& cards.get(Integer.parseInt(cardsArray[1])) == cards.get(Integer.parseInt(cardsArray[2]))){
+
+			//check if all cards are of different type
+		} else if (cards.get(Integer.parseInt(cardsArray[0])) != cards.get(Integer.parseInt(cardsArray[1]))
+				&& cards.get(Integer.parseInt(cardsArray[1])) != cards.get(Integer.parseInt(cardsArray[2]))){
+
+			// cards are neither the same nor different
+		} else {
+			throw new RiskGameRuntimeException("Cards are neither the same nor different, Please enter a valid card numbers");
+
+		}
+	}
 }
