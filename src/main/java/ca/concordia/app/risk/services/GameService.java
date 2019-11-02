@@ -697,17 +697,43 @@ public class GameService {
 			}
 		}
 
+		int cardExchangeCount = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCardExchangeCount();
+		int reinforcementNoOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
+		boolean performCardExcange= false;
 		//check if all cards are of same type
 		if (cards.get(Integer.parseInt(cardsArray[0])) == cards.get(Integer.parseInt(cardsArray[1]))
 				&& cards.get(Integer.parseInt(cardsArray[1])) == cards.get(Integer.parseInt(cardsArray[2]))){
+
+			performCardExcange=true;
 
 			//check if all cards are of different type
 		} else if (cards.get(Integer.parseInt(cardsArray[0])) != cards.get(Integer.parseInt(cardsArray[1]))
 				&& cards.get(Integer.parseInt(cardsArray[1])) != cards.get(Integer.parseInt(cardsArray[2]))){
 
+			performCardExcange=true;
+
 			// cards are neither the same nor different
 		} else {
 			throw new RiskGameRuntimeException("Cards are neither the same nor different, Please enter a valid card numbers");
+		}
+
+		if(performCardExcange){
+
+			//Add additional armies
+			if(cardExchangeCount==0){
+				// Add 5 Additional Armies
+				reinforcementNoOfArmies +=5;
+			} else {
+				// Add 5, 10 ,15, 20 , ... Additional Armies
+				reinforcementNoOfArmies += 5*(cardExchangeCount+1);
+			}
+
+			// remove cards from the list
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[0]));
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[1]));
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[2]));
+
+			performCardExcange=false;
 
 		}
 	}
