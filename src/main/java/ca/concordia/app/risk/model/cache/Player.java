@@ -95,9 +95,5 @@ public class Player extends Observable {
         RunningGame.getInstance().setAttackCountryNameTo(countyNameTo);
 
         // defender turn
-
-
-
-
 	}
 }

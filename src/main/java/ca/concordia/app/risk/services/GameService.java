@@ -22,6 +22,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DefaultEdge;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -671,6 +672,12 @@ public class GameService {
 		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
+	/**
+	 *
+	 * @param num1
+	 * @param num2
+	 * @param num3
+	 */
 	public void exchangecards(String num1,String num2,String num3) {
 
 		if (!RunningGame.getInstance().isGamePlay())
@@ -774,7 +781,12 @@ public class GameService {
 		RunningGame.getInstance().getCurrentPlayer().attack(countryNameFrom, countyNameTo,numDice,allout);
 	}
 
+	/**
+	 *
+	 * @param numDice
+	 */
 	public void defend(String numDice) {
+
 		// check max number of dice doesn't exceed 3 and not less than 1
 		if(Integer.parseInt(numDice) >2 || Integer.parseInt(numDice) <1 ) {
 			throw new RiskGameRuntimeException("number of dice should be 1 or 2");
@@ -796,13 +808,59 @@ public class GameService {
 			defenderDice = new int[]{numDice1};
 		}
 
-
         // compare with Running game attackerDice with defender Dice
+		int[] attackerDice = RunningGame.getInstance().getAttackerDice();
+
+		//sort Arrays
+		Arrays.sort(attackerDice);
+		Arrays.sort(defenderDice);
+
+		//get Country Model of attackFrom and attackTo
+		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+		CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameFrom());
+		CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameTo());
+
+		//compare
+		switch(numDice) {
+			// in case defender use one die
+			case "1":
+				if(attackerDice[0]>defenderDice[0]){
+					countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
+				} else {
+					countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
+				}
+				break;
+
+			// in case defender use two dice
+			case "2":
+				if(attackerDice[0]>defenderDice[0]){
+					countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
+				} else {
+					countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
+				}
+
+				if(attackerDice[1]>defenderDice[1]){
+					countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
+				} else {
+					countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
+				}
+
+				break;
+			default:
+
+		}
+
+
+
 
 
 
 	}
 
+	/**
+	 *
+	 * @param num
+	 */
 	public void attackmove(String num) {
 
 	    //check num are not greater than the number of armies in the attackCountryFrom
