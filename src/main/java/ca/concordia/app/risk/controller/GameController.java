@@ -1,5 +1,6 @@
 package ca.concordia.app.risk.controller;
 
+import ca.concordia.app.risk.services.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class GameController {
 
 	/**
 	 * This method saves current game state. Command: save
-	 * 
+	 *
 	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Save the current game state")
@@ -72,7 +73,7 @@ public class GameController {
 	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Save the current gamemap using domination map file format under the saved directory")
-	public String savemap(@ShellOption(value = { "-file" }) String fileName) {
+	public String savemap(@ShellOption(value = {"-file"}) String fileName) {
 
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
@@ -94,7 +95,7 @@ public class GameController {
 	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Validate the current gamemap to be connected")
-	public String validatemap(@ShellOption(value = { "-continent" }, defaultValue = "All") String continentName) {
+	public String validatemap(@ShellOption(value = {"-continent"}, defaultValue = "All") String continentName) {
 
 		if (log.isDebugEnabled()) {
 			log.debug("inside validatemap");
@@ -114,7 +115,7 @@ public class GameController {
 
 	/**
 	 * This method add/remove/edit Player.
-	 * 
+	 * <p>
 	 * Add Command: gameplayer -add [player2Add] Edit Command: gameplayer -add
 	 * [player2Add] [player2Remove] Remove Command: gameplayer -remove
 	 * [player2Remove]
@@ -124,8 +125,8 @@ public class GameController {
 	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Add/Remove player")
-	public String gameplayer(@ShellOption(value = { "-add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
-			@ShellOption(value = { "-remove" }, defaultValue = "None") String player2Remove) {
+	public String gameplayer(@ShellOption(value = {"-add"}, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
+							 @ShellOption(value = {"-remove"}, defaultValue = "None") String player2Remove) {
 
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
@@ -173,7 +174,7 @@ public class GameController {
 	 */
 	@ShellMethod("Placearmy")
 	public String placearmy(
-			@ShellOption(value = { "-countryname" }, defaultValue = NONE_DEFAULT_VALUE) String countryName) {
+			@ShellOption(value = {"-countryname"}, defaultValue = NONE_DEFAULT_VALUE) String countryName) {
 
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside placearmy, passed parameters [%s]", countryName));
@@ -240,8 +241,8 @@ public class GameController {
 	@ShellMethod("Reinforcement")
 	public String reinforce(
 
-			@ShellOption(value = { "-countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
-			@ShellOption(value = { "-number" }, defaultValue = "None") int numberOfArmies) {
+			@ShellOption(value = {"-countryName"}, defaultValue = NONE_DEFAULT_VALUE) String countryName,
+			@ShellOption(value = {"-number"}, defaultValue = "None") int numberOfArmies) {
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside loadmap, passed parameters [%s] [%s]", countryName, numberOfArmies));
 		}
@@ -277,10 +278,10 @@ public class GameController {
 	/**
 	 * This method is used for fortification of armies from one country to another.
 	 * The user can choose to not fortify at all.
-	 * 
+	 * <p>
 	 * Command: fortify -fromcountry [fromCountryname] -tocountry [toCountryname]
 	 * -num [numberOfArmies]
-	 * 
+	 *
 	 * @param fromCountry    origin country to fortify from
 	 * @param toCountry      destination country to fortify to
 	 * @param numberOfArmies number of armies to fortify
@@ -288,22 +289,23 @@ public class GameController {
 	 */
 	@ShellMethod("Fortify, Sample: fortify -fromcountry [countryname] -tocountry [countryname] -num [noofarmies]")
 	public String fortify(
-			@ShellOption(value = { "-fromcountry" }, defaultValue = NONE_DEFAULT_VALUE) String fromCountry,
-			@ShellOption(value = { "-tocountry" }, defaultValue = NONE_DEFAULT_VALUE) String toCountry,
-			@ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String numberOfArmies) {
+			@ShellOption(value = {"-fromcountry"}, defaultValue = NONE_DEFAULT_VALUE) String fromCountry,
+			@ShellOption(value = {"-tocountry"}, defaultValue = NONE_DEFAULT_VALUE) String toCountry,
+			@ShellOption(value = {"-num"}, defaultValue = NONE_DEFAULT_VALUE) String numberOfArmies) {
 
 		StringBuilder result = new StringBuilder();
 
 		try {
 			if (fromCountry != null && "none".equals(fromCountry)) {
 				RunningGame.getInstance().moveToNextPlayer();
+				gameBusinessDelegate.reinforceInitialization();
 				RunningGame.getInstance().getSubject().markAndNotify();
 				return "Choose not to do a move";
 			}
 		} catch (RiskGameRuntimeException riskGameRuntimeException) {
 			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
 		}
-		
+
 		try {
 			if (fromCountry != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(fromCountry) && toCountry != null
 					&& !NONE_DEFAULT_VALUE.equalsIgnoreCase(toCountry) && numberOfArmies != null
@@ -318,4 +320,75 @@ public class GameController {
 
 		return shellHelper.getSuccessMessage("Fortification was successful");
 	}
+
+
+	@ShellMethod("exchangecards")
+	public String exchangecards(
+			@ShellOption(value = {"-num1"}, defaultValue = NONE_DEFAULT_VALUE) String num1,
+			@ShellOption(value = {"-num2"}, defaultValue = NONE_DEFAULT_VALUE) String num2,
+			@ShellOption(value = {"-num3"}, defaultValue = NONE_DEFAULT_VALUE) String num3) {
+
+		StringBuilder result = new StringBuilder();
+
+		if ("-none".equalsIgnoreCase(num1)) {
+			return "No cards have been exchanged";
+		} else {
+			try {
+				gameBusinessDelegate.exchangecards(num1, num2, num3);
+			} catch (RiskGameRuntimeException riskGameRuntimeException) {
+				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+			}
+			return "Card " + num1 + " " + num2 + " " + num3 + " have been exchanged";
+
+		}
+	}
+
+	@ShellMethod("attack")
+	public String attack(
+			@ShellOption(value = {"-countrynamefrom"}, defaultValue = NONE_DEFAULT_VALUE) String countryNameFrom,
+			@ShellOption(value = {"-countynameto"}, defaultValue = NONE_DEFAULT_VALUE) String countyNameTo,
+			@ShellOption(value = {"-numdice"}, defaultValue = NONE_DEFAULT_VALUE) String numDice,
+			@ShellOption(value = {"-allout"}, defaultValue = NONE_DEFAULT_VALUE) String allout) {
+
+		StringBuilder result = new StringBuilder();
+
+		if ("-noattack".equalsIgnoreCase(countryNameFrom)) {
+			return "ending the attack phase";
+		} else {
+			try {
+				gameBusinessDelegate.attack(countryNameFrom, countyNameTo, numDice,allout);
+			} catch (RiskGameRuntimeException riskGameRuntimeException) {
+				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+			}
+			return "Attack has been completed";
+
+		}
+	}
+
+	@ShellMethod("defend")
+	public String defend(
+			@ShellOption(value = {"-numdice"}, defaultValue = NONE_DEFAULT_VALUE) String numDice){
+
+			try {
+				gameBusinessDelegate.defend(numDice);
+			} catch (RiskGameRuntimeException riskGameRuntimeException) {
+				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+			}
+			return "Attack has been completed";
+
+		}
+
+		@ShellMethod("attackmove")
+	public String attackmove(
+			@ShellOption(value = {"-num"}, defaultValue = NONE_DEFAULT_VALUE) String num){
+
+			try {
+				gameBusinessDelegate.attackmove(num);
+			} catch (RiskGameRuntimeException riskGameRuntimeException) {
+				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+			}
+			return "Attack has been completed";
+
+		}
+
 }

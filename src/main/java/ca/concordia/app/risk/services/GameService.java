@@ -7,10 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
@@ -19,6 +16,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import ca.concordia.app.risk.model.xmlbeans.*;
 import org.jgrapht.GraphPath;
 //import com.sun.deploy.security.SelectableSecurityManager;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
@@ -38,14 +36,9 @@ import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
-import ca.concordia.app.risk.model.xmlbeans.BorderModel;
-import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
-import ca.concordia.app.risk.model.xmlbeans.CountryModel;
-import ca.concordia.app.risk.model.xmlbeans.GameModel;
-import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
-import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.DateUtils;
+//import sun.lwawt.macosx.CSystemTray;
 
 /**
  * 
@@ -310,6 +303,7 @@ public class GameService {
 			color = "Black";
 
 		playerModel.setColor(color);
+		playerModel.setCards(new CardsModel());
 
 		RunningGame.getInstance().getPlayers().getList().add(playerModel);
 		RunningGame.getInstance().getSubject().markAndNotify();
@@ -433,10 +427,9 @@ public class GameService {
 	}
 
 	/**
-	 * 
-	 * @param playerID
+	 *
 	 */
-	public void reinforceInitialization(int playerID) {
+	public void reinforceInitialization() {
 
 		int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
 		
@@ -460,7 +453,7 @@ public class GameService {
 			List<CountryModel> countryModels = continentDaoImpl.getCountries(RunningGame.getInstance(), item);
 
 			for (CountryModel countryModel : countryModels) {
-				if (countryModel.getPlayerId() != playerID)
+				if (countryModel.getPlayerId() != activePlayerModel.getId())
 					fullContinentOccupy = false;
 			}
 			if (fullContinentOccupy) {
@@ -480,7 +473,7 @@ public class GameService {
 	 * @param numberOfArmies
 	 */
 	public void reinforce(String countryName, int numberOfArmies) {
-		
+
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
 		if (countryModel == null) {
@@ -599,6 +592,8 @@ public class GameService {
 					throw new RiskGameRuntimeException("Please reinforce first");
 				} else {
 					RunningGame.getInstance().moveToNextPlayer();
+					reinforceInitialization();
+
 				}
 				
 			}
@@ -609,6 +604,7 @@ public class GameService {
 				throw new RiskGameRuntimeException("Please reinforce first");
 			} else {
 				RunningGame.getInstance().moveToNextPlayer();
+				reinforceInitialization();
 			}
 		}
 		
@@ -668,7 +664,160 @@ public class GameService {
 			}
 		}
 		RunningGame.getInstance().setGamePlay(true);
-		reinforceInitialization(1);
+		if(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId()!=1) {
+			RunningGame.getInstance().moveToNextPlayer();
+		}
+		reinforceInitialization();
 		RunningGame.getInstance().getSubject().markAndNotify();
+	}
+
+	public void exchangecards(String num1,String num2,String num3) {
+
+		if (!RunningGame.getInstance().isGamePlay())
+			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Not Running");
+
+		String[] cardsArray = new String[3];
+
+		//Add Card numbers to an array
+		cardsArray[0]=num1;
+		cardsArray[1]=num2;
+		cardsArray[2]=num3;
+
+		// check if there are three valid cards to be exchanged
+		for (int i =0; i<cardsArray.length; i++) {
+			if ("none".equalsIgnoreCase(cardsArray[i])) {
+				throw new RiskGameRuntimeException("Please enter three valid numbers");
+			}
+		}
+
+		//check for negative values
+		for (int i =0; i<cardsArray.length; i++) {
+			if (Integer.parseInt(cardsArray[i]) <= 0) {
+				throw new RiskGameRuntimeException(cardsArray[i] + " is not a valid number, ter a positive number");
+			}
+		}
+
+		//Infantry
+		//Cavalry
+		//Artillery
+
+		//testData
+
+		//Get card list
+		List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+
+		//check if numbers are within limits of card list
+		for (int i =0; i<cardsArray.length; i++){
+			if(Integer.parseInt(cardsArray[i])>cards.size()) {
+				throw new RiskGameRuntimeException(cardsArray[i] + " does not exist");
+			}
+		}
+
+		//validate requested exchange cards are not null
+		for (int i =0; i<cardsArray.length; i++){
+			if(cards.get(Integer.parseInt(cardsArray[i])-1)==null) {
+				throw new RiskGameRuntimeException(cardsArray[i] + " does not exist");
+			}
+		}
+
+		boolean performCardExcange= false;
+		//check if all cards are of same type
+		if (cards.get(Integer.parseInt(cardsArray[0])-1) == cards.get(Integer.parseInt(cardsArray[1])-1)
+				&& cards.get(Integer.parseInt(cardsArray[1])-1) == cards.get(Integer.parseInt(cardsArray[2])-1)){
+
+			performCardExcange=true;
+
+			//check if all cards are of different type
+		} else if (cards.get(Integer.parseInt(cardsArray[0])-1) != cards.get(Integer.parseInt(cardsArray[1])-1)
+				&& cards.get(Integer.parseInt(cardsArray[1])-1) != cards.get(Integer.parseInt(cardsArray[2])-1)){
+
+			performCardExcange=true;
+
+			// cards are neither the same nor different
+		} else {
+			throw new RiskGameRuntimeException("Cards are neither the same nor different, Please enter a valid card numbers");
+		}
+
+		if(performCardExcange){
+
+			int reinforcementNoOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
+			int cardExchangeCount = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCardExchangeCount();
+
+			//Add additional armies
+			if(cardExchangeCount==0){
+				// Add 5 Additional Armies
+				reinforcementNoOfArmies +=5;
+				cardExchangeCount+=1;
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setReinforcementNoOfArmies(reinforcementNoOfArmies);
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setCardExchangeCount(cardExchangeCount);
+
+			} else {
+				// Add 5, 10 ,15, 20 , ... Additional Armies
+
+				reinforcementNoOfArmies += 5*(cardExchangeCount+1);
+				cardExchangeCount+=1;
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setReinforcementNoOfArmies(reinforcementNoOfArmies);
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setCardExchangeCount(cardExchangeCount);
+			}
+
+			// remove cards from the list
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[2])-1);
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[1])-1);
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[0])-1);
+
+			RunningGame.getInstance().getSubject().markAndNotify();
+			performCardExcange=false;
+		}
+	}
+
+	public void attack(String countryNameFrom, String countyNameTo, String numDice, String allout) {
+		RunningGame.getInstance().getCurrentPlayer().attack(countryNameFrom, countyNameTo,numDice,allout);
+	}
+
+	public void defend(String numDice) {
+		// check max number of dice doesn't exceed 3 and not less than 1
+		if(Integer.parseInt(numDice) >2 || Integer.parseInt(numDice) <1 ) {
+			throw new RiskGameRuntimeException("number of dice should be 1 or 2");
+		}
+
+		// roll dice
+		Random random = new Random();
+
+		int numDice1 = random.nextInt(5)+1;
+		int numDice2 = 0;
+		if(Integer.parseInt(numDice)==2) {
+			numDice2 = random.nextInt(5) + 1;
+		}
+
+		int[] defenderDice;
+		if(Integer.parseInt(numDice)==2) {
+			defenderDice = new int[]{numDice1, numDice2 };
+		} else {
+			defenderDice = new int[]{numDice1};
+		}
+
+
+        // compare with Running game attackerDice with defender Dice
+
+
+
+	}
+
+	public void attackmove(String num) {
+
+	    //check num are not greater than the number of armies in the attackCountryFrom
+        CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+        CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameFrom());
+
+        // at least one army should be there or more depends on the number of dice
+        if (countryModelAttackFrom.getNumberOfArmies()-1<Integer.parseInt(num)){
+            throw new RiskGameRuntimeException("Please decrease number of armies");
+        }
+
+        // move armies
+        CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameTo());
+        countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-Integer.parseInt(num));
+        countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()+Integer.parseInt(num));
+
 	}
 }

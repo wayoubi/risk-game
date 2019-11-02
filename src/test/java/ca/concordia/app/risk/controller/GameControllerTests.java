@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,18 +37,18 @@ import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 @Import({RiskGameBeanConfig.class, RiskGameTestBeanConfig.class})
 @ActiveProfiles("test")
 public class GameControllerTests {
-	
+
 	private static Logger log = LoggerFactory.getLogger(EditContinentMapControllerTest.class);
-	
+
 	@Autowired
 	MapController mapController;
-	
+
 	@Autowired
 	GameController gameController;
-	
+
 	@Autowired
-	ShellHelper shellHelper; 
-	
+	ShellHelper shellHelper;
+
 	@BeforeEach
 	void init() {
 		log.info("Inside @BeforeEach");
@@ -56,7 +58,7 @@ public class GameControllerTests {
 
 	/**
 	 * Clean resources after all tests
-	 */	
+	 */
 	@AfterAll
 	public static void afterAll() {
 		log.info("Inside @afterAll");
@@ -70,7 +72,7 @@ public class GameControllerTests {
 	 * save operation for a connected map
 	 * file should exists after save a connected map
 	 * @see ca.concordia.app.risk.controller.GameController#savemap(String)
-	 */	
+	 */
 	@Test
 	public void testSaveConnectedmap() {
 		log.info("Inside testSaveConnectedmap");
@@ -82,9 +84,9 @@ public class GameControllerTests {
 		mapController.editcountry("India", "Asia", "None");
 		mapController.editcountry("Lebanon", "Asia", "None");
 		mapController.editcountry("Egypt", "Africa", "None");
-		mapController.editcountry("Morocco", "Africa", "None");		
+		mapController.editcountry("Morocco", "Africa", "None");
 		mapController.editcountry("France", "Europe", "None");
-		mapController.editcountry("Italy", "Europe", "None");		
+		mapController.editcountry("Italy", "Europe", "None");
 		mapController.editneighbor("Jordan", "Iran", "None", "None");
 		mapController.editneighbor("Iran", "India", "None", "None");
 		mapController.editneighbor("Jordan", "Lebanon", "None", "None");
@@ -92,54 +94,54 @@ public class GameControllerTests {
 		mapController.editneighbor("Egypt", "Morocco", "None", "None");
 		mapController.editneighbor("Morocco", "France", "None", "None");
 		mapController.editneighbor("France", "Italy", "None", "None");
-		
+
 		gameController.savemap("connectedmap.txt");
 		File file = new File("saved/connectedmap.txt");
 		assertTrue(file.exists());
-		
+
 	}
 
 	/**
 	 * save operation for a disconnected map
 	 * file should not exists after save a disconnected map
 	 * @see ca.concordia.app.risk.controller.GameController#savemap(String)
-	 */	
+	 */
 	@Test
 	public void testSaveDisconnectedmap() {
 		log.info("Inside testSaveDisconnectedmap");
 		mapController.editcontinent("Asia", "5", "None");
 		mapController.editcontinent("Africa", "5", "None");
-		mapController.editcontinent("Europe", "5", "None");	
+		mapController.editcontinent("Europe", "5", "None");
 		mapController.editcountry("Jordan", "Asia", "None");
 		mapController.editcountry("Iran", "Asia", "None");
 		mapController.editcountry("India", "Asia", "None");
-		mapController.editcountry("Lebanon", "Asia", "None");	
+		mapController.editcountry("Lebanon", "Asia", "None");
 		mapController.editcountry("Egypt", "Africa", "None");
-		mapController.editcountry("Morocco", "Africa", "None");		
+		mapController.editcountry("Morocco", "Africa", "None");
 		mapController.editcountry("France", "Europe", "None");
-		mapController.editcountry("Italy", "Europe", "None");	
+		mapController.editcountry("Italy", "Europe", "None");
 		mapController.editneighbor("Jordan", "Iran", "None", "None");
 		mapController.editneighbor("Iran", "India", "None", "None");
 		mapController.editneighbor("Jordan", "Lebanon", "None", "None");
 		mapController.editneighbor("Jordan", "Egypt", "None", "None");
 		mapController.editneighbor("Egypt", "Morocco", "None", "None");
 		mapController.editneighbor("France", "Italy", "None", "None");
-		
+
 		gameController.savemap("disconnectedmap.txt");
 		File file = new File("saved/disconnectedmap.txt");
-		assertFalse(file.exists()); 
+		assertFalse(file.exists());
 	}
 
 	/**
 	 * load operation for a connected map
 	 * country model should exists after load a connected map
 	 * @see ca.concordia.app.risk.controller.GameController#loadmap(String)
-	 */	
+	 */
 	@Test
 	public void testLoadConnectedmap() {
 		log.info("Inside testLoadmap");
 		gameController.loadmap("saved/testloadvalidmap.txt");
-		
+
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), "Jordan");
 		assertEquals(1, countryModel.getId());
@@ -150,7 +152,7 @@ public class GameControllerTests {
 	 * load operation for a disconnected map
 	 * no continent/country/border should exist after load a disconnected map
 	 * @see ca.concordia.app.risk.controller.GameController#loadmap(String)
-	 */	
+	 */
 	@Test
 	public void testLoadDisconnectedmap() {
 		log.info("Inside testLoadDisconnectedmap");
@@ -165,7 +167,7 @@ public class GameControllerTests {
 	 * map validation operation
 	 * should receive success message after validation operation
 	 * @see ca.concordia.app.risk.controller.GameController#validatemap(String)
-	 */	
+	 */
 	@Test
 	public void testValidateMap() {
 		log.info("Inside testValidateMap");
@@ -177,9 +179,9 @@ public class GameControllerTests {
 		mapController.editcountry("India", "Asia", "None");
 		mapController.editcountry("Lebanon", "Asia", "None");
 		mapController.editcountry("Egypt", "Africa", "None");
-		mapController.editcountry("Morocco", "Africa", "None");		
+		mapController.editcountry("Morocco", "Africa", "None");
 		mapController.editcountry("France", "Europe", "None");
-		mapController.editcountry("Italy", "Europe", "None");		
+		mapController.editcountry("Italy", "Europe", "None");
 		mapController.editneighbor("Jordan", "Iran", "None", "None");
 		mapController.editneighbor("Iran", "India", "None", "None");
 		mapController.editneighbor("Jordan", "Lebanon", "None", "None");
@@ -187,7 +189,7 @@ public class GameControllerTests {
 		mapController.editneighbor("Egypt", "Morocco", "None", "None");
 		mapController.editneighbor("Morocco", "France", "None", "None");
 		mapController.editneighbor("France", "Italy", "None", "None");
-		
+
 		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("All"));
 		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Asia"));
 		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Africa"));
@@ -198,7 +200,7 @@ public class GameControllerTests {
 	 * map validation operation per continent
 	 * should receive successful/unsuccessful message after validation operation for each continent
 	 * @see ca.concordia.app.risk.controller.GameController#validatemap(String)
-	 */	
+	 */
 	@Test
 	public void testValidateMapPerContinent() {
 		log.info("Inside testPerContinent");
@@ -210,9 +212,9 @@ public class GameControllerTests {
 		mapController.editcountry("India", "Asia", "None");
 		mapController.editcountry("Lebanon", "Asia", "None");
 		mapController.editcountry("Egypt", "Africa", "None");
-		mapController.editcountry("Morocco", "Africa", "None");		
+		mapController.editcountry("Morocco", "Africa", "None");
 		mapController.editcountry("France", "Europe", "None");
-		mapController.editcountry("Italy", "Europe", "None");		
+		mapController.editcountry("Italy", "Europe", "None");
 		mapController.editneighbor("Jordan", "Iran", "None", "None");
 		mapController.editneighbor("Iran", "India", "None", "None");
 		mapController.editneighbor("Jordan", "Lebanon", "None", "None");
@@ -225,6 +227,135 @@ public class GameControllerTests {
 		assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"), gameController.validatemap("Africa"));
 		assertEquals(shellHelper.getErrorMessage("Countries are not connected, Map is invalid"), gameController.validatemap("Europe"));
 		assertFalse(shellHelper.getErrorMessage("Countries are connected, Map is valid").equals(gameController.validatemap("Europe")));
-		
+
+	}
+
+	@Test
+	public void testExchangeCard() {
+		log.info("Inside testExchangeCard");
+		mapController.editcontinent("Asia", "1", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Egypt", "Africa", "");
+		mapController.editcountry("Jordan", "Asia", "");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Michael", "");
+		gameController.gameplayer("Pinkal", "");
+
+		gameController.populatecountries();
+
+		gameController.placeall();
+		RunningGame.getInstance().setGamePlay(true);
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+
+		List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+
+		gameController.exchangecards("1","2","3");
+
+		int numOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
+		assertEquals(8, numOfArmies);
+	}
+
+	@Test
+	public void testExchangeCardSecondTime() {
+		log.info("Inside testExchangeCard");
+		mapController.editcontinent("Asia", "1", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Egypt", "Africa", "");
+		mapController.editcountry("Jordan", "Asia", "");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Michael", "");
+		gameController.gameplayer("Pinkal", "");
+
+		gameController.populatecountries();
+
+		gameController.placeall();
+
+		RunningGame.getInstance().setGamePlay(true);
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+
+		gameController.exchangecards("1","2","3");
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+
+		gameController.exchangecards("1","2","3");
+
+		int numOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
+		assertEquals(18, numOfArmies);
+	}
+
+	@Test
+	public void testExchangeCardDifferentType() {
+		log.info("Inside testExchangeCard");
+		mapController.editcontinent("Asia", "1", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Egypt", "Africa", "");
+		mapController.editcountry("Jordan", "Asia", "");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Michael", "");
+		gameController.gameplayer("Pinkal", "");
+
+		gameController.populatecountries();
+
+		gameController.placeall();
+		RunningGame.getInstance().setGamePlay(true);
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Cavalry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Artillery");
+
+		List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+
+		gameController.exchangecards("1","2","3");
+
+		int numOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
+		assertEquals(8, numOfArmies);
+	}
+
+	@Test
+	public void testExchangeCardTwoSameTypeOneDifferent() {
+		log.info("Inside testExchangeCard");
+		mapController.editcontinent("Asia", "1", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Egypt", "Africa", "");
+		mapController.editcountry("Jordan", "Asia", "");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Michael", "");
+		gameController.gameplayer("Pinkal", "");
+
+		gameController.populatecountries();
+
+		gameController.placeall();
+		RunningGame.getInstance().setGamePlay(true);
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Artillery");
+
+		List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+
+		gameController.exchangecards("1","2","3");
+
+		int numOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
+		assertEquals(3, numOfArmies);
 	}
 }

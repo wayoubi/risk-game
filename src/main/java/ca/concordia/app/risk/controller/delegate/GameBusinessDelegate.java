@@ -129,4 +129,24 @@ public class GameBusinessDelegate {
 	public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
 		gameService.fortify(fromCountry, toCountry, numberOfArmies);
 	}
+
+    public void exchangecards(String num1,String num2,String num3) {
+		gameService.exchangecards(num1,num2,num3);
+	}
+
+	public void reinforceInitialization() {
+		gameService.reinforceInitialization();
+	}
+
+	public void attack(String countryNameFrom, String countyNameTo, String numDice, String allout) {
+		gameService.attack(countryNameFrom,countyNameTo,numDice,allout);
+	}
+
+	public void defend(String numDice) {
+		gameService.defend(numDice);
+	}
+
+	public void attackmove(String num) {
+		gameService.attackmove(num);
+	}
 }
