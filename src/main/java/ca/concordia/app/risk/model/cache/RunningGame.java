@@ -113,7 +113,28 @@ public class RunningGame extends GameModel {
 	 */
 	private boolean isAttackCompleted;
 
-	/**
+    /**
+     *
+     */
+    private boolean isAllOut;
+
+    /**
+     *
+     * @return
+     */
+    public boolean isAllOut() {
+        return isAllOut;
+    }
+
+    /**
+     *
+     * @param allOut
+     */
+    public void setAllOut(boolean allOut) {
+        isAllOut = allOut;
+    }
+
+    /**
 	 *
 	 * @return
 	 */

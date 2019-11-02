@@ -778,6 +778,11 @@ public class GameService {
 	}
 
 	public void attack(String countryNameFrom, String countyNameTo, String numDice, String allout) {
+	    if("-allout".equalsIgnoreCase(allout)){
+	        RunningGame.getInstance().setAllOut(true);
+        } else {
+            RunningGame.getInstance().setAllOut(false);
+        }
 		RunningGame.getInstance().getCurrentPlayer().attack(countryNameFrom, countyNameTo,numDice,allout);
 	}
 
@@ -820,47 +825,53 @@ public class GameService {
 		CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameFrom());
 		CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameTo());
 
-		//compare
-		switch(numDice) {
-			// in case defender use one die
-			case "1":
-				if(attackerDice[0]>defenderDice[0]){
-					countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
-				} else {
-					countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
-				}
-				break;
+		do{
 
-			// in case defender use two dice
-			case "2":
-				if(attackerDice[0]>defenderDice[0]){
-					countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
-				} else {
-					countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
-				}
+            //compare
+            switch(numDice) {
+                // in case defender use one die
+                case "1":
+                    if(attackerDice[0]>defenderDice[0]){
+                        countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
+                    } else {
+                        countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
+                    }
+                    break;
 
-				if(attackerDice[1]>defenderDice[1]){
-					countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
-				} else {
-					countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
-				}
+                // in case defender use two dice
+                case "2":
+                    if(attackerDice[0]>defenderDice[0]){
+                        countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
+                    } else {
+                        countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
+                    }
 
-				break;
-			default:
-		}
+                    if(attackerDice[1]>defenderDice[1]){
+                        countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()-1);
+                    } else {
+                        countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-1);
+                    }
 
-		// check if Defender win
-		if(countryModelAttackFrom.getNumberOfArmies()==0){
-			RunningGame.getInstance().setAttackerWin(false);
-			RunningGame.getInstance().setDefenderWin(true);
-			RunningGame.getInstance().setAttackCompleted(true);
+                    break;
+                default:
+            }
 
-			//check if Attacker win
-		} else if (countryModelAttackTo.getNumberOfArmies() == 0){
-			RunningGame.getInstance().setAttackerWin(true);
-			RunningGame.getInstance().setDefenderWin(false);
-			RunningGame.getInstance().setAttackCompleted(true);
-		}
+            // check if Defender win
+            if(countryModelAttackFrom.getNumberOfArmies()==0){
+                RunningGame.getInstance().setAttackerWin(false);
+                RunningGame.getInstance().setDefenderWin(true);
+                RunningGame.getInstance().setAttackCompleted(true);
+                RunningGame.getInstance().setAllOut(false);
+
+                //check if Attacker win
+            } else if (countryModelAttackTo.getNumberOfArmies() == 0){
+                RunningGame.getInstance().setAttackerWin(true);
+                RunningGame.getInstance().setDefenderWin(false);
+                RunningGame.getInstance().setAttackCompleted(true);
+                RunningGame.getInstance().setAllOut(false);
+            }
+
+        }while(RunningGame.getInstance().isAllOut());
 	}
 
 	/**
@@ -890,5 +901,6 @@ public class GameService {
         CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameTo());
         countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-Integer.parseInt(num));
         countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()+Integer.parseInt(num));
+        RunningGame.getInstance().setAttackCompleted(false);
 	}
 }
