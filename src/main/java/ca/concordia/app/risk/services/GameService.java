@@ -678,23 +678,39 @@ public class GameService {
 		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
-    public void exchangecards(String[] cardsArray) {
+	public void exchangecards(String num1,String num2,String num3) {
 
-		// check if there are three cards to be exchanged
-		if(cardsArray.length!=3){
-			throw new RiskGameRuntimeException("Please enter three valid numbers");
-		}
+		String[] cardsArray = new String[3];
 
-		//check for negative values
-		for (int i =0; i<cardsArray.length; i++){
-			if(Integer.parseInt(cardsArray[i]) < 0){
-				throw new RiskGameRuntimeException(cardsArray[i] + " is not a valid number, Please enter a positive number");
+		//Add Card numbers to an array
+		cardsArray[0]=num1;
+		cardsArray[1]=num2;
+		cardsArray[2]=num3;
+
+		// check if there are three valid cards to be exchanged
+		for (int i =0; i<cardsArray.length; i++) {
+			if ("none".equalsIgnoreCase(cardsArray[i])) {
+				throw new RiskGameRuntimeException("Please enter three valid numbers");
 			}
 		}
 
+		//check for negative values
+		for (int i =0; i<cardsArray.length; i++) {
+			if (Integer.parseInt(cardsArray[i]) <= 0) {
+				throw new RiskGameRuntimeException(cardsArray[i] + " is not a valid number, ter a positive number");
+			}
+		}
+
+		//Infantry
+		//Cavalry
+		//Artillery
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
 
 		//Get card list
-		List cards =RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+		List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
 
 		//check if numbers are within limits of card list
 		for (int i =0; i<cardsArray.length; i++){

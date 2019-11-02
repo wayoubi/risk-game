@@ -130,9 +130,8 @@ public class GameBusinessDelegate {
 		gameService.fortify(fromCountry, toCountry, numberOfArmies);
 	}
 
-    public void exchangecards(String[] cardsArray) {
-		gameService.exchangecards(cardsArray);
-
+    public void exchangecards(String num1,String num2,String num3) {
+		gameService.exchangecards(num1,num2,num3);
 	}
 
 	public void reinforceInitialization() {
