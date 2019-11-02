@@ -227,4 +227,5 @@ public class GameControllerTests {
 		assertFalse(shellHelper.getErrorMessage("Countries are connected, Map is valid").equals(gameController.validatemap("Europe")));
 		
 	}
+	
 }

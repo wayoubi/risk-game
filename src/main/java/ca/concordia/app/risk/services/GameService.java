@@ -19,6 +19,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import ca.concordia.app.risk.model.xmlbeans.*;
 import org.jgrapht.GraphPath;
 //import com.sun.deploy.security.SelectableSecurityManager;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
@@ -38,12 +39,6 @@ import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
-import ca.concordia.app.risk.model.xmlbeans.BorderModel;
-import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
-import ca.concordia.app.risk.model.xmlbeans.CountryModel;
-import ca.concordia.app.risk.model.xmlbeans.GameModel;
-import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
-import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.DateUtils;
 //import sun.lwawt.macosx.CSystemTray;
@@ -311,6 +306,7 @@ public class GameService {
 			color = "Black";
 
 		playerModel.setColor(color);
+		playerModel.setCards(new CardsModel());
 
 		RunningGame.getInstance().getPlayers().getList().add(playerModel);
 		RunningGame.getInstance().getSubject().markAndNotify();
@@ -680,6 +676,9 @@ public class GameService {
 
 	public void exchangecards(String num1,String num2,String num3) {
 
+		if (!RunningGame.getInstance().isGamePlay())
+			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Not Running");
+
 		String[] cardsArray = new String[3];
 
 		//Add Card numbers to an array
@@ -705,6 +704,7 @@ public class GameService {
 		//Cavalry
 		//Artillery
 
+		//testData
 		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
 		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
 		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
@@ -714,14 +714,14 @@ public class GameService {
 
 		//check if numbers are within limits of card list
 		for (int i =0; i<cardsArray.length; i++){
-			if(Integer.parseInt(cardsArray[i])<cards.size()) {
+			if(Integer.parseInt(cardsArray[i])>cards.size()) {
 				throw new RiskGameRuntimeException(cardsArray[i] + " does not exist");
 			}
 		}
 
 		//validate requested exchange cards are not null
 		for (int i =0; i<cardsArray.length; i++){
-			if(cards.get(Integer.parseInt(cardsArray[i]))==null) {
+			if(cards.get(Integer.parseInt(cardsArray[i])-1)==null) {
 				throw new RiskGameRuntimeException(cardsArray[i] + " does not exist");
 			}
 		}
@@ -730,14 +730,14 @@ public class GameService {
 		int reinforcementNoOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
 		boolean performCardExcange= false;
 		//check if all cards are of same type
-		if (cards.get(Integer.parseInt(cardsArray[0])) == cards.get(Integer.parseInt(cardsArray[1]))
-				&& cards.get(Integer.parseInt(cardsArray[1])) == cards.get(Integer.parseInt(cardsArray[2]))){
+		if (cards.get(Integer.parseInt(cardsArray[0])-1) == cards.get(Integer.parseInt(cardsArray[1])-1)
+				&& cards.get(Integer.parseInt(cardsArray[1])-1) == cards.get(Integer.parseInt(cardsArray[2])-1)){
 
 			performCardExcange=true;
 
 			//check if all cards are of different type
-		} else if (cards.get(Integer.parseInt(cardsArray[0])) != cards.get(Integer.parseInt(cardsArray[1]))
-				&& cards.get(Integer.parseInt(cardsArray[1])) != cards.get(Integer.parseInt(cardsArray[2]))){
+		} else if (cards.get(Integer.parseInt(cardsArray[0])-1) != cards.get(Integer.parseInt(cardsArray[1])-1)
+				&& cards.get(Integer.parseInt(cardsArray[1])-1) != cards.get(Integer.parseInt(cardsArray[2])-1)){
 
 			performCardExcange=true;
 
@@ -752,16 +752,23 @@ public class GameService {
 			if(cardExchangeCount==0){
 				// Add 5 Additional Armies
 				reinforcementNoOfArmies +=5;
+				cardExchangeCount+=1;
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setCardExchangeCount(cardExchangeCount);
+
 			} else {
 				// Add 5, 10 ,15, 20 , ... Additional Armies
 				reinforcementNoOfArmies += 5*(cardExchangeCount+1);
+				cardExchangeCount+=1;
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setCardExchangeCount(cardExchangeCount);
 			}
 
+			System.out.println(reinforcementNoOfArmies);
 			// remove cards from the list
-			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[0]));
-			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[1]));
-			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[2]));
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[2])-1);
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[1])-1);
+			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[0])-1);
 
+			RunningGame.getInstance().getSubject().markAndNotify();
 			performCardExcange=false;
 		}
 	}
