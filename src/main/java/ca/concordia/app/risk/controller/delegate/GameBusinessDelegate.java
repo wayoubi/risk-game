@@ -134,4 +134,8 @@ public class GameBusinessDelegate {
 		gameService.exchangecards(cardsArray);
 
 	}
+
+	public void reinforceInitialization() {
+		gameService.reinforceInitialization();
+	}
 }

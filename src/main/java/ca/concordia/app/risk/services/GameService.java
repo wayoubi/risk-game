@@ -46,7 +46,7 @@ import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.DateUtils;
-import sun.lwawt.macosx.CSystemTray;
+//import sun.lwawt.macosx.CSystemTray;
 
 /**
  * 
@@ -434,10 +434,9 @@ public class GameService {
 	}
 
 	/**
-	 * 
-	 * @param playerID
+	 *
 	 */
-	public void reinforceInitialization(int playerID) {
+	public void reinforceInitialization() {
 
 		int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
 		
@@ -461,7 +460,7 @@ public class GameService {
 			List<CountryModel> countryModels = continentDaoImpl.getCountries(RunningGame.getInstance(), item);
 
 			for (CountryModel countryModel : countryModels) {
-				if (countryModel.getPlayerId() != playerID)
+				if (countryModel.getPlayerId() != activePlayerModel.getId())
 					fullContinentOccupy = false;
 			}
 			if (fullContinentOccupy) {
@@ -600,6 +599,8 @@ public class GameService {
 					throw new RiskGameRuntimeException("Please reinforce first");
 				} else {
 					RunningGame.getInstance().moveToNextPlayer();
+					reinforceInitialization();
+
 				}
 				
 			}
@@ -610,6 +611,7 @@ public class GameService {
 				throw new RiskGameRuntimeException("Please reinforce first");
 			} else {
 				RunningGame.getInstance().moveToNextPlayer();
+				reinforceInitialization();
 			}
 		}
 		
@@ -669,7 +671,10 @@ public class GameService {
 			}
 		}
 		RunningGame.getInstance().setGamePlay(true);
-		reinforceInitialization(1);
+		if(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId()!=1) {
+			RunningGame.getInstance().moveToNextPlayer();
+		}
+		reinforceInitialization();
 		RunningGame.getInstance().getSubject().markAndNotify();
 	}
 
@@ -687,8 +692,16 @@ public class GameService {
 			}
 		}
 
+
 		//Get card list
 		List cards =RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+
+		//check if numbers are within limits of card list
+		for (int i =0; i<cardsArray.length; i++){
+			if(Integer.parseInt(cardsArray[i])<cards.size()) {
+				throw new RiskGameRuntimeException(cardsArray[i] + " does not exist");
+			}
+		}
 
 		//validate requested exchange cards are not null
 		for (int i =0; i<cardsArray.length; i++){
@@ -734,7 +747,6 @@ public class GameService {
 			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[2]));
 
 			performCardExcange=false;
-
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package ca.concordia.app.risk.controller;
 
+import ca.concordia.app.risk.services.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -297,6 +298,7 @@ public class GameController {
 		try {
 			if (fromCountry != null && "none".equals(fromCountry)) {
 				RunningGame.getInstance().moveToNextPlayer();
+				gameBusinessDelegate.reinforceInitialization();
 				RunningGame.getInstance().getSubject().markAndNotify();
 				return "Choose not to do a move";
 			}
