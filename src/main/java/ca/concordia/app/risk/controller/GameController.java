@@ -341,6 +341,54 @@ public class GameController {
 			return "Card " + num1 + " " + num2 + " " + num3 + " have been exchanged";
 
 		}
-
 	}
+
+	@ShellMethod("attack")
+	public String attack(
+			@ShellOption(value = {"-countrynamefrom"}, defaultValue = NONE_DEFAULT_VALUE) String countryNameFrom,
+			@ShellOption(value = {"-countynameto"}, defaultValue = NONE_DEFAULT_VALUE) String countyNameTo,
+			@ShellOption(value = {"-numdice"}, defaultValue = NONE_DEFAULT_VALUE) String numDice,
+			@ShellOption(value = {"-allout"}, defaultValue = NONE_DEFAULT_VALUE) String allout) {
+
+		StringBuilder result = new StringBuilder();
+
+		if ("-noattack".equalsIgnoreCase(countryNameFrom)) {
+			return "ending the attack phase";
+		} else {
+			try {
+				gameBusinessDelegate.attack(countryNameFrom, countyNameTo, numDice,allout);
+			} catch (RiskGameRuntimeException riskGameRuntimeException) {
+				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+			}
+			return "Attack has been completed";
+
+		}
+	}
+
+	@ShellMethod("defend")
+	public String defend(
+			@ShellOption(value = {"-numdice"}, defaultValue = NONE_DEFAULT_VALUE) String numDice){
+
+			try {
+				gameBusinessDelegate.defend(numDice);
+			} catch (RiskGameRuntimeException riskGameRuntimeException) {
+				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+			}
+			return "Attack has been completed";
+
+		}
+
+		@ShellMethod("attackmove")
+	public String attackmove(
+			@ShellOption(value = {"-num"}, defaultValue = NONE_DEFAULT_VALUE) String num){
+
+			try {
+				gameBusinessDelegate.attackmove(num);
+			} catch (RiskGameRuntimeException riskGameRuntimeException) {
+				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+			}
+			return "Attack has been completed";
+
+		}
+
 }

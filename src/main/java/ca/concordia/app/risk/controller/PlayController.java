@@ -77,7 +77,7 @@ public class PlayController {
 	 * @return The result of attack, Example: "player X lose"
 	 */
 	@ShellMethod("Attack a player")
-	public String attack(@ShellOption(optOut = false) String attacker, @ShellOption(optOut = false) String defender,
+	public String Oldattack(@ShellOption(optOut = false) String attacker, @ShellOption(optOut = false) String defender,
 			@ShellOption(optOut = false) String from, @ShellOption(optOut = false) String to) {
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside attack, passed parameters [%s] [%s] [%s] [%s]", attacker, defender, from,

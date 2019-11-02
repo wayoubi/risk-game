@@ -87,6 +87,60 @@ public class RunningGame extends GameModel {
 	private boolean reinforceCompleted = false;
 
 	/**
+	 *
+	 */
+	private int[] attackerDice = new int[3];
+
+	/**
+	 *
+	 */
+	private int[] defenderDice = new int[2];
+
+	public int[] getAttackerDice() {
+		return attackerDice;
+	}
+
+	public void setAttackerDice(int[] attackerDice) {
+		this.attackerDice = attackerDice;
+	}
+
+	public int[] getDefenderDice() {
+		return defenderDice;
+	}
+
+	public void setDefenderDice(int[] defenderDice) {
+		this.defenderDice = defenderDice;
+	}
+
+	public String getAttackCountryNameFrom() {
+		return attackCountryNameFrom;
+	}
+
+	public void setAttackCountryNameFrom(String attackCountryNameFrom) {
+		this.attackCountryNameFrom = attackCountryNameFrom;
+	}
+
+	public String getAttackCountryNameTo() {
+		return attackCountryNameTo;
+	}
+
+	public void setAttackCountryNameTo(String attackCountryNameTo) {
+		this.attackCountryNameTo = attackCountryNameTo;
+	}
+
+	/**
+	 *
+	 */
+	private String attackCountryNameFrom;
+
+	/**
+	 *
+	 */
+	private String attackCountryNameTo;
+
+
+
+	/**
 	 * Make models to start a new game - ContinentsModel, PlayersModel,
 	 * CountriesModel, BordersModel Make the graph No player yet
 	 */

@@ -7,10 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
@@ -476,7 +473,7 @@ public class GameService {
 	 * @param numberOfArmies
 	 */
 	public void reinforce(String countryName, int numberOfArmies) {
-		
+
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
 		if (countryModel == null) {
@@ -705,9 +702,6 @@ public class GameService {
 		//Artillery
 
 		//testData
-		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
-		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
-		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
 
 		//Get card list
 		List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
@@ -726,8 +720,6 @@ public class GameService {
 			}
 		}
 
-		int cardExchangeCount = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCardExchangeCount();
-		int reinforcementNoOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
 		boolean performCardExcange= false;
 		//check if all cards are of same type
 		if (cards.get(Integer.parseInt(cardsArray[0])-1) == cards.get(Integer.parseInt(cardsArray[1])-1)
@@ -748,21 +740,26 @@ public class GameService {
 
 		if(performCardExcange){
 
+			int reinforcementNoOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
+			int cardExchangeCount = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCardExchangeCount();
+
 			//Add additional armies
 			if(cardExchangeCount==0){
 				// Add 5 Additional Armies
 				reinforcementNoOfArmies +=5;
 				cardExchangeCount+=1;
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setReinforcementNoOfArmies(reinforcementNoOfArmies);
 				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setCardExchangeCount(cardExchangeCount);
 
 			} else {
 				// Add 5, 10 ,15, 20 , ... Additional Armies
+
 				reinforcementNoOfArmies += 5*(cardExchangeCount+1);
 				cardExchangeCount+=1;
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setReinforcementNoOfArmies(reinforcementNoOfArmies);
 				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setCardExchangeCount(cardExchangeCount);
 			}
 
-			System.out.println(reinforcementNoOfArmies);
 			// remove cards from the list
 			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[2])-1);
 			RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[1])-1);
@@ -771,5 +768,56 @@ public class GameService {
 			RunningGame.getInstance().getSubject().markAndNotify();
 			performCardExcange=false;
 		}
+	}
+
+	public void attack(String countryNameFrom, String countyNameTo, String numDice, String allout) {
+		RunningGame.getInstance().getCurrentPlayer().attack(countryNameFrom, countyNameTo,numDice,allout);
+	}
+
+	public void defend(String numDice) {
+		// check max number of dice doesn't exceed 3 and not less than 1
+		if(Integer.parseInt(numDice) >2 || Integer.parseInt(numDice) <1 ) {
+			throw new RiskGameRuntimeException("number of dice should be 1 or 2");
+		}
+
+		// roll dice
+		Random random = new Random();
+
+		int numDice1 = random.nextInt(5)+1;
+		int numDice2 = 0;
+		if(Integer.parseInt(numDice)==2) {
+			numDice2 = random.nextInt(5) + 1;
+		}
+
+		int[] defenderDice;
+		if(Integer.parseInt(numDice)==2) {
+			defenderDice = new int[]{numDice1, numDice2 };
+		} else {
+			defenderDice = new int[]{numDice1};
+		}
+
+
+        // compare with Running game attackerDice with defender Dice
+
+
+
+	}
+
+	public void attackmove(String num) {
+
+	    //check num are not greater than the number of armies in the attackCountryFrom
+        CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+        CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameFrom());
+
+        // at least one army should be there or more depends on the number of dice
+        if (countryModelAttackFrom.getNumberOfArmies()-1<Integer.parseInt(num)){
+            throw new RiskGameRuntimeException("Please decrease number of armies");
+        }
+
+        // move armies
+        CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameTo());
+        countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-Integer.parseInt(num));
+        countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()+Integer.parseInt(num));
+
 	}
 }

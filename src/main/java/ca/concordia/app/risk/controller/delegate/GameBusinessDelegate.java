@@ -137,4 +137,16 @@ public class GameBusinessDelegate {
 	public void reinforceInitialization() {
 		gameService.reinforceInitialization();
 	}
+
+	public void attack(String countryNameFrom, String countyNameTo, String numDice, String allout) {
+		gameService.attack(countryNameFrom,countyNameTo,numDice,allout);
+	}
+
+	public void defend(String numDice) {
+		gameService.defend(numDice);
+	}
+
+	public void attackmove(String num) {
+		gameService.attackmove(num);
+	}
 }
