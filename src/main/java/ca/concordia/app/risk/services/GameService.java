@@ -847,21 +847,35 @@ public class GameService {
 
 				break;
 			default:
-
 		}
 
+		// check if Defender win
+		if(countryModelAttackFrom.getNumberOfArmies()==0){
+			RunningGame.getInstance().setAttackerWin(false);
+			RunningGame.getInstance().setDefenderWin(true);
+			RunningGame.getInstance().setAttackCompleted(true);
 
-
-
-
-
+			//check if Attacker win
+		} else if (countryModelAttackTo.getNumberOfArmies() == 0){
+			RunningGame.getInstance().setAttackerWin(true);
+			RunningGame.getInstance().setDefenderWin(false);
+			RunningGame.getInstance().setAttackCompleted(true);
+		}
 	}
 
 	/**
 	 *
 	 * @param num
 	 */
-	public void attackmove(String num) {
+	public void attackMove(String num) {
+
+		if(!RunningGame.getInstance().isAttackCompleted()){
+			throw new RiskGameRuntimeException("Attack phase is not completed");
+		}
+
+		if(RunningGame.getInstance().isDefenderWin()){
+			throw new RiskGameRuntimeException("Defender wins, you cant make a move");
+		}
 
 	    //check num are not greater than the number of armies in the attackCountryFrom
         CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
@@ -876,6 +890,5 @@ public class GameService {
         CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameTo());
         countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-Integer.parseInt(num));
         countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()+Integer.parseInt(num));
-
 	}
 }

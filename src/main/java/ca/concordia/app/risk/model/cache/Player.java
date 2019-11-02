@@ -70,6 +70,11 @@ public class Player extends Observable {
 			throw new RiskGameRuntimeException("number of dice should be between 1 and 3");
 		}
 
+		// check number of armies within the country
+		if(countryModelFrom.getNumberOfArmies()<=Integer.parseInt(numDice)){
+			throw new RiskGameRuntimeException("Number of dice should be less than the number of armies allocated within the country");
+		}
+
 		// roll the dice
 		Random random = new Random();
 

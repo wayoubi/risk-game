@@ -96,34 +96,131 @@ public class RunningGame extends GameModel {
 	 */
 	private int[] defenderDice = new int[2];
 
+	/**
+	 *
+	 */
+
+	private boolean isAttackerWin;
+
+
+	/**
+	 *
+	 */
+	private boolean isDefenderWin;
+
+	/**
+	 *
+	 */
+	private boolean isAttackCompleted;
+
+	/**
+	 *
+	 * @return
+	 */
+	public boolean isAttackCompleted() {
+		return isAttackCompleted;
+	}
+
+	/**
+	 *
+	 * @param attackCompleted
+	 */
+	public void setAttackCompleted(boolean attackCompleted) {
+		isAttackCompleted = attackCompleted;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public boolean isAttackerWin() {
+		return isAttackerWin;
+	}
+
+	/**
+	 *
+	 * @param attackerWin
+	 */
+	public void setAttackerWin(boolean attackerWin) {
+		isAttackerWin = attackerWin;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public boolean isDefenderWin() {
+		return isDefenderWin;
+	}
+
+	/**
+	 *
+	 * @param defenderWin
+	 */
+	public void setDefenderWin(boolean defenderWin) {
+		isDefenderWin = defenderWin;
+	}
+
+
+	/**
+	 *
+	 */
 	public int[] getAttackerDice() {
 		return attackerDice;
 	}
 
+	/**
+	 *
+	 * @param attackerDice
+	 */
 	public void setAttackerDice(int[] attackerDice) {
 		this.attackerDice = attackerDice;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int[] getDefenderDice() {
 		return defenderDice;
 	}
 
+	/**
+	 *
+	 * @param defenderDice
+	 */
 	public void setDefenderDice(int[] defenderDice) {
 		this.defenderDice = defenderDice;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getAttackCountryNameFrom() {
 		return attackCountryNameFrom;
 	}
 
+	/**
+	 *
+	 * @param attackCountryNameFrom
+	 */
 	public void setAttackCountryNameFrom(String attackCountryNameFrom) {
 		this.attackCountryNameFrom = attackCountryNameFrom;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getAttackCountryNameTo() {
 		return attackCountryNameTo;
 	}
 
+	/**
+	 *
+	 * @param attackCountryNameTo
+	 */
 	public void setAttackCountryNameTo(String attackCountryNameTo) {
 		this.attackCountryNameTo = attackCountryNameTo;
 	}

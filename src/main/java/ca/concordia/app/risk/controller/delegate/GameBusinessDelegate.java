@@ -147,6 +147,6 @@ public class GameBusinessDelegate {
 	}
 
 	public void attackmove(String num) {
-		gameService.attackmove(num);
+		gameService.attackMove(num);
 	}
 }
