@@ -129,4 +129,9 @@ public class GameBusinessDelegate {
 	public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
 		gameService.fortify(fromCountry, toCountry, numberOfArmies);
 	}
+
+    public void exchangecards(String[] cardsArray) {
+		gameService.exchangecards(cardsArray);
+
+	}
 }

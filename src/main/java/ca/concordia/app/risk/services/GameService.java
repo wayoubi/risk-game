@@ -671,4 +671,7 @@ public class GameService {
 		reinforceInitialization(1);
 		RunningGame.getInstance().getSubject().markAndNotify();
 	}
+
+    public void exchangecards(String[] cardsArray) {
+    }
 }

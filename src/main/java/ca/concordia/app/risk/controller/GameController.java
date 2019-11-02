@@ -318,4 +318,25 @@ public class GameController {
 
 		return shellHelper.getSuccessMessage("Fortification was successful");
 	}
+
+
+	@ShellMethod("exchangecards")
+	public String exchangecards(
+			@ShellOption(value = { "-none" }, defaultValue = NONE_DEFAULT_VALUE) String cardsNum) {
+
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("inside placearmy, passed parameters [%s]", cardsNum));
+		}
+		if("none".equalsIgnoreCase(cardsNum)){
+			return "No cards have been exchanged";
+		} else {
+			try {
+				String[] cardsArray = cardsNum.split(" ");
+				gameBusinessDelegate.exchangecards(cardsArray);
+			} catch (RiskGameRuntimeException riskGameRuntimeException) {
+				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+			}
+			return "Cards "+ cardsNum + "have been exchanged";
+		}
+	}
 }
