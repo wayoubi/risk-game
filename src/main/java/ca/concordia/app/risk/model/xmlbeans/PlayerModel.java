@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  *           &lt;/simpleType>
  *         &lt;/element>
  *         &lt;element name="cards" type="{http://ca.concordia.app.risk/game}cards"/>
- *         &lt;element name="playingPhase" type="{http://ca.concordia.app.risk/game}cards"/>
+ *         &lt;element name="playingPhase" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -70,7 +70,7 @@ public class PlayerModel {
     @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
     protected CardsModel cards;
     @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
-    protected CardsModel playingPhase;
+    protected String playingPhase;
 
     /**
      * Gets the value of the id property.
@@ -197,10 +197,10 @@ public class PlayerModel {
      * 
      * @return
      *     possible object is
-     *     {@link CardsModel }
+     *     {@link String }
      *     
      */
-    public CardsModel getPlayingPhase() {
+    public String getPlayingPhase() {
         return playingPhase;
     }
 
@@ -209,10 +209,10 @@ public class PlayerModel {
      * 
      * @param value
      *     allowed object is
-     *     {@link CardsModel }
+     *     {@link String }
      *     
      */
-    public void setPlayingPhase(CardsModel value) {
+    public void setPlayingPhase(String value) {
         this.playingPhase = value;
     }
 

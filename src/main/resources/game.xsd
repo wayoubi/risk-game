@@ -44,7 +44,7 @@
 			</xsd:element>
 			<xsd:element name="cards" type="riskgame:cards" minOccurs="1"
 				maxOccurs="1" />
-			<xsd:element name="playingPhase" type="riskgame:cards" minOccurs="1"
+			<xsd:element name="playingPhase" type="xsd:string" minOccurs="1"
 				maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>

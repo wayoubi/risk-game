@@ -11,6 +11,7 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -60,19 +61,17 @@ public class PhaseView extends JPanel implements Observer {
 		
 		JPanel jPanelTextArea = new JPanel();
 		jPanelTextArea.setLayout(new BorderLayout());
-		//currentActionLabel = new JLabel("Current Action");
 		currentActionTextArea = new JTextArea();
 		currentActionTextArea.setEditable(false);
-		//this.add(currentActionLabel);
-		this.add(currentActionTextArea, BorderLayout.CENTER);		
-
-		
+		JScrollPane jScrollPane = new JScrollPane(currentActionTextArea);
+		this.add(jScrollPane, BorderLayout.CENTER);		
 		
 		Player player = RunningGame.getInstance().getCurrentPlayer();
 		if(player!=null) {
 			PlayerModel playerModel = player.getPlayerModel();
 			if(playerModel!=null) {
 				currentPlayerTextField.setText(playerModel.getName());
+				currentPhaseTextField.setText(playerModel.getPlayingPhase());
 			}
 		}
 		
