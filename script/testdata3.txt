@@ -3,4 +3,3 @@ gameplayer -add Pinkal
 gameplayer -add Wasim
 populatecountries
 placeall
-reinforce Jordan 3
