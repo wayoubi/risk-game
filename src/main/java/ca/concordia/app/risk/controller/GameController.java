@@ -348,7 +348,7 @@ public class GameController {
 			@ShellOption(value = {"-countrynamefrom"}, defaultValue = NONE_DEFAULT_VALUE) String countryNameFrom,
 			@ShellOption(value = {"-countynameto"}, defaultValue = NONE_DEFAULT_VALUE) String countyNameTo,
 			@ShellOption(value = {"-numdice"}, defaultValue = NONE_DEFAULT_VALUE) String numDice,
-			@ShellOption(value = {"-allout"}, defaultValue = NONE_DEFAULT_VALUE) String allout) {
+			@ShellOption(value = {"-allout1"}, defaultValue = NONE_DEFAULT_VALUE) String allout) {
 
 		StringBuilder result = new StringBuilder();
 
@@ -380,15 +380,13 @@ public class GameController {
 
 		@ShellMethod("attackmove")
 	public String attackmove(
-			@ShellOption(value = {"-num"}, defaultValue = NONE_DEFAULT_VALUE) String num){
 
+			@ShellOption(value = {"-num"}, defaultValue = NONE_DEFAULT_VALUE) String num){
 			try {
 				gameBusinessDelegate.attackmove(num);
 			} catch (RiskGameRuntimeException riskGameRuntimeException) {
 				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
 			}
-			return "Attack has been completed";
-
+			return "Defend Phase has been completed";
 		}
-
 }
