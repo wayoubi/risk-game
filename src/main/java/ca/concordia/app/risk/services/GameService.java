@@ -20,9 +20,7 @@ import ca.concordia.app.risk.model.xmlbeans.*;
 import org.jgrapht.GraphPath;
 //import com.sun.deploy.security.SelectableSecurityManager;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DefaultEdge;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -423,47 +421,6 @@ public class GameService {
   }
 
   /**
-   *
-   */
-  public void reinforceInitialization() {
-
-    int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
-
-    PlayerModel activePlayerModel = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
-
-    int reinforcementArmies = 0;
-    boolean fullContinentOccupy = false;
-
-    if (Math.floor((float) numberOfCountries / 3) > 3) {
-      reinforcementArmies = Math.floorDiv(numberOfCountries, 3);
-    } else {
-      reinforcementArmies = 3;
-    }
-
-    List<ContinentModel> continentModels = RunningGame.getInstance().getContinents().getList();
-    ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-
-    for (ContinentModel item : continentModels) {
-
-      fullContinentOccupy = true;
-      List<CountryModel> countryModels = continentDaoImpl.getCountries(RunningGame.getInstance(), item);
-
-      for (CountryModel countryModel : countryModels) {
-        if (countryModel.getPlayerId() != activePlayerModel.getId())
-          fullContinentOccupy = false;
-      }
-      if (fullContinentOccupy) {
-        reinforcementArmies += item.getControlValue();
-      }
-    }
-    if (activePlayerModel != null) {
-      activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
-      RunningGame.getInstance().setReinforceCompleted(false);
-    }
-    RunningGame.getInstance().getSubject().markAndNotify();
-  }
-
-  /**
    * 
    * @param countryName
    * @param numberOfArmies
@@ -496,114 +453,7 @@ public class GameService {
    * @param numberOfArmies number of armies
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
-
-    if (!RunningGame.getInstance().isReinforceCompleted())
-      throw new RiskGameRuntimeException("Please reinforce first ");
-
-    // PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-    // PlayerModel activePlayerModel =
-    // playerDaoImpl.findById(RunningGame.getInstance(),
-    // RunningGame.getInstance().getCurrentPlayerId());
-
-    PlayerModel activePlayerModel = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
-
-    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-    CountryModel fromCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), fromCountry);
-    CountryModel toCountryModel = countryDaoImpl.findByName(RunningGame.getInstance(), toCountry);
-
-    if (activePlayerModel == null) {
-      throw new RiskGameRuntimeException("No Players have been added");
-    }
-
-    if (fromCountryModel == null) {
-      throw new RiskGameRuntimeException("From Country doesn't exist");
-    }
-
-    if (toCountryModel == null) {
-      throw new RiskGameRuntimeException("To Country doesn't exist");
-    }
-
-    if ((fromCountryModel.getPlayerId()) != (activePlayerModel.getId())) {
-      throw new RiskGameRuntimeException(
-          "From Country " + fromCountry + " is not owned by " + activePlayerModel.getName());
-    }
-
-    if ((toCountryModel.getPlayerId()) != (activePlayerModel.getId())) {
-      throw new RiskGameRuntimeException("To Country " + toCountry + " is not owned by " + activePlayerModel.getName());
-    }
-
-    if (fromCountryModel.getNumberOfArmies() - numberOfArmies < 1) {
-      throw new RiskGameRuntimeException("From Country " + fromCountry
-          + " needs to have atleast one army after fortification. Please reduce the number of armies");
-    }
-
-    AllDirectedPaths<String, DefaultEdge> allDirectedPaths = new AllDirectedPaths<>(
-        RunningGame.getInstance().getGraph());
-    List<GraphPath<String, DefaultEdge>> allPaths = allDirectedPaths.getAllPaths(fromCountryModel.getName(),
-        toCountryModel.getName(), false, 10);
-    int counter = 0;
-    for (GraphPath<String, DefaultEdge> graphPath : allPaths) {
-      List<String> countriesInPath = graphPath.getVertexList();
-      boolean connected = true;
-      for (String countryName : countriesInPath) {
-        CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
-        if (activePlayerModel.getId() != countryModel.getPlayerId()) {
-          connected = false;
-          break;
-        }
-      }
-      if (connected) {
-        counter++;
-        break;
-      }
-    }
-
-    if (counter == 0) {
-
-      List<GraphPath<String, DefaultEdge>> allPathsReverse = allDirectedPaths.getAllPaths(toCountryModel.getName(),
-          fromCountryModel.getName(), false, 10);
-      int counterNew = 0;
-      for (GraphPath<String, DefaultEdge> graphPath : allPathsReverse) {
-        List<String> countriesInPath = graphPath.getVertexList();
-        boolean connected = true;
-        for (String countryName : countriesInPath) {
-          CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
-          if (activePlayerModel.getId() != countryModel.getPlayerId()) {
-            connected = false;
-            break;
-          }
-        }
-        if (connected) {
-          counterNew++;
-          break;
-        }
-      }
-      if (counterNew == 0) {
-        throw new RiskGameRuntimeException("No Path Available!");
-      } else {
-        toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() - numberOfArmies);
-        fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() + numberOfArmies);
-
-        if (!RunningGame.getInstance().isReinforceCompleted()) {
-          throw new RiskGameRuntimeException("Please reinforce first");
-        } else {
-          RunningGame.getInstance().moveToNextPlayer();
-          reinforceInitialization();
-
-        }
-
-      }
-    } else {
-      fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() - numberOfArmies);
-      toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() + numberOfArmies);
-      if (!RunningGame.getInstance().isReinforceCompleted()) {
-        throw new RiskGameRuntimeException("Please reinforce first");
-      } else {
-        RunningGame.getInstance().moveToNextPlayer();
-        reinforceInitialization();
-      }
-    }
-
+    RunningGame.getInstance().getCurrentPlayer().fortify(fromCountry, toCountry, numberOfArmies);
     RunningGame.getInstance().getSubject().markAndNotify();
   }
 
@@ -663,7 +513,7 @@ public class GameService {
     if (RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId() != 1) {
       RunningGame.getInstance().moveToNextPlayer();
     }
-    reinforceInitialization();
+    RunningGame.getInstance().reinforceInitialization();
     RunningGame.getInstance().getSubject().markAndNotify();
   }
 
