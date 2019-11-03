@@ -75,28 +75,16 @@ public class Player extends Observable {
 			throw new RiskGameRuntimeException("Number of dice should be less than the number of armies allocated within the country");
 		}
 
-		// roll the dice
-		Random random = new Random();
-
-		int numDice1 = random.nextInt(5)+1;
-		int numDice2 = random.nextInt(5)+1;
-        int numDice3 = 0;
-		if(Integer.parseInt(numDice)==3) {
-             numDice3 = random.nextInt(5) + 1;
+        // check number of armies of attackTo
+        if(countryModelTo.getNumberOfArmies()==0){
+            throw new RiskGameRuntimeException("Number of attackCountryTo is equal to zero");
         }
 
-        int[] attackerDice;
-		if(Integer.parseInt(numDice)==3) {
-             attackerDice = new int[]{numDice1, numDice2, numDice3};
-        } else {
-             attackerDice = new int[]{numDice1, numDice2};
-        }
 
-		// save the dice in running game to compare later
-        RunningGame.getInstance().setAttackerDice(attackerDice);
 
 		// save countries in running game
         RunningGame.getInstance().setAttackCountryNameFrom(countryNameFrom);
+        RunningGame.getInstance().setNumDiceAttacker(3);
         RunningGame.getInstance().setAttackCountryNameTo(countyNameTo);
 
         // defender turn

@@ -118,6 +118,16 @@ public class RunningGame extends GameModel {
      */
     private boolean isAllOut;
 
+    public int getNumDiceAttacker() {
+        return numDiceAttacker;
+    }
+
+    public void setNumDiceAttacker(int numDiceAttacker) {
+        this.numDiceAttacker = numDiceAttacker;
+    }
+
+    private int numDiceAttacker;
+
     /**
      *
      * @return

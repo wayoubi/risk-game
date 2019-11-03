@@ -796,36 +796,75 @@ public class GameService {
 		if(Integer.parseInt(numDice) >2 || Integer.parseInt(numDice) <1 ) {
 			throw new RiskGameRuntimeException("number of dice should be 1 or 2");
 		}
-
-		// roll dice
-		Random random = new Random();
-
-		int numDice1 = random.nextInt(5)+1;
-		int numDice2 = 0;
-		if(Integer.parseInt(numDice)==2) {
-			numDice2 = random.nextInt(5) + 1;
-		}
-
-		int[] defenderDice;
-		if(Integer.parseInt(numDice)==2) {
-			defenderDice = new int[]{numDice1, numDice2 };
-		} else {
-			defenderDice = new int[]{numDice1};
-		}
-
-        // compare with Running game attackerDice with defender Dice
-		int[] attackerDice = RunningGame.getInstance().getAttackerDice();
-
-		//sort Arrays
-		Arrays.sort(attackerDice);
-		Arrays.sort(defenderDice);
-
 		//get Country Model of attackFrom and attackTo
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameFrom());
 		CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),RunningGame.getInstance().getAttackCountryNameTo());
 
 		do{
+
+		// roll the Attacker dice
+		Random random = new Random();
+
+		int numDice1 = random.nextInt(5)+1;
+		int numDice2 = random.nextInt(5)+1;
+		int numDice3 = 0;
+		if(RunningGame.getInstance().getNumDiceAttacker()==3) {
+			numDice3 = random.nextInt(5) + 1;
+		}
+
+		int[] attackerDice;
+		if(Integer.parseInt(numDice)==3) {
+			attackerDice = new int[]{numDice1, numDice2, numDice3};
+		} else {
+			attackerDice = new int[]{numDice1, numDice2};
+		}
+
+		// save the dice in running game to compare later
+		RunningGame.getInstance().setAttackerDice(attackerDice);
+
+		// roll dice
+
+		int numDice1D = random.nextInt(5)+1;
+		int numDice2D = 0;
+		if(Integer.parseInt(numDice)==2) {
+			numDice2D = random.nextInt(5) + 1;
+		}
+
+		int[] defenderDice;
+		if(Integer.parseInt(numDice)==2) {
+			defenderDice = new int[]{numDice1D, numDice2D };
+		} else {
+			defenderDice = new int[]{numDice1D};
+		}
+
+
+		//sort Arrays
+
+		Arrays.sort(attackerDice);
+		Arrays.sort(defenderDice);
+
+		for (int i = 0, j = attackerDice.length - 1, tmp; i < j; i++, j--) {
+			tmp = attackerDice[i];
+			attackerDice[i] = attackerDice[j];
+			attackerDice[j] = tmp;
+		}
+
+		for (int i = 0, j = defenderDice.length - 1, tmp; i < j; i++, j--) {
+			tmp = defenderDice[i];
+			defenderDice[i] = defenderDice[j];
+			defenderDice[j] = tmp;
+		}
+
+
+		for(int die:attackerDice)
+			System.out.print(die +" ");
+		System.out.println();
+		for(int die:defenderDice)
+			System.out.print(die +" ");
+		System.out.println();
+
+
 
             //compare
             switch(numDice) {
@@ -871,7 +910,9 @@ public class GameService {
                 RunningGame.getInstance().setAllOut(false);
             }
 
-        }while(RunningGame.getInstance().isAllOut());
+			RunningGame.getInstance().getSubject().markAndNotify();
+
+		} while(RunningGame.getInstance().isAllOut() && countryModelAttackFrom.getNumberOfArmies()>=Integer.parseInt(numDice));
 	}
 
 	/**
@@ -902,5 +943,7 @@ public class GameService {
         countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies()-Integer.parseInt(num));
         countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies()+Integer.parseInt(num));
         RunningGame.getInstance().setAttackCompleted(false);
+		RunningGame.getInstance().getSubject().markAndNotify();
+
 	}
 }
