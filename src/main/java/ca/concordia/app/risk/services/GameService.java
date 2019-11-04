@@ -47,18 +47,27 @@ public class GameService {
 
   private static final String GAME_CANNOT_BE_SAVED = "Game caanot be saved!";
 
+  /**
+   * Dependency injection from MapService
+   */ 
   @Autowired
   MapService mapService;
 
+  /**
+   * Dependency injection from ShellHelper
+   */ 
   @Autowired
   ShellHelper shellHelper;
 
+  /**
+   * Dependency injection from ObjectFactory
+   */ 
   ObjectFactory objectFactory = new ObjectFactory();
 
   private static Logger log = LoggerFactory.getLogger(GameService.class);
 
   /**
-   *
+   * This method saves the game
    */
   public void saveGame() {
     XMLGregorianCalendar xmlGregorianCalendar = null;
@@ -251,11 +260,11 @@ public class GameService {
   }
 
   /**
-   * 
-   * @param playerDto
+   * This method adds a player to the running game
+   * @param playerDto player Dto
    */
   public void addPlayer(PlayerDto playerDto) {
-
+	  
     if (!RunningGame.getInstance().isMapLoaded())
       throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
 
@@ -303,8 +312,8 @@ public class GameService {
   }
 
   /**
-   * 
-   * @param playerDto
+   * This method removes a player from the running game
+   * @param playerDto player Dto
    */
   public void removePlayer(PlayerDto playerDto) {
     if (!RunningGame.getInstance().isMapLoaded())
@@ -322,7 +331,7 @@ public class GameService {
   }
 
   /**
-   * 
+   * This method populates countries
    */
   public void populateCountries() {
 
@@ -356,8 +365,8 @@ public class GameService {
   }
 
   /**
-   * 
-   * @param countryName
+   * This method places armies
+   * @param countryName country name to place army
    */
   public void placeArmy(String countryName) {
 
@@ -418,9 +427,9 @@ public class GameService {
   }
 
   /**
-   * 
-   * @param countryName
-   * @param numberOfArmies
+   * This method does reinforcement
+   * @param countryName country name to do reinforcement
+   * @param numberOfArmies number of armies to reinforce
    */
   public void reinforce(String countryName, int numberOfArmies) {
 
@@ -443,19 +452,19 @@ public class GameService {
   }
 
   /**
-   * This method do fortify operation
+   * This method does fortification
    *
    * @param fromCountry    origin country to fortify
    * @param toCountry      destination country to fortify
    * @param numberOfArmies number of armies
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
-    RunningGame.getInstance().getCurrentPlayer().fortify(fromCountry, toCountry, numberOfArmies);
+	RunningGame.getInstance().getCurrentPlayer().fortify(fromCountry, toCountry, numberOfArmies);
     RunningGame.getInstance().getSubject().markAndNotify();
   }
 
   /**
-   * 
+   * This method place all the armies
    */
   public void placeAll() {
 
@@ -518,10 +527,10 @@ public class GameService {
   }
 
   /**
-   *
-   * @param num1
-   * @param num2
-   * @param num3
+   * This method exchanges cards
+   * @param num1 Card 1
+   * @param num2 Card 2
+   * @param num3 Card 3
    */
   public void exchangecards(String num1, String num2, String num3) {
 
@@ -595,6 +604,13 @@ public class GameService {
     }
   }
 
+  /**
+  * This method does attack. Command: attack -countryNameFrom [countryNameFrom] -countyNameTo [countyNameTo]
+  * -number [numberOfArmies]
+  * @param countryNameFrom attacker country name
+  * @param countyNameTo defender country name
+  * @param numDice count of dices for attacker
+  */  
   public void attack(String countryNameFrom, String countyNameTo, String numDice) {
     if (numDice.equalsIgnoreCase("-allout")) {
       RunningGame.getInstance().setAllOut(true);
@@ -611,7 +627,7 @@ public class GameService {
 
   /**
    *
-   * @param numDice
+   * @param numDice dice count for defender
    */
   public void defend(String numDice) {
     RunningGame.getInstance().getCurrentPlayer().defend(numDice);
@@ -619,7 +635,7 @@ public class GameService {
 
   /**
    *
-   * @param num
+   * @param num number of armies to move from attacker to defender country
    */
   public void attackMove(String num) {
     RunningGame.getInstance().getCurrentPlayer().attackMove(num);

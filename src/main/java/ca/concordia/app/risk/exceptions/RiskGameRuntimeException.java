@@ -12,8 +12,7 @@ public class RiskGameRuntimeException extends RuntimeException {
 	private static final long serialVersionUID = -24908869442990571L;
 
 	/**
-	 * Constructor
-	 * 
+	 * This method is for games exception handling
 	 * @param errorMessage error message
 	 */
 	public RiskGameRuntimeException(String errorMessage) {
@@ -21,8 +20,7 @@ public class RiskGameRuntimeException extends RuntimeException {
 	}
 
 	/**
-	 * Constructor
-	 * 
+	 * This method is for games run time exception handling
 	 * @param errorMessage error message
 	 * @param exception    exception
 	 */

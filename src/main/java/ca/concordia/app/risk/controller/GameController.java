@@ -1,6 +1,5 @@
 package ca.concordia.app.risk.controller;
 
-import ca.concordia.app.risk.services.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,9 +115,10 @@ public class GameController {
   /**
    * This method add/remove/edit Player.
    * <p>
-   * Add Command: gameplayer -add [player2Add] Edit Command: gameplayer -add
-   * [player2Add] [player2Remove] Remove Command: gameplayer -remove
-   * [player2Remove]
+   * <br>
+   * Add Command: gameplayer -add [player2Add] <br>
+   * Edit Command: gameplayer -add [player2Add] [player2Remove] <br>
+   * Remove Command: gameplayer -remove [player2Remove]
    *
    * @param player2Add    player name to add
    * @param player2Remove player name to remove
@@ -240,9 +240,9 @@ public class GameController {
    */
   @ShellMethod("Reinforcement")
   public String reinforce(
-
       @ShellOption(value = { "-countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
       @ShellOption(value = { "-number" }, defaultValue = "None") int numberOfArmies) {
+
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside loadmap, passed parameters [%s] [%s]", countryName, numberOfArmies));
     }
@@ -293,12 +293,12 @@ public class GameController {
       @ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String numberOfArmies) {
 
     StringBuilder result = new StringBuilder();
-
     try {
       if (fromCountry != null && "none".equals(fromCountry)) {
         RunningGame.getInstance().moveToNextPlayer();
         RunningGame.getInstance().reinforceInitialization();
         RunningGame.getInstance().getSubject().markAndNotify();
+
         return "Choose not to do a move";
       }
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
@@ -320,13 +320,22 @@ public class GameController {
     return shellHelper.getSuccessMessage("Fortification was successful");
   }
 
+  /**
+   * This method is used for exchange cards to get armies in return.
+   * <p>
+   * Command: exchangecards -num1 [num1] -num2 [num2] -num3 [num3]
+   * 
+   * @param num1 card 1
+   * @param num2 card 2
+   * @param num3 card 3
+   * @return log message related to exchange cards operation
+   */
   @ShellMethod("exchangecards")
   public String exchangecards(@ShellOption(value = { "-num1" }, defaultValue = NONE_DEFAULT_VALUE) String num1,
       @ShellOption(value = { "-num2" }, defaultValue = NONE_DEFAULT_VALUE) String num2,
       @ShellOption(value = { "-num3" }, defaultValue = NONE_DEFAULT_VALUE) String num3) {
 
     StringBuilder result = new StringBuilder();
-
     if ("-none".equalsIgnoreCase(num1)) {
       return "No cards have been exchanged";
     } else {
@@ -335,22 +344,29 @@ public class GameController {
       } catch (RiskGameRuntimeException riskGameRuntimeException) {
         return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
       }
-      return "Card " + num1 + " " + num2 + " " + num3 + " have been exchanged";
 
+      return "Card " + num1 + " " + num2 + " " + num3 + " have been exchanged";
     }
   }
 
+  /**
+   * This method used for attack from country to another country.
+   * <p>
+   * Command: attack -countryNameFrom [countryNameFrom] -countyNameTo
+   * [countyNameTo] -numdice [numDice]
+   * 
+   * @param countryNameFrom attacker country name
+   * @param countyNameTo defender country name
+   * @param numDice number of dices for attacker
+   * @return log message related to attack operation
+   */
   @ShellMethod("attack")
   public String attack(
       @ShellOption(value = { "-countrynamefrom" }, defaultValue = NONE_DEFAULT_VALUE) String countryNameFrom,
       @ShellOption(value = { "-countynameto" }, defaultValue = NONE_DEFAULT_VALUE) String countyNameTo,
-      @ShellOption(value = { "-numdice" }, defaultValue = NONE_DEFAULT_VALUE) String numDice)
-  // @ShellOption(value = { "-allout" }, defaultValue = NONE_DEFAULT_VALUE) String
-  // allout)
-  {
+      @ShellOption(value = { "-numdice" }, defaultValue = NONE_DEFAULT_VALUE) String numDice) {
 
     StringBuilder result = new StringBuilder();
-
     if ("-noattack".equalsIgnoreCase(countryNameFrom)) {
       RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortification");
       RunningGame.getInstance().getSubject().markAndNotify();
@@ -371,6 +387,14 @@ public class GameController {
     }
   }
 
+  /**
+   * This method used to give the number of dice to the defender country.
+   * <p>
+   * Command: defend -numdice[numDice]
+   * 
+   * @param numDice number of dices for defender
+   * @return log message related to defend operation
+   */
   @ShellMethod("defend")
   public String defend(@ShellOption(value = { "-numdice" }, defaultValue = NONE_DEFAULT_VALUE) String numDice) {
 
@@ -383,15 +407,24 @@ public class GameController {
 
   }
 
+  /**
+   * This method used to move the number of armies from attacker to the defender country
+   * if the attacker has conquered the defender.
+   * <p>
+   * Command: defend -num[num]
+   * 
+   * @param num number of armies to move from attackers country to defenders country
+   * @return log message related to moved armies operation
+   */
   @ShellMethod("attackmove")
-  public String attackmove(
-
-      @ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String num) {
+  public String attackmove(@ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String num) {
     try {
       gameBusinessDelegate.attackmove(num);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+
     return "Armies have been moved to the conquered country";
   }
+
 }

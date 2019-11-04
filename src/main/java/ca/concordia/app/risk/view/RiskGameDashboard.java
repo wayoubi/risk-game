@@ -7,25 +7,34 @@ import javax.swing.JPanel;
 
 import ca.concordia.app.risk.model.cache.RunningGame;
 
+/**
+ * Show all views in one dashboard
+ */
 public class RiskGameDashboard extends JFrame implements Runnable {
 
 	/**
-	 * 
+	 * Players view object
 	 */
 	PlayersView playersView;
 
 	/**
-	 * 
+	 * Card Exchange view object
 	 */
 	CardExchangeView cardExchangeView;
 
 	/**
-	 * 
+	 * Phase view object
 	 */
 	PhaseView phaseView;
 
+	/**
+	 * Game graph view object
+	 */
 	GameGraphView gameGraphView = new GameGraphView();
 
+	/**
+	 * Initialize game dashboard and add views to the observer
+	 */
 	public RiskGameDashboard() {
 		playersView = new PlayersView();
 		cardExchangeView = new CardExchangeView();
@@ -36,9 +45,11 @@ public class RiskGameDashboard extends JFrame implements Runnable {
 		RunningGame.getInstance().getSubject().addObserver(cardExchangeView);
 		RunningGame.getInstance().getSubject().addObserver(phaseView);
 		RunningGame.getInstance().getSubject().addObserver(gameGraphView);
-
 	}
 
+	/**
+	 * Build views and add them to the game dashboard
+	 */
 	public void run() {
 		this.setLayout(new GridLayout(1, 2));
 

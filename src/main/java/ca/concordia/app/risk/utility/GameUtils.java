@@ -21,6 +21,7 @@ public class GameUtils {
 	SimpleSpinner simpleSpinner;
 
 	/**
+	 * Rolls dices randomly, each time an attack happens in order to specify the winner
 	 * @exception InterruptedException Interrupted Exception
 	 * @return result
 	 */

@@ -37,7 +37,7 @@ public class JGraphXAdapterView extends JApplet {
 
 	/**
 	 *
-	 * Main method, can be used to start standalone applet in case of testing
+	 * Main method, can be used to start stand alone applet in case of testing
 	 * 
 	 * @param args command line arguments
 	 */
@@ -57,7 +57,7 @@ public class JGraphXAdapterView extends JApplet {
 	}
 
 	/**
-	 * Overrides the JApplet init mehod.
+	 * Overrides the JApplet init method.
 	 */
 	@Override
 	public void init() {

@@ -230,6 +230,10 @@ public class GameControllerTests {
 
 	}
 
+	/**
+	 * Test for exchange card operation.
+	 * @see ca.concordia.app.risk.controller.GameController#exchangecards(String, String, String)
+	 */
 	@Test
 	public void testExchangeCard() {
 		log.info("Inside testExchangeCard");
@@ -261,6 +265,10 @@ public class GameControllerTests {
 		assertEquals(8, numOfArmies);
 	}
 
+	/**
+	 * Test for exchange card operation if want to do exchange for second time.
+	 * @see ca.concordia.app.risk.controller.GameController#exchangecards(String, String, String)
+	 */
 	@Test
 	public void testExchangeCardSecondTime() {
 		log.info("Inside testExchangeCard");
@@ -297,6 +305,10 @@ public class GameControllerTests {
 		assertEquals(18, numOfArmies);
 	}
 
+	/**
+	 * Test for exchange card operation if player has different card types.
+	 * @see ca.concordia.app.risk.controller.GameController#exchangecards(String, String, String)
+	 */
 	@Test
 	public void testExchangeCardDifferentType() {
 		log.info("Inside testExchangeCard");
@@ -328,6 +340,10 @@ public class GameControllerTests {
 		assertEquals(8, numOfArmies);
 	}
 
+	/**
+	 * Test for exchange card operation if player has 2 same cards and 1 different type.
+	 * @see ca.concordia.app.risk.controller.GameController#exchangecards(String, String, String)
+	 */
 	@Test
 	public void testExchangeCardTwoSameTypeOneDifferent() {
 		log.info("Inside testExchangeCard");
@@ -357,5 +373,187 @@ public class GameControllerTests {
 
 		int numOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
 		assertEquals(3, numOfArmies);
+	}
+	
+	/**
+	 * Test for attack operation when attack is not complete and it needs defenders action.
+	 * @see ca.concordia.app.risk.controller.GameController#attack(String, String, String)
+	 */
+	@Test
+	public void testAttackWithoutDefender() {
+		log.info("Inside testAttackWithoutDefender");
+		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Jordan", "Asia", "");
+		mapController.editcountry("India", "Asia", "");
+		mapController.editcountry("Monaco", "Africa", "");
+		
+		mapController.editneighbor("Jordan", "India", "None", "None");
+		mapController.editneighbor("Monaco", "India", "None", "None");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Nasim", "");
+		gameController.gameplayer("Wasim", "");
+
+		gameController.populatecountries();
+		gameController.placeall();
+		
+		gameController.reinforce("India", 3);
+		gameController.reinforce("Monaco", 3);
+		
+		RunningGame.getInstance().setGamePlay(true);
+		
+		String result = gameController.attack("Monaco", "India", "2");
+		
+		assertEquals("Single Attack with specified number of dice initiated, waiting for defender dice", result);
+	}
+	
+	/**
+	 * Test for attack operation.
+	 * @see ca.concordia.app.risk.controller.GameController#attack(String, String, String)
+	 * @see ca.concordia.app.risk.controller.GameController#defend(String)
+	 */
+	@Test
+	public void testAttack() {
+		log.info("Inside testAttack");
+		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Jordan", "Asia", "");
+		mapController.editcountry("India", "Asia", "");
+		mapController.editcountry("Monaco", "Africa", "");
+		
+		mapController.editneighbor("Jordan", "India", "None", "None");
+		mapController.editneighbor("Monaco", "India", "None", "None");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Nasim", "");
+		gameController.gameplayer("Wasim", "");
+
+		gameController.populatecountries();
+		gameController.placeall();
+		
+		gameController.reinforce("India", 3);
+		gameController.reinforce("Monaco", 3);
+		
+		RunningGame.getInstance().setGamePlay(true);
+		
+		gameController.attack("Monaco", "India", "2");
+		
+		String result = gameController.defend("1");
+		assertEquals("Single Attack with specified dice completed", result);
+	}
+	
+	/**
+	 * Test for attack operation when attacker uses all his armies in 1 attack.
+	 * @see ca.concordia.app.risk.controller.GameController#attack(String, String, String)
+	 */
+	@Test
+	public void testAttackAllOut() {
+		log.info("Inside testAttackAllOut");
+		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Jordan", "Asia", "");
+		mapController.editcountry("India", "Asia", "");
+		mapController.editcountry("Monaco", "Africa", "");
+		
+		mapController.editneighbor("Jordan", "India", "None", "None");
+		mapController.editneighbor("Monaco", "India", "None", "None");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Nasim", "");
+		gameController.gameplayer("Wasim", "");
+
+		gameController.populatecountries();
+		gameController.placeall();
+		
+		gameController.reinforce("India", 3);
+		gameController.reinforce("Monaco", 3);
+		
+		RunningGame.getInstance().setGamePlay(true);
+		
+		String result = gameController.attack("Monaco", "India", "-allout");
+		assertEquals("Attack in All-Out Mode Completed", result);
+	}
+	
+	/**
+	 * Test for attack operation when two countries don't have any border between them.
+	 * @see ca.concordia.app.risk.controller.GameController#attack(String, String, String)
+	 */
+	@Test
+	public void testInvalidBorderAttack() {
+		log.info("Inside testInvalidBorderAttack");
+		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Jordan", "Asia", "");
+		mapController.editcountry("India", "Asia", "");
+		mapController.editcountry("Monaco", "Africa", "");
+		
+		mapController.editneighbor("Jordan", "India", "None", "None");
+		mapController.editneighbor("Monaco", "Jordan", "None", "None");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Nasim", "");
+		gameController.gameplayer("Wasim", "");
+
+		gameController.populatecountries();
+		gameController.placeall();
+		
+		gameController.reinforce("India", 3);
+		gameController.reinforce("Monaco", 3);
+		
+		RunningGame.getInstance().setGamePlay(true);
+		
+		String result = gameController.attack("Monaco", "India", "3");
+		
+		result = result.replace("[31m", "").replace("[0m", "");
+		
+		assertEquals("The from and to country do not share borders, please select some other country to attack", 
+				result);
+	}
+
+	/**
+	 * Test for moving armies before attack operation is done(AttackMove).
+	 * @see ca.concordia.app.risk.controller.GameController#attackmove(String, String, String)
+	 */
+	@Test
+	public void testMoveArmiesBeforeAttackIsDone() {
+		log.info("Inside testMoveArmiesBeforeAttackIsDone");
+		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Africa", "1", "None");
+
+		mapController.editcountry("Jordan", "Asia", "");
+		mapController.editcountry("India", "Asia", "");
+		mapController.editcountry("Monaco", "Africa", "");
+		
+		mapController.editneighbor("Jordan", "India", "None", "None");
+		mapController.editneighbor("Monaco", "Jordan", "None", "None");
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		gameController.gameplayer("Nasim", "");
+		gameController.gameplayer("Wasim", "");
+
+		gameController.populatecountries();
+		gameController.placeall();
+		
+		gameController.reinforce("India", 3);
+		gameController.reinforce("Monaco", 3);
+		
+		RunningGame.getInstance().setGamePlay(true);
+		
+		gameController.attack("Monaco", "India", "3");
+		
+		String result = gameController.attackmove("25");
+		result = result.replace("[31m", "").replace("[0m", "");
+		
+		assertEquals("Attack phase has not been completed yet", result);
 	}
 }

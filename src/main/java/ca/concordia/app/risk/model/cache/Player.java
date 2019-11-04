@@ -13,7 +13,6 @@ import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.dao.BorderDaoImp;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
-import ca.concordia.app.risk.model.xmlbeans.BordersModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
@@ -34,9 +33,9 @@ public class Player extends Observable {
   }
 
   /**
-   * 
-   * @param countryModel
-   * @param numberOfArmies
+   * This method used for reinforcement
+   * @param countryModel country Model
+   * @param numberOfArmies number of armies
    */
   public void reinforce(CountryModel countryModel, int numberOfArmies) {
 
@@ -58,6 +57,10 @@ public class Player extends Observable {
     }
   }
 
+  /**
+   * This method used for exchange cards
+   * @param cardsArray array of cards
+   */
   public void exchangeCards(String[] cardsArray) {
 
 
@@ -88,6 +91,12 @@ public class Player extends Observable {
 
   }
 
+  /**
+   * This method used for attack
+   * @param countryNameFrom attacker country name
+   * @param countyNameTo defender country name
+   * @param numDice number of dices for attacker
+   */
   public void attack(String countryNameFrom, String countyNameTo, String numDice) {
 
     if (!RunningGame.getInstance().isReinforceCompleted()) {
@@ -160,6 +169,10 @@ public class Player extends Observable {
 
   }
 
+  /**
+   * This method used to give the number of dice to the defender country.
+   * @param numDice number of dices for defender
+   */
   public void defend(String numDice) {
     // check max number of dice doesn't exceed 3 and not less than 1
     if (Integer.parseInt(numDice) > 2 || Integer.parseInt(numDice) < 1) {
@@ -172,9 +185,8 @@ public class Player extends Observable {
     CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),
         RunningGame.getInstance().getAttackCountryNameTo());
 
+    // roll the Attacker dice
     do {
-
-      // roll the Attacker dice
       Random random = new Random();
 
       int numDice1 = random.nextInt(5) + 1;
@@ -199,7 +211,6 @@ public class Player extends Observable {
       RunningGame.getInstance().setAttackerDice(attackerDice);
 
       // roll dice
-
       int numDice1D = random.nextInt(5) + 1;
       int numDice2D = 0;
       if (Integer.parseInt(numDice) == 2) {
@@ -214,7 +225,6 @@ public class Player extends Observable {
       }
 
       // sort Arrays
-
       Arrays.sort(attackerDice);
       Arrays.sort(defenderDice);
 
@@ -305,12 +315,16 @@ public class Player extends Observable {
         && countryModelAttackFrom.getNumberOfArmies() >= (RunningGame.getInstance().getNumDiceAttacker()));
   }
 
+  /**
+   * This method used to move the number of armies from attacker to the defender country
+   * if the attacker has conquered the defender.
+   * @param num number of armies to move from attackers country to defenders country
+   */
   public void attackMove(String num) {
 
     if (!RunningGame.getInstance().isAttackCompleted()) {
       throw new RiskGameRuntimeException("Attack phase has not been completed yet");
     }
-
     if (RunningGame.getInstance().isDefenderWin()) {
       throw new RiskGameRuntimeException("Defender had won, you can't make a move");
     }
@@ -337,7 +351,7 @@ public class Player extends Observable {
   }
 
   /**
-   * This method do fortify operation
+   * This method used for fortify operation
    *
    * @param fromCountry    origin country to fortify
    * @param toCountry      destination country to fortify
@@ -386,6 +400,7 @@ public class Player extends Observable {
     List<GraphPath<String, DefaultEdge>> allPaths = allDirectedPaths.getAllPaths(fromCountryModel.getName(),
         toCountryModel.getName(), false, 10);
     int counter = 0;
+
     for (GraphPath<String, DefaultEdge> graphPath : allPaths) {
       List<String> countriesInPath = graphPath.getVertexList();
       boolean connected = true;
@@ -403,10 +418,10 @@ public class Player extends Observable {
     }
 
     if (counter == 0) {
-
       List<GraphPath<String, DefaultEdge>> allPathsReverse = allDirectedPaths.getAllPaths(toCountryModel.getName(),
           fromCountryModel.getName(), false, 10);
       int counterNew = 0;
+
       for (GraphPath<String, DefaultEdge> graphPath : allPathsReverse) {
         List<String> countriesInPath = graphPath.getVertexList();
         boolean connected = true;
@@ -427,31 +442,19 @@ public class Player extends Observable {
       } else {
         toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() - numberOfArmies);
         fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() + numberOfArmies);
-
-        // if (!RunningGame.getInstance().isReinforceCompleted()) {
-        // throw new RiskGameRuntimeException("Please reinforce first");
-        // } else {
         RunningGame.getInstance().moveToNextPlayer();
         RunningGame.getInstance().reinforceInitialization();
-
-        // }
-
       }
     } else {
       fromCountryModel.setNumberOfArmies(fromCountryModel.getNumberOfArmies() - numberOfArmies);
       toCountryModel.setNumberOfArmies(toCountryModel.getNumberOfArmies() + numberOfArmies);
-      // if (!RunningGame.getInstance().isReinforceCompleted()) {
-      // throw new RiskGameRuntimeException("Please reinforce first");
-      // } else {
       RunningGame.getInstance().moveToNextPlayer();
       RunningGame.getInstance().reinforceInitialization();
-      // }
     }
   }
 
   /**
-   *
-   *
+   * Type of cards
    */
 
   enum cards {
@@ -459,7 +462,7 @@ public class Player extends Observable {
   }
 
   /**
-   *
+   * This method is used for randomly distribute the cards to players
    */
   public void giveCard() {
     Random random = new Random();

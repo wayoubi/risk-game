@@ -17,12 +17,17 @@ import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
+/**
+ * Show player view as panel
+ */
 public class PlayersView extends JPanel implements Observer {
 
 	private JTable jTable;
 	private final String[] COLUMN_NAMES = { "ID", "Player", "Percentage Controlled", "Continents", "Total Number of Armies" };
 
-
+	/**
+	 * Creates players view and sets styles
+	 */
 	public PlayersView() {
 		this.setLayout(new GridLayout(1, 1));
 		Border border = BorderFactory.createTitledBorder("Players World View");
@@ -30,11 +35,24 @@ public class PlayersView extends JPanel implements Observer {
 		build();
 	}
 
+    /**
+     * This method is called whenever the observed object is changed. 
+     * <br>An application calls an Observable object's
+     * <code>notifyObservers</code> method to have all the object's
+     * observers notified of the change.
+     *
+     * @param   observable     the observable object.
+     * @param   object   an argument passed to the <code>notifyObservers</code>
+     *                 method.
+     */
 	public void update(Observable observable, Object object) {
 		this.removeAll();
 		build();
 	}
 	
+	/**
+	 * Builds players view
+	 */
 	private void build() {
 		List<PlayerModel> players = RunningGame.getInstance().getPlayers().getList();
 		String[][] data = new String[players.size()][5];
@@ -86,11 +104,9 @@ public class PlayersView extends JPanel implements Observer {
 		
 		}
 
-		// Initializing the JTable
 		jTable = new JTable(data, COLUMN_NAMES);
 		jTable.setBounds(30, 40, 200, 300);
 
-		// adding it to JScrollPane
 		JScrollPane sp = new JScrollPane(jTable);
 		this.add(sp);
 		this.validate();
