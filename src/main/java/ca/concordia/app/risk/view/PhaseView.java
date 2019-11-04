@@ -89,6 +89,7 @@ public class PhaseView extends JPanel implements Observer {
 			PlayerModel playerModel = player.getPlayerModel();
 			if(playerModel!=null) {
 				currentPlayerTextField.setText(playerModel.getName());
+				currentPhaseTextField.setText(playerModel.getPlayingPhase());
 			}
 		}
 	    try(BufferedReader input = new BufferedReader(new FileReader("spring-shell.log"))) {
