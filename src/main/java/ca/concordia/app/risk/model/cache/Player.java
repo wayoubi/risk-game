@@ -1,5 +1,6 @@
 package ca.concordia.app.risk.model.cache;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
@@ -9,7 +10,10 @@ import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DefaultEdge;
 
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.model.dao.BorderDaoImp;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.BorderModel;
+import ca.concordia.app.risk.model.xmlbeans.BordersModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
@@ -80,7 +84,7 @@ public class Player extends Observable {
 
   }
 
-  public void attack(String countryNameFrom, String countyNameTo, String numDice, String allout) {
+  public void attack(String countryNameFrom, String countyNameTo, String numDice) {
 
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 
@@ -88,6 +92,9 @@ public class Player extends Observable {
     PlayerModel currentPlayer = this.getPlayerModel();
     CountryModel countryModelFrom = countryDaoImpl.findByName(RunningGame.getInstance(), countryNameFrom);
     CountryModel countryModelTo = countryDaoImpl.findByName(RunningGame.getInstance(), countyNameTo);
+
+    BorderDaoImp borderDaoImpl = new BorderDaoImp();
+    BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), countryNameFrom);
 
     if (countryModelFrom.getPlayerId() != currentPlayer.getId()) {
       throw new RiskGameRuntimeException(countryNameFrom + " does not belong to " + currentPlayer.getName());
@@ -99,28 +106,184 @@ public class Player extends Observable {
           countyNameTo + " belongs to " + currentPlayer.getName() + " please choose another country");
     }
 
-    // check max number of dice doesn't exceed 3 and not less than 1
-    if (Integer.parseInt(numDice) > 3 || Integer.parseInt(numDice) < 1) {
-      throw new RiskGameRuntimeException("number of dice should be between 1 and 3");
-    }
-
-    // check number of armies within the country
-    if (countryModelFrom.getNumberOfArmies() <= Integer.parseInt(numDice)) {
-      throw new RiskGameRuntimeException(
-          "Number of dice should be less than the number of armies allocated within the country");
-    }
-
     // check number of armies of attackTo
     if (countryModelTo.getNumberOfArmies() == 0) {
-      throw new RiskGameRuntimeException("Number of attackCountryTo is equal to zero");
+      throw new RiskGameRuntimeException("Number of armies in attackCountryTo is equal to zero");
+    }
+
+    // check max number of dice doesn't exceed 3 and not less than 1
+    if (numDice.equalsIgnoreCase("-allout")) {
+
+    } else {
+
+      if (Integer.parseInt(numDice) > 3 || Integer.parseInt(numDice) < 1) {
+        throw new RiskGameRuntimeException("number of dice should be between 1 and 3");
+      }
+
+      // check number of armies within the country
+      if (countryModelFrom.getNumberOfArmies() <= Integer.parseInt(numDice)) {
+        throw new RiskGameRuntimeException(
+            "Number of dice should be less than the number of armies allocated within the country");
+      }
     }
 
     // save countries in running game
     RunningGame.getInstance().setAttackCountryNameFrom(countryNameFrom);
     RunningGame.getInstance().setNumDiceAttacker(3);
     RunningGame.getInstance().setAttackCountryNameTo(countyNameTo);
+  }
 
-    // defender turn
+  public void defend(String numDice) {
+    // check max number of dice doesn't exceed 3 and not less than 1
+    if (Integer.parseInt(numDice) > 2 || Integer.parseInt(numDice) < 1) {
+      throw new RiskGameRuntimeException("number of dice should be 1 or 2");
+    }
+    // get Country Model of attackFrom and attackTo
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+    CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),
+        RunningGame.getInstance().getAttackCountryNameFrom());
+    CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),
+        RunningGame.getInstance().getAttackCountryNameTo());
+
+    do {
+
+      // roll the Attacker dice
+      Random random = new Random();
+
+      int numDice1 = random.nextInt(5) + 1;
+      int numDice2 = random.nextInt(5) + 1;
+      int numDice3 = 0;
+      if (RunningGame.getInstance().getNumDiceAttacker() == 3) {
+        numDice3 = random.nextInt(5) + 1;
+      }
+
+      int[] attackerDice;
+      if (Integer.parseInt(numDice) == 3) {
+        attackerDice = new int[] { numDice1, numDice2, numDice3 };
+      } else {
+        attackerDice = new int[] { numDice1, numDice2 };
+      }
+
+      // save the dice in running game to compare later
+      RunningGame.getInstance().setAttackerDice(attackerDice);
+
+      // roll dice
+
+      int numDice1D = random.nextInt(5) + 1;
+      int numDice2D = 0;
+      if (Integer.parseInt(numDice) == 2) {
+        numDice2D = random.nextInt(5) + 1;
+      }
+
+      int[] defenderDice;
+      if (Integer.parseInt(numDice) == 2) {
+        defenderDice = new int[] { numDice1D, numDice2D };
+      } else {
+        defenderDice = new int[] { numDice1D };
+      }
+
+      // sort Arrays
+
+      Arrays.sort(attackerDice);
+      Arrays.sort(defenderDice);
+
+      for (int i = 0, j = attackerDice.length - 1, tmp; i < j; i++, j--) {
+        tmp = attackerDice[i];
+        attackerDice[i] = attackerDice[j];
+        attackerDice[j] = tmp;
+      }
+
+      for (int i = 0, j = defenderDice.length - 1, tmp; i < j; i++, j--) {
+        tmp = defenderDice[i];
+        defenderDice[i] = defenderDice[j];
+        defenderDice[j] = tmp;
+      }
+
+      for (int die : attackerDice)
+        System.out.print(die + " ");
+      System.out.println();
+      for (int die : defenderDice)
+        System.out.print(die + " ");
+      System.out.println();
+
+      // compare
+      switch (numDice) {
+      // in case defender use one die
+      case "1":
+        if (attackerDice[0] > defenderDice[0]) {
+          countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() - 1);
+        } else {
+          countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - 1);
+        }
+        break;
+
+      // in case defender use two dice
+      case "2":
+        if (attackerDice[0] > defenderDice[0]) {
+          countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() - 1);
+        } else {
+          countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - 1);
+        }
+
+        if (attackerDice[1] > defenderDice[1]) {
+          countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() - 1);
+        } else {
+          countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - 1);
+        }
+
+        break;
+      default:
+      }
+
+      // check if Defender win
+      if (countryModelAttackFrom.getNumberOfArmies() == 0) {
+        RunningGame.getInstance().setAttackerWin(false);
+        RunningGame.getInstance().setDefenderWin(true);
+        RunningGame.getInstance().setAttackCompleted(true);
+        RunningGame.getInstance().setAllOut(false);
+
+        // check if Attacker win
+      } else if (countryModelAttackTo.getNumberOfArmies() == 0) {
+        RunningGame.getInstance().setAttackerWin(true);
+        RunningGame.getInstance().setDefenderWin(false);
+        RunningGame.getInstance().setAttackCompleted(true);
+        RunningGame.getInstance().setAllOut(false);
+      }
+
+      RunningGame.getInstance().getSubject().markAndNotify();
+
+    } while (RunningGame.getInstance().isAllOut()
+        && countryModelAttackFrom.getNumberOfArmies() >= Integer.parseInt(numDice));
+  }
+
+  public void attackMove(String num) {
+
+    if (!RunningGame.getInstance().isAttackCompleted()) {
+      throw new RiskGameRuntimeException("Attack phase has not been completed yet");
+    }
+
+    if (RunningGame.getInstance().isDefenderWin()) {
+      throw new RiskGameRuntimeException("Defender had won, you can't make a move");
+    }
+
+    // check num are not greater than the number of armies in the attackCountryFrom
+    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+    CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),
+        RunningGame.getInstance().getAttackCountryNameFrom());
+
+    // at least one army should be there or more depends on the number of dice
+    if (countryModelAttackFrom.getNumberOfArmies() - 1 < Integer.parseInt(num)) {
+      throw new RiskGameRuntimeException(
+          "Please decrease number of armies, one army should be left in the country you attacked from");
+    }
+
+    // move armies
+    CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),
+        RunningGame.getInstance().getAttackCountryNameTo());
+    countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - Integer.parseInt(num));
+    countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() + Integer.parseInt(num));
+    RunningGame.getInstance().setAttackCompleted(false);
+    RunningGame.getInstance().getSubject().markAndNotify();
   }
 
   /**

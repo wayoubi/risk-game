@@ -17,8 +17,6 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import ca.concordia.app.risk.model.xmlbeans.*;
-import org.jgrapht.GraphPath;
-//import com.sun.deploy.security.SelectableSecurityManager;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.slf4j.Logger;
@@ -37,7 +35,6 @@ import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.DateUtils;
-//import sun.lwawt.macosx.CSystemTray;
 
 /**
  * 
@@ -375,7 +372,7 @@ public class GameService {
 
     PlayerModel activePlayerModel = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
     if (activePlayerModel == null) {
-      throw new RiskGameRuntimeException("Theer is no current player assigned yet");
+      throw new RiskGameRuntimeException("There is no current player assigned yet");
     }
 
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
@@ -545,7 +542,7 @@ public class GameService {
     // check for negative values
     for (int i = 0; i < cardsArray.length; i++) {
       if (Integer.parseInt(cardsArray[i]) <= 0) {
-        throw new RiskGameRuntimeException(cardsArray[i] + " is not a valid number, ter a positive number");
+        throw new RiskGameRuntimeException(cardsArray[i] + " is not a valid number, enter a positive number");
       }
     }
 
@@ -595,13 +592,13 @@ public class GameService {
     }
   }
 
-  public void attack(String countryNameFrom, String countyNameTo, String numDice, String allout) {
-    if ("-allout".equalsIgnoreCase(allout)) {
+  public void attack(String countryNameFrom, String countyNameTo, String numDice) {
+    if (numDice.equalsIgnoreCase("-allout")) {
       RunningGame.getInstance().setAllOut(true);
     } else {
       RunningGame.getInstance().setAllOut(false);
     }
-    RunningGame.getInstance().getCurrentPlayer().attack(countryNameFrom, countyNameTo, numDice, allout);
+    RunningGame.getInstance().getCurrentPlayer().attack(countryNameFrom, countyNameTo, numDice);
   }
 
   /**
@@ -609,127 +606,7 @@ public class GameService {
    * @param numDice
    */
   public void defend(String numDice) {
-
-    // check max number of dice doesn't exceed 3 and not less than 1
-    if (Integer.parseInt(numDice) > 2 || Integer.parseInt(numDice) < 1) {
-      throw new RiskGameRuntimeException("number of dice should be 1 or 2");
-    }
-    // get Country Model of attackFrom and attackTo
-    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-    CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),
-        RunningGame.getInstance().getAttackCountryNameFrom());
-    CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),
-        RunningGame.getInstance().getAttackCountryNameTo());
-
-    do {
-
-      // roll the Attacker dice
-      Random random = new Random();
-
-      int numDice1 = random.nextInt(5) + 1;
-      int numDice2 = random.nextInt(5) + 1;
-      int numDice3 = 0;
-      if (RunningGame.getInstance().getNumDiceAttacker() == 3) {
-        numDice3 = random.nextInt(5) + 1;
-      }
-
-      int[] attackerDice;
-      if (Integer.parseInt(numDice) == 3) {
-        attackerDice = new int[] { numDice1, numDice2, numDice3 };
-      } else {
-        attackerDice = new int[] { numDice1, numDice2 };
-      }
-
-      // save the dice in running game to compare later
-      RunningGame.getInstance().setAttackerDice(attackerDice);
-
-      // roll dice
-
-      int numDice1D = random.nextInt(5) + 1;
-      int numDice2D = 0;
-      if (Integer.parseInt(numDice) == 2) {
-        numDice2D = random.nextInt(5) + 1;
-      }
-
-      int[] defenderDice;
-      if (Integer.parseInt(numDice) == 2) {
-        defenderDice = new int[] { numDice1D, numDice2D };
-      } else {
-        defenderDice = new int[] { numDice1D };
-      }
-
-      // sort Arrays
-
-      Arrays.sort(attackerDice);
-      Arrays.sort(defenderDice);
-
-      for (int i = 0, j = attackerDice.length - 1, tmp; i < j; i++, j--) {
-        tmp = attackerDice[i];
-        attackerDice[i] = attackerDice[j];
-        attackerDice[j] = tmp;
-      }
-
-      for (int i = 0, j = defenderDice.length - 1, tmp; i < j; i++, j--) {
-        tmp = defenderDice[i];
-        defenderDice[i] = defenderDice[j];
-        defenderDice[j] = tmp;
-      }
-
-      for (int die : attackerDice)
-        System.out.print(die + " ");
-      System.out.println();
-      for (int die : defenderDice)
-        System.out.print(die + " ");
-      System.out.println();
-
-      // compare
-      switch (numDice) {
-      // in case defender use one die
-      case "1":
-        if (attackerDice[0] > defenderDice[0]) {
-          countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() - 1);
-        } else {
-          countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - 1);
-        }
-        break;
-
-      // in case defender use two dice
-      case "2":
-        if (attackerDice[0] > defenderDice[0]) {
-          countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() - 1);
-        } else {
-          countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - 1);
-        }
-
-        if (attackerDice[1] > defenderDice[1]) {
-          countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() - 1);
-        } else {
-          countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - 1);
-        }
-
-        break;
-      default:
-      }
-
-      // check if Defender win
-      if (countryModelAttackFrom.getNumberOfArmies() == 0) {
-        RunningGame.getInstance().setAttackerWin(false);
-        RunningGame.getInstance().setDefenderWin(true);
-        RunningGame.getInstance().setAttackCompleted(true);
-        RunningGame.getInstance().setAllOut(false);
-
-        // check if Attacker win
-      } else if (countryModelAttackTo.getNumberOfArmies() == 0) {
-        RunningGame.getInstance().setAttackerWin(true);
-        RunningGame.getInstance().setDefenderWin(false);
-        RunningGame.getInstance().setAttackCompleted(true);
-        RunningGame.getInstance().setAllOut(false);
-      }
-
-      RunningGame.getInstance().getSubject().markAndNotify();
-
-    } while (RunningGame.getInstance().isAllOut()
-        && countryModelAttackFrom.getNumberOfArmies() >= Integer.parseInt(numDice));
+    RunningGame.getInstance().getCurrentPlayer().defend(numDice);
   }
 
   /**
@@ -737,32 +614,6 @@ public class GameService {
    * @param num
    */
   public void attackMove(String num) {
-
-    if (!RunningGame.getInstance().isAttackCompleted()) {
-      throw new RiskGameRuntimeException("Attack phase is not completed");
-    }
-
-    if (RunningGame.getInstance().isDefenderWin()) {
-      throw new RiskGameRuntimeException("Defender wins, you cant make a move");
-    }
-
-    // check num are not greater than the number of armies in the attackCountryFrom
-    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-    CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),
-        RunningGame.getInstance().getAttackCountryNameFrom());
-
-    // at least one army should be there or more depends on the number of dice
-    if (countryModelAttackFrom.getNumberOfArmies() - 1 < Integer.parseInt(num)) {
-      throw new RiskGameRuntimeException("Please decrease number of armies");
-    }
-
-    // move armies
-    CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),
-        RunningGame.getInstance().getAttackCountryNameTo());
-    countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - Integer.parseInt(num));
-    countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() + Integer.parseInt(num));
-    RunningGame.getInstance().setAttackCompleted(false);
-    RunningGame.getInstance().getSubject().markAndNotify();
-
+    RunningGame.getInstance().getCurrentPlayer().attackMove(num);
   }
 }
