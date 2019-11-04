@@ -40,6 +40,8 @@ public class Player extends Observable {
    */
   public void reinforce(CountryModel countryModel, int numberOfArmies) {
 
+    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement");
+    RunningGame.getInstance().getSubject().markAndNotify();
     if (this.getPlayerModel().getReinforcementNoOfArmies() == 0) {
       throw new RiskGameRuntimeException("Reinforcement phase has been completed");
     }
@@ -56,6 +58,9 @@ public class Player extends Observable {
   }
 
   public void exchangeCards(String[] cardsArray) {
+
+    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement - Exchange Cards");
+    RunningGame.getInstance().getSubject().markAndNotify();
 
     int reinforcementNoOfArmies = this.getPlayerModel().getReinforcementNoOfArmies();
     int cardExchangeCount = this.getPlayerModel().getCardExchangeCount();
@@ -85,6 +90,9 @@ public class Player extends Observable {
   }
 
   public void attack(String countryNameFrom, String countyNameTo, String numDice) {
+
+    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("attack");
+    RunningGame.getInstance().getSubject().markAndNotify();
 
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 
@@ -295,6 +303,9 @@ public class Player extends Observable {
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
 
+    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortification");
+    RunningGame.getInstance().getSubject().markAndNotify();
+
     if (!RunningGame.getInstance().isReinforceCompleted())
       throw new RiskGameRuntimeException("Please reinforce first ");
 
@@ -396,5 +407,24 @@ public class Player extends Observable {
       RunningGame.getInstance().reinforceInitialization();
       // }
     }
+  }
+
+
+  /**
+   *
+   *
+   */
+
+  enum cards {
+    Infantry, Cavalry, Artillery
+  }
+
+  /**
+   *
+   */
+  public void giveCard(){
+      Random random = new Random();
+      int num = random.nextInt(3);
+      RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add(String.valueOf(cards.values()[num]));
   }
 }
