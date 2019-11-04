@@ -1,6 +1,7 @@
 package ca.concordia.app.risk.view;
 
 import java.awt.GridLayout;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,35 +10,88 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
+import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
+import ca.concordia.app.risk.model.xmlbeans.CountryModel;
+import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
 public class PlayersView extends JPanel implements Observer {
 
 	private JTable jTable;
+	private final String[] COLUMN_NAMES = { "ID", "Player", "Percentage Controlled", "Continents", "Total Number of Armies" };
+
 
 	public PlayersView() {
-
 		this.setLayout(new GridLayout(1, 1));
+		Border border = BorderFactory.createTitledBorder("Players World View");
+		this.setBorder(border);
+		build();
+	}
 
-		// Data to be displayed in the JTable
-		String[][] data = { { "1", "Wasim", "25%", "NA", "15" }, { "2", "Pinkal", "25%", "NA", "15" },
-				{ "3", "Michael", "25%", "NA", "15" }, { "4", "Nasim", "25%", "NA", "15" } };
+	public void update(Observable observable, Object object) {
+		this.removeAll();
+		build();
+	}
+	
+	private void build() {
+		List<PlayerModel> players = RunningGame.getInstance().getPlayers().getList();
+		String[][] data = new String[players.size()][5];
+		int counter = 0;
+		
+		for(PlayerModel player: players) {
+			String playerContinents = "";
+			PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+			List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), player);
+			int totalCountryNumbers = RunningGame.getInstance().getCountries().getList().size();
+			int playerCountryOwnsCount = playerCountries.size();
+			
+			int playerTotalNoOfArmies = 0;
+			for(CountryModel playerCountry: playerCountries) {
+				playerTotalNoOfArmies += playerCountry.getNumberOfArmies();
+			}
+			
+			//Iterate over continents
+			List<ContinentModel> continents = RunningGame.getInstance().getContinents().getList();
+			for(ContinentModel continent: continents) {
+				ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+				
+				List<CountryModel> listOfCountriesInContinent = continentDaoImpl.getCountries(RunningGame.getInstance(), continent);
+				int countryOwns = 0;
+				for(CountryModel country: listOfCountriesInContinent) {
+					if(country.getPlayerId() == player.getId()) {
+						countryOwns++;
+					}
+				}
+				
+				if(countryOwns == listOfCountriesInContinent.size()) {
+					playerContinents += continent.getName() + " ";
+				}
+				
+			}
+			if(playerContinents.equals("")) {
+				playerContinents = "NA";
+			}
 
-		// Column Names
-		String[] columnNames = { "ID", "Player", "Percentage Controlled", "Contientns", "Total Number of Armies" };
+			String playerId = Integer.toString(player.getId());
+			String playerName = player.getName();
+			String playerPercentageControl = ((playerCountryOwnsCount*100)/totalCountryNumbers) + "%";
+			data[counter][0] = playerId;
+			data[counter][1] = playerName;
+			data[counter][2] = playerPercentageControl;
+			data[counter][3] = playerContinents;
+			data[counter][4] = Integer.toString(playerTotalNoOfArmies);
+			counter++;
+		
+		}
 
 		// Initializing the JTable
-		jTable = new JTable(data, columnNames);
+		jTable = new JTable(data, COLUMN_NAMES);
 		jTable.setBounds(30, 40, 200, 300);
 
 		// adding it to JScrollPane
 		JScrollPane sp = new JScrollPane(jTable);
-
-		Border border = BorderFactory.createTitledBorder("Players World View");
-		this.setBorder(border);
 		this.add(sp);
-
-	}
-
-	public void update(Observable observable, Object object) {
 	}
 }
