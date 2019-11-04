@@ -598,6 +598,9 @@ public class GameService {
     } else {
       RunningGame.getInstance().setAllOut(false);
     }
+    if(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size()>=5)
+      throw new RiskGameRuntimeException("You have "+ RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size()+ " Please exhange your cards first");
+
     RunningGame.getInstance().getCurrentPlayer().attack(countryNameFrom, countyNameTo, numDice);
   }
 
@@ -616,4 +619,5 @@ public class GameService {
   public void attackMove(String num) {
     RunningGame.getInstance().getCurrentPlayer().attackMove(num);
   }
+
 }
