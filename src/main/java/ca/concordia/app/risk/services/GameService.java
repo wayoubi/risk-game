@@ -49,19 +49,19 @@ public class GameService {
 
   /**
    * Dependency injection from MapService
-   */ 
+   */
   @Autowired
   MapService mapService;
 
   /**
    * Dependency injection from ShellHelper
-   */ 
+   */
   @Autowired
   ShellHelper shellHelper;
 
   /**
    * Dependency injection from ObjectFactory
-   */ 
+   */
   ObjectFactory objectFactory = new ObjectFactory();
 
   private static Logger log = LoggerFactory.getLogger(GameService.class);
@@ -261,10 +261,11 @@ public class GameService {
 
   /**
    * This method adds a player to the running game
+   * 
    * @param playerDto player Dto
    */
   public void addPlayer(PlayerDto playerDto) {
-	  
+
     if (!RunningGame.getInstance().isMapLoaded())
       throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
 
@@ -313,6 +314,7 @@ public class GameService {
 
   /**
    * This method removes a player from the running game
+   * 
    * @param playerDto player Dto
    */
   public void removePlayer(PlayerDto playerDto) {
@@ -366,6 +368,7 @@ public class GameService {
 
   /**
    * This method places armies
+   * 
    * @param countryName country name to place army
    */
   public void placeArmy(String countryName) {
@@ -428,7 +431,8 @@ public class GameService {
 
   /**
    * This method does reinforcement
-   * @param countryName country name to do reinforcement
+   * 
+   * @param countryName    country name to do reinforcement
    * @param numberOfArmies number of armies to reinforce
    */
   public void reinforce(String countryName, int numberOfArmies) {
@@ -459,7 +463,7 @@ public class GameService {
    * @param numberOfArmies number of armies
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
-	RunningGame.getInstance().getCurrentPlayer().fortify(fromCountry, toCountry, numberOfArmies);
+    RunningGame.getInstance().getCurrentPlayer().fortify(fromCountry, toCountry, numberOfArmies);
     RunningGame.getInstance().getSubject().markAndNotify();
   }
 
@@ -526,6 +530,7 @@ public class GameService {
 
   /**
    * This method exchanges cards
+   * 
    * @param num1 Card 1
    * @param num2 Card 2
    * @param num3 Card 3
@@ -606,12 +611,13 @@ public class GameService {
   }
 
   /**
-  * This method does attack. Command: attack -countryNameFrom [countryNameFrom] -countyNameTo [countyNameTo]
-  * -number [numberOfArmies]
-  * @param countryNameFrom attacker country name
-  * @param countyNameTo defender country name
-  * @param numDice count of dices for attacker
-  */  
+   * This method does attack. Command: attack -countryNameFrom [countryNameFrom]
+   * -countyNameTo [countyNameTo] -number [numberOfArmies]
+   * 
+   * @param countryNameFrom attacker country name
+   * @param countyNameTo    defender country name
+   * @param numDice         count of dices for attacker
+   */
   public void attack(String countryNameFrom, String countyNameTo, String numDice) {
     if (RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size() >= 5) {
       RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement - Exchange Cards");
@@ -639,7 +645,7 @@ public class GameService {
 
   /**
    *
-   * @param num number of armies to move from attacker to defender country
+   * @param num number of armies to move from attacker to defender Country
    */
   public void attackMove(String num) {
     RunningGame.getInstance().getCurrentPlayer().attackMove(num);
