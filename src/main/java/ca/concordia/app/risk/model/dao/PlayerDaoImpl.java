@@ -21,7 +21,7 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 
 	/**
 	 * This method finds a player by name
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param name      player name
 	 * @return player object
@@ -33,7 +33,7 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 
 	/**
 	 * This method finds a player by id
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param id        player id
 	 * @return player object
@@ -45,7 +45,7 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 
 	/**
 	 * This method assigns id to a player
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param t         player model
 	 */
@@ -62,7 +62,7 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 
 	/**
 	 * This method removes a list of players
-	 * 
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param t         player model
 	 */

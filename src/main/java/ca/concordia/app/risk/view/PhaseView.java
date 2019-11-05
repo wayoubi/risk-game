@@ -21,6 +21,9 @@ import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
+/**
+ * Show phase view as panel
+ */
 public class PhaseView extends JPanel implements Observer {
 
 	private JLabel currentPhaseLabel;
@@ -33,8 +36,10 @@ public class PhaseView extends JPanel implements Observer {
 	
 	private String cachedStr;
 
+	/**
+	 * Creates phase graph view and sets styles
+	 */
 	public PhaseView() {
-
 		Border border = BorderFactory.createTitledBorder("Phase View");
 		this.setBorder(border);
 		this.setLayout(new BorderLayout());
@@ -57,8 +62,6 @@ public class PhaseView extends JPanel implements Observer {
 		
 		this.add(jPanelFields, BorderLayout.NORTH);
 		
-		
-		
 		JPanel jPanelTextArea = new JPanel();
 		jPanelTextArea.setLayout(new BorderLayout());
 		currentActionTextArea = new JTextArea();
@@ -77,12 +80,18 @@ public class PhaseView extends JPanel implements Observer {
 		
 		currentActionTextArea.append("Current Actions.....");
 		currentActionTextArea.append(System.lineSeparator());
-		
 	}
 
-	/**
-	 * 
-	 */
+    /**
+     * This method is called whenever the observed object is changed. 
+     * <br>An application calls an Observable object's
+     * <code>notifyObservers</code> method to have all the object's
+     * observers notified of the change.
+     *
+     * @param   observable     the observable object.
+     * @param   object   an argument passed to the <code>notifyObservers</code>
+     *                 method.
+     */
 	public void update(Observable observable, Object object) {
 		Player player = RunningGame.getInstance().getCurrentPlayer();
 		if(player!=null) {

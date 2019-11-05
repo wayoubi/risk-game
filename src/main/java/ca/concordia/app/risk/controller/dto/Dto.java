@@ -14,7 +14,7 @@ public interface Dto {
 	/**
 	 * validates Dto Beans using the javax.validation package
 	 * 
-	 * @throws ValidationException
+	 * @throws ValidationException exception
 	 */
 	void validate() throws ValidationException;
 }

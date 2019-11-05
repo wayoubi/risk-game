@@ -14,7 +14,7 @@ import ca.concordia.app.risk.utility.GameUtils;
 
 /**
  * PlayController class has all commanded for playing the game example
- * attachking other player
+ * attacking other player
  * 
  * @author i857625
  */
@@ -32,7 +32,7 @@ public class PlayController {
 	private static final String COMMAND_EXECUTED_SUCCESSFULLY = "Command executed successfully";
 
 	/**
-	 * Class Looger
+	 * Class Logger
 	 */
 	private static Logger log = LoggerFactory.getLogger(PlayController.class);
 

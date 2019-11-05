@@ -20,7 +20,7 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
 	 * This method finds a country by name
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param name      country name
 	 * @return country object
@@ -32,7 +32,7 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
 	 * This method finds a country by id
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param id        id
 	 * @return country object
@@ -44,7 +44,7 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
 	 * This method assigns id to a country
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param t         country model
 	 */
@@ -61,7 +61,7 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
 	 * This method removes a list of countries
-	 * 
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param t         country model
 	 */

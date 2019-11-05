@@ -1,6 +1,5 @@
 package ca.concordia.app.risk.controller;
 
-import ca.concordia.app.risk.services.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,44 +45,44 @@ public class GameController {
   private GameBusinessDelegate gameBusinessDelegate;
 
   /**
-   * This method saves current game state. Command: save
+   * This method saves current game state. 
+   * Command: save
    *
    * @return operation result (error/success)
    */
   @ShellMethod("Save the current game state")
   public String save() {
-
-    if (log.isDebugEnabled()) {
-      log.debug("inside save");
-    }
-    try {
-      gameBusinessDelegate.saveGame();
-    } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-    }
-
-    return shellHelper.getSuccessMessage("Game saved successfully");
+	  
+	  if (log.isDebugEnabled()) {
+		  log.debug("inside save");
+	  }
+	  try {
+		  gameBusinessDelegate.saveGame();
+	  } catch (RiskGameRuntimeException riskGameRuntimeException) {
+		  return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+	  }
+	  return shellHelper.getSuccessMessage("Game saved successfully");
   }
 
   /**
-   * This method saves the current map file under the saved directory. Command:
-   * savemap -file [fileName]
+   * This method saves the current map file under the saved directory. 
+   * Command: savemap -file [fileName]
    *
    * @param fileName file name to save
    * @return operation result (error/success)
    */
   @ShellMethod("Save the current gamemap using domination map file format under the saved directory")
   public String savemap(@ShellOption(value = { "-file" }) String fileName) {
-
-    if (log.isDebugEnabled()) {
-      log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
+    
+	if (log.isDebugEnabled()) {
+    	log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
     }
     try {
-      gameBusinessDelegate.saveMap(fileName);
+    	gameBusinessDelegate.saveMap(fileName);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
-
+    
     return shellHelper.getSuccessMessage("Game Map saved successfully");
   }
 
@@ -96,29 +95,30 @@ public class GameController {
    */
   @ShellMethod("Validate the current gamemap to be connected")
   public String validatemap(@ShellOption(value = { "-continent" }, defaultValue = "All") String continentName) {
-
-    if (log.isDebugEnabled()) {
-      log.debug("inside validatemap");
+    
+	if (log.isDebugEnabled()) {
+    	log.debug("inside validatemap");
     }
     boolean isConnected = false;
     try {
-      isConnected = gameBusinessDelegate.validateMap(continentName);
+    	isConnected = gameBusinessDelegate.validateMap(continentName);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
     if (!isConnected) {
-      return shellHelper.getErrorMessage("Countries are not connected, Map is invalid");
+    	return shellHelper.getErrorMessage("Countries are not connected, Map is invalid");
     }
-
+    
     return shellHelper.getSuccessMessage("Countries are connected, Map is valid");
   }
 
   /**
    * This method add/remove/edit Player.
    * <p>
-   * Add Command: gameplayer -add [player2Add] Edit Command: gameplayer -add
-   * [player2Add] [player2Remove] Remove Command: gameplayer -remove
-   * [player2Remove]
+   * <br>
+   * Add Command: gameplayer -add [player2Add] <br>
+   * Edit Command: gameplayer -add [player2Add] [player2Remove] <br>
+   * Remove Command: gameplayer -remove [player2Remove]
    *
    * @param player2Add    player name to add
    * @param player2Remove player name to remove
@@ -127,8 +127,8 @@ public class GameController {
   @ShellMethod("Add/Remove player")
   public String gameplayer(@ShellOption(value = { "-add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
       @ShellOption(value = { "-remove" }, defaultValue = "None") String player2Remove) {
-
-    if (log.isDebugEnabled()) {
+	  
+	  if (log.isDebugEnabled()) {
       log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
     }
     try {
@@ -150,7 +150,8 @@ public class GameController {
   }
 
   /**
-   * This method assigns countries to the players. Command: populatecountries
+   * This method assigns countries to the players. 
+   * Command: populatecountries
    *
    * @return operation result (error/success)
    */
@@ -166,8 +167,8 @@ public class GameController {
   }
 
   /**
-   * This method assigns armies to the countries. Command: placearmy -countryname
-   * [countryName]
+   * This method assigns armies to the countries. 
+   * Command: placearmy -countryname [countryName]
    *
    * @param countryName country name to place the army
    * @return operation result (error/success)
@@ -189,7 +190,8 @@ public class GameController {
   }
 
   /**
-   * This method open a map file to edit. Command: editmap --file-name [fileName]
+   * This method open a map file to edit. 
+   * Command: editmap --file-name [fileName]
    *
    * @param fileName file name to edit the map
    * @return operation result (error/success)
@@ -198,19 +200,20 @@ public class GameController {
   public String editmap(@ShellOption(optOut = false) String fileName) {
 
     if (log.isDebugEnabled()) {
-      log.debug(String.format("inside editmap, passed parameters [%s]", fileName));
+    	log.debug(String.format("inside editmap, passed parameters [%s]", fileName));
     }
     try {
-      gameBusinessDelegate.editMap(fileName);
+    	gameBusinessDelegate.editMap(fileName);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
-
+    
     return shellHelper.getSuccessMessage("Map file is read, you can edit now");
   }
 
   /**
-   * This method load a saved map file. Command: loadmap --file-name [fileName]
+   * This method load a saved map file. 
+   * Command: loadmap --file-name [fileName]
    *
    * @param fileName file name to load the map
    * @return operation result (error/success)
@@ -219,44 +222,45 @@ public class GameController {
   public String loadmap(@ShellOption(optOut = false) String fileName) {
 
     if (log.isDebugEnabled()) {
-      log.debug(String.format("inside loadmap, passed parameters [%s]", fileName));
+    	log.debug(String.format("inside loadmap, passed parameters [%s]", fileName));
     }
     try {
-      gameBusinessDelegate.loadMap(fileName);
+    	gameBusinessDelegate.loadMap(fileName);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return shellHelper.getSuccessMessage("Map file is read, map is loaded");
-
   }
 
   /**
-   * This method does Reinforcement. Command: reinforce -countryName [countryName]
-   * -number [numberOfArmies]
+   * This method does Reinforcement. 
+   * Command: reinforce -countryName [countryName] -number [numberOfArmies]
    *
-   * @param countryName    country name which is doing reinforcement
-   * @param numberOfArmies number of armies
-   * @return operation result (error/success)
+   * @param countryName		country name which is doing reinforcement
+   * @param numberOfArmies 	number of armies
+   * @return operation		result (error/success)
    */
   @ShellMethod("Reinforcement")
   public String reinforce(
-
       @ShellOption(value = { "-countryName" }, defaultValue = NONE_DEFAULT_VALUE) String countryName,
       @ShellOption(value = { "-number" }, defaultValue = "None") int numberOfArmies) {
+
     if (log.isDebugEnabled()) {
-      log.debug(String.format("inside loadmap, passed parameters [%s] [%s]", countryName, numberOfArmies));
+    	log.debug(String.format("inside loadmap, passed parameters [%s] [%s]", countryName, numberOfArmies));
     }
     try {
-      gameBusinessDelegate.reinforce(countryName, numberOfArmies);
+    	gameBusinessDelegate.reinforce(countryName, numberOfArmies);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
 
     return shellHelper.getSuccessMessage("Reinforcement has been completed");
   }
 
   /**
-   * This method place all remaining armies. Command: placeall
+   * This method place all remaining armies. 
+   * Command: placeall
    *
    * @return operation result (error/success)
    */
@@ -264,12 +268,12 @@ public class GameController {
   public String placeall() {
 
     if (log.isDebugEnabled()) {
-      log.debug("inside placeall");
+    	log.debug("inside placeall");
     }
     try {
-      gameBusinessDelegate.placeall();
+    	gameBusinessDelegate.placeall();
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
 
     return shellHelper.getSuccessMessage("All remaining unplaced armies have been assigned");
@@ -279,8 +283,7 @@ public class GameController {
    * This method is used for fortification of armies from one country to another.
    * The user can choose to not fortify at all.
    * <p>
-   * Command: fortify -fromcountry [fromCountryname] -tocountry [toCountryname]
-   * -num [numberOfArmies]
+   * Command: fortify -fromcountry [fromCountryname] -tocountry [toCountryname] -num [numberOfArmies]
    *
    * @param fromCountry    origin country to fortify from
    * @param toCountry      destination country to fortify to
@@ -293,105 +296,136 @@ public class GameController {
       @ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String numberOfArmies) {
 
     StringBuilder result = new StringBuilder();
-
     try {
       if (fromCountry != null && "none".equals(fromCountry)) {
-        RunningGame.getInstance().moveToNextPlayer();
-        RunningGame.getInstance().reinforceInitialization();
-        RunningGame.getInstance().getSubject().markAndNotify();
-        return "Choose not to do a move";
+    	  RunningGame.getInstance().moveToNextPlayer();
+    	  RunningGame.getInstance().reinforceInitialization();
+    	  RunningGame.getInstance().getSubject().markAndNotify();
+
+    	  return "Choose not to do a move";
       }
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
 
     try {
       if (fromCountry != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(fromCountry) && toCountry != null
           && !NONE_DEFAULT_VALUE.equalsIgnoreCase(toCountry) && numberOfArmies != null
           && !NONE_DEFAULT_VALUE.equalsIgnoreCase(numberOfArmies)) {
-        gameBusinessDelegate.fortify(fromCountry, toCountry, Integer.parseInt(numberOfArmies));
+    	  
+    	  gameBusinessDelegate.fortify(fromCountry, toCountry, Integer.parseInt(numberOfArmies));
       } else {
-        throw new RiskGameRuntimeException("From Country, to Country and No of Armies all are required");
+    	  throw new RiskGameRuntimeException("From Country, to Country and No of Armies all are required");
       }
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
 
     return shellHelper.getSuccessMessage("Fortification was successful");
   }
 
+  /**
+   * This method is used for exchange cards to get armies in return.
+   * <p>
+   * Command: exchangecards -num1 [num1] -num2 [num2] -num3 [num3]
+   * 
+   * @param num1 card 1
+   * @param num2 card 2
+   * @param num3 card 3
+   * @return log message related to exchange cards operation
+   */
   @ShellMethod("exchangecards")
   public String exchangecards(@ShellOption(value = { "-num1" }, defaultValue = NONE_DEFAULT_VALUE) String num1,
       @ShellOption(value = { "-num2" }, defaultValue = NONE_DEFAULT_VALUE) String num2,
       @ShellOption(value = { "-num3" }, defaultValue = NONE_DEFAULT_VALUE) String num3) {
 
     StringBuilder result = new StringBuilder();
-
     if ("-none".equalsIgnoreCase(num1)) {
-      return "No cards have been exchanged";
+    	return "No cards have been exchanged";
     } else {
-      try {
-        gameBusinessDelegate.exchangecards(num1, num2, num3);
-      } catch (RiskGameRuntimeException riskGameRuntimeException) {
-        return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-      }
-      return "Card " + num1 + " " + num2 + " " + num3 + " have been exchanged";
-
+    		try {
+    			gameBusinessDelegate.exchangecards(num1, num2, num3);
+    		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+    				return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    		}
+    	return "Card " + num1 + " " + num2 + " " + num3 + " have been exchanged";
     }
   }
 
+  /**
+   * This method used for attack from country to another country.
+   * <p>
+   * Command: attack -countryNameFrom [countryNameFrom] -countyNameTo [countyNameTo] -numdice [numDice]
+   * 
+   * @param countryNameFrom attacker country name
+   * @param countyNameTo defender country name
+   * @param numDice number of dices for attacker
+   * @return log message related to attack operation
+   */
   @ShellMethod("attack")
   public String attack(
       @ShellOption(value = { "-countrynamefrom" }, defaultValue = NONE_DEFAULT_VALUE) String countryNameFrom,
       @ShellOption(value = { "-countynameto" }, defaultValue = NONE_DEFAULT_VALUE) String countyNameTo,
-      @ShellOption(value = { "-numdice" }, defaultValue = NONE_DEFAULT_VALUE) String numDice)
-  // @ShellOption(value = { "-allout" }, defaultValue = NONE_DEFAULT_VALUE) String
-  // allout)
-  {
+      @ShellOption(value = { "-numdice" }, defaultValue = NONE_DEFAULT_VALUE) String numDice) {
 
     StringBuilder result = new StringBuilder();
-
     if ("-noattack".equalsIgnoreCase(countryNameFrom)) {
-      RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortification");
-      RunningGame.getInstance().getSubject().markAndNotify();
-      return "Ending the attack phase";
+    	RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortification");
+    	RunningGame.getInstance().getSubject().markAndNotify();
+    	return "Ending the attack phase";
     } else if (numDice.equalsIgnoreCase("None")) {
-      throw new RiskGameRuntimeException("You need to pass either the number of dice or run attack in -allout mode");
+    		throw new RiskGameRuntimeException("You need to pass either the number of dice or run attack in -allout mode");
     } else {
-      try {
-        gameBusinessDelegate.attack(countryNameFrom, countyNameTo, numDice);
-      } catch (RiskGameRuntimeException riskGameRuntimeException) {
-        return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
-      }
-      if (numDice.equalsIgnoreCase("-allout")) {
-        return "Attack in All-Out Mode Completed";
-      } else {
-        return "Single Attack with specified number of dice initiated, waiting for defender dice";
-      }
+    	try {
+    		gameBusinessDelegate.attack(countryNameFrom, countyNameTo, numDice);
+    	} catch (RiskGameRuntimeException riskGameRuntimeException) {
+    		return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	}
+    	if (numDice.equalsIgnoreCase("-allout")) {
+    		return "Attack in All-Out Mode Completed";
+    	} else {
+    		return "Single Attack with specified number of dice initiated, waiting for defender dice";
+    	}
     }
   }
 
+  /**
+   * This method used to give the number of dice to the defender country.
+   * <p>
+   * Command: defend -numdice[numDice]
+   * 
+   * @param numDice number of dices for defender
+   * @return log message related to defend operation
+   */
   @ShellMethod("defend")
   public String defend(@ShellOption(value = { "-numdice" }, defaultValue = NONE_DEFAULT_VALUE) String numDice) {
-
-    try {
-      gameBusinessDelegate.defend(numDice);
+	  try {
+		  gameBusinessDelegate.defend(numDice);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return "Single Attack with specified dice completed";
-
   }
 
+  /**
+   * This method used to move the number of armies from attacker to the defender country
+   * if the attacker has conquered the defender.
+   * <p>
+   * Command: defend -num[num]
+   * 
+   * @param num number of armies to move from attackers country to defenders country
+   * @return log message related to moved armies operation
+   */
   @ShellMethod("attackmove")
-  public String attackmove(
-
-      @ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String num) {
-    try {
-      gameBusinessDelegate.attackmove(num);
+  public String attackmove(@ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String num) {
+	  try {
+		  gameBusinessDelegate.attackmove(num);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
-      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    	return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
+    
     return "Armies have been moved to the conquered country";
   }
+
 }

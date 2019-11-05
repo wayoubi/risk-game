@@ -13,12 +13,15 @@ public class ContinentDto implements Dto {
 	private String name;
 	private int controlValue;
 
+	/**
+	 * Constructor
+	 */
 	public ContinentDto() {
 		super();
 	}
-
+	
 	/**
-	 * 
+	 * Constructor(numberOfCountries, name, controlValue)
 	 * Initialize Class Properties
 	 * 
 	 * @param numberOfCountries number of countries
@@ -87,7 +90,7 @@ public class ContinentDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @return result
 	 */
 	@Override
@@ -101,7 +104,7 @@ public class ContinentDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param obj check object is equals
 	 * @return true/false
 	 */
@@ -129,6 +132,10 @@ public class ContinentDto implements Dto {
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @throws ValidationException exception
+	 */
 	@Override
 	public void validate() throws ValidationException {
 		// TODO Auto-generated method stub

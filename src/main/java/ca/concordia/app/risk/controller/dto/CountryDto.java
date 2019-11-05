@@ -13,11 +13,15 @@ public class CountryDto implements Dto {
 	private int numberOfArmies;
 	private String continentName;
 
+	/**
+	 * Constructor
+	 */
 	public CountryDto() {
 		super();
 	}
 
 	/**
+	 * Constructor(name, numberOfArmies, continentName)
 	 * Initialize Class Properties
 	 * 
 	 * @param name           country name
@@ -41,7 +45,6 @@ public class CountryDto implements Dto {
 	}
 
 	/**
-	 * 
 	 * sets {@link name}
 	 * 
 	 * @param name sets country name
@@ -78,7 +81,6 @@ public class CountryDto implements Dto {
 	}
 
 	/**
-	 * 
 	 * sets {@link continentName}
 	 * 
 	 * @param continentName sets continent Name
@@ -88,7 +90,7 @@ public class CountryDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @return CountryDto [name, numberOfArmies, continentName]
 	 */
 	@Override
@@ -98,7 +100,7 @@ public class CountryDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @return result
 	 */
 	@Override
@@ -112,7 +114,7 @@ public class CountryDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param obj check object is equals
 	 * @return true/false
 	 */
@@ -144,8 +146,8 @@ public class CountryDto implements Dto {
 	}
 
 	/**
-	 * 
 	 * {@inheritDoc}
+	 * @throws ValidationException exception
 	 */
 	@Override
 	public void validate() throws ValidationException {

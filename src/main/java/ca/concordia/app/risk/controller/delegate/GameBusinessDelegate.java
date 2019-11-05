@@ -15,138 +15,152 @@ import ca.concordia.app.risk.services.GameService;
 public class GameBusinessDelegate {
 
   /**
-   * 
    * Dependency injection from GameService
    */
   @Autowired
   GameService gameService;
 
   /**
-   * 
-   * save Game
+   * This method used for saving the Game.
    */
   public void saveGame() {
-    gameService.saveGame();
+	  gameService.saveGame();
   }
 
   /**
-   * save Map
-   * 
+   * This method used for saving the Map.
    * @param fileName file name
    */
   public void saveMap(String fileName) {
-    gameService.saveMap(fileName);
+	  gameService.saveMap(fileName);
   }
 
   /**
-   * validate Map
+   * This method used for validating the Map.
    * 
    * @param continentName continent name
    * @return true if map is valid
    */
   public boolean validateMap(String continentName) {
-    return gameService.validateMap(continentName);
+	  return gameService.validateMap(continentName);
   }
 
   /**
-   * edit Map
-   * 
+   * This method used for editing the Map.
    * @param fileName file name
    */
   public void editMap(String fileName) {
-    gameService.editMap(fileName);
+	  gameService.editMap(fileName);
   }
 
   /**
-   * load Map
+   * This method used for loading the Map.
    * 
    * @param fileName file name
    */
   public void loadMap(String fileName) {
-    gameService.loadMap(fileName);
+	  gameService.loadMap(fileName);
   }
 
   /**
-   * add Player
+   * This method used for adding a player.
    * 
    * @param playerDto player Dto
    */
   public void addPlayer(PlayerDto playerDto) {
-    gameService.addPlayer(playerDto);
+	  gameService.addPlayer(playerDto);
   }
 
   /**
-   * remove Player
+   * This method used for removing a player.
    * 
    * @param playerDto player Dto
    */
   public void removePlayer(PlayerDto playerDto) {
-    gameService.removePlayer(playerDto);
+	  gameService.removePlayer(playerDto);
   }
 
   /**
-   * populate Countries
+   * This method used for populating Countries.
    * 
    */
   public void populateCountries() {
-    gameService.populateCountries();
+	  gameService.populateCountries();
   }
 
   /**
-   * place Army
+   * This method used for place Army.
    * 
    * @param countryName country name
    */
   public void placeArmy(String countryName) {
-    gameService.placeArmy(countryName);
+	  gameService.placeArmy(countryName);
   }
 
   /**
-   * reinforce
+   * This method used for reinforcement.
    * 
    * @param countryName    country name
    * @param numberOfArmies number of armies
    */
   public void reinforce(String countryName, int numberOfArmies) {
-    gameService.reinforce(countryName, numberOfArmies);
+	  gameService.reinforce(countryName, numberOfArmies);
   }
 
   /**
-   * place all
+   * This method used for place all.
    * 
    */
   public void placeall() {
-    gameService.placeAll();
+	  gameService.placeAll();
   }
 
   /**
-   * fortify
+   * This method used for fortify.
    *
    * @param fromCountry    origin country
    * @param toCountry      destination country
    * @param numberOfArmies number of armies
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
-    gameService.fortify(fromCountry, toCountry, numberOfArmies);
+	  gameService.fortify(fromCountry, toCountry, numberOfArmies);
   }
 
+  /**
+   * This method used for exchanging the cards.
+   *
+   * @param num1 card 1
+   * @param num2 card 2
+   * @param num3 card 3
+   */
   public void exchangecards(String num1, String num2, String num3) {
-    gameService.exchangecards(num1, num2, num3);
+	  gameService.exchangecards(num1, num2, num3);
   }
 
-  // public void reinforceInitialization() {
-  // gameService.reinforceInitialization();
-  // }
-
+  /**
+   * This method used for attack.
+   *
+   * @param countryNameFrom		attacking country
+   * @param countyNameTo		defending country
+   * @param numDice				number of dices attacker want to use
+   */
   public void attack(String countryNameFrom, String countyNameTo, String numDice) {
-    gameService.attack(countryNameFrom, countyNameTo, numDice);
+	  gameService.attack(countryNameFrom, countyNameTo, numDice);
   }
 
+  /**
+   * This method used for defend.
+   * @param numDice number of dices defender use
+   */
   public void defend(String numDice) {
-    gameService.defend(numDice);
+	  gameService.defend(numDice);
   }
 
+  /**
+   * This method used for moving number of armies to the defeated country.
+   * @param num	number of dices defender use
+   */
   public void attackmove(String num) {
-    gameService.attackMove(num);
+	  gameService.attackMove(num);
   }
 }

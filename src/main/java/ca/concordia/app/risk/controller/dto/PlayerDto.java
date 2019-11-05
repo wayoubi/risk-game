@@ -23,32 +23,32 @@ import org.hibernate.validator.constraints.NotBlank;
 public class PlayerDto implements Dto {
 
 	/**
-	 * 
+	 * player id
 	 */
 	private int id;
 
 	/**
-	 * 
+	 * player name which should be at least 5 characters & can't be empty
 	 */
 	@NotBlank(message = "Name cannot be null or empty")
 	@Size(min = 5, message = "Name must be minumum 5 characters")
 	private String name;
 
 	/**
-	 * 
+	 * player color
 	 */
 	@NotBlank(message = "Color cannot be null or empty")
 	private String color;
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public PlayerDto() {
 		super();
 	}
 
 	/**
-	 * 
+	 * Constructor(name, color)
 	 * @param name  player name
 	 * @param color player color
 	 */
@@ -58,7 +58,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * Constructor(playerDTO)
 	 * @param playerDTO player DTO
 	 */
 	public PlayerDto(@NotNull final PlayerDto playerDTO) {
@@ -121,8 +121,8 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
 	 * {@inheritDoc}
+	 * @throws ValidationException exception
 	 */
 	@Override
 	public void validate() throws ValidationException {
@@ -135,7 +135,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @return result
 	 */
 	@Override
@@ -149,7 +149,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param obj check object is equals
 	 * @return true/false
 	 */
@@ -183,7 +183,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @return PlayerDto [id, name, color]
 	 */
 	@Override

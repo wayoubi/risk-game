@@ -12,8 +12,7 @@ import ca.concordia.app.risk.services.PlayService;
 public class PlayBusinessDelegate {
 
 	/**
-	 * attack
-	 * 
+	 * This method used for attack.
 	 * @param attacker attacker's name
 	 */
 	public void attack(String attacker) {

@@ -5,25 +5,24 @@ import java.awt.GridLayout;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import ca.concordia.app.risk.model.cache.Player;
 import ca.concordia.app.risk.model.cache.RunningGame;
-import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
-import ca.concordia.app.risk.model.xmlbeans.CardsModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
+/**
+ * Show card exchange view as panel
+ */
 public class CardExchangeView extends JPanel implements Observer {
 
 	/**
-	 * 
+	 * Creates card exchange view and sets styles
 	 */
 	public CardExchangeView() {	
 		Border border = BorderFactory.createTitledBorder("Cards View");
@@ -32,9 +31,16 @@ public class CardExchangeView extends JPanel implements Observer {
 		build();
 	}
 
-	/**
-	 *
-	 */
+    /**
+     * This method is called whenever the observed object is changed. 
+     * <br>An application calls an Observable object's
+     * <code>notifyObservers</code> method to have all the object's
+     * observers notified of the change.
+     *
+     * @param   observable     the observable object.
+     * @param   object   an argument passed to the <code>notifyObservers</code>
+     *                 method.
+     */
 	public void update(Observable observable, Object object) {
 		this.removeAll();
 		build();
@@ -42,7 +48,7 @@ public class CardExchangeView extends JPanel implements Observer {
 	}
 	
 	/**
-	 * build the view
+	 * Builds the view
 	 */
 	private void build() {
 		JTabbedPane tabbedPane = new JTabbedPane();
