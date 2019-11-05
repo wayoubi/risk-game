@@ -520,7 +520,6 @@ public class GameService {
       RunningGame.getInstance().moveToNextPlayer();
     }
     RunningGame.getInstance().reinforceInitialization();
-    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement");
     RunningGame.getInstance().getSubject().markAndNotify();
 
   }

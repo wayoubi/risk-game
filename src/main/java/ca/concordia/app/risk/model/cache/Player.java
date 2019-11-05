@@ -135,7 +135,7 @@ public class Player extends Observable {
       throw new RiskGameRuntimeException("You're not on Attack phase, please check the phase and come back");
     }
 
-    if (!RunningGame.getInstance().isAttackCompleted()) {
+    if (RunningGame.getInstance().isAttackCompleted()) {
       throw new RiskGameRuntimeException(
           "You've conquered a country in the previous attack. Please move armies to the country and then continue with your attack");
     }
@@ -387,9 +387,12 @@ public class Player extends Observable {
     CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),
         RunningGame.getInstance().getAttackCountryNameFrom());
 
+    if (countryModelAttackFrom.getNumberOfArmies() - 1 < Integer.parseInt(num)) {
+      throw new RiskGameRuntimeException("You don't have enough armies, please reduce the number of armies");
+    }
     // at least one army should be there or more depends on the number of dice
     // if (countryModelAttackFrom.getNumberOfArmies() - 1 < Integer.parseInt(num)) {
-    if (RunningGame.getInstance().getAttackerDice().length < Integer.parseInt(num)) {
+    if (RunningGame.getInstance().getAttackerDice().length > Integer.parseInt(num)) {
       throw new RiskGameRuntimeException(
           "You have to move atleast the number of armies equivalent to the dice you used to conquer! The number of dice was "
               + RunningGame.getInstance().getAttackerDice().length);

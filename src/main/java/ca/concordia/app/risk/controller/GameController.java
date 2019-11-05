@@ -309,6 +309,9 @@ public class GameController {
     }
 
     try {
+      if (Integer.parseInt(numberOfArmies) < 1) {
+        throw new RiskGameRuntimeException("The number of armies has to be atleast 1!!");
+      }
       if (fromCountry != null && !NONE_DEFAULT_VALUE.equalsIgnoreCase(fromCountry) && toCountry != null
           && !NONE_DEFAULT_VALUE.equalsIgnoreCase(toCountry) && numberOfArmies != null
           && !NONE_DEFAULT_VALUE.equalsIgnoreCase(numberOfArmies)) {
@@ -340,7 +343,12 @@ public class GameController {
       @ShellOption(value = { "-num3" }, defaultValue = NONE_DEFAULT_VALUE) String num3) {
 
     StringBuilder result = new StringBuilder();
+
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("inside exchangecards, passed parameters [%s] [%s] [%s]", num1, num2, num3));
+    }
     if ("-none".equalsIgnoreCase(num1)) {
+      RunningGame.getInstance().setCardExchangeCompleted(true);
       RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Attack");
       RunningGame.getInstance().getSubject().markAndNotify();
       return "No cards have been exchanged";
@@ -372,6 +380,12 @@ public class GameController {
       @ShellOption(value = { "-numdice" }, defaultValue = NONE_DEFAULT_VALUE) String numDice) {
 
     StringBuilder result = new StringBuilder();
+
+    if (log.isDebugEnabled()) {
+      log.debug(
+          String.format("inside attack, passed parameters [%s] [%s] [%s]", countryNameFrom, countyNameTo, numDice));
+    }
+
     if ("-noattack".equalsIgnoreCase(countryNameFrom)) {
       RunningGame.getInstance().setAttackCompleted(true);
       RunningGame.getInstance().setCardGiven(false);
@@ -425,6 +439,9 @@ public class GameController {
    */
   @ShellMethod("attackmove")
   public String attackmove(@ShellOption(value = { "-num" }, defaultValue = NONE_DEFAULT_VALUE) String num) {
+    if (Integer.parseInt(num) < 1) {
+      throw new RiskGameRuntimeException("The number of armies has to be atleast 1!!");
+    }
     try {
       gameBusinessDelegate.attackmove(num);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {

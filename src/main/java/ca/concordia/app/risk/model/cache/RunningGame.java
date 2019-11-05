@@ -583,6 +583,7 @@ public class RunningGame extends GameModel {
       }
     }
     if (activePlayerModel != null) {
+      activePlayerModel.setPlayingPhase("Reinforcement");
       activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
       this.setReinforceCompleted(false);
     }
