@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,8 +25,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.concordia.app.risk.RiskGameBeanConfig;
 import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.BorderDaoImp;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
+import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
+import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
+import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.test.helpers.RiskGameTestBeanConfig;
 import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
@@ -382,15 +388,13 @@ public class GameControllerTests {
 	@Test
 	public void testAttackWithoutDefender() {
 		log.info("Inside testAttackWithoutDefender");
-		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Asia", "1", "None");
 		mapController.editcontinent("Africa", "1", "None");
 
 		mapController.editcountry("Jordan", "Asia", "");
-		mapController.editcountry("India", "Asia", "");
 		mapController.editcountry("Monaco", "Africa", "");
 		
-		mapController.editneighbor("Jordan", "India", "None", "None");
-		mapController.editneighbor("Monaco", "India", "None", "None");
+		mapController.editneighbor("Jordan", "Monaco", "None", "None");
 
 		RunningGame.getInstance().setMapLoaded(true);
 
@@ -400,13 +404,25 @@ public class GameControllerTests {
 		gameController.populatecountries();
 		gameController.placeall();
 		
-		gameController.reinforce("India", 3);
-		gameController.reinforce("Monaco", 3);
+		PlayerModel player = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+		List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), player);
+		String countryDoAttackFrom = "";
+		for(CountryModel playerCountry: playerCountries) {
+			countryDoAttackFrom = playerCountry.getName();
+			gameController.reinforce(countryDoAttackFrom, 3);
+		}
+		
+		String countryToDefend = "";
+		if(countryDoAttackFrom.equals("Jordan")) {
+			countryToDefend = "Monaco";
+		}else {
+			countryToDefend = "Jordan";
+		}
 		
 		RunningGame.getInstance().setGamePlay(true);
 		
-		String result = gameController.attack("Monaco", "India", "2");
-		
+		String result = gameController.attack(countryDoAttackFrom, countryToDefend, "2");
 		assertEquals("Single Attack with specified number of dice initiated, waiting for defender dice", result);
 	}
 	
@@ -418,15 +434,13 @@ public class GameControllerTests {
 	@Test
 	public void testAttack() {
 		log.info("Inside testAttack");
-		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Asia", "1", "None");
 		mapController.editcontinent("Africa", "1", "None");
 
 		mapController.editcountry("Jordan", "Asia", "");
-		mapController.editcountry("India", "Asia", "");
 		mapController.editcountry("Monaco", "Africa", "");
 		
-		mapController.editneighbor("Jordan", "India", "None", "None");
-		mapController.editneighbor("Monaco", "India", "None", "None");
+		mapController.editneighbor("Jordan", "Monaco", "None", "None");
 
 		RunningGame.getInstance().setMapLoaded(true);
 
@@ -436,14 +450,27 @@ public class GameControllerTests {
 		gameController.populatecountries();
 		gameController.placeall();
 		
-		gameController.reinforce("India", 3);
-		gameController.reinforce("Monaco", 3);
+		PlayerModel player = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+		List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), player);
+		String countryDoAttackFrom = "";
+		for(CountryModel playerCountry: playerCountries) {
+			countryDoAttackFrom = playerCountry.getName();
+			gameController.reinforce(countryDoAttackFrom, 3);
+		}
+		
+		String countryToDefend = "";
+		if(countryDoAttackFrom.equals("Jordan")) {
+			countryToDefend = "Monaco";
+		}else {
+			countryToDefend = "Jordan";
+		}
 		
 		RunningGame.getInstance().setGamePlay(true);
 		
-		gameController.attack("Monaco", "India", "2");
-		
+		gameController.attack(countryDoAttackFrom, countryToDefend, "2");
 		String result = gameController.defend("1");
+		
 		assertEquals("Single Attack with specified dice completed", result);
 	}
 	
@@ -454,15 +481,13 @@ public class GameControllerTests {
 	@Test
 	public void testAttackAllOut() {
 		log.info("Inside testAttackAllOut");
-		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Asia", "1", "None");
 		mapController.editcontinent("Africa", "1", "None");
 
 		mapController.editcountry("Jordan", "Asia", "");
-		mapController.editcountry("India", "Asia", "");
 		mapController.editcountry("Monaco", "Africa", "");
 		
-		mapController.editneighbor("Jordan", "India", "None", "None");
-		mapController.editneighbor("Monaco", "India", "None", "None");
+		mapController.editneighbor("Jordan", "Monaco", "None", "None");
 
 		RunningGame.getInstance().setMapLoaded(true);
 
@@ -472,12 +497,25 @@ public class GameControllerTests {
 		gameController.populatecountries();
 		gameController.placeall();
 		
-		gameController.reinforce("India", 3);
-		gameController.reinforce("Monaco", 3);
+		PlayerModel player = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+		List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), player);
+		String countryDoAttackFrom = "";
+		for(CountryModel playerCountry: playerCountries) {
+			countryDoAttackFrom = playerCountry.getName();
+			gameController.reinforce(countryDoAttackFrom, 3);
+		}
+		
+		String countryToDefend = "";
+		if(countryDoAttackFrom.equals("Jordan")) {
+			countryToDefend = "Monaco";
+		}else {
+			countryToDefend = "Jordan";
+		}
 		
 		RunningGame.getInstance().setGamePlay(true);
 		
-		String result = gameController.attack("Monaco", "India", "-allout");
+		String result = gameController.attack(countryDoAttackFrom, countryToDefend, "-allout");
 		assertEquals("Attack in All-Out Mode Completed", result);
 	}
 	
@@ -488,15 +526,21 @@ public class GameControllerTests {
 	@Test
 	public void testInvalidBorderAttack() {
 		log.info("Inside testInvalidBorderAttack");
-		mapController.editcontinent("Asia", "2", "None");
-		mapController.editcontinent("Africa", "1", "None");
+		mapController.editcontinent("Asia", "3", "None");
+		mapController.editcontinent("Africa", "3", "None");
 
 		mapController.editcountry("Jordan", "Asia", "");
-		mapController.editcountry("India", "Asia", "");
+		mapController.editcountry("Iran", "Asia", "");
+		mapController.editcountry("Turkey", "Asia", "");
 		mapController.editcountry("Monaco", "Africa", "");
+		mapController.editcountry("Gine", "Africa", "");
+		mapController.editcountry("Morocco", "Africa", "");
 		
-		mapController.editneighbor("Jordan", "India", "None", "None");
-		mapController.editneighbor("Monaco", "Jordan", "None", "None");
+		mapController.editneighbor("Jordan", "Iran", "None", "None");
+		mapController.editneighbor("Iran", "Turkey", "None", "None");
+		mapController.editneighbor("Turkey", "Monaco", "None", "None");
+		mapController.editneighbor("Monaco", "Gine", "None", "None");
+		mapController.editneighbor("Gine", "Morocco", "None", "None");
 
 		RunningGame.getInstance().setMapLoaded(true);
 
@@ -506,13 +550,39 @@ public class GameControllerTests {
 		gameController.populatecountries();
 		gameController.placeall();
 		
-		gameController.reinforce("India", 3);
-		gameController.reinforce("Monaco", 3);
+		PlayerModel player = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+		List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), player);
+		String countryDoAttackFrom = "";
+		
+		//get Attackers countries
+		for(CountryModel playerCountry: playerCountries) {
+			countryDoAttackFrom = playerCountry.getName();
+			gameController.reinforce(countryDoAttackFrom, 3);
+		}
+		
+		List<CountryModel> allCountries = RunningGame.getInstance().getCountries().getList();
+		List<CountryModel> defenderCountries = new ArrayList<CountryModel>();
+		String countryDoAttackTo = "";
+		
+		//get Defenders countries
+		for(CountryModel country: allCountries) {
+		    BorderDaoImp borderDaoImpl = new BorderDaoImp();
+		    BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), countryDoAttackFrom);
+		    CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+		    CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryDoAttackFrom);
+		    //1- Countries don't have any borders (No neighborhood)
+		    //2- Country is not itself
+		    //3- Current player is not owned the country
+		    if((!borderModel.getNeighbours().contains(country.getId())) && 
+				(country.getId() != countryModel.getId()) &&
+				(player.getId() != country.getPlayerId())) {
+				countryDoAttackTo = country.getName();
+			}
+		}
 		
 		RunningGame.getInstance().setGamePlay(true);
-		
-		String result = gameController.attack("Monaco", "India", "3");
-		
+		String result = gameController.attack(countryDoAttackFrom, countryDoAttackTo, "3");
 		result = result.replace("[31m", "").replace("[0m", "");
 		
 		assertEquals("The from and to country do not share borders, please select some other country to attack", 
@@ -526,15 +596,13 @@ public class GameControllerTests {
 	@Test
 	public void testMoveArmiesBeforeAttackIsDone() {
 		log.info("Inside testMoveArmiesBeforeAttackIsDone");
-		mapController.editcontinent("Asia", "2", "None");
+		mapController.editcontinent("Asia", "1", "None");
 		mapController.editcontinent("Africa", "1", "None");
 
 		mapController.editcountry("Jordan", "Asia", "");
-		mapController.editcountry("India", "Asia", "");
 		mapController.editcountry("Monaco", "Africa", "");
 		
-		mapController.editneighbor("Jordan", "India", "None", "None");
-		mapController.editneighbor("Monaco", "Jordan", "None", "None");
+		mapController.editneighbor("Jordan", "Monaco", "None", "None");
 
 		RunningGame.getInstance().setMapLoaded(true);
 
@@ -544,12 +612,25 @@ public class GameControllerTests {
 		gameController.populatecountries();
 		gameController.placeall();
 		
-		gameController.reinforce("India", 3);
-		gameController.reinforce("Monaco", 3);
+		PlayerModel player = RunningGame.getInstance().getCurrentPlayer().getPlayerModel();
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+		List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), player);
+		String countryDoAttackFrom = "";
+		for(CountryModel playerCountry: playerCountries) {
+			countryDoAttackFrom = playerCountry.getName();
+			gameController.reinforce(countryDoAttackFrom, 3);
+		}
+		
+		String countryToDefend = "";
+		if(countryDoAttackFrom.equals("Jordan")) {
+			countryToDefend = "Monaco";
+		}else {
+			countryToDefend = "Jordan";
+		}
 		
 		RunningGame.getInstance().setGamePlay(true);
 		
-		gameController.attack("Monaco", "India", "3");
+		gameController.attack(countryDoAttackFrom, countryToDefend, "3");
 		
 		String result = gameController.attackmove("25");
 		result = result.replace("[31m", "").replace("[0m", "");
