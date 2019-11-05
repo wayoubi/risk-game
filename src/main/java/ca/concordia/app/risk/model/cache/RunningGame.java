@@ -118,10 +118,28 @@ public class RunningGame extends GameModel {
   /**
    *
    */
+  private boolean isCardGiven;
+
+  /**
+   *
+   */
+  private boolean isCardExchangeCompleted;
+
+  /**
+   *
+   */
   private boolean isAllOut;
 
   public int getNumDiceAttacker() {
     return numDiceAttacker;
+  }
+
+  public boolean isCardExchangeCompleted() {
+    return isCardExchangeCompleted;
+  }
+
+  public void setCardExchangeCompleted(boolean isCardExchangeCompleted) {
+    this.isCardExchangeCompleted = isCardExchangeCompleted;
   }
 
   public void setNumDiceAttacker(int numDiceAttacker) {
@@ -160,6 +178,22 @@ public class RunningGame extends GameModel {
    */
   public void setAttackCompleted(boolean attackCompleted) {
     isAttackCompleted = attackCompleted;
+  }
+
+  /**
+   *
+   * @return
+   */
+  public boolean isCardGiven() {
+    return isCardGiven;
+  }
+
+  /**
+   *
+   * @param cardGiven
+   */
+  public void setCardGiven(boolean cardGiven) {
+    isCardGiven = cardGiven;
   }
 
   /**
@@ -519,6 +553,10 @@ public class RunningGame extends GameModel {
 
     PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
 
+    this.setCardGiven(false);
+    this.setAllOut(false);
+    this.setAttackCompleted(false);
+
     int reinforcementArmies = 0;
     boolean fullContinentOccupy = false;
 
@@ -545,6 +583,7 @@ public class RunningGame extends GameModel {
       }
     }
     if (activePlayerModel != null) {
+      activePlayerModel.setPlayingPhase("Reinforcement");
       activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
       this.setReinforceCompleted(false);
     }
