@@ -361,8 +361,11 @@ public class GameController {
       } catch (RiskGameRuntimeException riskGameRuntimeException) {
         return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
       }
-      return "Attack with given values has been initialized";
-
+      if (numDice.equalsIgnoreCase("-allout")) {
+        return "Attack in All-Out Mode Completed";
+      } else {
+        return "Single Attack with specified number of dice initiated, waiting for defender dice";
+      }
     }
   }
 
@@ -374,7 +377,7 @@ public class GameController {
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
-    return "Attack phase has been completed";
+    return "Single Attack with specified dice completed";
 
   }
 

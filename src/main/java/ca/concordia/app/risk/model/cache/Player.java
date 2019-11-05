@@ -262,9 +262,11 @@ public class Player extends Observable {
         }
 
         if (attackerDice[1] > defenderDice[1]) {
-          countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() - 1);
+          if (countryModelAttackTo.getNumberOfArmies() > 0)
+            countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() - 1);
         } else {
-          countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - 1);
+          if (countryModelAttackFrom.getNumberOfArmies() > 0)
+            countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - 1);
         }
 
         break;
@@ -277,12 +279,18 @@ public class Player extends Observable {
         numDice = String.valueOf(countryModelAttackFrom.getNumberOfArmies());
       }
 
+      if (RunningGame.getInstance().isAllOut()
+          && countryModelAttackTo.getNumberOfArmies() < Integer.parseInt(numDice)) {
+        numDice = String.valueOf(countryModelAttackTo.getNumberOfArmies());
+      }
+
       // Check if defender won
       if (countryModelAttackFrom.getNumberOfArmies() == 0) {
         RunningGame.getInstance().setAttackerWin(false);
         RunningGame.getInstance().setDefenderWin(true);
         RunningGame.getInstance().setAttackCompleted(true);
         RunningGame.getInstance().setAllOut(false);
+        System.out.println("Attacker " + this.getPlayerModel().getName() + " loses");
 
         // Check if Attacker won
       } else if (countryModelAttackTo.getNumberOfArmies() == 0) {
@@ -290,6 +298,8 @@ public class Player extends Observable {
         RunningGame.getInstance().setDefenderWin(false);
         RunningGame.getInstance().setAttackCompleted(true);
         RunningGame.getInstance().setAllOut(false);
+        System.out.println(
+            "Attacker " + this.getPlayerModel().getName() + " has conquered country " + countryModelAttackTo.getName());
       }
 
       RunningGame.getInstance().getSubject().markAndNotify();
