@@ -352,6 +352,8 @@ public class GameController {
     StringBuilder result = new StringBuilder();
 
     if ("-noattack".equalsIgnoreCase(countryNameFrom)) {
+      RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortification");
+      RunningGame.getInstance().getSubject().markAndNotify();
       return "Ending the attack phase";
     } else if (numDice.equalsIgnoreCase("None")) {
       throw new RiskGameRuntimeException("You need to pass either the number of dice or run attack in -allout mode");

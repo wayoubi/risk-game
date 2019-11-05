@@ -348,8 +348,6 @@ public class Player extends Observable {
     // if (!RunningGame.getInstance().isAttackCompleted())
     // throw new RiskGameRuntimeException("Please complete the Attack phase first");
 
-    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortification");
-    RunningGame.getInstance().getSubject().markAndNotify();
 
     PlayerModel activePlayerModel = this.getPlayerModel();
 
