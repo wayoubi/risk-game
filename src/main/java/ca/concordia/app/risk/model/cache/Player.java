@@ -91,7 +91,10 @@ public class Player extends Observable {
 
   public void attack(String countryNameFrom, String countyNameTo, String numDice) {
 
-    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("attack");
+    if (!RunningGame.getInstance().isReinforceCompleted()) {
+      throw new RiskGameRuntimeException("Please complete the Reinforcement phase first");
+    }
+    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Attack");
     RunningGame.getInstance().getSubject().markAndNotify();
 
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
@@ -114,6 +117,10 @@ public class Player extends Observable {
           countyNameTo + " belongs to " + currentPlayer.getName() + " please choose another country");
     }
 
+    if (!borderModel.getNeighbours().contains(countryModelTo.getId())) {
+      throw new RiskGameRuntimeException(
+          "The from and to country do not share borders, please select some other country to attack");
+    }
     // check number of armies of attackTo
     if (countryModelTo.getNumberOfArmies() == 0) {
       throw new RiskGameRuntimeException("Number of armies in attackCountryTo is equal to zero");
@@ -121,11 +128,25 @@ public class Player extends Observable {
 
     // check max number of dice doesn't exceed 3 and not less than 1
     if (numDice.equalsIgnoreCase("-allout")) {
+      int maxDiceAttacker = 3;
+      if (countryModelFrom.getNumberOfArmies() < maxDiceAttacker)
+        maxDiceAttacker = countryModelFrom.getNumberOfArmies();
+      RunningGame.getInstance().setAttackCountryNameFrom(countryNameFrom);
+      RunningGame.getInstance().setAttackCountryNameTo(countyNameTo);
+      RunningGame.getInstance().setNumDiceAttacker(maxDiceAttacker);
+
+      int maxDiceDefender = 2;
+      if (maxDiceAttacker < maxDiceDefender)
+        maxDiceDefender = maxDiceAttacker;
+      if (countryModelTo.getNumberOfArmies() < maxDiceDefender)
+        maxDiceDefender = countryModelTo.getNumberOfArmies();
+
+      defend(String.valueOf(maxDiceDefender));
 
     } else {
 
       if (Integer.parseInt(numDice) > 3 || Integer.parseInt(numDice) < 1) {
-        throw new RiskGameRuntimeException("number of dice should be between 1 and 3");
+        throw new RiskGameRuntimeException("Number of dice should be between 1 and 3");
       }
 
       // check number of armies within the country
@@ -133,12 +154,13 @@ public class Player extends Observable {
         throw new RiskGameRuntimeException(
             "Number of dice should be less than the number of armies allocated within the country");
       }
+
+      // save countries in running game
+      RunningGame.getInstance().setAttackCountryNameFrom(countryNameFrom);
+      RunningGame.getInstance().setNumDiceAttacker(Integer.parseInt(numDice));
+      RunningGame.getInstance().setAttackCountryNameTo(countyNameTo);
     }
 
-    // save countries in running game
-    RunningGame.getInstance().setAttackCountryNameFrom(countryNameFrom);
-    RunningGame.getInstance().setNumDiceAttacker(3);
-    RunningGame.getInstance().setAttackCountryNameTo(countyNameTo);
   }
 
   public void defend(String numDice) {
@@ -159,17 +181,21 @@ public class Player extends Observable {
       Random random = new Random();
 
       int numDice1 = random.nextInt(5) + 1;
-      int numDice2 = random.nextInt(5) + 1;
+      int numDice2 = 0;
+      if (RunningGame.getInstance().getNumDiceAttacker() >= 2)
+        numDice2 = random.nextInt(5) + 1;
       int numDice3 = 0;
       if (RunningGame.getInstance().getNumDiceAttacker() == 3) {
         numDice3 = random.nextInt(5) + 1;
       }
 
       int[] attackerDice;
-      if (Integer.parseInt(numDice) == 3) {
+      if (RunningGame.getInstance().getNumDiceAttacker() == 3) {
         attackerDice = new int[] { numDice1, numDice2, numDice3 };
-      } else {
+      } else if (RunningGame.getInstance().getNumDiceAttacker() == 2) {
         attackerDice = new int[] { numDice1, numDice2 };
+      } else {
+        attackerDice = new int[] { numDice1 };
       }
 
       // save the dice in running game to compare later
@@ -207,9 +233,11 @@ public class Player extends Observable {
         defenderDice[j] = tmp;
       }
 
+      System.out.println("Attacker Dice Roll Results");
       for (int die : attackerDice)
         System.out.print(die + " ");
       System.out.println();
+      System.out.println("Defender Dice Roll Results");
       for (int die : defenderDice)
         System.out.print(die + " ");
       System.out.println();
@@ -243,14 +271,20 @@ public class Player extends Observable {
       default:
       }
 
-      // check if Defender win
+      if (RunningGame.getInstance().isAllOut()
+          && countryModelAttackFrom.getNumberOfArmies() < (RunningGame.getInstance().getNumDiceAttacker())) {
+        RunningGame.getInstance().setNumDiceAttacker(countryModelAttackFrom.getNumberOfArmies());
+        numDice = String.valueOf(countryModelAttackFrom.getNumberOfArmies());
+      }
+
+      // Check if defender won
       if (countryModelAttackFrom.getNumberOfArmies() == 0) {
         RunningGame.getInstance().setAttackerWin(false);
         RunningGame.getInstance().setDefenderWin(true);
         RunningGame.getInstance().setAttackCompleted(true);
         RunningGame.getInstance().setAllOut(false);
 
-        // check if Attacker win
+        // Check if Attacker won
       } else if (countryModelAttackTo.getNumberOfArmies() == 0) {
         RunningGame.getInstance().setAttackerWin(true);
         RunningGame.getInstance().setDefenderWin(false);
@@ -261,7 +295,7 @@ public class Player extends Observable {
       RunningGame.getInstance().getSubject().markAndNotify();
 
     } while (RunningGame.getInstance().isAllOut()
-        && countryModelAttackFrom.getNumberOfArmies() >= Integer.parseInt(numDice));
+        && countryModelAttackFrom.getNumberOfArmies() >= (RunningGame.getInstance().getNumDiceAttacker()));
   }
 
   public void attackMove(String num) {
@@ -290,6 +324,7 @@ public class Player extends Observable {
         RunningGame.getInstance().getAttackCountryNameTo());
     countryModelAttackFrom.setNumberOfArmies(countryModelAttackFrom.getNumberOfArmies() - Integer.parseInt(num));
     countryModelAttackTo.setNumberOfArmies(countryModelAttackTo.getNumberOfArmies() + Integer.parseInt(num));
+    countryModelAttackTo.setPlayerId(this.getPlayerModel().getId());
     RunningGame.getInstance().setAttackCompleted(false);
     RunningGame.getInstance().getSubject().markAndNotify();
   }
@@ -303,11 +338,11 @@ public class Player extends Observable {
    */
   public void fortify(String fromCountry, String toCountry, int numberOfArmies) {
 
+    // if (!RunningGame.getInstance().isAttackCompleted())
+    // throw new RiskGameRuntimeException("Please complete the Attack phase first");
+
     RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortification");
     RunningGame.getInstance().getSubject().markAndNotify();
-
-    if (!RunningGame.getInstance().isReinforceCompleted())
-      throw new RiskGameRuntimeException("Please reinforce first ");
 
     PlayerModel activePlayerModel = this.getPlayerModel();
 
@@ -409,7 +444,6 @@ public class Player extends Observable {
     }
   }
 
-
   /**
    *
    *
@@ -422,9 +456,9 @@ public class Player extends Observable {
   /**
    *
    */
-  public void giveCard(){
-      Random random = new Random();
-      int num = random.nextInt(3);
-      RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add(String.valueOf(cards.values()[num]));
+  public void giveCard() {
+    Random random = new Random();
+    int num = random.nextInt(3);
+    this.getPlayerModel().getCards().getList().add(String.valueOf(cards.values()[num]));
   }
 }
