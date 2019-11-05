@@ -40,8 +40,9 @@ public class Player extends Observable {
    */
   public void reinforce(CountryModel countryModel, int numberOfArmies) {
 
-    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement");
+    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Attack");
     RunningGame.getInstance().getSubject().markAndNotify();
+
     if (this.getPlayerModel().getReinforcementNoOfArmies() == 0) {
       throw new RiskGameRuntimeException("Reinforcement phase has been completed");
     }
@@ -59,8 +60,6 @@ public class Player extends Observable {
 
   public void exchangeCards(String[] cardsArray) {
 
-    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement - Exchange Cards");
-    RunningGame.getInstance().getSubject().markAndNotify();
 
     int reinforcementNoOfArmies = this.getPlayerModel().getReinforcementNoOfArmies();
     int cardExchangeCount = this.getPlayerModel().getCardExchangeCount();
@@ -94,8 +93,6 @@ public class Player extends Observable {
     if (!RunningGame.getInstance().isReinforceCompleted()) {
       throw new RiskGameRuntimeException("Please complete the Reinforcement phase first");
     }
-    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Attack");
-    RunningGame.getInstance().getSubject().markAndNotify();
 
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 
@@ -351,8 +348,6 @@ public class Player extends Observable {
     // if (!RunningGame.getInstance().isAttackCompleted())
     // throw new RiskGameRuntimeException("Please complete the Attack phase first");
 
-    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortification");
-    RunningGame.getInstance().getSubject().markAndNotify();
 
     PlayerModel activePlayerModel = this.getPlayerModel();
 

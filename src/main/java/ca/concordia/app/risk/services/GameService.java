@@ -511,7 +511,10 @@ public class GameService {
       RunningGame.getInstance().moveToNextPlayer();
     }
     RunningGame.getInstance().reinforceInitialization();
+    RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement");
     RunningGame.getInstance().getSubject().markAndNotify();
+
+
   }
 
   /**
@@ -598,9 +601,11 @@ public class GameService {
     } else {
       RunningGame.getInstance().setAllOut(false);
     }
-    if(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size()>=5)
-      throw new RiskGameRuntimeException("You have "+ RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size()+ " Please exhange your cards first");
-
+    if(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size()>=5) {
+      RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement - Exchange Cards");
+      RunningGame.getInstance().getSubject().markAndNotify();
+      throw new RiskGameRuntimeException("You have " + RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size() + " Please exhange your cards first");
+    }
     RunningGame.getInstance().getCurrentPlayer().attack(countryNameFrom, countyNameTo, numDice);
   }
 
