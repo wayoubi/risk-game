@@ -93,5 +93,6 @@ public class PlayersView extends JPanel implements Observer {
 		// adding it to JScrollPane
 		JScrollPane sp = new JScrollPane(jTable);
 		this.add(sp);
+		this.validate();
 	}
 }
