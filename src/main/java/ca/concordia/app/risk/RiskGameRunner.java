@@ -12,7 +12,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class RiskGameRunner {
 
 	/**
-	 * This is the entry point method to run the Spring application and the game
+	 * This is the entry point method to run the Spring application and the game.
 	 * 
 	 * @param args arguments
 	 */

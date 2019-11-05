@@ -12,15 +12,14 @@ import ca.concordia.app.risk.services.PresentationService;
  */
 public class ViewBusinessDelegate {
 
-	/**
-	 * 
+	/** 
 	 * Dependency injection from PresentationService
 	 */
 	@Autowired
 	PresentationService presentationService;
 
 	/**
-	 * show map details
+	 * This method used for showing map details.
 	 */
 	public void showmap() {
 		presentationService.showmap();

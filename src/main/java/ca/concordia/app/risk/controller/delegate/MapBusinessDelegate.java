@@ -16,15 +16,13 @@ import ca.concordia.app.risk.services.MapService;
 public class MapBusinessDelegate {
 
 	/**
-	 * 
 	 * Dependency injection from GameService
 	 */
 	@Autowired
 	private MapService mapService;
 
 	/**
-	 * add Continent
-	 * 
+	 * This method used for add a continent.
 	 * @param continentDto continent DTO
 	 */
 	public void addContinent(ContinentDto continentDto) {
@@ -33,8 +31,7 @@ public class MapBusinessDelegate {
 	}
 
 	/**
-	 * remove Continent
-	 * 
+	 * This method used for remove a continent.
 	 * @param continentDto continent DTO
 	 */
 	public void removeContinent(ContinentDto continentDto) {
@@ -42,8 +39,7 @@ public class MapBusinessDelegate {
 	}
 
 	/**
-	 * add Country
-	 * 
+	 * This method used for add a country.
 	 * @param countryDto country DTO
 	 */
 	public void addCountry(CountryDto countryDto) {
@@ -52,8 +48,7 @@ public class MapBusinessDelegate {
 	}
 
 	/**
-	 * remove Country
-	 * 
+	 * This method used for remove a country.
 	 * @param countryDto country DTO
 	 */
 	public void removeCountry(CountryDto countryDto) {
@@ -62,8 +57,7 @@ public class MapBusinessDelegate {
 	}
 
 	/**
-	 * add Neighbor
-	 * 
+	 * This method used for add a neighbor.
 	 * @param borderDto border Dto
 	 */
 	public void addNeighbor(BorderDto borderDto) {
@@ -71,8 +65,7 @@ public class MapBusinessDelegate {
 	}
 
 	/**
-	 * remove Neighbor
-	 * 
+	 * This method used for remove neighbor.
 	 * @param borderDto border Dto
 	 */
 	public void removeNeighbor(BorderDto borderDto) {

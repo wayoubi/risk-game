@@ -33,7 +33,7 @@ import ca.concordia.app.risk.utility.GameUtils;
 public class RiskGameBeanConfig {
 
 	/**
-	 * Creates PromptProvider bean
+	 * This method creates PromptProvider bean.
 	 * 
 	 * @return PromptProvider
 	 */
@@ -44,7 +44,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates ShellHelper bean
+	 * This method creates ShellHelper bean.
 	 * 
 	 * @param terminal terminal
 	 * @return ShellHelper
@@ -55,7 +55,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates InputReader bean
+	 * This method creates InputReader bean.
 	 * 
 	 * @param lineReader line reader
 	 * @return InputReader
@@ -66,7 +66,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates SimpleSpinner bean
+	 * This method creates SimpleSpinner bean.
 	 * 
 	 * @param terminal terminal
 	 * @return SimpleSpinner
@@ -77,7 +77,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates GameUtils bean
+	 * This method creates GameUtils bean.
 	 * 
 	 * @return GameUtils
 	 */
@@ -87,7 +87,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates GameBusinessDelegate bean
+	 * This method creates GameBusinessDelegate bean.
 	 * 
 	 * @return GameBusinessDelegate
 	 */
@@ -97,7 +97,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates PlayBusinessDelegate bean
+	 * This method creates PlayBusinessDelegate bean.
 	 * 
 	 * @return PlayBusinessDelegate
 	 */
@@ -107,7 +107,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates ViewBusinessDelegate bean
+	 * This method creates ViewBusinessDelegate bean.
 	 * 
 	 * @return ViewBusinessDelegate
 	 */
@@ -117,7 +117,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates PresentationService bean
+	 * This method creates PresentationService bean.
 	 * 
 	 * @return PresentationService
 	 */
@@ -127,7 +127,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates GameService bean
+	 * This method creates GameService bean.
 	 * 
 	 * @return GameService
 	 */
@@ -137,7 +137,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates MapBusinessDelegate bean
+	 * This method creates MapBusinessDelegate bean.
 	 * 
 	 * @return MapBusinessDelegate
 	 */
@@ -147,7 +147,7 @@ public class RiskGameBeanConfig {
 	}
 
 	/**
-	 * Creates MapService bean
+	 * This method creates MapService bean.
 	 * 
 	 * @return MapService
 	 */
@@ -157,8 +157,7 @@ public class RiskGameBeanConfig {
 	}
 	
 	/**
-	 * 
-	 * Creates TaskExecutor Bean
+	 * This method creates TaskExecutor Bean.
 	 * 
 	 * @return
 	 */
@@ -169,8 +168,7 @@ public class RiskGameBeanConfig {
 	}
 	
 	/**
-	 * 
-	 * Creates RiskGameDashboardBean Bean
+	 * This method creates RiskGameDashboardBean Bean.
 	 * 
 	 * @param taskExecutor
 	 * @return

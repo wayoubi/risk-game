@@ -13,14 +13,14 @@ public class BorderDto implements Dto {
 	private String neighborCountryName;
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public BorderDto() {
 		super();
 	}
 
 	/**
-	 * 
+	 * Constructor(countryName, neighborCountryName)
 	 * @param countryName         country name
 	 * @param neighborCountryName neighbor country name
 	 */
@@ -67,7 +67,7 @@ public class BorderDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @return result
 	 */
 	@Override
@@ -80,7 +80,7 @@ public class BorderDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param obj check object is equals
 	 * @return true/false
 	 */
@@ -115,7 +115,7 @@ public class BorderDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @return BorderDto [countryName, neighborCountryName]
 	 */
 	@Override
@@ -124,7 +124,7 @@ public class BorderDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void validate() throws ValidationException {

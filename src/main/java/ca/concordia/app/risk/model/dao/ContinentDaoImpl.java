@@ -22,7 +22,7 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	/**
 	 * This method finds a continent by name
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param name      name
 	 * @return continent object
@@ -35,7 +35,7 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	/**
 	 * This method finds a continent by id
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param id        id
 	 * @return continent object
@@ -47,7 +47,7 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	/**
 	 * This method assigns id to a continent
-	 *
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param t         continent model
 	 */
@@ -64,7 +64,7 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	/**
 	 * This method removes a list of continents
-	 * 
+	 * {@inheritDoc}
 	 * @param gameModel game model
 	 * @param t         continent model
 	 */
