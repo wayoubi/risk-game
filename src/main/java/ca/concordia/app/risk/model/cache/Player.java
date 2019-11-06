@@ -1,6 +1,7 @@
 package ca.concordia.app.risk.model.cache;
 
 import java.util.Arrays;
+
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
@@ -16,6 +17,13 @@ import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
+/**
+ * This class is used to represent the current Running game
+ * It has the implementation of all current player actions.
+ * 
+ * @author i857625
+ *
+ */
 public class Player extends Observable {
 
   /**
