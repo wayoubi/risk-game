@@ -225,6 +225,10 @@ public class Player extends Observable {
     if (Integer.parseInt(numDice) > 2 || Integer.parseInt(numDice) < 1) {
       throw new RiskGameRuntimeException("number of dice should be 1 or 2");
     }
+
+    if (RunningGame.getInstance().getNumDiceAttacker() == 0) {
+      throw new RiskGameRuntimeException("Attack has not been initialized yet!");
+    }
     // get Country Model of attackFrom and attackTo
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
     CountryModel countryModelAttackFrom = countryDaoImpl.findByName(RunningGame.getInstance(),
@@ -370,6 +374,8 @@ public class Player extends Observable {
 
     } while (RunningGame.getInstance().isAllOut()
         && countryModelAttackFrom.getNumberOfArmies() >= (RunningGame.getInstance().getNumDiceAttacker()));
+
+    RunningGame.getInstance().setNumDiceAttacker(0);
   }
 
   /**
