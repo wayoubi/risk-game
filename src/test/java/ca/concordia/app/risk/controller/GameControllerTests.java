@@ -421,6 +421,7 @@ public class GameControllerTests {
 		}
 		
 		RunningGame.getInstance().setGamePlay(true);
+		RunningGame.getInstance().setCardExchangeCompleted(true);
 		
 		String result = gameController.attack(countryDoAttackFrom, countryToDefend, "2");
 		assertEquals("Single Attack with specified number of dice initiated, waiting for defender dice", result);
@@ -467,7 +468,9 @@ public class GameControllerTests {
 		}
 		
 		RunningGame.getInstance().setGamePlay(true);
-		
+		RunningGame.getInstance().setCardExchangeCompleted(true);
+		//System.out.println("countryDoAttackFrom: "+countryDoAttackFrom);
+		//System.out.println("countryToDefend: "+countryToDefend);
 		gameController.attack(countryDoAttackFrom, countryToDefend, "2");
 		String result = gameController.defend("1");
 		
@@ -514,6 +517,7 @@ public class GameControllerTests {
 		}
 		
 		RunningGame.getInstance().setGamePlay(true);
+		RunningGame.getInstance().setCardExchangeCompleted(true);
 		
 		String result = gameController.attack(countryDoAttackFrom, countryToDefend, "-allout");
 		assertEquals("Attack in All-Out Mode Completed", result);
@@ -562,7 +566,6 @@ public class GameControllerTests {
 		}
 		
 		List<CountryModel> allCountries = RunningGame.getInstance().getCountries().getList();
-		List<CountryModel> defenderCountries = new ArrayList<CountryModel>();
 		String countryDoAttackTo = "";
 		
 		//get Defenders countries
@@ -580,8 +583,11 @@ public class GameControllerTests {
 				countryDoAttackTo = country.getName();
 			}
 		}
-		
+		//System.out.println("countryDoAttackFrom"+countryDoAttackFrom);
+		//System.out.println("countryDoAttackTo"+countryDoAttackTo);
 		RunningGame.getInstance().setGamePlay(true);
+		RunningGame.getInstance().setCardExchangeCompleted(true);
+		
 		String result = gameController.attack(countryDoAttackFrom, countryDoAttackTo, "3");
 		result = result.replace("[31m", "").replace("[0m", "");
 		
@@ -629,12 +635,13 @@ public class GameControllerTests {
 		}
 		
 		RunningGame.getInstance().setGamePlay(true);
+		RunningGame.getInstance().setCardExchangeCompleted(true);
 		
 		gameController.attack(countryDoAttackFrom, countryToDefend, "3");
 		
 		String result = gameController.attackmove("25");
 		result = result.replace("[31m", "").replace("[0m", "");
 		
-		assertEquals("Attack phase has not been completed yet", result);
+		assertEquals("You've not conquered any country to move the armies", result);
 	}
 }
