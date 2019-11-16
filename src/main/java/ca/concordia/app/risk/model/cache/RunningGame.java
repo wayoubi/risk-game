@@ -130,22 +130,41 @@ public class RunningGame extends GameModel {
    */
   private boolean isAllOut;
 
+  /**
+   * 
+   * @return
+   */
   public int getNumDiceAttacker() {
     return numDiceAttacker;
   }
 
+  /**
+   * 
+   * @return
+   */
   public boolean isCardExchangeCompleted() {
     return isCardExchangeCompleted;
   }
 
+  /**
+   * 
+   * @param isCardExchangeCompleted
+   */
   public void setCardExchangeCompleted(boolean isCardExchangeCompleted) {
     this.isCardExchangeCompleted = isCardExchangeCompleted;
   }
 
+  /**
+   * 
+   * @param numDiceAttacker
+   */
   public void setNumDiceAttacker(int numDiceAttacker) {
     this.numDiceAttacker = numDiceAttacker;
   }
 
+  /**
+   * 
+   */
   private int numDiceAttacker;
 
   /**

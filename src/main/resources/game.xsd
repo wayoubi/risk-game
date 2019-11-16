@@ -42,6 +42,17 @@
 					</xsd:restriction>
 				</xsd:simpleType>
 			</xsd:element>
+			<xsd:element name="strategy" minOccurs="1" maxOccurs="1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="HUMAN" />
+						<xsd:enumeration value="AGGRESSIVE" />
+						<xsd:enumeration value="BENEVOLENT" />
+						<xsd:enumeration value="RANDOM" />
+						<xsd:enumeration value="CHEATER" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
 			<xsd:element name="cards" type="riskgame:cards" minOccurs="1"
 				maxOccurs="1" />
 			<xsd:element name="playingPhase" type="xsd:string" minOccurs="1"

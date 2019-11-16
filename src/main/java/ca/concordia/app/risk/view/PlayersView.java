@@ -23,7 +23,7 @@ import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 public class PlayersView extends JPanel implements Observer {
 
 	private JTable jTable;
-	private final String[] COLUMN_NAMES = { "ID", "Player", "Percentage Controlled", "Continents", "Total Number of Armies" };
+	private final String[] COLUMN_NAMES = { "ID", "Player", "Strategy", "Percentage Controlled", "Continents", "Total Number of Armies" };
 
 	/**
 	 * Creates players view and sets styles
@@ -55,7 +55,7 @@ public class PlayersView extends JPanel implements Observer {
 	 */
 	private void build() {
 		List<PlayerModel> players = RunningGame.getInstance().getPlayers().getList();
-		String[][] data = new String[players.size()][5];
+		String[][] data = new String[players.size()][6];
 		int counter = 0;
 		
 		for(PlayerModel player: players) {
@@ -94,12 +94,14 @@ public class PlayersView extends JPanel implements Observer {
 
 			String playerId = Integer.toString(player.getId());
 			String playerName = player.getName();
+			String strategy = player.getStrategy();
 			String playerPercentageControl = ((playerCountryOwnsCount*100)/totalCountryNumbers) + "%";
 			data[counter][0] = playerId;
 			data[counter][1] = playerName;
-			data[counter][2] = playerPercentageControl;
-			data[counter][3] = playerContinents;
-			data[counter][4] = Integer.toString(playerTotalNoOfArmies);
+			data[counter][2] = strategy;
+			data[counter][3] = playerPercentageControl;
+			data[counter][4] = playerContinents;
+			data[counter][5] = Integer.toString(playerTotalNoOfArmies);
 			counter++;
 		
 		}

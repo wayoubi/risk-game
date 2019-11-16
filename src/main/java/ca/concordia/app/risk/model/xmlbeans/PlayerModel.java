@@ -35,6 +35,17 @@ import javax.xml.bind.annotation.XmlType;
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
+ *         &lt;element name="strategy">
+ *           &lt;simpleType>
+ *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *               &lt;enumeration value="HUMAN"/>
+ *               &lt;enumeration value="AGGRESSIVE"/>
+ *               &lt;enumeration value="BENEVOLENT"/>
+ *               &lt;enumeration value="RANDOM"/>
+ *               &lt;enumeration value="CHEATER"/>
+ *             &lt;/restriction>
+ *           &lt;/simpleType>
+ *         &lt;/element>
  *         &lt;element name="cards" type="{http://ca.concordia.app.risk/game}cards"/>
  *         &lt;element name="playingPhase" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
@@ -52,6 +63,7 @@ import javax.xml.bind.annotation.XmlType;
     "cardExchangeCount",
     "reinforcementNoOfArmies",
     "color",
+    "strategy",
     "cards",
     "playingPhase"
 })
@@ -67,6 +79,8 @@ public class PlayerModel {
     protected int reinforcementNoOfArmies;
     @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
     protected String color;
+    @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
+    protected String strategy;
     @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
     protected CardsModel cards;
     @XmlElement(namespace = "http://ca.concordia.app.risk/game", required = true)
@@ -166,6 +180,30 @@ public class PlayerModel {
      */
     public void setColor(String value) {
         this.color = value;
+    }
+
+    /**
+     * Gets the value of the strategy property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getStrategy() {
+        return strategy;
+    }
+
+    /**
+     * Sets the value of the strategy property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setStrategy(String value) {
+        this.strategy = value;
     }
 
     /**

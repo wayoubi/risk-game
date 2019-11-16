@@ -31,6 +31,12 @@ public class GameController {
    * Default Shell parameter value
    */
   private static final String NONE_DEFAULT_VALUE = "None";
+  
+  /**
+   * Default Player Strategy 
+   */
+  public static final String DEFAULT_PLAYER_STRATEGY = "HUMAN";
+  
 
   /**
    * shellHelper bean
@@ -125,7 +131,8 @@ public class GameController {
    */
   @ShellMethod("Add/Remove player")
   public String gameplayer(@ShellOption(value = { "-add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
-      @ShellOption(value = { "-remove" }, defaultValue = "None") String player2Remove) {
+		  @ShellOption(value = { "-strategy" }, defaultValue = DEFAULT_PLAYER_STRATEGY) String playerStrategy,
+		  @ShellOption(value = { "-remove" }, defaultValue = NONE_DEFAULT_VALUE) String player2Remove) {
 
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
@@ -134,6 +141,7 @@ public class GameController {
       if (player2Add != null && !"None".equalsIgnoreCase(player2Add)) {
         PlayerDto playerDto = new PlayerDto();
         playerDto.setName(player2Add);
+        playerDto.setStrategy(playerStrategy.toUpperCase());
         gameBusinessDelegate.addPlayer(playerDto);
       }
       if (player2Remove != null && !"None".equalsIgnoreCase(player2Remove)) {

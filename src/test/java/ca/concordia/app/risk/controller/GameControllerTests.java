@@ -268,8 +268,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael", "");
-    gameController.gameplayer("Pinkal", "");
+    gameController.gameplayer("Michael","", "");
+    gameController.gameplayer("Pinkal", "", "");
 
     gameController.populatecountries();
 
@@ -306,8 +306,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael", "");
-    gameController.gameplayer("Pinkal", "");
+    gameController.gameplayer("Michael","", "");
+    gameController.gameplayer("Pinkal","", "");
 
     gameController.populatecountries();
 
@@ -350,8 +350,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael", "");
-    gameController.gameplayer("Pinkal", "");
+    gameController.gameplayer("Michael","", "");
+    gameController.gameplayer("Pinkal", "","");
 
     gameController.populatecountries();
 
@@ -389,8 +389,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael", "");
-    gameController.gameplayer("Pinkal", "");
+    gameController.gameplayer("Michael","", "");
+    gameController.gameplayer("Pinkal","", "");
 
     gameController.populatecountries();
 
@@ -429,8 +429,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim", "");
-    gameController.gameplayer("Wasim", "");
+    gameController.gameplayer("Nasim","", "");
+    gameController.gameplayer("Wasim","", "");
 
     gameController.populatecountries();
     gameController.placeall();
@@ -479,8 +479,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim", "");
-    gameController.gameplayer("Wasim", "");
+    gameController.gameplayer("Nasim","", "");
+    gameController.gameplayer("Wasim","", "");
 
     gameController.populatecountries();
     gameController.placeall();
@@ -531,8 +531,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim", "");
-    gameController.gameplayer("Wasim", "");
+    gameController.gameplayer("Nasim","", "");
+    gameController.gameplayer("Wasim","", "");
 
     gameController.populatecountries();
     gameController.placeall();
@@ -589,8 +589,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim", "");
-    gameController.gameplayer("Wasim", "");
+    gameController.gameplayer("Nasim","", "");
+    gameController.gameplayer("Wasim","", "");
 
     gameController.populatecountries();
     gameController.placeall();
@@ -654,8 +654,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim", "");
-    gameController.gameplayer("Wasim", "");
+    gameController.gameplayer("Nasim","", "");
+    gameController.gameplayer("Wasim","", "");
 
     gameController.populatecountries();
     gameController.placeall();

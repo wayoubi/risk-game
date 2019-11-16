@@ -39,6 +39,13 @@ public class PlayerDto implements Dto {
 	 */
 	@NotBlank(message = "Color cannot be null or empty")
 	private String color;
+	
+	/**
+	 * 
+	 */
+	@NotBlank(message = "Strategy cannot be null or empty")
+	private String strategy;
+	
 
 	/**
 	 * Constructor
@@ -119,6 +126,22 @@ public class PlayerDto implements Dto {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getStrategy() {
+		return strategy;
+	}
+
+	/**
+	 * 
+	 * @param strategy
+	 */
+	public void setStrategy(String strategy) {
+		this.strategy = strategy;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -135,8 +158,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @return result
+	 * 
 	 */
 	@Override
 	public int hashCode() {
@@ -145,17 +167,15 @@ public class PlayerDto implements Dto {
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((strategy == null) ? 0 : strategy.hashCode());
 		return result;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @param obj check object is equals
-	 * @return true/false
+	 * 
 	 */
 	@Override
 	public boolean equals(Object obj) {
-
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -166,29 +186,30 @@ public class PlayerDto implements Dto {
 		if (color == null) {
 			if (other.color != null)
 				return false;
-		} else if (!color.equals(other.color)) {
+		} else if (!color.equals(other.color))
 			return false;
-		}
 		if (id != other.id)
 			return false;
 		if (name == null) {
-			if (other.name != null) {
+			if (other.name != null)
 				return false;
-			}
-		} else if (!name.equals(other.name)) {
+		} else if (!name.equals(other.name))
 			return false;
-		}
-
+		if (strategy == null) {
+			if (other.strategy != null)
+				return false;
+		} else if (!strategy.equals(other.strategy))
+			return false;
 		return true;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @return PlayerDto [id, name, color]
+	 * 
 	 */
 	@Override
 	public String toString() {
-		return "PlayerDto [id=" + id + ", name=" + name + ", color=" + color + "]";
+		return "PlayerDto [id=" + id + ", name=" + name + ", color=" + color + ", strategy=" + strategy + "]";
 	}
+	
 
 }
