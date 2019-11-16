@@ -43,17 +43,19 @@ public class BenevolentStrategy extends AbstractStrategy {
 
 		PlayerDaoImpl playerDaoImpl=new PlayerDaoImpl();
 
+		//get list of countries assigned to that player
 		List<CountryModel> assignedCountries = playerDaoImpl.getCountries(RunningGame.getInstance(),
 				RunningGame.getInstance().getCurrentPlayer().getPlayerModel());
 
-		CountryModel weakestCountry = getWeakestCountry(assignedCountries,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId());
+		// get the weakest country country to reinforce
+		CountryModel weakestCountry = getWeakestCountry(assignedCountries);
 
 		super.reinforce(weakestCountry, RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
 		attack(null,null,null);
 	}
 
 
-	private CountryModel getWeakestCountry(List<CountryModel> Countries, int currentPlayerId) {
+	private CountryModel getWeakestCountry(List<CountryModel> Countries) {
 
 		CountryDaoImpl countryDao = new CountryDaoImpl();
 		int minNoOfEnemies=0;

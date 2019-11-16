@@ -74,8 +74,7 @@ public class AggressiveStrategy extends AbstractStrategy {
 			} else {
 				attack = false;
 
-				// fortify
-
+				// fortify logic
 
 
 			}
