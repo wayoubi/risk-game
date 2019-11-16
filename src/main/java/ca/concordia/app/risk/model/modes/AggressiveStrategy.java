@@ -2,6 +2,7 @@ package ca.concordia.app.risk.model.modes;
 
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.dao.BorderDaoImp;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
@@ -38,61 +39,27 @@ public class AggressiveStrategy extends AbstractStrategy {
 
         // reinforce with maximum number of enemies
         super.reinforce(attackFrom,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
+
+		CountryModel attackTo = getWeakestNeighbourCountry(attackFrom);
+
+		attack(attackFrom,attackTo,"-allout");
     }
 
 
-    @Override
+
+	@Override
 	public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
 
 
-		PlayerDaoImpl playerDaoImpl	= new PlayerDaoImpl();
-
-		//get all countries
-		List<CountryModel> countryModels =playerDaoImpl.getCountries(RunningGame.getInstance(),
-				RunningGame.getInstance().getCurrentPlayer().getPlayerModel());
-
-		int maxNoOfArmies=0;
-
-		CountryModel attackFrom =null;
-
-		CountryModel attackTo=null;
-
-		BorderModel borderModel=null;
-
-		List<Integer> neighbours=null;
-
-		for(CountryModel country:countryModels){
-
-			int numOfArmies = country.getNumberOfArmies();
-			if(numOfArmies>maxNoOfArmies) {
-
-				//check at least one of neighbours countries is an enemy
-				neighbours = borderModel.getNeighbours();
-
-				int currentPlayerId=RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId();
-
-				// check if at least of the neighbours is enemy
-				if(isNeighbourEnemy(neighbours,currentPlayerId)){
-
-					attackFrom = country;
-					// get neighbour country with the min number of armies
-					attackTo = GetWeakestCountry(neighbours,currentPlayerId);
-				}
-			}
-		}
-
 		// check if attackFrom is not null
-		if (attackFrom == null) {
+		if (countryModelFrom == null) {
 			throw new RiskGameRuntimeException("No attackFrom is asigned, Attack is not possible");
 		}
 
 		// check if attackTo is not null
-		if (attackTo == null) {
+		if (countryModelTo == null) {
 			throw new RiskGameRuntimeException("No attackTo is asigned, Attack is not possible");
 		}
-
-		// reinforce with maximum number of enemies
-		super.reinforce(attackFrom,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
 
 		//attack
 		boolean attack=true;
@@ -100,14 +67,15 @@ public class AggressiveStrategy extends AbstractStrategy {
 		while(attack) {
 
 		    // get the Weakest Country
-			attackTo = GetWeakestCountry(neighbours,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId());
+			countryModelTo = getWeakestNeighbourCountry(countryModelFrom);
 
-			if (attackTo != null) {
-				super.attack(attackFrom, attackTo, "-allout");
+			if (countryModelTo != null) {
+				super.attack(countryModelFrom, countryModelTo, "-allout");
 			} else {
 				attack = false;
 
-				// Fortify logic comes here
+				// fortify
+
 
 
 			}
@@ -115,31 +83,6 @@ public class AggressiveStrategy extends AbstractStrategy {
 		}
 	}
 
-
-
-	private CountryModel GetWeakestCountry(List<Integer> neighbours,int currentPlayerId) {
-
-		CountryDaoImpl countryDao = new CountryDaoImpl();
-		int minNoOfEnemies=0;
-		int attackToId = -1;
-
-
-		for(int neighbour: neighbours){
-			// check if enemy
-			if(neighbour != currentPlayerId){
-				CountryModel countryModel=null;
-				countryModel = countryDao.findById(RunningGame.getInstance(),neighbour);
-
-				//set min number of enemies
-				if(countryModel.getNumberOfArmies()<minNoOfEnemies){
-					minNoOfEnemies=countryModel.getNumberOfArmies();
-					attackToId=neighbour;
-				}
-			}
-		}
-		return countryDao.findById(RunningGame.getInstance(),attackToId);
-
-	}
 
 	private boolean isNeighbourEnemy(List<Integer> neighbours, int currentPlayerId) {
 
@@ -162,7 +105,6 @@ public class AggressiveStrategy extends AbstractStrategy {
 
         CountryModel attackFrom =null;
 
-        BorderModel borderModel=null;
 
         List<Integer> neighbours=null;
 
@@ -172,19 +114,56 @@ public class AggressiveStrategy extends AbstractStrategy {
             if(numOfArmies>maxNoOfArmies) {
 
                 // check at least one of neighbours countries is an enemy 
-                
-                // check if this is the right syntax to get neighbours of "country"
+				BorderDaoImp borderDaoImpl = new BorderDaoImp();
+				BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), country.getName());
+
                 neighbours = borderModel.getNeighbours();
 
-                int currentPlayerId=RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId();
-
                 // check if at least of the neighbours is enemy
-                if(isNeighbourEnemy(neighbours,currentPlayerId)){
+                if(isNeighbourEnemy(neighbours,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId())){
                     attackFrom = country;
                 }
             }
         }
         return attackFrom;
     }
+
+
+	private CountryModel getWeakestNeighbourCountry(CountryModel attackFrom) {
+
+
+
+		// check at least one of neighbours countries is an enemy
+		BorderDaoImp borderDaoImpl = new BorderDaoImp();
+		BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), attackFrom.getName());
+
+		List<Integer> neighbours = borderModel.getNeighbours();
+
+		CountryDaoImpl countryDao = new CountryDaoImpl();
+
+		int minNoOfEnemies=-1;
+		CountryModel attackTo = null;
+
+
+		for(int neighbour: neighbours){
+			// check if enemy
+			if(neighbour != RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId()){
+
+				// get country model
+				CountryModel countryModel = null;
+				countryModel = countryDao.findById(RunningGame.getInstance(),neighbour);
+
+				//get country model of the lowest number of enemies
+				if(countryModel.getNumberOfArmies()<minNoOfEnemies || minNoOfEnemies==-1){
+					minNoOfEnemies=countryModel.getNumberOfArmies();
+					int attackToId = neighbour;
+					attackTo = countryDao.findById(RunningGame.getInstance(),attackToId);
+				}
+			}
+		}
+		return attackTo;
+
+	}
+
 
 }
