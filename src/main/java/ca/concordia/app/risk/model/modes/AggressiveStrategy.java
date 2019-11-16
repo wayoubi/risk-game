@@ -7,6 +7,7 @@ import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
+import org.junit.runners.Suite;
 
 import java.util.List;
 
@@ -41,14 +42,17 @@ public class AggressiveStrategy extends AbstractStrategy {
 
 		CountryModel attackTo=null;
 
+		BorderModel borderModel=null;
+
+		List<Integer> neighbours=null;
+
 		for(CountryModel country:countryModels){
 
 			int numOfArmies = country.getNumberOfArmies();
 			if(numOfArmies>maxNoOfArmies) {
 
 				//check at least one of neighbours countries is an enemy
-				BorderModel borderModel=null;
-				List<Integer> neighbours = borderModel.getNeighbours();
+				neighbours = borderModel.getNeighbours();
 
 				int currentPlayerId=RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId();
 
@@ -73,12 +77,22 @@ public class AggressiveStrategy extends AbstractStrategy {
 		}
 
 		// reinforce with maximum number of enemies
-		reinforce(attackFrom,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
+		super.reinforce(attackFrom,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
+		//attack
+		boolean attack=true;
+		while(attack) {
 
-		// attack
+			attackTo = GetWeakestCountry(neighbours,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId());
 
+			if (attackTo != null) {
+				super.attack(attackFrom, attackTo, "-allout");
+			} else {
+				attack = false;
+				throw new RiskGameRuntimeException("Attack is not possible anymore, All neighbours belongs to "+
+						RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getName());
+			}
 
-		super.attack(countryModelFrom, countryModelTo, numDice);
+		}
 	}
 
 	private CountryModel GetWeakestCountry(List<Integer> neighbours,int currentPlayerId) {
