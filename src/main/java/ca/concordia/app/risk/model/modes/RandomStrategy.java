@@ -27,6 +27,11 @@ public class RandomStrategy extends AbstractStrategy {
 	}
 
 	@Override
+	public void defend(String numDice) {
+		super.defend(numDice);
+	}
+
+	@Override
 	public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
 
 		// get list of countries assigned to that player
@@ -43,9 +48,10 @@ public class RandomStrategy extends AbstractStrategy {
 
 		// random number of times to attack a random country
 
-		int noOfAttack = random.nextInt(10);
+		int noOfAttack = random.nextInt(10)+1;
 
 		while(noOfAttack>0){
+			System.out.println("number of attack" +  noOfAttack);
 
 			if(attackFrom.getNumberOfArmies()>3) {
 				numDice = "3";
@@ -53,10 +59,24 @@ public class RandomStrategy extends AbstractStrategy {
 				numDice = "2";
 			}
 
+			String defenderNumDice;
+			if(attackTo.getNumberOfArmies()>3 && "3".equalsIgnoreCase(numDice)) {
+				defenderNumDice = "2";
+			} else {
+				defenderNumDice = "1";
+			}
+
 			super.attack(attackFrom, attackTo, numDice);
+			super.defend(defenderNumDice);
 			noOfAttack--;
 
 		}
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortify");
+		RunningGame.getInstance().getSubject().markAndNotify();
+
+
+		//fortify(null,null,0);
 
 	}
 
@@ -80,6 +100,7 @@ public class RandomStrategy extends AbstractStrategy {
 		CountryModel attackFrom = countryModels.get(i);
 
 		super.reinforce(attackFrom, RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
+
 	}
 
 	private CountryModel getRandomNeighbourCountry(CountryModel attackFrom) {

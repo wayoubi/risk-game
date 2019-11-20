@@ -19,10 +19,10 @@ editneighbor -add Italy Spain
 editneighbor -add Italy France
 savemap fffff.txt
 loadmap saved/fffff.txt
-gameplayer -add Wasim Benevolent
+gameplayer -add Wasim Random
 gameplayer -add Nasim Human
 gameplayer -add Pinkal Aggressive
-gameplayer -add Michael Random
+gameplayer -add Michael Benevolent
 populatecountries
 placeall
 
