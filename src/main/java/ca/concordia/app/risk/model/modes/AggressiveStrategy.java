@@ -8,6 +8,7 @@ import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.junit.runners.Suite;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class AggressiveStrategy extends AbstractStrategy {
 
 	    CountryModel attackFrom = getStrongestCountry();
 
+
         // check if attackFrom is not null
         if (attackFrom == null) {
             throw new RiskGameRuntimeException("attackFrom is null, reinforcement is not possible");
@@ -42,13 +44,18 @@ public class AggressiveStrategy extends AbstractStrategy {
 
 		CountryModel attackTo = getWeakestNeighbourCountry(attackFrom);
 
-		attack(attackFrom,attackTo,"-allout");
+//		System.out.println(attackFrom.getName() +" "+ attackTo.getName());
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Exchange Cards");
+		RunningGame.getInstance().getSubject().markAndNotify();
     }
 
 
 
 	@Override
 	public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
+
+		countryModelFrom = getStrongestCountry();
+		countryModelTo = getWeakestNeighbourCountry(countryModelFrom);
 
 
 		// check if attackFrom is not null
@@ -63,25 +70,36 @@ public class AggressiveStrategy extends AbstractStrategy {
 
 		//attack
 		boolean attack=true;
+		CountryModel previousCountryModelTo=null;
 
 		while(attack) {
-
 		    // get the Weakest Country
 			countryModelTo = getWeakestNeighbourCountry(countryModelFrom);
 
-			if (countryModelTo != null) {
+			if (!countryModelTo.equals(previousCountryModelTo)) {
+				previousCountryModelTo = countryModelTo;
+				System.out.println();
+				RunningGame.getInstance().setAllOut(true);
 				super.attack(countryModelFrom, countryModelTo, "-allout");
 			} else {
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Exchange Cards");
+				RunningGame.getInstance().getSubject().markAndNotify();
 				attack = false;
-
 				// fortify logic
-
-
 			}
 
 		}
 	}
 
+	@Override
+	public void defend(String numDice) {
+		super.defend(numDice);
+	}
+
+	@Override
+	public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies) {
+		super.fortify(countryModelFrom, countryModelTo, numberOfArmies);
+	}
 
 	private boolean isNeighbourEnemy(List<Integer> neighbours, int currentPlayerId) {
 

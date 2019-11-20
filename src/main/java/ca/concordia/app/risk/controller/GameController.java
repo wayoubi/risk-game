@@ -357,8 +357,14 @@ public class GameController {
     }
     if ("-none".equalsIgnoreCase(num1)) {
       RunningGame.getInstance().setCardExchangeCompleted(true);
+
       RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Attack");
       RunningGame.getInstance().getSubject().markAndNotify();
+
+      if(!"HUMAN".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())){
+        RunningGame.getInstance().getCurrentPlayer().getStrategy().attack(null,null,null);
+      }
+
       return "No cards have been exchanged";
     } else {
       try {

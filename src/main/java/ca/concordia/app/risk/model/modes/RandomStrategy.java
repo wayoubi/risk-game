@@ -82,7 +82,6 @@ public class RandomStrategy extends AbstractStrategy {
 		super.reinforce(attackFrom, RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
 	}
 
-
 	private CountryModel getRandomNeighbourCountry(CountryModel attackFrom) {
 
 		// check at least one of neighbours countries is an enemy

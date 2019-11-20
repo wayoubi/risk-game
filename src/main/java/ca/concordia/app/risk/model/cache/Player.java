@@ -241,6 +241,14 @@ public class Player extends Observable {
 		this.getPlayerModel().getCards().getList().remove(Integer.parseInt(cardsArray[0]) - 1);
 		RunningGame.getInstance().setCardExchangeCompleted(true);
 		RunningGame.getInstance().setReinforceCompleted(false);
+
+		if(!"HUMAN".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())){
+			System.out.println(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy());
+			RunningGame.getInstance().getCurrentPlayer().getStrategy().attack(null,null,null);
+		}
+
+
+
 	}
 
 	/**

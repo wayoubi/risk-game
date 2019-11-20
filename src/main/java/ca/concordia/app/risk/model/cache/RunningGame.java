@@ -605,6 +605,13 @@ public class RunningGame extends GameModel {
       activePlayerModel.setPlayingPhase("Reinforcement");
       activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
       this.setReinforceCompleted(false);
+
+      // if not human execute reinforce automatically
+
+      if(!"HUMAN".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())){
+        RunningGame.getInstance().getCurrentPlayer().getStrategy().reinforce(null,0);
+      }
+
     }
   }
 }
