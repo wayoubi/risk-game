@@ -523,8 +523,9 @@ public class GameService {
     if (RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId() != 1) {
       RunningGame.getInstance().moveToNextPlayer();
     }
-    RunningGame.getInstance().reinforceInitialization();
     RunningGame.getInstance().getSubject().markAndNotify();
+    RunningGame.getInstance().reinforceInitialization();
+
 
   }
 

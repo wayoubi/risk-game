@@ -26,6 +26,9 @@ public class BenevolentStrategy extends AbstractStrategy {
 	@Override
 	public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
 
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Attack");
+		RunningGame.getInstance().getSubject().markAndNotify();
+
 		System.out.println("Decided not to attack");
 
 		//fortify();
@@ -35,11 +38,19 @@ public class BenevolentStrategy extends AbstractStrategy {
 
 	@Override
 	public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies) {
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortify");
+		RunningGame.getInstance().getSubject().markAndNotify();
+
 		super.fortify(countryModelFrom, countryModelTo, numberOfArmies);
 	}
 
 	@Override
 	public void reinforce(CountryModel countryModel, int numberOfArmies) {
+
+		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforce");
+		RunningGame.getInstance().getSubject().markAndNotify();
+
 
 		PlayerDaoImpl playerDaoImpl=new PlayerDaoImpl();
 
@@ -50,10 +61,14 @@ public class BenevolentStrategy extends AbstractStrategy {
 		// get the weakest country country to reinforce
 		CountryModel weakestCountry = getWeakestCountry(assignedCountries);
 
-		super.reinforce(weakestCountry, RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
+		super.reinforce(weakestCountry,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
 		attack(null,null,null);
 	}
 
+	@Override
+	public void defend(String numDice) {
+		super.defend(numDice);
+	}
 
 	private CountryModel getWeakestCountry(List<CountryModel> Countries) {
 
@@ -61,11 +76,14 @@ public class BenevolentStrategy extends AbstractStrategy {
 		int minNoOfEnemies=0;
 		CountryModel weakestCountry = null;
 
+
 		for(CountryModel country: Countries){
 
+			//System.out.println(country.getNumberOfArmies() + " : " + minNoOfEnemies);
 			//set min number of enemies
-			if(country.getNumberOfArmies()<minNoOfEnemies){
+			if(country.getNumberOfArmies()<minNoOfEnemies || minNoOfEnemies==0){
 					minNoOfEnemies=country.getNumberOfArmies();
+					weakestCountry=country;
 				}
 			}
 
