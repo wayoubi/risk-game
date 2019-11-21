@@ -82,7 +82,7 @@ public class AggressiveStrategy extends AbstractStrategy {
 				RunningGame.getInstance().setAllOut(true);
 				super.attack(countryModelFrom, countryModelTo, "-allout");
 			} else {
-				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Exchange Cards");
+				RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortify");
 				RunningGame.getInstance().getSubject().markAndNotify();
 				attack = false;
 				// fortify logic
