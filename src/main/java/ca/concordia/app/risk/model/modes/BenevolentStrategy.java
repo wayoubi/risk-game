@@ -62,7 +62,7 @@ public class BenevolentStrategy extends AbstractStrategy {
 		CountryModel weakestCountry = getWeakestCountry(assignedCountries);
 
 		super.reinforce(weakestCountry,RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
-	//attack(null,null,null);
+		//attack(null,null,null);
 	}
 
 	@Override
