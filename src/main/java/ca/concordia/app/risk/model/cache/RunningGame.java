@@ -607,8 +607,9 @@ public class RunningGame extends GameModel {
       this.setReinforceCompleted(false);
 
       // if not human execute reinforce automatically
+      System.out.println(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy());
 
-      if(!"HUMAN".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())){
+      if(!"Human".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())){
         RunningGame.getInstance().getCurrentPlayer().getStrategy().reinforce(null,0);
       }
 
