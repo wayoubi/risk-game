@@ -314,8 +314,8 @@ public class PlayerControllerTest {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael","", "");
-    gameController.gameplayer("Pinkal","", "");
+    gameController.gameplayer("Michael","Human", "");
+    gameController.gameplayer("Pinkal","Aggressive", "");
 
 
     gameController.populatecountries();
@@ -351,8 +351,8 @@ public class PlayerControllerTest {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael","", "");
-    gameController.gameplayer("Pinkal","", "");
+    gameController.gameplayer("Michael","Human", "");
+    gameController.gameplayer("Pinkal","Human", "");
 
     gameController.populatecountries();
     //RunningGame.getInstance().setCurrentPlayerId(1);
