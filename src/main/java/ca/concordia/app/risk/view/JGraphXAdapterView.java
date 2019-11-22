@@ -105,13 +105,15 @@ public class JGraphXAdapterView extends JApplet {
 					if (countryModel.getPlayerId() > 0) {
 						PlayerModel player = playerDaoImpl.findById(RunningGame.getInstance(),
 								countryModel.getPlayerId());
-						String color = player.getColor();
-						component.getGraph().setCellStyle("fillColor=" + color.toLowerCase(), new Object[] { cell });
-
+						String color = setCustomizedColor(player.getColor().toLowerCase());
+						component.getGraph().setCellStyle("fillColor=" + color, new Object[]{ cell });
+						//component.getGraph().setCellStyle("fontColor=#FFFFFF", obj);
+						//component.getGraph().setCellStyles("fontColor", "#FFFFFF");
+						//component.refresh();
 						verticeLabel += String.format(" Player: %s", player.getName());
 					}
 				}
-
+				//cell.setStyle("fontColor=#FFFFFF");
 				cell.setValue(verticeLabel);
 			}
 		}
@@ -121,6 +123,39 @@ public class JGraphXAdapterView extends JApplet {
 
 	}
 
+	/**
+	 * This method customize color of the vertices
+	 *
+	 * @param color color of the player
+	 * @return customized color
+	 */
+	private String setCustomizedColor(String color) {
+		Color mycolor = Color.getColor("red");
+		switch(color) {
+			case "red":
+				mycolor = Color.pink;
+			break;
+			case "green":
+				mycolor = Color.cyan;
+			break;
+			case "blue":
+				mycolor = Color.orange;
+			break;
+			case "gray":
+				mycolor = Color.gray;
+			break;
+			case "yellow":
+				mycolor = Color.yellow;
+			break;
+			default:
+				mycolor = Color.LIGHT_GRAY;
+			break;
+		}
+		String result = "#" + Integer.toHexString(mycolor.getRGB() & 0xffffff);
+		
+		return result;
+	}
+	
 	/**
 	 * This method adds some style to the graph
 	 *
@@ -139,7 +174,8 @@ public class JGraphXAdapterView extends JApplet {
 		styleSheet.getDefaultEdgeStyle().put(mxConstants.STYLE_STARTARROW, mxConstants.NONE);
 		styleSheet.getDefaultEdgeStyle().put(mxConstants.STYLE_NOLABEL, "1");
 		styleSheet.getDefaultEdgeStyle().put(mxConstants.STYLE_DASHED, "1");
-
+		styleSheet.getDefaultEdgeStyle().put(mxConstants.STYLE_SWIMLANE_FILLCOLOR, Color.white);
+		
 		return styleSheet;
 	}
 
