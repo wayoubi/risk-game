@@ -27,6 +27,7 @@ public class StrategyFactory {
 		} else if ("CHEATER".equals(criteria)) {
 			return new CheaterStrategy(playerModel);
 		}
+		
 		return null;
 	}
 }

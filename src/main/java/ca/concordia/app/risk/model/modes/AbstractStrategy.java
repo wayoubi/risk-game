@@ -24,7 +24,6 @@ public abstract class AbstractStrategy implements Strategy {
 	/**
 	 * Type of cards
 	 */
-
 	enum cards {
 		Infantry, Cavalry, Artillery
 	}
@@ -43,7 +42,9 @@ public abstract class AbstractStrategy implements Strategy {
 	}
 
 	/**
-	 * 
+	 * @param countryModelFrom attacking country model
+	 * @param countryModelTo defender country model
+	 * @param numDice number of dice
 	 */
 	@Override
 	public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
@@ -84,6 +85,7 @@ public abstract class AbstractStrategy implements Strategy {
 
 	/**
 	 * 
+	 * @param numDice number of dice
 	 */
 	@Override
 	public void defend(String numDice) {
@@ -101,6 +103,7 @@ public abstract class AbstractStrategy implements Strategy {
 			if (RunningGame.getInstance().getNumDiceAttacker() >= 2) {
 				numDice2 = random.nextInt(5) + 1;
 			}
+			
 			int numDice3 = 0;
 			if (RunningGame.getInstance().getNumDiceAttacker() == 3) {
 				numDice3 = random.nextInt(5) + 1;
@@ -236,7 +239,9 @@ public abstract class AbstractStrategy implements Strategy {
 	}
 
 	/**
-	 * 
+	 * @param countryModelFrom the country fortify from model
+	 * @param countryModelTo the country fortify to model
+	 * @param numberOfArmies number of armies to fortify
 	 */
 	@Override
 	public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies) {
@@ -305,6 +310,8 @@ public abstract class AbstractStrategy implements Strategy {
 
 	/**
 	 * 
+	 * @param countryModel country model
+	 * @param numberOfArmies number of armies to reinforce
 	 */
 	@Override
 	public void reinforce(CountryModel countryModel, int numberOfArmies) {
@@ -339,7 +346,7 @@ public abstract class AbstractStrategy implements Strategy {
 
 	/**
 	 * 
-	 * @param playerModel
+	 * @param playerModel player model
 	 */
 	public void setPlayerModel(PlayerModel playerModel) {
 		this.playerModel = playerModel;

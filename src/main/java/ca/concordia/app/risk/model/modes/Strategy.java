@@ -11,29 +11,29 @@ public interface Strategy {
 	
 	/**
 	 * 
-	 * @param countryModel
-	 * @param numberOfArmies
+	 * @param countryModel country model
+	 * @param numberOfArmies number of armies
 	 */
 	public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice);
 	
 	/**
 	 * 
-	 * @param numDice
+	 * @param numDice number of dice
 	 */
 	public void defend(String numDice);
 	
 	/**
 	 * 
-	 * @param fromCountry
-	 * @param toCountry
-	 * @param numberOfArmies
+	 * @param fromCountry the country fortify from
+	 * @param toCountry destination country
+	 * @param numberOfArmies number of armies
 	 */
 	public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies);
 	
 	/**
 	 * 
-	 * @param countryModel
-	 * @param numberOfArmies
+	 * @param countryModel country model
+	 * @param numberOfArmies number of armies
 	 */
 	public void reinforce(CountryModel countryModel, int numberOfArmies);
 	

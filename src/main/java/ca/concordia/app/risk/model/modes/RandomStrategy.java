@@ -71,12 +71,9 @@ public class RandomStrategy extends AbstractStrategy {
 			super.attack(attackFrom, attackTo, numDice);
 			super.defend(defenderNumDice);
 			noOfAttack--;
-
 		}
 
-
 		fortify(null,null,0);
-
 	}
 
 	@Override
@@ -90,7 +87,6 @@ public class RandomStrategy extends AbstractStrategy {
 				RunningGame.getInstance().getCurrentPlayer().getPlayerModel());
 
 		Random random = new Random();
-
 		int attempt=100;
 
 		while (countryModelTo == null && attempt>0) {
@@ -121,11 +117,9 @@ public class RandomStrategy extends AbstractStrategy {
 		// get a random country
 		Random random = new Random();
 		int i = random.nextInt(countryModels.size());
-
 		CountryModel attackFrom = countryModels.get(i);
 
 		super.reinforce(attackFrom, RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies());
-
 	}
 
 	private CountryModel getRandomNeighbourCountry(CountryModel fortifyFrom){
@@ -135,11 +129,8 @@ public class RandomStrategy extends AbstractStrategy {
 		BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), fortifyFrom.getName());
 
 		List<Integer> allNeighbours = borderModel.getNeighbours();
-
 		CountryDaoImpl countryDao = new CountryDaoImpl();
-
 		CountryModel fortifyTo = null;
-
 		List<Integer> alliedNeighbours = new ArrayList<>();
 
 		for(int i =0; i<allNeighbours.size();i++){
@@ -151,7 +142,6 @@ public class RandomStrategy extends AbstractStrategy {
 		}
 
 		// get random neighbours
-
 		Random random = new Random();
 		if(alliedNeighbours.size()>0) {
 			int index = random.nextInt(alliedNeighbours.size() - 1);
@@ -159,8 +149,6 @@ public class RandomStrategy extends AbstractStrategy {
 		}
 
 		return fortifyTo;
-
-
 	}
 
 	private CountryModel getRandomEnemyNeighbourCountry(CountryModel attackFrom) {
@@ -177,7 +165,7 @@ public class RandomStrategy extends AbstractStrategy {
 
 		List<Integer> enemyNeighbours = new ArrayList<>();
 
-		for(int i =0; i<allNeighbours.size();i++){
+		for(int i = 0; i<allNeighbours.size(); i++){
 			// check if not an enemy
 			//System.out.println("hi"+neighbours.get(i));
 			if(allNeighbours.get(i) != RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId()){
@@ -186,7 +174,6 @@ public class RandomStrategy extends AbstractStrategy {
 		}
 
 		// get random neighbours
-
 		Random random = new Random();
 		if(enemyNeighbours.size()>0) {
 			int index = random.nextInt(enemyNeighbours.size());
@@ -194,6 +181,5 @@ public class RandomStrategy extends AbstractStrategy {
 		}
 
 		return attackTo;
-
 	}
 }

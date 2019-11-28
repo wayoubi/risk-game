@@ -38,7 +38,6 @@ public class BenevolentStrategy extends AbstractStrategy {
 
 	@Override
 	public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies) {
-
 		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortify");
 		RunningGame.getInstance().getSubject().markAndNotify();
 
@@ -50,8 +49,6 @@ public class BenevolentStrategy extends AbstractStrategy {
 
 		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforce");
 		RunningGame.getInstance().getSubject().markAndNotify();
-
-
 		PlayerDaoImpl playerDaoImpl=new PlayerDaoImpl();
 
 		//get list of countries assigned to that player
@@ -78,7 +75,6 @@ public class BenevolentStrategy extends AbstractStrategy {
 
 
 		for(CountryModel country: Countries){
-
 			//System.out.println(country.getNumberOfArmies() + " : " + minNoOfEnemies);
 			//set min number of enemies
 			if(country.getNumberOfArmies()<minNoOfEnemies || minNoOfEnemies==0){
@@ -88,7 +84,6 @@ public class BenevolentStrategy extends AbstractStrategy {
 			}
 
 		return weakestCountry;
-
 	}
 
 }
