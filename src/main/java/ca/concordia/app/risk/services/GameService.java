@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -31,7 +30,9 @@ import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
-import ca.concordia.app.risk.model.xmlbeans.BorderModel;
+import ca.concordia.app.risk.model.maps.ConquestMapWritingAdaptor;
+import ca.concordia.app.risk.model.maps.DefaultMapWriter;
+import ca.concordia.app.risk.model.maps.MapWriter;
 import ca.concordia.app.risk.model.xmlbeans.CardsModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
@@ -83,6 +84,7 @@ public class GameService {
     RunningGameBuilder runningGameBuilder = new RunningGameBuilder();
     GamePersistanceManager gamePersistanceManager = new GamePersistanceManager(runningGameBuilder);
     gamePersistanceManager.loadGame();
+    RunningGame.getInstance().getSubject().markAndNotify();
   }
 
   /**
@@ -90,7 +92,7 @@ public class GameService {
    * 
    * @param fileName file name
    */
-  public void saveMap(String fileName) {
+  public void saveMap(String fileName, String format) {
     if (!this.validateMap("All")) {
       throw new RiskGameRuntimeException("Map cannot be saved, map in invalid");
     }
@@ -99,27 +101,18 @@ public class GameService {
 
       // add continents
       printWriter.printf("[continents]%s", System.lineSeparator());
-      Comparator<ContinentModel> continentModelComparator = Comparator.comparing(ContinentModel::getId);
-      RunningGame.getInstance().getContinents().getList().stream().sorted(continentModelComparator)
-          .forEach(continent -> printWriter.printf("%s %s%s", continent.getName(), continent.getNumberOfCountries(),
-              System.lineSeparator()));
-      printWriter.print(System.lineSeparator());
-
-      // add countries
-      Comparator<CountryModel> countryModelComparator = Comparator.comparing(CountryModel::getId);
-      printWriter.printf("[countries]%s", System.lineSeparator());
-      RunningGame.getInstance().getCountries().getList().stream().sorted(countryModelComparator)
-          .forEach(country -> printWriter.printf("%s %s %s %s %s", country.getId(), country.getName(),
-              country.getContinentId(), country.getNumberOfArmies(), System.lineSeparator()));
-      printWriter.print(System.lineSeparator());
-
-      // add borders
-      printWriter.printf("[borders]%s", System.lineSeparator());
-      Comparator<BorderModel> comparator = Comparator.comparing(BorderModel::getCountryId);
-      RunningGame.getInstance().getBorders().getList().stream().sorted(comparator)
-          .forEach(border -> printWriter.printf("%s %s %s", border.getCountryId(),
-              border.getNeighbours().stream().map(String::valueOf).collect(Collectors.joining(" ")),
-              System.lineSeparator()));
+      MapWriter mapWriter = null;
+      if ("DOMINATION".equalsIgnoreCase(format)) {
+        mapWriter = new DefaultMapWriter(printWriter);
+      } else if ("CONQUEST".equalsIgnoreCase(format)) {
+        mapWriter = new ConquestMapWritingAdaptor(printWriter);
+      } else {
+        throw new RiskGameRuntimeException("Invalid map format");
+      }
+      mapWriter.writeHeader();
+      mapWriter.writeContinents();
+      mapWriter.writeCountries();
+      mapWriter.writeBorders();
     } catch (IOException ioException) {
       throw new RiskGameRuntimeException("Game file cannot be saved", ioException);
     }

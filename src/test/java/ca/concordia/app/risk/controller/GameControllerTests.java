@@ -102,7 +102,7 @@ public class GameControllerTests {
     mapController.editneighbor("Morocco", "France", "None", "None");
     mapController.editneighbor("France", "Italy", "None", "None");
 
-    gameController.savemap("connectedmap.txt");
+    gameController.savemap("connectedmap.txt", "");
     File file = new File("saved/connectedmap.txt");
     assertTrue(file.exists());
 
@@ -135,7 +135,7 @@ public class GameControllerTests {
     mapController.editneighbor("Egypt", "Morocco", "None", "None");
     mapController.editneighbor("France", "Italy", "None", "None");
 
-    gameController.savemap("disconnectedmap.txt");
+    gameController.savemap("disconnectedmap.txt", "");
     File file = new File("saved/disconnectedmap.txt");
     assertFalse(file.exists());
   }

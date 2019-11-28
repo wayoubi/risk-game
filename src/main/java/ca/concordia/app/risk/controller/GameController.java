@@ -38,6 +38,11 @@ public class GameController {
   public static final String DEFAULT_PLAYER_STRATEGY = "HUMAN";
 
   /**
+   * Default Map File Format
+   */
+  public static final String DEFAULT_FILE_FORMAT = "DOMINATION";
+
+  /**
    * shellHelper bean
    */
   @Autowired
@@ -67,7 +72,7 @@ public class GameController {
     }
     return shellHelper.getSuccessMessage("Game saved successfully");
   }
-  
+
   /**
    * This method saves current game state. Command: save
    *
@@ -95,13 +100,14 @@ public class GameController {
    * @return operation result (error/success)
    */
   @ShellMethod("Save the current gamemap using domination map file format under the saved directory")
-  public String savemap(@ShellOption(value = { "-file" }) String fileName) {
+  public String savemap(@ShellOption(value = { "-file" }) String fileName,
+      @ShellOption(value = { "-format" }, defaultValue = DEFAULT_FILE_FORMAT) String format) {
 
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
     }
     try {
-      gameBusinessDelegate.saveMap(fileName);
+      gameBusinessDelegate.saveMap(fileName, format);
     } catch (RiskGameRuntimeException riskGameRuntimeException) {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }

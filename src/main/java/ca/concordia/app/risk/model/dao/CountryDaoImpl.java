@@ -1,5 +1,6 @@
 package ca.concordia.app.risk.model.dao;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
@@ -77,8 +80,17 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	 * @param gameModel game model
 	 * @return list of countries
 	 */
-	public List<CountryModel> getCountries(@NotNull GameModel gameModel) {
-		return gameModel.getCountries().getList().stream().collect(Collectors.toList());
+	public List<CountryModel> getNeighboursOf(CountryModel countryModel, @NotNull GameModel gameModel) {
+		//return gameModel.getCountries().getList().stream().collect(Collectors.toList());
+		BorderDaoImp borderDaoImp = new BorderDaoImp();
+		BorderModel borderModel = borderDaoImp.findById(gameModel, countryModel.getId());
+		List<Integer> neighbours = borderModel.getNeighbours();
+		List<CountryModel> neighboursModels = new ArrayList<CountryModel>();
+		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+		for(Integer id : neighbours) {
+			neighboursModels.add(countryDaoImpl.findById(RunningGame.getInstance(), id));
+		}
+		return neighboursModels;
 	}
 
 }

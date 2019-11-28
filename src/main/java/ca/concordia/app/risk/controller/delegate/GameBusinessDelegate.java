@@ -26,12 +26,12 @@ public class GameBusinessDelegate {
   public void saveGame() {
     gameService.saveGame();
   }
-  
+
   /**
    * This method used for loading the saved Game.
    */
   public void loadGame() {
-	  gameService.loadGame();
+    gameService.loadGame();
   }
 
   /**
@@ -39,8 +39,8 @@ public class GameBusinessDelegate {
    * 
    * @param fileName file name
    */
-  public void saveMap(String fileName) {
-    gameService.saveMap(fileName);
+  public void saveMap(String fileName, String format) {
+    gameService.saveMap(fileName, format);
   }
 
   /**
