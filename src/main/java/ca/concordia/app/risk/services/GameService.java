@@ -7,18 +7,32 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import ca.concordia.app.risk.model.xmlbeans.*;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.io.ComponentNameProvider;
+import org.jgrapht.io.DOTExporter;
+import org.jgrapht.io.DOTImporter;
+import org.jgrapht.io.ExportException;
+import org.jgrapht.io.GraphExporter;
+import org.jgrapht.io.GraphImporter;
+import org.jgrapht.io.ImportException;
+import org.jgrapht.io.StringComponentNameProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,7 +43,9 @@ import ca.concordia.app.risk.controller.dto.ContinentDto;
 import ca.concordia.app.risk.controller.dto.CountryDto;
 import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
+import ca.concordia.app.risk.model.cache.Player;
 import ca.concordia.app.risk.model.cache.RunningGame;
+import ca.concordia.app.risk.model.cache.RunningGameSubject;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
@@ -46,6 +62,7 @@ import ca.concordia.app.risk.utility.DateUtils;
 public class GameService {
 
   private static final String GAME_CANNOT_BE_SAVED = "Game caanot be saved!";
+  private static final String GAME_CANNOT_BE_LOADED = "Game caanot be loaded!";
 
   /**
    * Dependency injection from MapService
@@ -78,6 +95,16 @@ public class GameService {
       throw new RiskGameRuntimeException(GAME_CANNOT_BE_SAVED, configurationException);
     }
     try {
+      Writer writer = new StringWriter();
+      GraphExporter<String, DefaultEdge> exporter = new DOTExporter<>(new StringComponentNameProvider<String>(),
+          new StringComponentNameProvider<String>(), null);
+      exporter.exportGraph(RunningGame.getInstance().getGraph(), writer);
+      String serilaizedGraph = StringEscapeUtils.escapeXml11(writer.toString());
+      RunningGame.getInstance().setSerilaizedGraph(serilaizedGraph);
+    } catch (ExportException exportException) {
+      throw new RiskGameRuntimeException(GAME_CANNOT_BE_SAVED, exportException);
+    }
+    try {
       File file = new File("saved/game.xml");
       JAXBContext jaxbContext = JAXBContext.newInstance(GameModel.class);
       Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -86,6 +113,39 @@ public class GameService {
     } catch (JAXBException jaxbException) {
       throw new RiskGameRuntimeException(GAME_CANNOT_BE_SAVED, jaxbException);
     }
+  }
+
+  /**
+   * This method saves the game
+   */
+  public void loadGame() {
+    GameModel gameModel = null;
+    try {
+      File file = new File("saved/game.xml");
+      JAXBContext jaxbContext = JAXBContext.newInstance(GameModel.class);
+      Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+      gameModel = (GameModel) jaxbUnmarshaller.unmarshal(file);
+    } catch (JAXBException jaxbException) {
+      jaxbException.printStackTrace();
+      throw new RiskGameRuntimeException(GAME_CANNOT_BE_LOADED, jaxbException);
+    }
+    RunningGameSubject subject = RunningGame.getInstance().getSubject();
+    RunningGame.reset();
+    BeanUtils.copyProperties(gameModel, RunningGame.getInstance());
+    RunningGame.getInstance().setSubject(subject);
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+    RunningGame.getInstance().setCurrentPlayer(
+        new Player(playerDaoImpl.findById(RunningGame.getInstance(), RunningGame.getInstance().getSavedPlayerId())));
+    GraphImporter<String, DefaultEdge> importer = new DOTImporter<>((label, attributes) -> label,
+        (from, to, label, attributes) -> new DefaultEdge());
+    try {
+      String unserilaizedGraph = StringEscapeUtils.unescapeXml(RunningGame.getInstance().getSerilaizedGraph());
+      importer.importGraph(RunningGame.getInstance().getGraph(), new StringReader(unserilaizedGraph));
+    } catch (ImportException importException) {
+      importException.printStackTrace();
+      throw new RiskGameRuntimeException(GAME_CANNOT_BE_LOADED, importException);
+    }
+    RunningGame.getInstance().getSubject().markAndNotify();
   }
 
   /**

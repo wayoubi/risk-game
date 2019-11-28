@@ -55,10 +55,10 @@ public class GameController {
    * @return operation result (error/success)
    */
   @ShellMethod("Save the current game state")
-  public String save() {
+  public String savegame() {
 
     if (log.isDebugEnabled()) {
-      log.debug("inside save");
+      log.debug("inside save game");
     }
     try {
       gameBusinessDelegate.saveGame();
@@ -66,6 +66,25 @@ public class GameController {
       return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
     }
     return shellHelper.getSuccessMessage("Game saved successfully");
+  }
+  
+  /**
+   * This method saves current game state. Command: save
+   *
+   * @return operation result (error/success)
+   */
+  @ShellMethod("load the saved game state")
+  public String loadgame() {
+
+    if (log.isDebugEnabled()) {
+      log.debug("inside load game");
+    }
+    try {
+      gameBusinessDelegate.loadGame();
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return shellHelper.getSuccessMessage("Game loaded successfully");
   }
 
   /**

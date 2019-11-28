@@ -26,6 +26,13 @@ public class GameBusinessDelegate {
   public void saveGame() {
     gameService.saveGame();
   }
+  
+  /**
+   * This method used for loading the saved Game.
+   */
+  public void loadGame() {
+	  gameService.loadGame();
+  }
 
   /**
    * This method used for saving the Map.
