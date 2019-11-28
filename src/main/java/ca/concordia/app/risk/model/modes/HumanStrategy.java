@@ -12,7 +12,7 @@ public class HumanStrategy extends AbstractStrategy {
 	
 	/**
 	 * 
-	 * @param playerModel
+	 * @param playerModel player model
 	 */
 	public HumanStrategy(PlayerModel playerModel) {
 		super(playerModel);
@@ -20,6 +20,9 @@ public class HumanStrategy extends AbstractStrategy {
 
 	/**
 	 * 
+	 * @param countryModelFrom attacking country model
+	 * @param countryModelTo defender country model
+	 * @param numDice number of dice
 	 */
 	@Override
 	public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
@@ -28,6 +31,7 @@ public class HumanStrategy extends AbstractStrategy {
 
 	/**
 	 * 
+	 * @param numDice number of dice
 	 */
 	@Override
 	public void defend(String numDice) {
@@ -36,6 +40,9 @@ public class HumanStrategy extends AbstractStrategy {
 
 	/**
 	 * 
+	 * @param countryModelFrom the country fortify from model
+	 * @param countryModelTo the country fortify to model
+	 * @param numberOfArmies number of armies to fortify
 	 */
 	@Override
 	public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies) {
@@ -45,6 +52,8 @@ public class HumanStrategy extends AbstractStrategy {
 	
 	/**
 	 * 
+	 * @param countryModel country model
+	 * @param numberOfArmies number of armies to reinforce
 	 */
 	@Override
 	public void reinforce(CountryModel countryModel, int numberOfArmies) {

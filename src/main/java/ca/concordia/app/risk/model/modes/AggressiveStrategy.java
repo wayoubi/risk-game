@@ -57,7 +57,6 @@ public class AggressiveStrategy extends AbstractStrategy {
 		countryModelFrom = getStrongestCountry();
 		countryModelTo = getWeakestNeighbourCountry(countryModelFrom);
 
-
 		// check if attackFrom is not null
 		if (countryModelFrom == null) {
 			throw new RiskGameRuntimeException("No attackFrom is asigned, Attack is not possible");
@@ -102,11 +101,13 @@ public class AggressiveStrategy extends AbstractStrategy {
 	}
 
 	private boolean isNeighbourEnemy(List<Integer> neighbours, int currentPlayerId) {
-
+		
 		for(int neighbour:neighbours){
-			if(neighbour != currentPlayerId)
+			if(neighbour != currentPlayerId) {
 				return true;
+			}
 		}
+		
 		return false;
 	}
 
@@ -119,21 +120,16 @@ public class AggressiveStrategy extends AbstractStrategy {
                 RunningGame.getInstance().getCurrentPlayer().getPlayerModel());
 
         int maxNoOfArmies=0;
-
         CountryModel attackFrom =null;
-
-
         List<Integer> neighbours=null;
 
         for(CountryModel country:countryModels){
 
             int numOfArmies = country.getNumberOfArmies();
             if(numOfArmies>maxNoOfArmies) {
-
                 // check at least one of neighbours countries is an enemy 
 				BorderDaoImp borderDaoImpl = new BorderDaoImp();
 				BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), country.getName());
-
                 neighbours = borderModel.getNeighbours();
 
                 // check if at least of the neighbours is enemy
@@ -142,25 +138,21 @@ public class AggressiveStrategy extends AbstractStrategy {
                 }
             }
         }
+        
         return attackFrom;
     }
 
 
 	private CountryModel getWeakestNeighbourCountry(CountryModel attackFrom) {
 
-
-
 		// check at least one of neighbours countries is an enemy
 		BorderDaoImp borderDaoImpl = new BorderDaoImp();
 		BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), attackFrom.getName());
 
 		List<Integer> neighbours = borderModel.getNeighbours();
-
 		CountryDaoImpl countryDao = new CountryDaoImpl();
-
 		int minNoOfEnemies=-1;
 		CountryModel attackTo = null;
-
 
 		for(int neighbour: neighbours){
 			// check if enemy
@@ -178,8 +170,8 @@ public class AggressiveStrategy extends AbstractStrategy {
 				}
 			}
 		}
+		
 		return attackTo;
-
 	}
 
 

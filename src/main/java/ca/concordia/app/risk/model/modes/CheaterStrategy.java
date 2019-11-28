@@ -20,7 +20,7 @@ public class CheaterStrategy extends AbstractStrategy {
 
 	/**
 	 * 
-	 * @param playerModel
+	 * @param playerModel player model
 	 */
 	public CheaterStrategy(PlayerModel playerModel) {
 		super(playerModel);
@@ -40,7 +40,6 @@ public class CheaterStrategy extends AbstractStrategy {
 		List<Integer> neighbours = null;
 
 		for (CountryModel country : countryModels) {
-
 			// check at least one of neighbours countries is an enemy
 			BorderDaoImp borderDaoImpl = new BorderDaoImp();
 			BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), country.getName());
@@ -49,7 +48,6 @@ public class CheaterStrategy extends AbstractStrategy {
 			CountryDaoImpl countryDao = new CountryDaoImpl();
 
 			for (int neighbour : neighbours) {
-
 				if (neighbour != RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getId()) {
 					CountryModel countryModel = null;
 					countryModel = countryDao.findById(RunningGame.getInstance(), neighbour);
@@ -68,6 +66,7 @@ public class CheaterStrategy extends AbstractStrategy {
 				}
 			}
 		}
+		
 		fortify(null,null,0);
 	}
 
@@ -83,8 +82,6 @@ public class CheaterStrategy extends AbstractStrategy {
 		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Fortify");
 		RunningGame.getInstance().getSubject().markAndNotify();
 
-
-
 		// get countries that have been owned by the player
 		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
 		List<CountryModel> countryModels = playerDaoImpl.getCountries(RunningGame.getInstance(),
@@ -93,7 +90,6 @@ public class CheaterStrategy extends AbstractStrategy {
 		List<Integer> neighbours = null;
 
 		for (CountryModel country : countryModels) {
-
 			// check at least one of neighbours countries is an enemy
 			BorderDaoImp borderDaoImpl = new BorderDaoImp();
 			BorderModel borderModel = borderDaoImpl.findByName(RunningGame.getInstance(), country.getName());
@@ -108,19 +104,18 @@ public class CheaterStrategy extends AbstractStrategy {
 		RunningGame.getInstance().moveToNextPlayer();
 		RunningGame.getInstance().reinforceInitialization();
 		RunningGame.getInstance().getSubject().markAndNotify();
-
-
 	}
 
 	private boolean isNeighbourEnemy(List<Integer> neighbours, int currentPlayerId) {
 
 		for(int neighbour:neighbours){
-			if(neighbour != currentPlayerId)
+			if(neighbour != currentPlayerId) {
 				return true;
+			}
 		}
+		
 		return false;
 	}
-
 
 	@Override
 	public void reinforce(CountryModel countryModel, int numberOfArmies) {
@@ -139,7 +134,5 @@ public class CheaterStrategy extends AbstractStrategy {
 		RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement - Exchange Cards");
 		RunningGame.getInstance().getSubject().markAndNotify();
 		RunningGame.getInstance().setReinforceCompleted(true);
-
-
 	}
 }
