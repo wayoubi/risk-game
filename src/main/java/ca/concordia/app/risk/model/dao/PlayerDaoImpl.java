@@ -13,7 +13,6 @@ import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
 /**
  * This class is DAO(Data Access Layer) for player - to access a player's info
- *
  * @author i857625
  *
  */
@@ -73,7 +72,6 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 
 	/**
 	 * This method gets countries of the player
-	 * 
 	 * @param gameModel game model
 	 * @param t         player model
 	 * @return list of countries of the current player

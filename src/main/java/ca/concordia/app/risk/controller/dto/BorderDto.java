@@ -3,9 +3,7 @@ package ca.concordia.app.risk.controller.dto;
 import javax.validation.ValidationException;
 
 /**
- * 
  * BorderDto, used as a place holder across layers
- *
  */
 public class BorderDto implements Dto {
 

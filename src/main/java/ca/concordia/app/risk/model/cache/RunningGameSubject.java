@@ -6,7 +6,6 @@ import java.util.Observable;
  * 
  * This class is used to implement the Risk Game Observable object
  * it notifies views (observers) when state is changed
- * 
  * @author Wasim Alayoubi
  *
  */

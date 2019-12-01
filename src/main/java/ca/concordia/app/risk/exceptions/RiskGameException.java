@@ -2,7 +2,6 @@ package ca.concordia.app.risk.exceptions;
 
 /**
  * RiskGameException checked exception
- * 
  * @author i857625
  *
  */

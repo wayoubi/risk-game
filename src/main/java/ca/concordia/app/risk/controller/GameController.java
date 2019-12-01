@@ -214,8 +214,7 @@ public class GameController {
    * This method is used for fortification of armies from one country to another.
    * The user can choose to not fortify at all.
    * <p>
-   * Command: fortify -fromcountry [fromCountryname] -tocountry [toCountryname]
-   * -num [numberOfArmies]
+   * Command: fortify -fromcountry [fromCountryname] -tocountry [toCountryname] -num [numberOfArmies]
    *
    * @param fromCountry    origin country to fortify from
    * @param toCountry      destination country to fortify to
@@ -231,7 +230,7 @@ public class GameController {
       log.debug(
           String.format("inside fortify, passed parameters [%s] [%s] [%s]", fromCountry, toCountry, numberOfArmies));
     }
-    StringBuilder result = new StringBuilder();
+
     try {
       if (fromCountry != null && "none".equals(fromCountry)) {
         RunningGame.getInstance().moveToNextPlayer();
@@ -277,8 +276,6 @@ public class GameController {
   public String exchangecards(@ShellOption(value = { "-num1" }, defaultValue = NONE_DEFAULT_VALUE) String num1,
       @ShellOption(value = { "-num2" }, defaultValue = NONE_DEFAULT_VALUE) String num2,
       @ShellOption(value = { "-num3" }, defaultValue = NONE_DEFAULT_VALUE) String num3) {
-
-    StringBuilder result = new StringBuilder();
 
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside exchangecards, passed parameters [%s] [%s] [%s]", num1, num2, num3));
@@ -331,8 +328,6 @@ public class GameController {
       @ShellOption(value = { "-countrynamefrom" }, defaultValue = NONE_DEFAULT_VALUE) String countryNameFrom,
       @ShellOption(value = { "-countynameto" }, defaultValue = NONE_DEFAULT_VALUE) String countyNameTo,
       @ShellOption(value = { "-numdice" }, defaultValue = NONE_DEFAULT_VALUE) String numDice) {
-
-    StringBuilder result = new StringBuilder();
 
     if (log.isDebugEnabled()) {
       log.debug(

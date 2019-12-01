@@ -1,12 +1,5 @@
 package ca.concordia.app.risk.services;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -18,9 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ca.concordia.app.risk.controller.dto.BorderDto;
-import ca.concordia.app.risk.controller.dto.ContinentDto;
-import ca.concordia.app.risk.controller.dto.CountryDto;
 import ca.concordia.app.risk.controller.dto.PlayerDto;
 import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.builder.GamePersistanceManager;
@@ -30,9 +20,6 @@ import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
-import ca.concordia.app.risk.model.maps.ConquestMapWritingAdaptor;
-import ca.concordia.app.risk.model.maps.DefaultMapWriter;
-import ca.concordia.app.risk.model.maps.MapWriter;
 import ca.concordia.app.risk.model.xmlbeans.CardsModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
@@ -41,7 +28,6 @@ import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
- * 
  * GameController has all the commands related to saving, loading and editing
  * the game
  * 
@@ -49,9 +35,9 @@ import ca.concordia.app.risk.shell.ShellHelper;
  */
 public class GameService {
 
-	@Autowired
-	MapService mapService;
-	
+  @Autowired
+  MapService mapService;
+
   /**
    * Dependency injection from ShellHelper
    */
@@ -112,8 +98,9 @@ public class GameService {
     List<PlayerModel> isNameExist = RunningGame.getInstance().getPlayers().getList().stream()
         .filter(c -> c.getName().equals(playerDto.getName())).collect(Collectors.toList());
 
-    if (!isNameExist.isEmpty())
+    if (!isNameExist.isEmpty()) {
       throw new RiskGameRuntimeException("Name already exists!");
+    }
 
     BeanUtils.copyProperties(playerDto, playerModel);
     PlayerDaoImpl playerDaoImp = new PlayerDaoImpl();
@@ -122,16 +109,17 @@ public class GameService {
     // Assign a random color
     numOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
 
-    if (numOfPlayers == 0)
+    if (numOfPlayers == 0) {
       color = "Red";
-    else if (numOfPlayers == 1)
+    } else if (numOfPlayers == 1) {
       color = "Blue";
-    else if (numOfPlayers == 2)
+    } else if (numOfPlayers == 2) {
       color = "Green";
-    else if (numOfPlayers == 3)
+    } else if (numOfPlayers == 3) {
       color = "Yellow";
-    else if (numOfPlayers == 4)
+    } else if (numOfPlayers == 4) {
       color = "Black";
+    }
 
     playerModel.setColor(color);
     playerModel.setCards(new CardsModel());
@@ -146,14 +134,16 @@ public class GameService {
    * @param playerDto player Dto
    */
   public void removePlayer(PlayerDto playerDto) {
-    if (!RunningGame.getInstance().isMapLoaded())
+
+    if (!RunningGame.getInstance().isMapLoaded()) {
       throw new RiskGameRuntimeException("Command cannot be performed, map has not been loaded yet");
-
-    if (RunningGame.getInstance().isCountriesPopulated())
+    }
+    if (RunningGame.getInstance().isCountriesPopulated()) {
       throw new RiskGameRuntimeException("Command cannot be performed, countries has been populated");
-
-    if (RunningGame.getInstance().isGamePlay())
+    }
+    if (RunningGame.getInstance().isGamePlay()) {
       throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    }
 
     PlayerDaoImpl playerDao = new PlayerDaoImpl();
     PlayerModel playerModel = playerDao.findByName(RunningGame.getInstance(), playerDto.getName());
@@ -165,18 +155,20 @@ public class GameService {
    */
   public void populateCountries() {
 
-    if (RunningGame.getInstance().isGamePlay())
+    if (RunningGame.getInstance().isGamePlay()) {
       throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    }
 
     int numberOfCountries = RunningGame.getInstance().getCountries().getList().size();
     int numberOfPlayers = RunningGame.getInstance().getPlayers().getList().size();
     int playerID = 0;
 
-    if (numberOfCountries == 0)
+    if (numberOfCountries == 0) {
       throw new RiskGameRuntimeException("No Countries have been added to the game");
-
-    if (numberOfPlayers == 0)
+    }
+    if (numberOfPlayers == 0) {
       throw new RiskGameRuntimeException("No players have been added to the game");
+    }
 
     List<CountryModel> countryModels = RunningGame.getInstance().getCountries().getList(); // convert list to stream
 
@@ -285,7 +277,7 @@ public class GameService {
 
   /**
    * This method does fortification
-   *
+   * 
    * @param fromCountry    origin country to fortify
    * @param toCountry      destination country to fortify
    * @param numberOfArmies number of armies
@@ -300,8 +292,9 @@ public class GameService {
    */
   public void placeAll() {
 
-    if (RunningGame.getInstance().isGamePlay())
+    if (RunningGame.getInstance().isGamePlay()) {
       throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+    }
 
     int totalNumberOfArmiesPerPlayer = 0;
     int numberOfAssignedArmies = 0;
@@ -501,7 +494,7 @@ public class GameService {
 
     for (int i = 0; i < maps.length; i++) {
       for (int j = 0; j < Integer.parseInt(noOfGames); j++) {
-    	  mapService.loadMap(maps[i], "DOMINATION");
+        mapService.loadMap(maps[i], "DOMINATION");
         for (int k = 0; k < players.length; k++) {
           PlayerDto playerDto = new PlayerDto();
           playerDto.setName("Player " + (k + 1));

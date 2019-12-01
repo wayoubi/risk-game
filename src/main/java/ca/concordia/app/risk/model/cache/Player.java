@@ -26,7 +26,7 @@ public class Player extends Observable {
   private PlayerModel playerModel;
 
   /**
-   * 
+   * strategy game strategy
    */
   private Strategy strategy;
 

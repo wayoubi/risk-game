@@ -16,7 +16,6 @@ import org.hibernate.validator.constraints.NotBlank;
 /**
  * 
  * PlayerDTO, used as a place holder across layers
- * 
  * @author i857625 PlayerDto
  *
  */
@@ -35,13 +34,13 @@ public class PlayerDto implements Dto {
 	private String name;
 
 	/**
-	 * player color
+	 * Player color
 	 */
 	@NotBlank(message = "Color cannot be null or empty")
 	private String color;
 	
 	/**
-	 * 
+	 * Game strategy
 	 */
 	@NotBlank(message = "Strategy cannot be null or empty")
 	private String strategy;
@@ -75,7 +74,6 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * gets {@link id}
-	 * 
 	 * @return playerId
 	 */
 	public int getId() {
@@ -84,7 +82,6 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * sets {@link id}
-	 * 
 	 * @param id sets player Id
 	 */
 	public void setId(int id) {
@@ -93,7 +90,6 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * gets {@link name}
-	 * 
 	 * @return playerName
 	 */
 	public String getName() {
@@ -102,7 +98,6 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * sets {@link name}
-	 * 
 	 * @param name sets player Name
 	 */
 	public void setName(String name) {
@@ -111,7 +106,6 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * gets {@link color}
-	 * 
 	 * @return playerColor
 	 */
 	public String getColor() {
@@ -120,7 +114,6 @@ public class PlayerDto implements Dto {
 
 	/**
 	 * sets {@link color}
-	 * 
 	 * @param color sets player color
 	 */
 	public void setColor(String color) {
@@ -128,7 +121,7 @@ public class PlayerDto implements Dto {
 	}
 	
 	/**
-	 * 
+	 * gets {@link strategy}
 	 * @return
 	 */
 	public String getStrategy() {
@@ -136,7 +129,7 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * sets {@link strategy}
 	 * @param strategy
 	 */
 	public void setStrategy(String strategy) {
@@ -158,53 +151,70 @@ public class PlayerDto implements Dto {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
+	 * @return result
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((strategy == null) ? 0 : strategy.hashCode());
+		
 		return result;
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
+	 * @param obj check object is equals
+	 * @return true/false
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj){
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		PlayerDto other = (PlayerDto) obj;
 		if (color == null) {
-			if (other.color != null)
+			if (other.color != null) {
 				return false;
-		} else if (!color.equals(other.color))
+			}	
+		} else if (!color.equals(other.color)){
 			return false;
-		if (id != other.id)
+		}
+		if (id != other.id){
 			return false;
+		}
 		if (name == null) {
-			if (other.name != null)
+			if (other.name != null){
 				return false;
-		} else if (!name.equals(other.name))
+			}
+		} else if (!name.equals(other.name)) {
 			return false;
+		}
 		if (strategy == null) {
-			if (other.strategy != null)
+			if (other.strategy != null){
 				return false;
-		} else if (!strategy.equals(other.strategy))
+			}
+		} else if (!strategy.equals(other.strategy)) {
 			return false;
+		}
+			
 		return true;
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
+	 * @return CountryDto [id, name, color, strategy]
 	 */
 	@Override
 	public String toString() {

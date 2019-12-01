@@ -36,7 +36,7 @@ public class RunningGame extends GameModel {
    * 
    */
   RunningGameSubject subject;
-  
+
   /**
    * Current running game
    */
@@ -56,7 +56,7 @@ public class RunningGame extends GameModel {
    * 
    */
   private Player currentPlayer;
-  
+
   /**
    * Make models to start a new game - ContinentsModel, PlayersModel,
    * CountriesModel, BordersModel Make the graph No player yet
@@ -101,6 +101,7 @@ public class RunningGame extends GameModel {
     if (runningGame == null) {
       runningGame = new RunningGame();
     }
+
     return runningGame;
   }
 
@@ -114,13 +115,12 @@ public class RunningGame extends GameModel {
   }
 
   /**
-   * 
    * @return graph of current game
    */
   public Graph<String, DefaultEdge> getGraph() {
     return this.graph;
   }
-  
+
   /**
    * 
    * @param graph
@@ -131,7 +131,7 @@ public class RunningGame extends GameModel {
 
   /**
    * add Continent to the Graph
-   *
+   * 
    * @param continentName continent name
    */
   public void addContinentGraph(String continentName) {
@@ -163,12 +163,14 @@ public class RunningGame extends GameModel {
     }
     return this.contientsGraphsMap.get(continentName);
   }
-  
+
   /**
-   * 
+   * This method change turn between players
    */
   public void moveToNextPlayer() {
+
     PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+
     if (this.getCurrentPlayer() == null) {
       this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), 1)));
     } else {
@@ -188,8 +190,8 @@ public class RunningGame extends GameModel {
   }
 
   /**
-  *
-  */
+   * This method intialize reinforcement phase
+   */
   public void exchangeCardsInitialization() {
     PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
     List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
@@ -272,7 +274,6 @@ public class RunningGame extends GameModel {
   public void reinforceInitialization() {
 
     int numberOfCountries = this.getCountries().getList().size();
-
     PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
 
     this.setCardGiven(false);
@@ -308,7 +309,7 @@ public class RunningGame extends GameModel {
       activePlayerModel.setPlayingPhase("Reinforcement");
       activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
       this.setReinforceCompleted(false);
-      
+
       // if not human execute reinforce automatically
       System.out.println(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy());
 
@@ -318,7 +319,7 @@ public class RunningGame extends GameModel {
 
     }
   }
-  
+
   /**
    * 
    * @return

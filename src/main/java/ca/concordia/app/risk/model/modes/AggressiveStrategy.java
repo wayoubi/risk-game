@@ -8,12 +8,12 @@ import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
-import ch.qos.logback.core.net.SyslogOutputStream;
-import org.junit.runners.Suite;
 
 import java.util.List;
 
 /**
+ * This class inherits from AbstractStrategy class to override methods and have
+ * specific implementation for Aggressive Strategy
  * 
  * @author i857625
  *
@@ -21,13 +21,21 @@ import java.util.List;
 public class AggressiveStrategy extends AbstractStrategy {
 
   /**
+   * Constructor for Aggressive Strategy Class
    * 
-   * @param playerModel
+   * @param playerModel player model
    */
   public AggressiveStrategy(PlayerModel playerModel) {
     super(playerModel);
   }
 
+  /**
+   * {@inheritDoc} This method contains reinforce method implementation for
+   * Aggressive Strategy
+   * 
+   * @param countryModel   country model
+   * @param numberOfArmies number of armies to reinforce
+   */
   @Override
   public void reinforce(CountryModel countryModel, int numberOfArmies) {
 
@@ -53,6 +61,14 @@ public class AggressiveStrategy extends AbstractStrategy {
     RunningGame.getInstance().getSubject().markAndNotify();
   }
 
+  /**
+   * {@inheritDoc} This method contains attack method implementation for
+   * Aggressive Strategy
+   * 
+   * @param countryModelFrom attacking country model
+   * @param countryModelTo   defender country model
+   * @param numDice          number of dice
+   */
   @Override
   public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
 
@@ -92,16 +108,36 @@ public class AggressiveStrategy extends AbstractStrategy {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   * @param numDice number of dice
+   */
   @Override
   public void defend(String numDice) {
     super.defend(numDice);
   }
 
+  /**
+   * {@inheritDoc} This method contains fortify method implementation for
+   * Aggressive Strategy
+   * 
+   * @param countryModelFrom the country fortify from model
+   * @param countryModelTo   the country fortify to model
+   * @param numberOfArmies   number of armies to fortify
+   */
   @Override
   public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies) {
     super.fortify(countryModelFrom, countryModelTo, numberOfArmies);
   }
 
+  /**
+   * This method checks whether neighboring country is an enemy or not
+   * 
+   * @param neighbours      list of neighbors
+   * @param currentPlayerId current player id
+   * @return
+   */
   private boolean isNeighbourEnemy(List<Integer> neighbours, int currentPlayerId) {
 
     for (int neighbour : neighbours) {
@@ -113,6 +149,12 @@ public class AggressiveStrategy extends AbstractStrategy {
     return false;
   }
 
+  /**
+   * This method returns the strongest country that have the highest number of
+   * armies to place attack from that country
+   * 
+   * @return
+   */
   private CountryModel getStrongestCountry() {
 
     PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
@@ -144,6 +186,13 @@ public class AggressiveStrategy extends AbstractStrategy {
     return attackFrom;
   }
 
+  /**
+   * This method returns the weakest country that have the lowest number of armies
+   * to be a target for attacking country
+   * 
+   * @param attackFrom attack from country
+   * @return
+   */
   private CountryModel getWeakestNeighbourCountry(CountryModel attackFrom) {
 
     // check at least one of neighbours countries is an enemy

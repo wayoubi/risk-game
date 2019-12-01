@@ -37,7 +37,6 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link name}
-	 * 
 	 * @return country name
 	 */
 	public String getName() {
@@ -46,7 +45,6 @@ public class CountryDto implements Dto {
 
 	/**
 	 * sets {@link name}
-	 * 
 	 * @param name sets country name
 	 */
 	public void setName(String name) {
@@ -55,7 +53,6 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link numberOfArmies}
-	 * 
 	 * @return number Of Armies
 	 */
 	public int getNumberOfArmies() {
@@ -64,7 +61,6 @@ public class CountryDto implements Dto {
 
 	/**
 	 * sets {@link numberOfArmies}
-	 * 
 	 * @param numberOfArmies sets number of armies
 	 */
 	public void setNumberOfArmies(int numberOfArmies) {
@@ -73,7 +69,6 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link continentName}
-	 * 
 	 * @return continent name
 	 */
 	public String getContinentName() {
@@ -82,7 +77,6 @@ public class CountryDto implements Dto {
 
 	/**
 	 * sets {@link continentName}
-	 * 
 	 * @param continentName sets continent Name
 	 */
 	public void setContinentName(String continentName) {
@@ -107,9 +101,11 @@ public class CountryDto implements Dto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		
 		result = prime * result + ((continentName == null) ? 0 : continentName.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + numberOfArmies;
+		
 		return result;
 	}
 
@@ -120,12 +116,15 @@ public class CountryDto implements Dto {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		CountryDto other = (CountryDto) obj;
 		if (continentName == null) {
 			if (other.continentName != null) {
@@ -135,13 +134,15 @@ public class CountryDto implements Dto {
 			return false;
 		}
 		if (name == null) {
-			if (other.name != null)
+			if (other.name != null) {
 				return false;
+			}
 		} else if (!name.equals(other.name)) {
 			return false;
 		} else if (numberOfArmies != other.numberOfArmies) {
 			return false;
 		}
+		
 		return true;
 	}
 

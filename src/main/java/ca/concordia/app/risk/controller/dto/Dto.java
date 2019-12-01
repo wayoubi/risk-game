@@ -12,8 +12,7 @@ import javax.validation.ValidationException;
 public interface Dto {
 
 	/**
-	 * validates Dto Beans using the javax.validation package
-	 * 
+	 * This method validates Dto Beans using the javax.validation package
 	 * @throws ValidationException exception
 	 */
 	void validate() throws ValidationException;
