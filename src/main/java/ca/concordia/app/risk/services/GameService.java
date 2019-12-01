@@ -524,8 +524,7 @@ public class GameService {
       RunningGame.getInstance().moveToNextPlayer();
     }
     RunningGame.getInstance().getSubject().markAndNotify();
-    RunningGame.getInstance().reinforceInitialization();
-
+    RunningGame.getInstance().exchangeCardsInitialization();
 
   }
 
@@ -541,9 +540,10 @@ public class GameService {
     if (!RunningGame.getInstance().isGamePlay())
       throw new RiskGameRuntimeException("Command cannot be performed, Current game is Not Running");
 
-    if (!RunningGame.getInstance().isReinforceCompleted()) {
-      throw new RiskGameRuntimeException("Command cannot be performed, please complete Reinforcement Phase first");
-    }
+    // if (!RunningGame.getInstance().isReinforceCompleted()) {
+    // throw new RiskGameRuntimeException("Command cannot be performed, please
+    // complete Reinforcement Phase first");
+    // }
     String[] cardsArray = new String[3];
 
     // Add Card numbers to an array
@@ -620,14 +620,6 @@ public class GameService {
    * @param numDice         count of dices for attacker
    */
   public void attack(String countryNameFrom, String countyNameTo, String numDice) {
-    if (RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size() >= 5) {
-      RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement - Exchange Cards");
-      RunningGame.getInstance().setCardExchangeCompleted(false);
-      RunningGame.getInstance().getSubject().markAndNotify();
-      throw new RiskGameRuntimeException(
-          "You have " + RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size()
-              + " You've to compulsorily exhange your cards first");
-    }
     if (numDice.equalsIgnoreCase("-allout")) {
       RunningGame.getInstance().setAllOut(true);
     } else {

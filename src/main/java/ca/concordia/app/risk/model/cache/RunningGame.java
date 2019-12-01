@@ -566,6 +566,73 @@ public class RunningGame extends GameModel {
   /**
   *
   */
+  public void exchangeCardsInitialization() {
+    PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
+    List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+
+    if (cards.size() >= 3) {
+      int infantryCount = 0, cavalryCount = 0, artilleryCount = 0;
+      for (int i = 0; i < cards.size(); i++) {
+        if (cards.get(i) == "Infantry") {
+          infantryCount += 1;
+        } else if (cards.get(i) == "Cavalry") {
+          cavalryCount += 1;
+        } else if (cards.get(i) == "Artillery") {
+          artilleryCount += 1;
+        }
+      }
+      if ((infantryCount >= 1 && cavalryCount >= 1 && artilleryCount >= 1)) {
+        if (!"Human".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
+          String[] cardsArray = new String[3];
+          int count = 0;
+          boolean infantryDone = false, artilleryDone = false, cavalryDone = false;
+          for (int i = 0; i < cards.size(); i++) {
+            if (cards.get(i) == "Infantry" && !infantryDone) {
+              cardsArray[count] = Integer.toString(i + 1);
+              infantryDone = true;
+              count++;
+            } else if (cards.get(i) == "Cavalry" && !cavalryDone) {
+              cardsArray[count] = Integer.toString(i + 1);
+              cavalryDone = true;
+              count++;
+            } else if (cards.get(i) == "Artillery" && !artilleryDone) {
+              cardsArray[count] = Integer.toString(i + 1);
+              artilleryDone = true;
+              count++;
+            }
+            if (count == 3) {
+              break;
+            }
+          }
+          RunningGame.getInstance().getCurrentPlayer().exchangeCards(cardsArray);
+        } else {
+          activePlayerModel.setPlayingPhase("Reinforcement - Exchange Cards");
+        }
+      } else if (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3) {
+        if (!"Human".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
+          String[] cardsArray = new String[3];
+          int count = 0;
+          String checkType = infantryCount >= 3 ? "Infantry" : cavalryCount >= 3 ? "Cavalry" : "Artillery";
+          for (int i = 0; i < cards.size(); i++) {
+            if (cards.get(i) == checkType) {
+              cardsArray[count] = Integer.toString(i + 1);
+              count++;
+            }
+            if (count == 3) {
+              break;
+            }
+          }
+          RunningGame.getInstance().getCurrentPlayer().exchangeCards(cardsArray);
+        } else {
+          activePlayerModel.setPlayingPhase("Reinforcement - Exchange Cards");
+        }
+      }
+    } else {
+      this.setCardExchangeCompleted(true);
+      this.reinforceInitialization();
+    }
+  }
+
   public void reinforceInitialization() {
 
     int numberOfCountries = this.getCountries().getList().size();
@@ -576,7 +643,7 @@ public class RunningGame extends GameModel {
     this.setAllOut(false);
     this.setAttackCompleted(false);
 
-    int reinforcementArmies = 0;
+    int reinforcementArmies = activePlayerModel.getReinforcementNoOfArmies();
     boolean fullContinentOccupy = false;
 
     if (Math.floor((float) numberOfCountries / 3) > 3) {
@@ -609,8 +676,8 @@ public class RunningGame extends GameModel {
       // if not human execute reinforce automatically
       System.out.println(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy());
 
-      if(!"Human".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())){
-        RunningGame.getInstance().getCurrentPlayer().getStrategy().reinforce(null,0);
+      if (!"Human".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
+        RunningGame.getInstance().getCurrentPlayer().getStrategy().reinforce(null, 0);
       }
 
     }

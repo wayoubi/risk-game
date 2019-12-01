@@ -31,12 +31,11 @@ public class GameController {
    * Default Shell parameter value
    */
   private static final String NONE_DEFAULT_VALUE = "None";
-  
+
   /**
-   * Default Player Strategy 
+   * Default Player Strategy
    */
   public static final String DEFAULT_PLAYER_STRATEGY = "HUMAN";
-  
 
   /**
    * shellHelper bean
@@ -131,8 +130,8 @@ public class GameController {
    */
   @ShellMethod("Add/Remove player")
   public String gameplayer(@ShellOption(value = { "-add" }, defaultValue = NONE_DEFAULT_VALUE) String player2Add,
-		  @ShellOption(value = { "-strategy" }, defaultValue = DEFAULT_PLAYER_STRATEGY) String playerStrategy,
-		  @ShellOption(value = { "-remove" }, defaultValue = NONE_DEFAULT_VALUE) String player2Remove) {
+      @ShellOption(value = { "-strategy" }, defaultValue = DEFAULT_PLAYER_STRATEGY) String playerStrategy,
+      @ShellOption(value = { "-remove" }, defaultValue = NONE_DEFAULT_VALUE) String player2Remove) {
 
     if (log.isDebugEnabled()) {
       log.debug(String.format("inside gameplayer, passed parameters [%s] [%s]", player2Add, player2Remove));
@@ -307,7 +306,7 @@ public class GameController {
     try {
       if (fromCountry != null && "none".equals(fromCountry)) {
         RunningGame.getInstance().moveToNextPlayer();
-        RunningGame.getInstance().reinforceInitialization();
+        RunningGame.getInstance().exchangeCardsInitialization();
         RunningGame.getInstance().getSubject().markAndNotify();
 
         return "Choose not to do a move";
@@ -356,14 +355,25 @@ public class GameController {
       log.debug(String.format("inside exchangecards, passed parameters [%s] [%s] [%s]", num1, num2, num3));
     }
     if ("-none".equalsIgnoreCase(num1)) {
-      RunningGame.getInstance().setCardExchangeCompleted(true);
+      if (RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size() >= 5) {
+        RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforcement - Exchange Cards");
+        RunningGame.getInstance().setCardExchangeCompleted(false);
+        RunningGame.getInstance().getSubject().markAndNotify();
+        throw new RiskGameRuntimeException(
+            "You have " + RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().size()
+                + " You've to compulsorily exchange your cards first");
+      }
 
-      RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Attack");
+      RunningGame.getInstance().setCardExchangeCompleted(true);
+      RunningGame.getInstance().getCurrentPlayer().getPlayerModel().setPlayingPhase("Reinforce");
       RunningGame.getInstance().getSubject().markAndNotify();
 
-      if(!"HUMAN".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())){
-        RunningGame.getInstance().getCurrentPlayer().getStrategy().attack(null,null,null);
-      }
+      // if
+      // (!"HUMAN".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy()))
+      // {
+      // RunningGame.getInstance().getCurrentPlayer().getStrategy().attack(null, null,
+      // null);
+      // }
 
       return "No cards have been exchanged";
     } else {
