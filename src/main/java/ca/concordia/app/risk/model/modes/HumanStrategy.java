@@ -4,14 +4,15 @@ import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
 /**
- * 
+ * This class inherits from AbstractStrategy class to override methods and have specific implementation for 
+ * Human Strategy
  * @author i857625
  *
  */
 public class HumanStrategy extends AbstractStrategy {
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param playerModel player model
 	 */
 	public HumanStrategy(PlayerModel playerModel) {
@@ -19,7 +20,7 @@ public class HumanStrategy extends AbstractStrategy {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param countryModelFrom attacking country model
 	 * @param countryModelTo defender country model
 	 * @param numDice number of dice
@@ -30,7 +31,7 @@ public class HumanStrategy extends AbstractStrategy {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param numDice number of dice
 	 */
 	@Override
@@ -39,7 +40,7 @@ public class HumanStrategy extends AbstractStrategy {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param countryModelFrom the country fortify from model
 	 * @param countryModelTo the country fortify to model
 	 * @param numberOfArmies number of armies to fortify
@@ -51,7 +52,7 @@ public class HumanStrategy extends AbstractStrategy {
 
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 * @param countryModel country model
 	 * @param numberOfArmies number of armies to reinforce
 	 */

@@ -1,6 +1,5 @@
 package ca.concordia.app.risk.model.modes;
 
-import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.BorderDaoImp;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
@@ -12,6 +11,8 @@ import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 import java.util.List;
 
 /**
+ * This class inherits from AbstractStrategy class to override methods and have
+ * specific implementation for Cheater Strategy
  * 
  * @author i857625
  *
@@ -19,6 +20,7 @@ import java.util.List;
 public class CheaterStrategy extends AbstractStrategy {
 
   /**
+   * Constructor for Cheater Strategy Class
    * 
    * @param playerModel player model
    */
@@ -26,6 +28,14 @@ public class CheaterStrategy extends AbstractStrategy {
     super(playerModel);
   }
 
+  /**
+   * {@inheritDoc} This method contains attack method implementation for Cheater
+   * Strategy
+   * 
+   * @param countryModelFrom attacking country model
+   * @param countryModelTo   defender country model
+   * @param numDice          number of dice
+   */
   @Override
   public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
 
@@ -75,11 +85,24 @@ public class CheaterStrategy extends AbstractStrategy {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   * @param numDice number of dice
+   */
   @Override
   public void defend(String numDice) {
     super.defend(numDice);
   }
 
+  /**
+   * {@inheritDoc} This method contains fortify method implementation for Cheater
+   * Strategy
+   * 
+   * @param countryModelFrom the country fortify from model
+   * @param countryModelTo   the country fortify to model
+   * @param numberOfArmies   number of armies to fortify
+   */
   @Override
   public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies) {
 
@@ -110,6 +133,13 @@ public class CheaterStrategy extends AbstractStrategy {
     RunningGame.getInstance().getSubject().markAndNotify();
   }
 
+  /**
+   * This method checks whether neighboring country is an enemy or not
+   * 
+   * @param neighbours      list of neighbors
+   * @param currentPlayerId current player id
+   * @return
+   */
   private boolean isNeighbourEnemy(List<Integer> neighbours, int currentPlayerId) {
 
     for (int neighbour : neighbours) {
@@ -121,6 +151,13 @@ public class CheaterStrategy extends AbstractStrategy {
     return false;
   }
 
+  /**
+   * {@inheritDoc} This method contains reinforce method implementation for
+   * Cheater Strategy
+   * 
+   * @param countryModel   country model
+   * @param numberOfArmies number of armies to reinforce
+   */
   @Override
   public void reinforce(CountryModel countryModel, int numberOfArmies) {
 

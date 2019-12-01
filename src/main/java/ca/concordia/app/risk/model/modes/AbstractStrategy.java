@@ -15,6 +15,7 @@ import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
 /**
+ * This is an abstract class which contains all strategies inside the game
  * 
  * @author i857625
  *
@@ -29,19 +30,22 @@ public abstract class AbstractStrategy implements Strategy {
   }
 
   /**
-   * 
+   * player model
    */
   PlayerModel playerModel;
 
   /**
+   * Constructor
    * 
-   * @param playerModel
+   * @param playerModel player model
    */
   public AbstractStrategy(PlayerModel playerModel) {
     this.setPlayerModel(playerModel);
   }
 
   /**
+   * This method contains attack strategy implementation
+   * 
    * @param countryModelFrom attacking country model
    * @param countryModelTo   defender country model
    * @param numDice          number of dice
@@ -84,6 +88,7 @@ public abstract class AbstractStrategy implements Strategy {
   }
 
   /**
+   * This method contains defend strategy implementation
    * 
    * @param numDice number of dice
    */
@@ -245,6 +250,8 @@ public abstract class AbstractStrategy implements Strategy {
   }
 
   /**
+   * This method contains fortification strategy implementation
+   * 
    * @param countryModelFrom the country fortify from model
    * @param countryModelTo   the country fortify to model
    * @param numberOfArmies   number of armies to fortify
@@ -315,6 +322,7 @@ public abstract class AbstractStrategy implements Strategy {
   }
 
   /**
+   * This method contains reinforcement strategy implementation
    * 
    * @param countryModel   country model
    * @param numberOfArmies number of armies to reinforce
@@ -358,6 +366,7 @@ public abstract class AbstractStrategy implements Strategy {
   }
 
   /**
+   * This method sets player model
    * 
    * @param playerModel player model
    */
@@ -366,6 +375,7 @@ public abstract class AbstractStrategy implements Strategy {
   }
 
   /**
+   * This method returns player model
    * 
    * @return
    */

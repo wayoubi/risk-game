@@ -14,25 +14,36 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * 
+ * This class inherits from AbstractStrategy class to override methods and have specific implementation for 
+ * Random Strategy
  * @author i857625
  *
  */
 public class RandomStrategy extends AbstractStrategy {
 
-  /**
-   * 
-   * @param playerModel
-   */
+ /**
+	 * Constructor for Random Strategy Class
+	 * @param playerModel player model
+	 */
   public RandomStrategy(PlayerModel playerModel) {
     super(playerModel);
   }
-
+4	/**
+* {@inheritDoc}
+* @param numDice number of dice
+*/
   @Override
   public void defend(String numDice) {
     super.defend(numDice);
   }
 
+  	/**
+	 * {@inheritDoc}
+	 * This method contains attack method implementation for Random Strategy
+	 * @param countryModelFrom attacking country model
+	 * @param countryModelTo defender country model
+	 * @param numDice number of dice
+	 */
   @Override
   public void attack(CountryModel countryModelFrom, CountryModel countryModelTo, String numDice) {
 
@@ -76,6 +87,13 @@ public class RandomStrategy extends AbstractStrategy {
     fortify(null, null, 0);
   }
 
+  /**
+	  * {@inheritDoc}
+	  * This method contains fortify method implementation for Random Strategy
+	  * @param countryModelFrom the country fortify from model
+	  * @param countryModelTo the country fortify to model
+	  * @param numberOfArmies number of armies to fortify
+	  */
   @Override
   public void fortify(CountryModel countryModelFrom, CountryModel countryModelTo, int numberOfArmies) {
 
@@ -106,6 +124,12 @@ public class RandomStrategy extends AbstractStrategy {
     }
   }
 
+  /**
+	 * {@inheritDoc}
+	 * This method contains reinforce method implementation for Random Strategy
+	 * @param countryModel country model
+	 * @param numberOfArmies number of armies to reinforce
+	 */
   @Override
   public void reinforce(CountryModel countryModel, int numberOfArmies) {
 
@@ -125,6 +149,12 @@ public class RandomStrategy extends AbstractStrategy {
     attack(null, null, null);
   }
 
+  	/**
+	 * {@inheritDoc}
+	 * This method returns a neighboring country randomly
+	 * @param fortifyFrom the country to fortify from
+	 * @return
+	 */
   private CountryModel getRandomNeighbourCountry(CountryModel fortifyFrom) {
 
     // check at least one of neighbours countries is not an enemy
@@ -154,6 +184,12 @@ public class RandomStrategy extends AbstractStrategy {
     return fortifyTo;
   }
 
+  /**
+	 * {@inheritDoc}
+	 * This method returns a neighboring country randomly
+	 * @param attackFrom the country to attack from
+	 * @return
+	 */
   private CountryModel getRandomEnemyNeighbourCountry(CountryModel attackFrom) {
 
     // check at least one of neighbours countries is an enemy
