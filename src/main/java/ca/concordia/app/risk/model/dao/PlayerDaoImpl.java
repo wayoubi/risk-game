@@ -13,14 +13,15 @@ import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
 
 /**
  * This class is DAO(Data Access Layer) for player - to access a player's info
+ * 
  * @author i857625
  *
  */
 public class PlayerDaoImpl implements Dao<PlayerModel> {
 
 	/**
-	 * This method finds a player by name
-	 * {@inheritDoc}
+	 * This method finds a player by name {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param name      player name
 	 * @return player object
@@ -31,8 +32,8 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 	}
 
 	/**
-	 * This method finds a player by id
-	 * {@inheritDoc}
+	 * This method finds a player by id {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param id        player id
 	 * @return player object
@@ -43,8 +44,8 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 	}
 
 	/**
-	 * This method assigns id to a player
-	 * {@inheritDoc}
+	 * This method assigns id to a player {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param t         player model
 	 */
@@ -60,8 +61,8 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 	}
 
 	/**
-	 * This method removes a list of players
-	 * {@inheritDoc}
+	 * This method removes a list of players {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param t         player model
 	 */
@@ -72,6 +73,7 @@ public class PlayerDaoImpl implements Dao<PlayerModel> {
 
 	/**
 	 * This method gets countries of the player
+	 * 
 	 * @param gameModel game model
 	 * @param t         player model
 	 * @return list of countries of the current player

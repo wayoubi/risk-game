@@ -8,7 +8,6 @@ import ca.concordia.app.risk.controller.MapController;
 import ca.concordia.app.risk.controller.PlayController;
 import ca.concordia.app.risk.controller.ViewController;
 
-
 /**
  * Helper class for Beans Configuration
  */

@@ -155,7 +155,7 @@ public class RiskGameBeanConfig {
 	public MapService mapService() {
 		return new MapService();
 	}
-	
+
 	/**
 	 * This method creates TaskExecutor Bean.
 	 * 
@@ -164,9 +164,9 @@ public class RiskGameBeanConfig {
 	@Bean
 	@Profile("!test")
 	public TaskExecutor taskExecutor() {
-	    return new SimpleAsyncTaskExecutor();
+		return new SimpleAsyncTaskExecutor();
 	}
-	
+
 	/**
 	 * This method creates RiskGameDashboardBean Bean.
 	 * 
@@ -176,6 +176,6 @@ public class RiskGameBeanConfig {
 	@Bean
 	@Profile("!test")
 	public RiskGameDashboardBean riskGameDashboardBean(TaskExecutor taskExecutor) {
-	    return new RiskGameDashboardBean(taskExecutor);
+		return new RiskGameDashboardBean(taskExecutor);
 	}
 }

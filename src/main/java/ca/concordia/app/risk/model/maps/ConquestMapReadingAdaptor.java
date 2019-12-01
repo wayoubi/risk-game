@@ -10,7 +10,7 @@ import ca.concordia.app.risk.services.MapService;
  *
  */
 public class ConquestMapReadingAdaptor implements MapReader {
-	
+
 	/**
 	 * 
 	 */
@@ -21,33 +21,33 @@ public class ConquestMapReadingAdaptor implements MapReader {
 	 * @param bufferedReader
 	 */
 	public ConquestMapReadingAdaptor(BufferedReader bufferedReader, MapService mapService) {
-		this.setConquestMapReader(new ConquestMapReader(bufferedReader,mapService));
-		
+		this.setConquestMapReader(new ConquestMapReader(bufferedReader, mapService));
+
 	}
 
 	@Override
 	public void readHeader() {
 		this.getConquestMapReader().readHeader();
-		
+
 	}
 
 	@Override
 	public void readContinents() {
 		this.getConquestMapReader().readContinents();
-		
+
 	}
 
 	@Override
 	public void readCountries() {
 		this.getConquestMapReader().readTerritories();
-		
+
 	}
 
 	@Override
 	public void readBorders() {
 		// Do Nothing, already parsed
 	}
-	
+
 	/**
 	 * 
 	 * @return

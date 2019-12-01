@@ -28,7 +28,7 @@ import ca.concordia.app.risk.utility.DateUtils;
  * @author i857625
  *
  */
-public class GameSavingBuilder extends AbstractGameModelBuilder{
+public class GameSavingBuilder extends AbstractGameModelBuilder {
 
 	@Override
 	public void buildModel() {
@@ -53,14 +53,15 @@ public class GameSavingBuilder extends AbstractGameModelBuilder{
 	@Override
 	public void buildGraph() {
 		this.setGameModel(RunningGame.getInstance());
-		try {	        
+		try {
 			Writer writer = new StringWriter();
-			GraphExporter<String, DefaultEdge> exporter = new DOTExporter<>(new StringComponentNameProvider<String>(), new StringComponentNameProvider<String>(), null);
+			GraphExporter<String, DefaultEdge> exporter = new DOTExporter<>(new StringComponentNameProvider<String>(),
+					new StringComponentNameProvider<String>(), null);
 			exporter.exportGraph(RunningGame.getInstance().getGraph(), writer);
 			String serilaizedGraph = StringEscapeUtils.escapeXml11(writer.toString());
 			this.getGameModel().setSerilaizedGraph(serilaizedGraph);
 		} catch (ExportException exportException) {
 			throw new RiskGameRuntimeException(AbstractGameModelBuilder.GAME_CANNOT_BE_SAVED, exportException);
-		}	
+		}
 	}
 }

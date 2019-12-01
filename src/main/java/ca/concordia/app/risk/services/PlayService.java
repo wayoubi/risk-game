@@ -9,14 +9,14 @@ import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
  * 
- * PlayController class has all commanded for playing the game example
- * attacking other player
+ * PlayController class has all commanded for playing the game example attacking
+ * other player
  * 
  * @author i857625
  *
  */
 public class PlayService {
-	
+
 	/**
 	 * Dependency injection from ShellHelper
 	 */
@@ -25,6 +25,7 @@ public class PlayService {
 
 	/**
 	 * Old attack method
+	 * 
 	 * @param attacker attacker country name
 	 */
 	public void attack(String attacker) {

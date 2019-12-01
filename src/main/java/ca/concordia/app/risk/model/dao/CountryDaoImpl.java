@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,14 +14,15 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 /**
  * This class is DAO(Data Access Layer) for country - to access a country's info
+ * 
  * @author i857625
  *
  */
 public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
-	 * This method finds a country by name
-	 * {@inheritDoc}
+	 * This method finds a country by name {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param name      country name
 	 * @return country object
@@ -33,8 +33,8 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	}
 
 	/**
-	 * This method finds a country by id
-	 * {@inheritDoc}
+	 * This method finds a country by id {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param id        id
 	 * @return country object
@@ -45,8 +45,8 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	}
 
 	/**
-	 * This method assigns id to a country
-	 * {@inheritDoc}
+	 * This method assigns id to a country {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param t         country model
 	 */
@@ -62,8 +62,8 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 	}
 
 	/**
-	 * This method removes a list of countries
-	 * {@inheritDoc}
+	 * This method removes a list of countries {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param t         country model
 	 */
@@ -75,17 +75,19 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
 	 * This method gets list of countries
+	 * 
 	 * @param gameModel game model
 	 * @return list of countries
 	 */
 	public List<CountryModel> getNeighboursOf(CountryModel countryModel, @NotNull GameModel gameModel) {
-		//return gameModel.getCountries().getList().stream().collect(Collectors.toList());
+		// return
+		// gameModel.getCountries().getList().stream().collect(Collectors.toList());
 		BorderDaoImp borderDaoImp = new BorderDaoImp();
 		BorderModel borderModel = borderDaoImp.findById(gameModel, countryModel.getId());
 		List<Integer> neighbours = borderModel.getNeighbours();
 		List<CountryModel> neighboursModels = new ArrayList<CountryModel>();
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-		for(Integer id : neighbours) {
+		for (Integer id : neighbours) {
 			neighboursModels.add(countryDaoImpl.findById(RunningGame.getInstance(), id));
 		}
 		return neighboursModels;

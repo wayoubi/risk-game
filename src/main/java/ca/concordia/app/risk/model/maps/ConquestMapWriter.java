@@ -21,7 +21,7 @@ public class ConquestMapWriter {
 	 * 
 	 */
 	private PrintWriter printWriter;
-	
+
 	/**
 	 * 
 	 * @param printWriter
@@ -29,7 +29,7 @@ public class ConquestMapWriter {
 	public ConquestMapWriter(PrintWriter printWriter) {
 		this.setPrintWriter(printWriter);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -43,7 +43,7 @@ public class ConquestMapWriter {
 		this.getPrintWriter().printf("warn=yes%s", System.lineSeparator());
 		this.getPrintWriter().print(System.lineSeparator());
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -55,25 +55,27 @@ public class ConquestMapWriter {
 				.forEach(continent -> this.getPrintWriter().printf("%s=%s%s", continent.getName(),
 						continent.getNumberOfCountries(), System.lineSeparator()));
 		this.getPrintWriter().print(System.lineSeparator());
-		
+
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void writeTerritories() { 
+	public void writeTerritories() {
 		Comparator<CountryModel> countryModelComparator = Comparator.comparing(CountryModel::getId);
 		this.getPrintWriter().printf("[Territories]%s", System.lineSeparator());
-		RunningGame.getInstance().getCountries().getList().stream().sorted(countryModelComparator)
-				.forEach(country -> {
-					ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-					ContinentModel continentModel =  continentDaoImpl.findById(RunningGame.getInstance(), country.getContinentId());
-					CountryDaoImpl countryDaoImpl = new CountryDaoImpl();	
-					String neighboursStr = countryDaoImpl.getNeighboursOf(country, RunningGame.getInstance()).stream().map(CountryModel::getName).collect(Collectors.joining(","));
-					this.getPrintWriter().printf("%s,%s,%s%s",country.getName(),continentModel.getName(), neighboursStr, System.lineSeparator());
-				});
+		RunningGame.getInstance().getCountries().getList().stream().sorted(countryModelComparator).forEach(country -> {
+			ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+			ContinentModel continentModel = continentDaoImpl.findById(RunningGame.getInstance(),
+					country.getContinentId());
+			CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
+			String neighboursStr = countryDaoImpl.getNeighboursOf(country, RunningGame.getInstance()).stream()
+					.map(CountryModel::getName).collect(Collectors.joining(","));
+			this.getPrintWriter().printf("%s,%s,%s%s", country.getName(), continentModel.getName(), neighboursStr,
+					System.lineSeparator());
+		});
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -89,6 +91,5 @@ public class ConquestMapWriter {
 	public void setPrintWriter(PrintWriter printWriter) {
 		this.printWriter = printWriter;
 	}
-	
-	
+
 }

@@ -12,6 +12,7 @@ public class RiskGameRuntimeException extends RuntimeException {
 
 	/**
 	 * This method is for games exception handling
+	 * 
 	 * @param errorMessage error message
 	 */
 	public RiskGameRuntimeException(String errorMessage) {
@@ -20,6 +21,7 @@ public class RiskGameRuntimeException extends RuntimeException {
 
 	/**
 	 * This method is for games run time exception handling
+	 * 
 	 * @param errorMessage error message
 	 * @param exception    exception
 	 */

@@ -14,14 +14,15 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 /**
  * This class is DAO(Data Access Layer) for continent - to access a continent's
+ * 
  * @author i857625
  *
  */
 public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	/**
-	 * This method finds a continent by name
-	 * {@inheritDoc}
+	 * This method finds a continent by name {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param name      name
 	 * @return continent object
@@ -33,8 +34,8 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	}
 
 	/**
-	 * This method finds a continent by id
-	 * {@inheritDoc}
+	 * This method finds a continent by id {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param id        id
 	 * @return continent object
@@ -45,8 +46,8 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	}
 
 	/**
-	 * This method assigns id to a continent
-	 * {@inheritDoc}
+	 * This method assigns id to a continent {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param t         continent model
 	 */
@@ -62,8 +63,8 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 	}
 
 	/**
-	 * This method removes a list of continents
-	 * {@inheritDoc}
+	 * This method removes a list of continents {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param t         continent model
 	 */
@@ -74,6 +75,7 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	/**
 	 * This method gets list of countries of a continent
+	 * 
 	 * @param gameModel game model
 	 * @param t         continent model
 	 * @return list of continents

@@ -3,7 +3,7 @@ package ca.concordia.app.risk.model.builder;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 public class GamePersistanceManager {
-	
+
 	/**
 	 * 
 	 */
@@ -16,7 +16,7 @@ public class GamePersistanceManager {
 	public GamePersistanceManager(AbstractGameModelBuilder gameModelBuilder) {
 		this.gameModelBuilder = gameModelBuilder;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -25,7 +25,7 @@ public class GamePersistanceManager {
 		this.getGameModelBuilder().buildModel();
 		this.getGameModelBuilder().buildGraph();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -33,7 +33,7 @@ public class GamePersistanceManager {
 		this.getGameModelBuilder().buildGraph();
 		this.getGameModelBuilder().buildModel();
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -41,7 +41,7 @@ public class GamePersistanceManager {
 	public GameModel getGameMmodel() {
 		return this.getGameModelBuilder().getGameModel();
 	}
-	
+
 	/**
 	 * 
 	 * @return

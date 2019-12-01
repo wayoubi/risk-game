@@ -28,72 +28,72 @@ class RiskGameBeanConfigTest {
 
 	@Test
 	void testMyPromptProvider() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testShellHelper() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testInputReader() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testSimpleSpinner() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testGameUtils() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testGameBusinessDelegate() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testPlayBusinessDelegate() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testViewBusinessDelegate() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testPresentationService() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testGameService() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testMapBusinessDelegate() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testMapService() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testTaskExecutor() {
-		//TODO
+		// TODO
 	}
 
 	@Test
 	void testRiskGameDashboardBean() {
-		//TODO
+		// TODO
 	}
 
 }

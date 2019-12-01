@@ -289,7 +289,7 @@ public class MapController {
 	 * @return operation result (error/success)
 	 */
 	@ShellMethod("Edit map saved in file")
-	public String editmap(@ShellOption(value = { "-file" }, optOut = false) String fileName, 
+	public String editmap(@ShellOption(value = { "-file" }, optOut = false) String fileName,
 			@ShellOption(value = { "-format" }, defaultValue = DEFAULT_FILE_FORMAT) String format) {
 
 		if (log.isDebugEnabled()) {
@@ -313,7 +313,7 @@ public class MapController {
 	@ShellMethod("Load map saved in file")
 	public String loadmap(@ShellOption(value = { "-file" }, optOut = false) String fileName,
 			@ShellOption(value = { "-format" }, defaultValue = DEFAULT_FILE_FORMAT) String format) {
-		 
+
 		if (log.isDebugEnabled()) {
 			log.debug(String.format("inside loadmap, passed parameters [%s]", fileName));
 		}

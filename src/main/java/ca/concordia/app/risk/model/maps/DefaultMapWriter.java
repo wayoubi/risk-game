@@ -15,7 +15,7 @@ import ca.concordia.app.risk.model.xmlbeans.CountryModel;
  *
  */
 public class DefaultMapWriter implements MapWriter {
-	
+
 	/**
 	 * 
 	 */
@@ -34,7 +34,7 @@ public class DefaultMapWriter implements MapWriter {
 	@Override
 	public void writeHeader() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class DefaultMapWriter implements MapWriter {
 				.forEach(continent -> this.getPrintWriter().printf("%s %s%s", continent.getName(),
 						continent.getNumberOfCountries(), System.lineSeparator()));
 		this.getPrintWriter().print(System.lineSeparator());
-		
+
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class DefaultMapWriter implements MapWriter {
 						System.lineSeparator()));
 		this.getPrintWriter().print(System.lineSeparator());
 	}
-	
+
 	/**
 	 * 
 	 * @return

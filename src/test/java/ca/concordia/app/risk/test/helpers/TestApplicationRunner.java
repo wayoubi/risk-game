@@ -1,7 +1,6 @@
 package ca.concordia.app.risk.test.helpers;
 
 import org.slf4j.Logger;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -32,323 +32,326 @@ import ca.concordia.app.risk.utility.DateUtils;
  */
 public class RunningGame extends GameModel {
 
-  /**
-   * 
-   */
-  RunningGameSubject subject;
+	/**
+	 * 
+	 */
+	RunningGameSubject subject;
 
-  /**
-   * Current running game
-   */
-  private static RunningGame runningGame;
+	/**
+	 * Current running game
+	 */
+	private static RunningGame runningGame;
 
-  /**
-   * Current games graph
-   */
-  private Graph<String, DefaultEdge> graph;
+	/**
+	 * Current games graph
+	 */
+	private Graph<String, DefaultEdge> graph;
 
-  /**
-   * A Hashmap holding continents graphs
-   */
-  private HashMap<String, Graph<String, DefaultEdge>> contientsGraphsMap;
+	/**
+	 * A Hashmap holding continents graphs
+	 */
+	private HashMap<String, Graph<String, DefaultEdge>> contientsGraphsMap;
 
-  /**
-   * 
-   */
-  private Player currentPlayer;
+	/**
+	 * 
+	 */
+	private Player currentPlayer;
 
-  /**
-   * Make models to start a new game - ContinentsModel, PlayersModel,
-   * CountriesModel, BordersModel Make the graph No player yet
-   */
-  private RunningGame() {
-    super();
+	/**
+	 * Make models to start a new game - ContinentsModel, PlayersModel,
+	 * CountriesModel, BordersModel Make the graph No player yet
+	 */
+	private RunningGame() {
+		super();
 
-    this.setSubject(new RunningGameSubject());
+		this.setSubject(new RunningGameSubject());
 
-    try {
-      this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
-    } catch (DatatypeConfigurationException configurationException) {
-      throw new RiskGameRuntimeException(configurationException.getMessage());
-    }
+		try {
+			this.setCreatedDate(DateUtils.getXMLDateTime(new Date()));
+		} catch (DatatypeConfigurationException configurationException) {
+			throw new RiskGameRuntimeException(configurationException.getMessage());
+		}
 
-    ObjectFactory objectFactory = new ObjectFactory();
+		ObjectFactory objectFactory = new ObjectFactory();
 
-    ContinentsModel continentsModel = objectFactory.createContinentsModel();
-    this.setContinents(continentsModel);
+		ContinentsModel continentsModel = objectFactory.createContinentsModel();
+		this.setContinents(continentsModel);
 
-    PlayersModel playersModel = objectFactory.createPlayersModel();
-    this.setPlayers(playersModel);
+		PlayersModel playersModel = objectFactory.createPlayersModel();
+		this.setPlayers(playersModel);
 
-    CountriesModel countriesModel = objectFactory.createCountriesModel();
-    this.setCountries(countriesModel);
+		CountriesModel countriesModel = objectFactory.createCountriesModel();
+		this.setCountries(countriesModel);
 
-    BordersModel bordersModel = objectFactory.createBordersModel();
-    this.setBorders(bordersModel);
+		BordersModel bordersModel = objectFactory.createBordersModel();
+		this.setBorders(bordersModel);
 
-    graph = GraphTypeBuilder.<String, DefaultEdge>directed().allowingMultipleEdges(false).allowingSelfLoops(false)
-        .edgeClass(DefaultEdge.class).weighted(false).buildGraph();
+		graph = GraphTypeBuilder.<String, DefaultEdge>directed().allowingMultipleEdges(false).allowingSelfLoops(false)
+				.edgeClass(DefaultEdge.class).weighted(false).buildGraph();
 
-    contientsGraphsMap = new HashMap<>();
-  }
+		contientsGraphsMap = new HashMap<>();
+	}
 
-  /**
-   * return the only one Running Game object
-   * 
-   * @return runningGame
-   */
-  public static RunningGame getInstance() {
-    if (runningGame == null) {
-      runningGame = new RunningGame();
-    }
+	/**
+	 * return the only one Running Game object
+	 * 
+	 * @return runningGame
+	 */
+	public static RunningGame getInstance() {
+		if (runningGame == null) {
+			runningGame = new RunningGame();
+		}
 
-    return runningGame;
-  }
+		return runningGame;
+	}
 
-  /**
-   * This method restarts the runningGame (current game)
-   */
-  public static void reset() {
-    RunningGameSubject subject = RunningGame.getInstance().getSubject();
-    runningGame = new RunningGame();
-    RunningGame.getInstance().setSubject(subject);
-  }
+	/**
+	 * This method restarts the runningGame (current game)
+	 */
+	public static void reset() {
+		RunningGameSubject subject = RunningGame.getInstance().getSubject();
+		runningGame = new RunningGame();
+		RunningGame.getInstance().setSubject(subject);
+	}
 
-  /**
-   * @return graph of current game
-   */
-  public Graph<String, DefaultEdge> getGraph() {
-    return this.graph;
-  }
+	/**
+	 * @return graph of current game
+	 */
+	public Graph<String, DefaultEdge> getGraph() {
+		return this.graph;
+	}
 
-  /**
-   * 
-   * @param graph
-   */
-  public void setGraph(Graph<String, DefaultEdge> graph) {
-    this.graph = graph;
-  }
+	/**
+	 * 
+	 * @param graph
+	 */
+	public void setGraph(Graph<String, DefaultEdge> graph) {
+		this.graph = graph;
+	}
 
-  /**
-   * add Continent to the Graph
-   * 
-   * @param continentName continent name
-   */
-  public void addContinentGraph(String continentName) {
-    this.contientsGraphsMap.computeIfAbsent(continentName,
-        k -> GraphTypeBuilder.<String, DefaultEdge>undirected().allowingMultipleEdges(false).allowingSelfLoops(false)
-            .edgeClass(DefaultEdge.class).weighted(false).buildGraph());
-  }
+	/**
+	 * add Continent to the Graph
+	 * 
+	 * @param continentName continent name
+	 */
+	public void addContinentGraph(String continentName) {
+		this.contientsGraphsMap.computeIfAbsent(continentName,
+				k -> GraphTypeBuilder.<String, DefaultEdge>undirected().allowingMultipleEdges(false)
+						.allowingSelfLoops(false).edgeClass(DefaultEdge.class).weighted(false).buildGraph());
+	}
 
-  /**
-   * remove Continent from the Graph
-   * 
-   * @param continentName continent name
-   */
-  public void removeContinentGraph(String continentName) {
-    this.contientsGraphsMap.remove(continentName);
-  }
+	/**
+	 * remove Continent from the Graph
+	 * 
+	 * @param continentName continent name
+	 */
+	public void removeContinentGraph(String continentName) {
+		this.contientsGraphsMap.remove(continentName);
+	}
 
-  /**
-   * gets continent graph
-   * 
-   * @param continentName continent name
-   * @return Graph
-   */
-  public Graph<String, DefaultEdge> getContinentGraph(String continentName) {
-    ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-    ContinentModel continentModel = continentDaoImpl.findByName(this, continentName);
-    if (continentModel == null) {
-      throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist", continentName));
-    }
-    return this.contientsGraphsMap.get(continentName);
-  }
+	/**
+	 * gets continent graph
+	 * 
+	 * @param continentName continent name
+	 * @return Graph
+	 */
+	public Graph<String, DefaultEdge> getContinentGraph(String continentName) {
+		ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+		ContinentModel continentModel = continentDaoImpl.findByName(this, continentName);
+		if (continentModel == null) {
+			throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist", continentName));
+		}
+		return this.contientsGraphsMap.get(continentName);
+	}
 
-  /**
-   * This method change turn between players
-   */
-  public void moveToNextPlayer() {
+	/**
+	 * This method change turn between players
+	 */
+	public void moveToNextPlayer() {
 
-    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
 
-    if (this.getCurrentPlayer() == null) {
-      this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), 1)));
-    } else {
-      int turn = this.getCurrentPlayer().getPlayerModel().getId();
-      if (turn == this.getPlayers().getList().size()) {
-        this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), 1)));
-      } else {
-        this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), ++turn)));
-      }
-      List<CountryModel> countryModels = playerDaoImpl.getCountries(RunningGame.getInstance(),
-          RunningGame.getInstance().getCurrentPlayer().getPlayerModel());
-      if (countryModels.size() == 0) {
-        moveToNextPlayer();
-      }
-    }
-    this.setSavedPlayerId(this.getCurrentPlayer().getPlayerModel().getId());
-  }
+		if (this.getCurrentPlayer() == null) {
+			this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), 1)));
+		} else {
+			int turn = this.getCurrentPlayer().getPlayerModel().getId();
+			if (turn == this.getPlayers().getList().size()) {
+				this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), 1)));
+			} else {
+				this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), ++turn)));
+			}
+			List<CountryModel> countryModels = playerDaoImpl.getCountries(RunningGame.getInstance(),
+					RunningGame.getInstance().getCurrentPlayer().getPlayerModel());
+			if (countryModels.size() == 0) {
+				moveToNextPlayer();
+			}
+		}
+		this.setSavedPlayerId(this.getCurrentPlayer().getPlayerModel().getId());
+	}
 
-  /**
-   * This method intialize reinforcement phase
-   */
-  public void exchangeCardsInitialization() {
-    PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
-    List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
+	/**
+	 * This method intialize reinforcement phase
+	 */
+	public void exchangeCardsInitialization() {
+		PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
+		List<String> cards = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList();
 
-    if (cards.size() >= 3) {
-      int infantryCount = 0, cavalryCount = 0, artilleryCount = 0;
-      for (int i = 0; i < cards.size(); i++) {
-        if (cards.get(i) == "Infantry") {
-          infantryCount += 1;
-        } else if (cards.get(i) == "Cavalry") {
-          cavalryCount += 1;
-        } else if (cards.get(i) == "Artillery") {
-          artilleryCount += 1;
-        }
-      }
-      if ((infantryCount >= 1 && cavalryCount >= 1 && artilleryCount >= 1)) {
-        if (!"Human".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
-          String[] cardsArray = new String[3];
-          int count = 0;
-          boolean infantryDone = false, artilleryDone = false, cavalryDone = false;
-          for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i) == "Infantry" && !infantryDone) {
-              cardsArray[count] = Integer.toString(i + 1);
-              infantryDone = true;
-              count++;
-            } else if (cards.get(i) == "Cavalry" && !cavalryDone) {
-              cardsArray[count] = Integer.toString(i + 1);
-              cavalryDone = true;
-              count++;
-            } else if (cards.get(i) == "Artillery" && !artilleryDone) {
-              cardsArray[count] = Integer.toString(i + 1);
-              artilleryDone = true;
-              count++;
-            }
-            if (count == 3) {
-              break;
-            }
-          }
-          RunningGame.getInstance().getCurrentPlayer().exchangeCards(cardsArray);
-        } else {
-          activePlayerModel.setPlayingPhase("Reinforcement - Exchange Cards");
-        }
-      } else if (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3) {
-        if (!"Human".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
-          String[] cardsArray = new String[3];
-          int count = 0;
-          String checkType = infantryCount >= 3 ? "Infantry" : cavalryCount >= 3 ? "Cavalry" : "Artillery";
-          for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i) == checkType) {
-              cardsArray[count] = Integer.toString(i + 1);
-              count++;
-            }
-            if (count == 3) {
-              break;
-            }
-          }
-          RunningGame.getInstance().getCurrentPlayer().exchangeCards(cardsArray);
-        } else {
-          activePlayerModel.setPlayingPhase("Reinforcement - Exchange Cards");
-        }
-      }
-    } else {
-      this.setCardExchangeCompleted(true);
-      this.reinforceInitialization();
-    }
-  }
+		if (cards.size() >= 3) {
+			int infantryCount = 0, cavalryCount = 0, artilleryCount = 0;
+			for (int i = 0; i < cards.size(); i++) {
+				if (cards.get(i) == "Infantry") {
+					infantryCount += 1;
+				} else if (cards.get(i) == "Cavalry") {
+					cavalryCount += 1;
+				} else if (cards.get(i) == "Artillery") {
+					artilleryCount += 1;
+				}
+			}
+			if ((infantryCount >= 1 && cavalryCount >= 1 && artilleryCount >= 1)) {
+				if (!"Human".equalsIgnoreCase(
+						RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
+					String[] cardsArray = new String[3];
+					int count = 0;
+					boolean infantryDone = false, artilleryDone = false, cavalryDone = false;
+					for (int i = 0; i < cards.size(); i++) {
+						if (cards.get(i) == "Infantry" && !infantryDone) {
+							cardsArray[count] = Integer.toString(i + 1);
+							infantryDone = true;
+							count++;
+						} else if (cards.get(i) == "Cavalry" && !cavalryDone) {
+							cardsArray[count] = Integer.toString(i + 1);
+							cavalryDone = true;
+							count++;
+						} else if (cards.get(i) == "Artillery" && !artilleryDone) {
+							cardsArray[count] = Integer.toString(i + 1);
+							artilleryDone = true;
+							count++;
+						}
+						if (count == 3) {
+							break;
+						}
+					}
+					RunningGame.getInstance().getCurrentPlayer().exchangeCards(cardsArray);
+				} else {
+					activePlayerModel.setPlayingPhase("Reinforcement - Exchange Cards");
+				}
+			} else if (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3) {
+				if (!"Human".equalsIgnoreCase(
+						RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
+					String[] cardsArray = new String[3];
+					int count = 0;
+					String checkType = infantryCount >= 3 ? "Infantry" : cavalryCount >= 3 ? "Cavalry" : "Artillery";
+					for (int i = 0; i < cards.size(); i++) {
+						if (cards.get(i) == checkType) {
+							cardsArray[count] = Integer.toString(i + 1);
+							count++;
+						}
+						if (count == 3) {
+							break;
+						}
+					}
+					RunningGame.getInstance().getCurrentPlayer().exchangeCards(cardsArray);
+				} else {
+					activePlayerModel.setPlayingPhase("Reinforcement - Exchange Cards");
+				}
+			}
+		} else {
+			this.setCardExchangeCompleted(true);
+			this.reinforceInitialization();
+		}
+	}
 
-  public boolean checkGameCompleted() {
-    PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
-    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-    List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), activePlayerModel);
-    int totalCountryNumbers = RunningGame.getInstance().getCountries().getList().size();
-    int playerCountryOwnsCount = playerCountries.size();
-    if (totalCountryNumbers == playerCountryOwnsCount) {
-      return true;
-    }
-    return false;
-  }
+	public boolean checkGameCompleted() {
+		PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
+		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+		List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), activePlayerModel);
+		int totalCountryNumbers = RunningGame.getInstance().getCountries().getList().size();
+		int playerCountryOwnsCount = playerCountries.size();
+		if (totalCountryNumbers == playerCountryOwnsCount) {
+			return true;
+		}
+		return false;
+	}
 
-  public void reinforceInitialization() {
+	public void reinforceInitialization() {
 
-    int numberOfCountries = this.getCountries().getList().size();
-    PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
+		int numberOfCountries = this.getCountries().getList().size();
+		PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
 
-    this.setCardGiven(false);
-    this.setAllOut(false);
-    this.setAttackCompleted(false);
+		this.setCardGiven(false);
+		this.setAllOut(false);
+		this.setAttackCompleted(false);
 
-    int reinforcementArmies = activePlayerModel.getReinforcementNoOfArmies();
-    boolean fullContinentOccupy = false;
+		int reinforcementArmies = activePlayerModel.getReinforcementNoOfArmies();
+		boolean fullContinentOccupy = false;
 
-    if (Math.floor((float) numberOfCountries / 3) > 3) {
-      reinforcementArmies += Math.floorDiv(numberOfCountries, 3);
-    } else {
-      reinforcementArmies += 3;
-    }
+		if (Math.floor((float) numberOfCountries / 3) > 3) {
+			reinforcementArmies += Math.floorDiv(numberOfCountries, 3);
+		} else {
+			reinforcementArmies += 3;
+		}
 
-    List<ContinentModel> continentModels = RunningGame.getInstance().getContinents().getList();
-    ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+		List<ContinentModel> continentModels = RunningGame.getInstance().getContinents().getList();
+		ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
 
-    for (ContinentModel item : continentModels) {
+		for (ContinentModel item : continentModels) {
 
-      fullContinentOccupy = true;
-      List<CountryModel> countryModels = continentDaoImpl.getCountries(RunningGame.getInstance(), item);
+			fullContinentOccupy = true;
+			List<CountryModel> countryModels = continentDaoImpl.getCountries(RunningGame.getInstance(), item);
 
-      for (CountryModel countryModel : countryModels) {
-        if (countryModel.getPlayerId() != activePlayerModel.getId())
-          fullContinentOccupy = false;
-      }
-      if (fullContinentOccupy) {
-        reinforcementArmies += item.getControlValue();
-      }
-    }
-    if (activePlayerModel != null) {
-      activePlayerModel.setPlayingPhase("Reinforcement");
-      activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
-      this.setReinforceCompleted(false);
+			for (CountryModel countryModel : countryModels) {
+				if (countryModel.getPlayerId() != activePlayerModel.getId())
+					fullContinentOccupy = false;
+			}
+			if (fullContinentOccupy) {
+				reinforcementArmies += item.getControlValue();
+			}
+		}
+		if (activePlayerModel != null) {
+			activePlayerModel.setPlayingPhase("Reinforcement");
+			activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
+			this.setReinforceCompleted(false);
 
-      // if not human execute reinforce automatically
-      System.out.println(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy());
+			// if not human execute reinforce automatically
+			System.out.println(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy());
 
-      if (!"Human".equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
-        RunningGame.getInstance().getCurrentPlayer().getStrategy().reinforce(null, 0);
-      }
+			if (!"Human"
+					.equalsIgnoreCase(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy())) {
+				RunningGame.getInstance().getCurrentPlayer().getStrategy().reinforce(null, 0);
+			}
 
-    }
-  }
+		}
+	}
 
-  /**
-   * 
-   * @return
-   */
-  public RunningGameSubject getSubject() {
-    return subject;
-  }
+	/**
+	 * 
+	 * @return
+	 */
+	public RunningGameSubject getSubject() {
+		return subject;
+	}
 
-  /**
-   * 
-   * @param observer
-   */
-  public void setSubject(RunningGameSubject subject) {
-    this.subject = subject;
-  }
+	/**
+	 * 
+	 * @param observer
+	 */
+	public void setSubject(RunningGameSubject subject) {
+		this.subject = subject;
+	}
 
-  /**
-   * 
-   * @return
-   */
-  public Player getCurrentPlayer() {
-    return currentPlayer;
-  }
+	/**
+	 * 
+	 * @return
+	 */
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
 
-  /**
-   * 
-   * @param currentPlayer
-   */
-  public void setCurrentPlayer(Player currentPlayer) {
-    this.currentPlayer = currentPlayer;
-  }
+	/**
+	 * 
+	 * @param currentPlayer
+	 */
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
 }

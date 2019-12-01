@@ -28,7 +28,7 @@ class RiskGameRunnerTest {
 
 	@Test
 	void testMain() {
-		//TODO
+		// TODO
 	}
 
 }

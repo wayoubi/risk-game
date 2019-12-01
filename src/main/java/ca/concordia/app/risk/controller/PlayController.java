@@ -13,8 +13,8 @@ import ca.concordia.app.risk.shell.ShellHelper;
 import ca.concordia.app.risk.utility.GameUtils;
 
 /**
- * PlayController class has all commanded for playing the game example
- * attacking other player
+ * PlayController class has all commanded for playing the game example attacking
+ * other player
  * 
  * @author i857625
  */

@@ -31,16 +31,15 @@ public class GameGraphView extends JPanel implements Observer {
 		this.setVisible(true);
 	}
 
-    /**
-     * This method is called whenever the observed object is changed. 
-     * <br>An application calls an Observable object's
-     * <code>notifyObservers</code> method to have all the object's
-     * observers notified of the change.
-     *
-     * @param   observable     the observable object.
-     * @param   object   an argument passed to the <code>notifyObservers</code>
-     *                 method.
-     */
+	/**
+	 * This method is called whenever the observed object is changed. <br>
+	 * An application calls an Observable object's <code>notifyObservers</code>
+	 * method to have all the object's observers notified of the change.
+	 *
+	 * @param observable the observable object.
+	 * @param object     an argument passed to the <code>notifyObservers</code>
+	 *                   method.
+	 */
 	public void update(Observable observable, Object object) {
 		this.removeAll();
 		jGraphXAdapterView = new JGraphXAdapterView();

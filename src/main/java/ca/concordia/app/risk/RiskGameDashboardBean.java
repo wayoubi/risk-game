@@ -13,10 +13,11 @@ public class RiskGameDashboardBean {
 
 	/**
 	 * This method creates RiskGameDashboard bean.
+	 * 
 	 * @param taskExecutor runnable code to execute
 	 */
 	public RiskGameDashboardBean(TaskExecutor taskExecutor) {
 		taskExecutor.execute(new RiskGameDashboard());
 	}
-	
+
 }

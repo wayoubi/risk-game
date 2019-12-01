@@ -17,10 +17,10 @@ public class ContinentDto implements Dto {
 	public ContinentDto() {
 		super();
 	}
-	
+
 	/**
-	 * Constructor(numberOfCountries, name, controlValue)
-	 * Initialize Class Properties
+	 * Constructor(numberOfCountries, name, controlValue) Initialize Class
+	 * Properties
 	 * 
 	 * @param numberOfCountries number of countries
 	 * @param name              continent name
@@ -35,6 +35,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * gets {@link numberOfCountries}
+	 * 
 	 * @return numberOfCountries
 	 */
 	public int getNumberOfCountries() {
@@ -43,6 +44,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * sets {@link numberOfCountries}
+	 * 
 	 * @param numberOfCountries sets number of countries
 	 */
 	public void setNumberOfCountries(int numberOfCountries) {
@@ -51,6 +53,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * gets {@link name}
+	 * 
 	 * @return continent name
 	 */
 	public String getName() {
@@ -59,6 +62,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * sets {@link name}
+	 * 
 	 * @param name sets continent name
 	 */
 	public void setName(String name) {
@@ -67,6 +71,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * gets {@link controlValue}
+	 * 
 	 * @return controlValue
 	 */
 	public int getControlValue() {
@@ -75,6 +80,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * sets {@link controlValue}
+	 * 
 	 * @param controlValue sets control value
 	 */
 	public void setControlValue(int controlValue) {
@@ -83,6 +89,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @return result
 	 */
 	@Override
@@ -97,6 +104,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @param obj check object is equals
 	 * @return true/false
 	 */
@@ -129,6 +137,7 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @throws ValidationException exception
 	 */
 	@Override

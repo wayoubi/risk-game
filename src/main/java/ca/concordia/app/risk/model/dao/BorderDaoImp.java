@@ -8,14 +8,15 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 /**
  * This class is DAO(Data Access Layer) for borders - edges of the graph
+ * 
  * @author i857625
  *
  */
 public class BorderDaoImp implements Dao<BorderModel> {
 
 	/**
-	 * This method finds border of a country by countryName
-	 * {@inheritDoc}
+	 * This method finds border of a country by countryName {@inheritDoc}
+	 * 
 	 * @param gameModel   game model
 	 * @param countryName country name
 	 * @return border object
@@ -28,8 +29,8 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	}
 
 	/**
-	 * This method finds a border by id
-	 * {@inheritDoc}
+	 * This method finds a border by id {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param countryId country id
 	 * @return border object
@@ -41,8 +42,8 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	}
 
 	/**
-	 * This method assign id
-	 * {@inheritDoc}
+	 * This method assign id {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param t         border Model
 	 * @throws UnsupportedOperationException unsupported operation exception
@@ -53,8 +54,8 @@ public class BorderDaoImp implements Dao<BorderModel> {
 	}
 
 	/**
-	 * This method removes a list of borders - edges
-	 * {@inheritDoc}
+	 * This method removes a list of borders - edges {@inheritDoc}
+	 * 
 	 * @param gameModel game model
 	 * @param t         border model
 	 */

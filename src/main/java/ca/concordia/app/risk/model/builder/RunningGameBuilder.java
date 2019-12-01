@@ -36,9 +36,9 @@ public class RunningGameBuilder extends AbstractGameModelBuilder {
 		try {
 			File file = new File("saved/game.xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(GameModel.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            GameModel gameModel = (GameModel) jaxbUnmarshaller.unmarshal(file);
-            this.setGameModel(gameModel);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			GameModel gameModel = (GameModel) jaxbUnmarshaller.unmarshal(file);
+			this.setGameModel(gameModel);
 		} catch (JAXBException jaxbException) {
 			jaxbException.printStackTrace();
 			throw new RiskGameRuntimeException(AbstractGameModelBuilder.GAME_CANNOT_BE_LOADED, jaxbException);
@@ -48,15 +48,14 @@ public class RunningGameBuilder extends AbstractGameModelBuilder {
 		BeanUtils.copyProperties(this.getGameModel(), RunningGame.getInstance());
 		RunningGame.getInstance().setSubject(subject);
 		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
-		RunningGame.getInstance().setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), RunningGame.getInstance().getSavedPlayerId())));
+		RunningGame.getInstance().setCurrentPlayer(new Player(
+				playerDaoImpl.findById(RunningGame.getInstance(), RunningGame.getInstance().getSavedPlayerId())));
 	}
 
 	@Override
 	public void buildGraph() {
-		GraphImporter<String, DefaultEdge> importer = new DOTImporter<>(
-	               (label, attributes) -> label, 
-	               (from, to, label, attributes) -> new DefaultEdge()
-	    );
+		GraphImporter<String, DefaultEdge> importer = new DOTImporter<>((label, attributes) -> label,
+				(from, to, label, attributes) -> new DefaultEdge());
 		try {
 			String unserilaizedGraph = StringEscapeUtils.unescapeXml(this.getGameModel().getSerilaizedGraph());
 			importer.importGraph(RunningGame.getInstance().getGraph(), new StringReader(unserilaizedGraph));
@@ -64,6 +63,6 @@ public class RunningGameBuilder extends AbstractGameModelBuilder {
 			importException.printStackTrace();
 			throw new RiskGameRuntimeException(GAME_CANNOT_BE_LOADED, importException);
 		}
-		
+
 	}
 }

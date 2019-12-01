@@ -18,31 +18,26 @@ import ca.concordia.app.risk.services.MapService;
  *
  */
 public class ConquestMapReader {
-	
+
 	/**
 	 * Dependency injection from GameService
 	 */
 	private MapService mapService;
-	
-	
+
 	/**
 	 * 
 	 */
 	private BufferedReader bufferedReader;
-	
+
 	/**
 	 * 
 	 */
 	private List<String> headerLines;
-	
-
 
 	/**
 	 * 
 	 */
 	private List<String> continentLines;
-	
-
 
 	/**
 	 * 
@@ -61,7 +56,7 @@ public class ConquestMapReader {
 		this.setTerritoryLines(new ArrayList<String>());
 		this.parse();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -97,21 +92,21 @@ public class ConquestMapReader {
 		} catch (IOException ioException) {
 			throw new RiskGameRuntimeException(ioException.getMessage(), ioException);
 		}
-		
+
 	}
 
 	/**
 	 * 
 	 */
 	public void readHeader() {
-		//DO Nothing
+		// DO Nothing
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void readContinents() {
-		for(String line: this.getContinentLines()) {
+		for (String line : this.getContinentLines()) {
 			StringTokenizer continentLine = new StringTokenizer(line, "=");
 			ContinentDto continentDto = new ContinentDto();
 			continentDto.setName(continentLine.nextToken());
@@ -119,39 +114,39 @@ public class ConquestMapReader {
 			mapService.addContinent(continentDto);
 		}
 	}
-		
+
 	/**
 	 * 
 	 */
 	public void readTerritories() {
-		
+
 		// add countries
-		for(String line: this.getTerritoryLines()) {
+		for (String line : this.getTerritoryLines()) {
 			StringTokenizer territoryLine = new StringTokenizer(line, ",");
 			CountryDto countryDto = new CountryDto();
 			countryDto.setName(territoryLine.nextToken());
-			countryDto.setContinentName(territoryLine.nextToken()); 
+			countryDto.setContinentName(territoryLine.nextToken());
 			mapService.addCountry(countryDto);
-		}	
-		
-		//add borders
-		for(String line: this.getTerritoryLines()) {
+		}
+
+		// add borders
+		for (String line : this.getTerritoryLines()) {
 			StringTokenizer territoryLine = new StringTokenizer(line, ",");
 			int counter = 0;
 			String country = null;
-			while(territoryLine.hasMoreTokens()) {
-				if(counter==0) {
+			while (territoryLine.hasMoreTokens()) {
+				if (counter == 0) {
 					country = territoryLine.nextToken();
-				} else if(counter==1) { 
+				} else if (counter == 1) {
 					territoryLine.nextToken();
-				} else if(counter!=1) {
+				} else if (counter != 1) {
 					String neighborCountryName = territoryLine.nextToken();
 					BorderDto borderDto = new BorderDto();
 					borderDto.setCountryName(country.trim());
 					borderDto.setNeighborCountryName(neighborCountryName.trim());
 					try {
 						mapService.addNeighbor(borderDto);
-					} catch(RiskGameRuntimeException rgRuntimeExceptionx) {
+					} catch (RiskGameRuntimeException rgRuntimeExceptionx) {
 						// do nothing
 					}
 				}
@@ -159,7 +154,7 @@ public class ConquestMapReader {
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -174,7 +169,7 @@ public class ConquestMapReader {
 	public void setBufferedReader(BufferedReader bufferedReader) {
 		this.bufferedReader = bufferedReader;
 	}
-	
+
 	/**
 	 * @return the headerLines
 	 */
@@ -188,7 +183,7 @@ public class ConquestMapReader {
 	private void setHeaderLines(List<String> headerLines) {
 		this.headerLines = headerLines;
 	}
-	
+
 	/**
 	 * @return the continentLines
 	 */
@@ -202,7 +197,7 @@ public class ConquestMapReader {
 	private void setContinentLines(List<String> continentLines) {
 		this.continentLines = continentLines;
 	}
-	
+
 	/**
 	 * @return the territoryLines
 	 */

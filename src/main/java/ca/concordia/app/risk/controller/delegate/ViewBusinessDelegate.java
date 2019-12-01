@@ -6,12 +6,13 @@ import ca.concordia.app.risk.services.PresentationService;
 
 /**
  * ViewBusinessDelegate, The facade class to access the PresentationService
+ * 
  * @author i857625
  *
  */
 public class ViewBusinessDelegate {
 
-	/** 
+	/**
 	 * Dependency injection from PresentationService
 	 */
 	@Autowired

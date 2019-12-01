@@ -21,8 +21,7 @@ public class CountryDto implements Dto {
 	}
 
 	/**
-	 * Constructor(name, numberOfArmies, continentName)
-	 * Initialize Class Properties
+	 * Constructor(name, numberOfArmies, continentName) Initialize Class Properties
 	 * 
 	 * @param name           country name
 	 * @param numberOfArmies number of armies of the country
@@ -37,6 +36,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link name}
+	 * 
 	 * @return country name
 	 */
 	public String getName() {
@@ -45,6 +45,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * sets {@link name}
+	 * 
 	 * @param name sets country name
 	 */
 	public void setName(String name) {
@@ -53,6 +54,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link numberOfArmies}
+	 * 
 	 * @return number Of Armies
 	 */
 	public int getNumberOfArmies() {
@@ -61,6 +63,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * sets {@link numberOfArmies}
+	 * 
 	 * @param numberOfArmies sets number of armies
 	 */
 	public void setNumberOfArmies(int numberOfArmies) {
@@ -69,6 +72,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * gets {@link continentName}
+	 * 
 	 * @return continent name
 	 */
 	public String getContinentName() {
@@ -77,6 +81,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * sets {@link continentName}
+	 * 
 	 * @param continentName sets continent Name
 	 */
 	public void setContinentName(String continentName) {
@@ -85,6 +90,7 @@ public class CountryDto implements Dto {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @return CountryDto [name, numberOfArmies, continentName]
 	 */
 	@Override
@@ -95,22 +101,24 @@ public class CountryDto implements Dto {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @return result
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		
+
 		result = prime * result + ((continentName == null) ? 0 : continentName.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + numberOfArmies;
-		
+
 		return result;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @param obj check object is equals
 	 * @return true/false
 	 */
@@ -142,12 +150,13 @@ public class CountryDto implements Dto {
 		} else if (numberOfArmies != other.numberOfArmies) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @throws ValidationException exception
 	 */
 	@Override

@@ -1,10 +1,6 @@
 package ca.concordia.app.risk.model.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +19,6 @@ import ca.concordia.app.risk.test.helpers.TestApplicationRunner;
 @ActiveProfiles("test")
 class CountryDaoImplTest {
 
-
 	@BeforeEach
 	void setUp() throws Exception {
 	}
@@ -32,31 +27,29 @@ class CountryDaoImplTest {
 	void tearDown() throws Exception {
 	}
 
-
-
 	@Test
 	void testFindByName() {
-		
+
 	}
 
 	@Test
 	void testFindById() {
-		
+
 	}
 
 	@Test
 	void testAssignID() {
-		
+
 	}
 
 	@Test
 	void testDelete() {
-		
+
 	}
 
 	@Test
 	void testGetCountries() {
-		
+
 	}
 
 }

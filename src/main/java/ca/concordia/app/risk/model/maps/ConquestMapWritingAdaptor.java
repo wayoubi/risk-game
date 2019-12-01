@@ -7,13 +7,13 @@ import java.io.PrintWriter;
  * @author i857625
  *
  */
-public class ConquestMapWritingAdaptor implements MapWriter{
+public class ConquestMapWritingAdaptor implements MapWriter {
 
 	/**
 	 * 
 	 */
 	private ConquestMapWriter conquestMapWriter;
-	
+
 	/**
 	 * 
 	 * @param printWriter
@@ -21,14 +21,14 @@ public class ConquestMapWritingAdaptor implements MapWriter{
 	public ConquestMapWritingAdaptor(PrintWriter printWriter) {
 		this.setConquestMapWriter(new ConquestMapWriter(printWriter));
 	}
-	
+
 	/**
 	 * 
 	 */
 	@Override
 	public void writeHeader() {
 		this.getConquestMapWriter().writeHeader();
-		
+
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class ConquestMapWritingAdaptor implements MapWriter{
 	@Override
 	public void writeContinents() {
 		this.getConquestMapWriter().writeContinents();
-		
+
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class ConquestMapWritingAdaptor implements MapWriter{
 	@Override
 	public void writeCountries() {
 		this.getConquestMapWriter().writeTerritories();
-		
+
 	}
 
 	/**
@@ -54,8 +54,8 @@ public class ConquestMapWritingAdaptor implements MapWriter{
 	 */
 	@Override
 	public void writeBorders() {
-		//Do Nothing
-		
+		// Do Nothing
+
 	}
 
 	/**

@@ -28,7 +28,7 @@ class RiskGameDashboardBeanTest {
 
 	@Test
 	void testRiskGameDashboardBean() {
-		//TODO
+		// TODO
 	}
 
 }

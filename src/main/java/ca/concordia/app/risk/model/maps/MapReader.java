@@ -11,17 +11,17 @@ public interface MapReader {
 	 * 
 	 */
 	public void readHeader();
-	
+
 	/**
 	 * 
 	 */
 	public void readContinents();
-	
+
 	/**
 	 * 
 	 */
 	public void readCountries();
-	
+
 	/**
 	 * 
 	 */

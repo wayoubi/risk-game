@@ -9,17 +9,17 @@ public interface MapWriter {
 	 * 
 	 */
 	public void writeHeader();
-	
+
 	/**
 	 * 
 	 */
 	public void writeContinents();
-	
+
 	/**
 	 * 
 	 */
 	public void writeCountries();
-	
+
 	/**
 	 * 
 	 */
