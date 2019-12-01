@@ -8,8 +8,6 @@ import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.PlayerModel;
-import ch.qos.logback.core.net.SyslogOutputStream;
-import org.junit.runners.Suite;
 
 import java.util.List;
 
