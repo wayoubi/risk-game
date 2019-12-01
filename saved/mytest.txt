@@ -1,0 +1,16 @@
+[Map]
+author=SOEN 6441 Team
+image=map.bmp
+wrap=no
+scroll=vertical
+warn=yes
+
+[Continents]
+Asia=5
+
+[Territories]
+Jordan,Asia,Iran,Lebanon
+Iran,Asia,Jordan
+India,Asia,Lebanon
+Lebanon,Asia,Jordan,India
+

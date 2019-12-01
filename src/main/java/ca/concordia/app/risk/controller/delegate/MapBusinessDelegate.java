@@ -71,4 +71,39 @@ public class MapBusinessDelegate {
 	public void removeNeighbor(BorderDto borderDto) {
 		mapService.removeNeighbor(borderDto);
 	}
+	
+	  /**
+	   * This method used for saving the Map.
+	   * @param fileName file name
+	   */
+	  public void saveMap(String fileName, String format) {
+		  mapService.saveMap(fileName, format);
+	  }
+
+	  /**
+	   * This method used for validating the Map.
+	   * 
+	   * @param continentName continent name
+	   * @return true if map is valid
+	   */
+	  public boolean validateMap(String continentName) {
+		  return mapService.validateMap(continentName);
+	  }
+
+	  /**
+	   * This method used for editing the Map.
+	   * @param fileName file name
+	   */
+	  public void editMap(String fileName, String format) {
+		  mapService.editMap(fileName, format);
+	  }
+
+	  /**
+	   * This method used for loading the Map.
+	   * 
+	   * @param fileName file name
+	   */
+	  public void loadMap(String fileName, String format) {
+		  mapService.loadMap(fileName, format);
+	  }
 }

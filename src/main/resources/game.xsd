@@ -10,11 +10,11 @@
 				minOccurs="1" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="cards">
 		<xsd:sequence>
-			<xsd:element name="card" type="xsd:string"
-				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="card" type="xsd:string" minOccurs="0"
+				maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -24,10 +24,10 @@
 				maxOccurs="1" />
 			<xsd:element name="name" type="xsd:string" minOccurs="1"
 				maxOccurs="1" />
-			<xsd:element name="cardExchangeCount" type="xsd:int" minOccurs="1"
-				maxOccurs="1" />
-			<xsd:element name="reinforcementNoOfArmies" type="xsd:int" minOccurs="1"
-				maxOccurs="1" />
+			<xsd:element name="cardExchangeCount" type="xsd:int"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:element name="reinforcementNoOfArmies"
+				type="xsd:int" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="color" minOccurs="1" maxOccurs="1">
 				<xsd:simpleType>
 					<xsd:restriction base="xsd:string">
@@ -53,10 +53,10 @@
 					</xsd:restriction>
 				</xsd:simpleType>
 			</xsd:element>
-			<xsd:element name="cards" type="riskgame:cards" minOccurs="1"
-				maxOccurs="1" />
-			<xsd:element name="playingPhase" type="xsd:string" minOccurs="1"
-				maxOccurs="1" />
+			<xsd:element name="cards" type="riskgame:cards"
+				minOccurs="1" maxOccurs="1" />
+			<xsd:element name="playingPhase" type="xsd:string"
+				minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -77,7 +77,7 @@
 			<xsd:element name="controlValue" type="xsd:int"
 				minOccurs="1" maxOccurs="1" />
 			<xsd:element name="numberOfCountries" type="xsd:int"
-				minOccurs="1" maxOccurs="1" />	
+				minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -119,15 +119,15 @@
 		<xsd:sequence>
 			<xsd:element name="countryId" type="xsd:int"
 				minOccurs="1" maxOccurs="1" />
-
-			<xsd:element name="neighbours" type="riskgame:neighboursList" minOccurs="1"
-				maxOccurs="1">
-
+			<xsd:element name="neighbours"
+				type="riskgame:neighboursList" minOccurs="1" maxOccurs="1">
 			</xsd:element>
-
 		</xsd:sequence>
 	</xsd:complexType>
 
+	<xsd:simpleType name="valuelist">
+		<xsd:list itemType="xsd:int" />
+	</xsd:simpleType>
 
 	<xsd:element name="game">
 		<xsd:complexType>
@@ -135,6 +135,34 @@
 				<xsd:element name="createdDate" type="xsd:dateTime"
 					minOccurs="1" maxOccurs="1" />
 				<xsd:element name="lastSavedDate" type="xsd:dateTime"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="savedPlayerId" type="xsd:int"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="gamePlay" type="xsd:boolean"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="mapLoaded" type="xsd:boolean"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="countriesPopulated"
+					type="xsd:boolean" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="reinforceCompleted"
+					type="xsd:boolean" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="attackerWin" type="xsd:boolean"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="defenderWin" type="xsd:boolean"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="attackCompleted" type="xsd:boolean"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="cardGiven" type="xsd:boolean"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="cardExchangeCompleted"
+					type="xsd:boolean" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="allOut" type="xsd:boolean"
+					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="attackCountryNameFrom"
+					type="xsd:string" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="attackCountryNameTo"
+					type="xsd:string" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="numDiceAttacker" type="xsd:int"
 					minOccurs="1" maxOccurs="1" />
 				<xsd:element name="players" type="riskgame:players"
 					minOccurs="1" maxOccurs="1" />
@@ -144,6 +172,12 @@
 					minOccurs="1" maxOccurs="1" />
 				<xsd:element name="borders" type="riskgame:borders"
 					minOccurs="1" maxOccurs="1" />
+				<xsd:element name="attackerDice"
+					type="riskgame:valuelist" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="defenderDice"
+					type="riskgame:valuelist" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="serilaizedGraph"
+					type="xsd:string" minOccurs="1" maxOccurs="1" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>

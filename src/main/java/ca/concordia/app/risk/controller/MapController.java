@@ -24,6 +24,11 @@ import ca.concordia.app.risk.shell.ShellHelper;
 public class MapController {
 
 	/**
+	 * Default Map File Format
+	 */
+	public static final String DEFAULT_FILE_FORMAT = "DOMINATION";
+
+	/**
 	 * Class Logger
 	 */
 	private static Logger log = LoggerFactory.getLogger(MapController.class);
@@ -226,5 +231,98 @@ public class MapController {
 		}
 
 		return result.toString();
+	}
+
+	/**
+	 * This method saves the current map file under the saved directory. Command:
+	 * savemap -file [fileName]
+	 *
+	 * @param fileName file name to save
+	 * @return operation result (error/success)
+	 */
+	@ShellMethod("Save the current gamemap using domination map file format under the saved directory")
+	public String savemap(@ShellOption(value = { "-file" }) String fileName,
+			@ShellOption(value = { "-format" }, defaultValue = DEFAULT_FILE_FORMAT) String format) {
+
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("inside savemap, passed parameters [%s]", fileName));
+		}
+		try {
+			mapBusinessDelegate.saveMap(fileName, format);
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
+
+		return shellHelper.getSuccessMessage("Game Map saved successfully");
+	}
+
+	/**
+	 * This method validates map, whether graph is connected or not (per continent).
+	 * Command: validatemap -continent [continentName]
+	 *
+	 * @param continentName continent name for validation
+	 * @return operation result (error/success)
+	 */
+	@ShellMethod("Validate the current gamemap to be connected")
+	public String validatemap(@ShellOption(value = { "-continent" }, defaultValue = "All") String continentName) {
+
+		if (log.isDebugEnabled()) {
+			log.debug("inside validatemap");
+		}
+		boolean isConnected = false;
+		try {
+			isConnected = mapBusinessDelegate.validateMap(continentName);
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
+		if (!isConnected) {
+			return shellHelper.getErrorMessage("Countries are not connected, Map is invalid");
+		}
+
+		return shellHelper.getSuccessMessage("Countries are connected, Map is valid");
+	}
+
+	/**
+	 * This method open a map file to edit. Command: editmap --file-name [fileName]
+	 *
+	 * @param fileName file name to edit the map
+	 * @return operation result (error/success)
+	 */
+	@ShellMethod("Edit map saved in file")
+	public String editmap(@ShellOption(value = { "-file" }, optOut = false) String fileName, 
+			@ShellOption(value = { "-format" }, defaultValue = DEFAULT_FILE_FORMAT) String format) {
+
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("inside editmap, passed parameters [%s]", fileName));
+		}
+		try {
+			mapBusinessDelegate.editMap(fileName, format);
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
+
+		return shellHelper.getSuccessMessage("Map file is read, you can edit now");
+	}
+
+	/**
+	 * This method load a saved map file. Command: loadmap --file-name [fileName]
+	 *
+	 * @param fileName file name to load the map
+	 * @return operation result (error/success)
+	 */
+	@ShellMethod("Load map saved in file")
+	public String loadmap(@ShellOption(value = { "-file" }, optOut = false) String fileName,
+			@ShellOption(value = { "-format" }, defaultValue = DEFAULT_FILE_FORMAT) String format) {
+		 
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("inside loadmap, passed parameters [%s]", fileName));
+		}
+		try {
+			mapBusinessDelegate.loadMap(fileName, format);
+		} catch (RiskGameRuntimeException riskGameRuntimeException) {
+			return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+		}
+
+		return shellHelper.getSuccessMessage("Map file is read, map is loaded");
 	}
 }

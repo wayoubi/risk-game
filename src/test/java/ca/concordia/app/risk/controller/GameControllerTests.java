@@ -6,10 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,7 +99,7 @@ public class GameControllerTests {
     mapController.editneighbor("Morocco", "France", "None", "None");
     mapController.editneighbor("France", "Italy", "None", "None");
 
-    gameController.savemap("connectedmap.txt");
+    mapController.savemap("connectedmap.txt", "");
     File file = new File("saved/connectedmap.txt");
     assertTrue(file.exists());
 
@@ -135,7 +132,7 @@ public class GameControllerTests {
     mapController.editneighbor("Egypt", "Morocco", "None", "None");
     mapController.editneighbor("France", "Italy", "None", "None");
 
-    gameController.savemap("disconnectedmap.txt");
+    mapController.savemap("disconnectedmap.txt", "");
     File file = new File("saved/disconnectedmap.txt");
     assertFalse(file.exists());
   }
@@ -148,8 +145,9 @@ public class GameControllerTests {
    */
   @Test
   public void testLoadConnectedmap() {
+	System.out.println(">>> Inside testLoadConnectedmap");
     log.info("Inside testLoadmap");
-    gameController.loadmap("saved/testloadvalidmap.txt");
+    mapController.loadmap("saved/testloadvalidmap.txt","DOMINATION");
 
     CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
     CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), "Jordan");
@@ -167,7 +165,7 @@ public class GameControllerTests {
   public void testLoadDisconnectedmap() {
     log.info("Inside testLoadDisconnectedmap");
     RunningGame.getInstance().setGamePlay(true);
-    gameController.loadmap("saved/testloadinvalidmap.txt");
+    mapController.loadmap("saved/testloadinvalidmap.txt", "DOMINATION");
     assertEquals(0, RunningGame.getInstance().getContinents().getList().size());
     assertEquals(0, RunningGame.getInstance().getCountries().getList().size());
     assertEquals(0, RunningGame.getInstance().getBorders().getList().size());
@@ -202,13 +200,13 @@ public class GameControllerTests {
     mapController.editneighbor("France", "Italy", "None", "None");
 
     assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"),
-        gameController.validatemap("All"));
+    		mapController.validatemap("All"));
     assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"),
-        gameController.validatemap("Asia"));
+    		mapController.validatemap("Asia"));
     assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"),
-        gameController.validatemap("Africa"));
+    		mapController.validatemap("Africa"));
     assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"),
-        gameController.validatemap("Europe"));
+    		mapController.validatemap("Europe"));
   }
 
   /**
@@ -239,15 +237,15 @@ public class GameControllerTests {
     mapController.editneighbor("Morocco", "France", "None", "None");
     mapController.editneighbor("Morocco", "Italy", "None", "None");
     assertEquals(shellHelper.getErrorMessage("Countries are not connected, Map is invalid"),
-        gameController.validatemap("All"));
+    		mapController.validatemap("All"));
     assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"),
-        gameController.validatemap("Asia"));
+    		mapController.validatemap("Asia"));
     assertEquals(shellHelper.getSuccessMessage("Countries are connected, Map is valid"),
-        gameController.validatemap("Africa"));
+    		mapController.validatemap("Africa"));
     assertEquals(shellHelper.getErrorMessage("Countries are not connected, Map is invalid"),
-        gameController.validatemap("Europe"));
+    		mapController.validatemap("Europe"));
     assertFalse(shellHelper.getErrorMessage("Countries are connected, Map is valid")
-        .equals(gameController.validatemap("Europe")));
+        .equals(mapController.validatemap("Europe")));
 
   }
 

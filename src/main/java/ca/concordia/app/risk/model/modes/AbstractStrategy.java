@@ -121,7 +121,7 @@ public abstract class AbstractStrategy implements Strategy {
       }
 
       // save the dice in running game to compare later
-      RunningGame.getInstance().setAttackerDice(attackerDice);
+      // RunningGame.getInstance().setAttackerDice(attackerDice);
 
       // roll dice
       int numDice1D = random.nextInt(5) + 1;

@@ -28,8 +28,6 @@ import ca.concordia.app.risk.utility.DateUtils;
  * This is the most important class, it is implemented using the singleton
  * design pattern There is one RunningGame object in the JVM during the whole
  * game This object holds the state of the running game
- * 
- * @author i857625
  *
  */
 public class RunningGame extends GameModel {
@@ -38,12 +36,7 @@ public class RunningGame extends GameModel {
    * 
    */
   RunningGameSubject subject;
-
-  /**
-   * objectFactory to create Game model objects
-   */
-  private ObjectFactory objectFactory;
-
+  
   /**
    * Current running game
    */
@@ -60,266 +53,10 @@ public class RunningGame extends GameModel {
   private HashMap<String, Graph<String, DefaultEdge>> contientsGraphsMap;
 
   /**
-   * Current player's id
-   */
-  // private int currentPlayerId;
-
-  /**
    * 
    */
   private Player currentPlayer;
-
-  /**
-   * determines if a game is active or not
-   */
-  private boolean gamePlay = false;
-
-  /**
-   * determines if a map is active or not
-   */
-  private boolean mapLoaded = false;
-
-  /**
-   * determines if a countries has been populated
-   */
-  private boolean countriesPopulated = false;
-
-  /**
-   * determines if the reinforcement phase is completed or not
-   */
-  private boolean reinforceCompleted = false;
-
-  /**
-   *
-   */
-  private int[] attackerDice = new int[3];
-
-  /**
-   *
-   */
-  private int[] defenderDice = new int[2];
-
-  /**
-   *
-   */
-
-  private boolean isAttackerWin;
-
-  /**
-   *
-   */
-  private boolean isDefenderWin;
-
-  /**
-   *
-   */
-  private boolean isAttackCompleted;
-
-  /**
-   *
-   */
-  private boolean isCardGiven;
-
-  /**
-   *
-   */
-  private boolean isCardExchangeCompleted;
-
-  /**
-   *
-   */
-  private boolean isAllOut;
-
-  /**
-   * 
-   * @return
-   */
-  public int getNumDiceAttacker() {
-    return numDiceAttacker;
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public boolean isCardExchangeCompleted() {
-    return isCardExchangeCompleted;
-  }
-
-  /**
-   * 
-   * @param isCardExchangeCompleted
-   */
-  public void setCardExchangeCompleted(boolean isCardExchangeCompleted) {
-    this.isCardExchangeCompleted = isCardExchangeCompleted;
-  }
-
-  /**
-   * 
-   * @param numDiceAttacker
-   */
-  public void setNumDiceAttacker(int numDiceAttacker) {
-    this.numDiceAttacker = numDiceAttacker;
-  }
-
-  /**
-   * 
-   */
-  private int numDiceAttacker;
-
-  /**
-   *
-   * @return
-   */
-  public boolean isAllOut() {
-    return isAllOut;
-  }
-
-  /**
-   *
-   * @param allOut
-   */
-  public void setAllOut(boolean allOut) {
-    isAllOut = allOut;
-  }
-
-  /**
-   *
-   * @return
-   */
-  public boolean isAttackCompleted() {
-    return isAttackCompleted;
-  }
-
-  /**
-   *
-   * @param attackCompleted
-   */
-  public void setAttackCompleted(boolean attackCompleted) {
-    isAttackCompleted = attackCompleted;
-  }
-
-  /**
-   *
-   * @return
-   */
-  public boolean isCardGiven() {
-    return isCardGiven;
-  }
-
-  /**
-   *
-   * @param cardGiven
-   */
-  public void setCardGiven(boolean cardGiven) {
-    isCardGiven = cardGiven;
-  }
-
-  /**
-   *
-   * @return
-   */
-  public boolean isAttackerWin() {
-    return isAttackerWin;
-  }
-
-  /**
-   *
-   * @param attackerWin
-   */
-  public void setAttackerWin(boolean attackerWin) {
-    isAttackerWin = attackerWin;
-  }
-
-  /**
-   *
-   * @return
-   */
-  public boolean isDefenderWin() {
-    return isDefenderWin;
-  }
-
-  /**
-   *
-   * @param defenderWin
-   */
-  public void setDefenderWin(boolean defenderWin) {
-    isDefenderWin = defenderWin;
-  }
-
-  /**
-   *
-   */
-  public int[] getAttackerDice() {
-    return attackerDice;
-  }
-
-  /**
-   *
-   * @param attackerDice
-   */
-  public void setAttackerDice(int[] attackerDice) {
-    this.attackerDice = attackerDice;
-  }
-
-  /**
-   *
-   * @return
-   */
-  public int[] getDefenderDice() {
-    return defenderDice;
-  }
-
-  /**
-   *
-   * @param defenderDice
-   */
-  public void setDefenderDice(int[] defenderDice) {
-    this.defenderDice = defenderDice;
-  }
-
-  /**
-   *
-   * @return
-   */
-  public String getAttackCountryNameFrom() {
-    return attackCountryNameFrom;
-  }
-
-  /**
-   *
-   * @param attackCountryNameFrom
-   */
-  public void setAttackCountryNameFrom(String attackCountryNameFrom) {
-    this.attackCountryNameFrom = attackCountryNameFrom;
-  }
-
-  /**
-   *
-   * @return
-   */
-  public String getAttackCountryNameTo() {
-    return attackCountryNameTo;
-  }
-
-  /**
-   *
-   * @param attackCountryNameTo
-   */
-  public void setAttackCountryNameTo(String attackCountryNameTo) {
-    this.attackCountryNameTo = attackCountryNameTo;
-  }
-
-  /**
-   *
-   */
-  private String attackCountryNameFrom;
-
-  /**
-   *
-   */
-  private String attackCountryNameTo;
-
+  
   /**
    * Make models to start a new game - ContinentsModel, PlayersModel,
    * CountriesModel, BordersModel Make the graph No player yet
@@ -335,7 +72,7 @@ public class RunningGame extends GameModel {
       throw new RiskGameRuntimeException(configurationException.getMessage());
     }
 
-    objectFactory = new ObjectFactory();
+    ObjectFactory objectFactory = new ObjectFactory();
 
     ContinentsModel continentsModel = objectFactory.createContinentsModel();
     this.setContinents(continentsModel);
@@ -353,13 +90,10 @@ public class RunningGame extends GameModel {
         .edgeClass(DefaultEdge.class).weighted(false).buildGraph();
 
     contientsGraphsMap = new HashMap<>();
-
-    // this.setCurrentPlayerId(0);
-    // this.setCurrentPlayer(new Player());
   }
 
   /**
-   * retrun the only one Running Game object
+   * return the only one Running Game object
    * 
    * @return runningGame
    */
@@ -386,24 +120,14 @@ public class RunningGame extends GameModel {
   public Graph<String, DefaultEdge> getGraph() {
     return this.graph;
   }
-
+  
   /**
-   * gets {@link currentPlayerId}
    * 
-   * @return currentPlayerId
+   * @param graph
    */
-  // public int getCurrentPlayerId() {
-  // return currentPlayerId;
-  // }
-  //
-  // /**
-  // * sets {@link currentPlayerId}
-  // *
-  // * @param currentPlayerId current player's id
-  // */
-  // public void setCurrentPlayerId(int currentPlayerId) {
-  // this.currentPlayerId = currentPlayerId;
-  // }
+  public void setGraph(Graph<String, DefaultEdge> graph) {
+    this.graph = graph;
+  }
 
   /**
    * add Continent to the Graph
@@ -432,120 +156,14 @@ public class RunningGame extends GameModel {
    * @return Graph
    */
   public Graph<String, DefaultEdge> getContinentGraph(String continentName) {
-
     ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
     ContinentModel continentModel = continentDaoImpl.findByName(this, continentName);
     if (continentModel == null) {
       throw new RiskGameRuntimeException(String.format("Continent [%s] does not exist", continentName));
     }
-
     return this.contientsGraphsMap.get(continentName);
   }
-
-  /**
-   * boolean returns game playing status
-   * 
-   * @return gamePlay
-   */
-  public boolean isGamePlay() {
-    return gamePlay;
-  }
-
-  /**
-   * sets {@link gamePlay}
-   * 
-   * @param gamePlay set game play
-   */
-  public void setGamePlay(boolean gamePlay) {
-    this.gamePlay = gamePlay;
-  }
-
-  /**
-   * boolean returns map loading status
-   * 
-   * @return mapLoaded
-   */
-  public boolean isMapLoaded() {
-    return mapLoaded;
-  }
-
-  /**
-   * sets {@link mapLoaded}
-   * 
-   * @param mapLoaded set map loaded
-   */
-  public void setMapLoaded(boolean mapLoaded) {
-    this.mapLoaded = mapLoaded;
-  }
-
-  /**
-   * boolean returns countries populated status
-   * 
-   * @return countriesPopulated
-   */
-  public boolean isCountriesPopulated() {
-    return countriesPopulated;
-  }
-
-  /**
-   * sets {@link countriesPopulated}
-   * 
-   * @param countriesPopulated set country populated
-   */
-  public void setCountriesPopulated(boolean countriesPopulated) {
-    this.countriesPopulated = countriesPopulated;
-  }
-
-  /**
-   * boolean returns reinforce status
-   *
-   * @return reinforceCompleted
-   */
-  public boolean isReinforceCompleted() {
-    return reinforceCompleted;
-  }
-
-  /**
-   * sets {@link reinforceCompleted}
-   * 
-   * @param reinforceCompleted set reinforcement completes
-   */
-  public void setReinforceCompleted(boolean reinforceCompleted) {
-    this.reinforceCompleted = reinforceCompleted;
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public RunningGameSubject getSubject() {
-    return subject;
-  }
-
-  /**
-   * 
-   * @param observer
-   */
-  private void setSubject(RunningGameSubject subject) {
-    this.subject = subject;
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public Player getCurrentPlayer() {
-    return currentPlayer;
-  }
-
-  /**
-   * 
-   * @param currentPlayer
-   */
-  public void setCurrentPlayer(Player currentPlayer) {
-    this.currentPlayer = currentPlayer;
-  }
-
+  
   /**
    * 
    */
@@ -566,6 +184,7 @@ public class RunningGame extends GameModel {
         moveToNextPlayer();
       }
     }
+    this.setSavedPlayerId(this.getCurrentPlayer().getPlayerModel().getId());
   }
 
   /**
@@ -689,7 +308,7 @@ public class RunningGame extends GameModel {
       activePlayerModel.setPlayingPhase("Reinforcement");
       activePlayerModel.setReinforcementNoOfArmies(reinforcementArmies);
       this.setReinforceCompleted(false);
-
+      
       // if not human execute reinforce automatically
       System.out.println(RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getStrategy());
 
@@ -698,5 +317,37 @@ public class RunningGame extends GameModel {
       }
 
     }
+  }
+  
+  /**
+   * 
+   * @return
+   */
+  public RunningGameSubject getSubject() {
+    return subject;
+  }
+
+  /**
+   * 
+   * @param observer
+   */
+  public void setSubject(RunningGameSubject subject) {
+    this.subject = subject;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Player getCurrentPlayer() {
+    return currentPlayer;
+  }
+
+  /**
+   * 
+   * @param currentPlayer
+   */
+  public void setCurrentPlayer(Player currentPlayer) {
+    this.currentPlayer = currentPlayer;
   }
 }

@@ -202,10 +202,10 @@ public class Player extends Observable {
     }
     // at least one army should be there or more depends on the number of dice
     // if (countryModelAttackFrom.getNumberOfArmies() - 1 < Integer.parseInt(num)) {
-    if (RunningGame.getInstance().getAttackerDice().length > Integer.parseInt(num)) {
+    if (RunningGame.getInstance().getAttackerDice().size() > Integer.parseInt(num)) {
       throw new RiskGameRuntimeException(
           "You have to move atleast the number of armies equivalent to the dice you used to conquer! The number of dice was "
-              + RunningGame.getInstance().getAttackerDice().length);
+              + RunningGame.getInstance().getAttackerDice().size());
     }
     // move armies
     CountryModel countryModelAttackTo = countryDaoImpl.findByName(RunningGame.getInstance(),
