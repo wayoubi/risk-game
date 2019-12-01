@@ -1,5 +1,21 @@
 package ca.concordia.app.risk.services;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.graph.DefaultEdge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import ca.concordia.app.risk.controller.dto.BorderDto;
 import ca.concordia.app.risk.controller.dto.ContinentDto;
 import ca.concordia.app.risk.controller.dto.CountryDto;
@@ -8,11 +24,17 @@ import ca.concordia.app.risk.model.cache.RunningGame;
 import ca.concordia.app.risk.model.dao.BorderDaoImp;
 import ca.concordia.app.risk.model.dao.ContinentDaoImpl;
 import ca.concordia.app.risk.model.dao.CountryDaoImpl;
+import ca.concordia.app.risk.model.maps.ConquestMapReadingAdaptor;
+import ca.concordia.app.risk.model.maps.ConquestMapWritingAdaptor;
+import ca.concordia.app.risk.model.maps.DefaultMapReader;
+import ca.concordia.app.risk.model.maps.DefaultMapWriter;
+import ca.concordia.app.risk.model.maps.MapReader;
+import ca.concordia.app.risk.model.maps.MapWriter;
 import ca.concordia.app.risk.model.xmlbeans.BorderModel;
 import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 import ca.concordia.app.risk.model.xmlbeans.ObjectFactory;
-import org.springframework.beans.BeanUtils;
+import ca.concordia.app.risk.shell.ShellHelper;
 
 /**
  * MapController has all commands for altering the game map example, adding
@@ -22,11 +44,22 @@ import org.springframework.beans.BeanUtils;
  *
  */
 public class MapService {
+	
+	/**
+	 * Dependency injection from ShellHelper
+	 */
+	@Autowired
+	ShellHelper shellHelper;
 
 	/**
 	 * Game Model Factory Object
 	 */
 	private ObjectFactory objectFactory = new ObjectFactory();
+	
+	/**
+	 * 
+	 */
+	private static Logger log = LoggerFactory.getLogger(MapService.class);
 
 	/**
 	 * This method adds continent to the map
@@ -35,8 +68,9 @@ public class MapService {
 	 */
 	public void addContinent(ContinentDto continentDto) {
 
-		if (RunningGame.getInstance().isGamePlay())
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
 
 		ContinentDaoImpl continentDaoImp = new ContinentDaoImpl();
 		ContinentModel continentModel = continentDaoImp.findByName(RunningGame.getInstance(), continentDto.getName());
@@ -59,8 +93,10 @@ public class MapService {
 	 * @param continentDto continent DTO
 	 */
 	public void removeContinent(ContinentDto continentDto) {
-		if (RunningGame.getInstance().isGamePlay())
+		
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
 
 		ContinentDaoImpl continentDao = new ContinentDaoImpl();
 		ContinentModel continentModel = continentDao.findByName(RunningGame.getInstance(), continentDto.getName());
@@ -85,8 +121,10 @@ public class MapService {
 	 * @param countryDto country DTO
 	 */
 	public void addCountry(CountryDto countryDto) {
-		if (RunningGame.getInstance().isGamePlay())
+		
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
 
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryDto.getName());
@@ -125,8 +163,10 @@ public class MapService {
 	 * @param countryDto country DTO
 	 */
 	public void removeCountry(CountryDto countryDto) {
-		if (RunningGame.getInstance().isGamePlay())
+		
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
 
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryDto.getName());
@@ -154,8 +194,10 @@ public class MapService {
 	 * @param borderDto border DTO
 	 */
 	public void addNeighbor(BorderDto borderDto) {
-		if (RunningGame.getInstance().isGamePlay())
+		
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
 
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), borderDto.getCountryName());
@@ -182,8 +224,10 @@ public class MapService {
 	 * @param neighborCountryName country name to make the border to
 	 */
 	private void makeBorder(String countryName, String neighborCountryName) {
-		if (RunningGame.getInstance().isGamePlay())
+		
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
 
 		BorderDaoImp borderDaoImp = new BorderDaoImp();
 		BorderModel borderModel = borderDaoImp.findByName(RunningGame.getInstance(), countryName);
@@ -216,8 +260,10 @@ public class MapService {
 	 * @param borderDto border DTO
 	 */
 	public void removeNeighbor(BorderDto borderDto) {
-		if (RunningGame.getInstance().isGamePlay())
+		
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
 
 		this.removeBorder(borderDto.getCountryName(), borderDto.getNeighborCountryName());
 		this.removeBorder(borderDto.getNeighborCountryName(), borderDto.getCountryName());
@@ -232,8 +278,10 @@ public class MapService {
 	 * @param neighborCountryName neighbor country name
 	 */
 	private void removeBorder(String countryName, String neighborCountryName) {
-		if (RunningGame.getInstance().isGamePlay())
+		
+		if (RunningGame.getInstance().isGamePlay()) {
 			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
 
 		CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
 		CountryModel countryModel = countryDaoImpl.findByName(RunningGame.getInstance(), countryName);
@@ -257,6 +305,137 @@ public class MapService {
 					countryModel.getContinentId());
 			RunningGame.getInstance().getContinentGraph(continentModel.getName()).removeEdge(countryModel.getName(),
 					neighborCountryModel.getName());
+		}
+	}
+	
+	/**
+	 * This method saves the map file
+	 * 
+	 * @param fileName file name
+	 */
+	public void saveMap(String fileName, String format) {
+		
+		if (!this.validateMap("All")) {
+			throw new RiskGameRuntimeException("Map cannot be saved, map in invalid");
+		}
+		
+		try (FileWriter fileWriter = new FileWriter(String.format("saved/%s", fileName))) {
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			MapWriter mapWriter = null;  
+			if("DOMINATION".equalsIgnoreCase(format)) {
+				mapWriter = new DefaultMapWriter(printWriter);
+			} else if("CONQUEST".equalsIgnoreCase(format)) {
+				mapWriter = new ConquestMapWritingAdaptor(printWriter);
+			} else {
+				throw new RiskGameRuntimeException("Invalid map format");
+			}
+			mapWriter.writeHeader();
+			mapWriter.writeContinents();
+			mapWriter.writeCountries();
+			mapWriter.writeBorders();
+		} catch (IOException ioException) {
+			throw new RiskGameRuntimeException("Game file cannot be saved", ioException);
+		}
+	}
+	
+	/**
+	 * This method loads the map file
+	 * 
+	 * @param fileName file name
+	 */
+	public void loadMap(String fileName, String format) {
+		
+		if (RunningGame.getInstance().isGamePlay()) {
+			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
+			
+		this.editMap(fileName, format);
+
+		if (!this.validateMap("All")) {
+			RunningGame.reset();
+			throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
+		}
+
+		RunningGame.getInstance().getSubject().markAndNotify();
+	}
+
+	/**
+	 * This method edits map file
+	 * 
+	 * @param fileName file name
+	 */
+	public void editMap(String fileName, String format) {
+		
+		if (RunningGame.getInstance().isGamePlay()) {
+			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
+		
+		RunningGame.reset();
+		
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(fileName)))) {
+			MapReader mapReader = null;
+			if("DOMINATION".equalsIgnoreCase(format)) {	
+				mapReader = new DefaultMapReader(bufferedReader, this);
+			} else if("CONQUEST".equalsIgnoreCase(format)) {
+				mapReader = new ConquestMapReadingAdaptor(bufferedReader, this);
+			} else {
+				throw new RiskGameRuntimeException("Invalid map format");
+			}
+			mapReader.readHeader();
+			mapReader.readContinents();
+			mapReader.readCountries();
+			mapReader.readBorders();
+		} catch (FileNotFoundException fileNotFoundException) {
+			throw new RiskGameRuntimeException(String.format("Map cannot be edited, [%s] does not exist", fileName),
+					fileNotFoundException);
+		} catch (IOException ioException) {
+			throw new RiskGameRuntimeException("Map cannot be edited", ioException);
+		}
+		RunningGame.getInstance().getSubject().markAndNotify();
+	}
+
+	/**
+	 * This method validates the map
+	 *
+	 * @param continentName continent name to validate
+	 * @return returns connectivity status of the graph vertices
+	 */
+	public boolean validateMap(String continentName) {
+		
+		if (RunningGame.getInstance().isGamePlay()) {
+			throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
+		}
+
+		RunningGame.getInstance().setMapLoaded(true);
+
+		if ("All".equals(continentName)) {
+			int numberOfNotConnectedContinent = 0;
+			List<ContinentModel> continentsList = RunningGame.getInstance().getContinents().getList();
+			for (ContinentModel continentModel : continentsList) {
+				ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+						RunningGame.getInstance().getContinentGraph(continentModel.getName()));
+				if (!connectivityInspector.isConnected()) {
+					log.info(shellHelper.getErrorMessage(
+							String.format("Continent [%s] is not connected", continentModel.getName())));
+					numberOfNotConnectedContinent++;
+				}
+			}
+			if (numberOfNotConnectedContinent > 0) {
+				return false;
+			} else {
+				ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+						RunningGame.getInstance().getGraph());
+				return connectivityInspector.isConnected();
+			}
+		} else {
+			ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
+			ContinentModel continentModel = continentDaoImpl.findByName(RunningGame.getInstance(), continentName);
+			if (continentModel == null) {
+				throw new RiskGameRuntimeException(String.format("Continent [%s] doesn't exist", continentName));
+			}
+			ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
+					RunningGame.getInstance().getContinentGraph(continentName));
+			return connectivityInspector.isConnected();
 		}
 	}
 }

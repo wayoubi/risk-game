@@ -50,12 +50,6 @@ import ca.concordia.app.risk.shell.ShellHelper;
 public class GameService {
 
   /**
-   * Dependency injection from MapService
-   */
-  @Autowired
-  MapService mapService;
-
-  /**
    * Dependency injection from ShellHelper
    */
   @Autowired
@@ -66,6 +60,9 @@ public class GameService {
    */
   ObjectFactory objectFactory = new ObjectFactory();
 
+  /**
+   * 
+   */
   private static Logger log = LoggerFactory.getLogger(GameService.class);
 
   /**
@@ -85,168 +82,6 @@ public class GameService {
     GamePersistanceManager gamePersistanceManager = new GamePersistanceManager(runningGameBuilder);
     gamePersistanceManager.loadGame();
     RunningGame.getInstance().getSubject().markAndNotify();
-  }
-
-  /**
-   * This method saves the map file
-   * 
-   * @param fileName file name
-   */
-  public void saveMap(String fileName, String format) {
-    if (!this.validateMap("All")) {
-      throw new RiskGameRuntimeException("Map cannot be saved, map in invalid");
-    }
-    try (FileWriter fileWriter = new FileWriter(String.format("saved/%s", fileName))) {
-      PrintWriter printWriter = new PrintWriter(fileWriter);
-
-      // add continents
-      printWriter.printf("[continents]%s", System.lineSeparator());
-      MapWriter mapWriter = null;
-      if ("DOMINATION".equalsIgnoreCase(format)) {
-        mapWriter = new DefaultMapWriter(printWriter);
-      } else if ("CONQUEST".equalsIgnoreCase(format)) {
-        mapWriter = new ConquestMapWritingAdaptor(printWriter);
-      } else {
-        throw new RiskGameRuntimeException("Invalid map format");
-      }
-      mapWriter.writeHeader();
-      mapWriter.writeContinents();
-      mapWriter.writeCountries();
-      mapWriter.writeBorders();
-    } catch (IOException ioException) {
-      throw new RiskGameRuntimeException("Game file cannot be saved", ioException);
-    }
-  }
-
-  /**
-   * This method loads the map file
-   * 
-   * @param fileName file name
-   */
-  public void loadMap(String fileName) {
-    if (RunningGame.getInstance().isGamePlay())
-      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
-    this.editMap(fileName);
-
-    if (!this.validateMap("All")) {
-      RunningGame.reset();
-      throw new RiskGameRuntimeException("Countries are not connected, Map is invalid");
-    }
-
-    RunningGame.getInstance().getSubject().markAndNotify();
-  }
-
-  /**
-   * This method edits map file
-   * 
-   * @param fileName file name
-   */
-  public void editMap(String fileName) {
-    if (RunningGame.getInstance().isGamePlay())
-      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
-
-    RunningGame.reset();
-    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(fileName)))) {
-      int flag = 0;
-      String line;
-      while ((line = bufferedReader.readLine()) != null) {
-        if ("[continents]".equalsIgnoreCase(line)) {
-          flag = 1;
-        } else if ("[countries]".equalsIgnoreCase(line)) {
-          flag = 2;
-        } else if ("[borders]".equalsIgnoreCase(line)) {
-          flag = 3;
-        } else if (!System.lineSeparator().equalsIgnoreCase(line) && !"".equals(line.trim())) {
-          switch (flag) {
-          case 1:
-            StringTokenizer continentLine = new StringTokenizer(line, " ");
-            ContinentDto continentDto = new ContinentDto();
-            continentDto.setName(continentLine.nextToken());
-            continentDto.setNumberOfCountries(Integer.parseInt(continentLine.nextToken()));
-            mapService.addContinent(continentDto);
-            break;
-          case 2:
-            StringTokenizer countryLine = new StringTokenizer(line, " ");
-            ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-            CountryDto countryDto = new CountryDto();
-            countryLine.nextToken();
-            countryDto.setName(countryLine.nextToken());
-            countryDto.setContinentName(continentDaoImpl
-                .findById(RunningGame.getInstance(), Integer.parseInt(countryLine.nextToken())).getName());
-            countryDto.setNumberOfArmies(Integer.parseInt(countryLine.nextToken()));
-            mapService.addCountry(countryDto);
-            break;
-          case 3:
-            StringTokenizer borderLine = new StringTokenizer(line, " ");
-            CountryDaoImpl countryDaoImpl = new CountryDaoImpl();
-            BorderDto borderDto = new BorderDto();
-            borderDto.setCountryName(
-                countryDaoImpl.findById(RunningGame.getInstance(), Integer.parseInt(borderLine.nextToken())).getName());
-            while (borderLine.hasMoreTokens()) {
-              borderDto.setNeighborCountryName(countryDaoImpl
-                  .findById(RunningGame.getInstance(), Integer.parseInt(borderLine.nextToken())).getName());
-              try {
-                mapService.addNeighbor(borderDto);
-              } catch (RiskGameRuntimeException riskGameRuntimeException) {
-                // nothing to do
-              }
-            }
-            break;
-          default:
-            break;
-          }
-        }
-      }
-    } catch (FileNotFoundException fileNotFoundException) {
-      throw new RiskGameRuntimeException(String.format("Map cannot be edited, [%s] does not exist", fileName),
-          fileNotFoundException);
-    } catch (IOException ioException) {
-      throw new RiskGameRuntimeException("Map cannot be edited", ioException);
-    }
-    RunningGame.getInstance().getSubject().markAndNotify();
-  }
-
-  /**
-   * This method validates the map
-   *
-   * @param continentName continent name to validate
-   * @return returns connectivity status of the graph vertices
-   */
-  public boolean validateMap(String continentName) {
-    if (RunningGame.getInstance().isGamePlay())
-      throw new RiskGameRuntimeException("Command cannot be performed, Current game is Running");
-
-    RunningGame.getInstance().setMapLoaded(true);
-
-    if ("All".equals(continentName)) {
-      int numberOfNotConnectedContinent = 0;
-      List<ContinentModel> continentsList = RunningGame.getInstance().getContinents().getList();
-      for (ContinentModel continentModel : continentsList) {
-        ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
-            RunningGame.getInstance().getContinentGraph(continentModel.getName()));
-        if (!connectivityInspector.isConnected()) {
-          log.info(
-              shellHelper.getErrorMessage(String.format("Continent [%s] is not connected", continentModel.getName())));
-          numberOfNotConnectedContinent++;
-        }
-      }
-      if (numberOfNotConnectedContinent > 0) {
-        return false;
-      } else {
-        ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
-            RunningGame.getInstance().getGraph());
-        return connectivityInspector.isConnected();
-      }
-    } else {
-      ContinentDaoImpl continentDaoImpl = new ContinentDaoImpl();
-      ContinentModel continentModel = continentDaoImpl.findByName(RunningGame.getInstance(), continentName);
-      if (continentModel == null) {
-        throw new RiskGameRuntimeException(String.format("Continent [%s] doesn't exist", continentName));
-      }
-      ConnectivityInspector<String, DefaultEdge> connectivityInspector = new ConnectivityInspector<>(
-          RunningGame.getInstance().getContinentGraph(continentName));
-      return connectivityInspector.isConnected();
-    }
   }
 
   /**

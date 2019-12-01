@@ -35,43 +35,6 @@ public class GameBusinessDelegate {
   }
 
   /**
-   * This method used for saving the Map.
-   * 
-   * @param fileName file name
-   */
-  public void saveMap(String fileName, String format) {
-    gameService.saveMap(fileName, format);
-  }
-
-  /**
-   * This method used for validating the Map.
-   * 
-   * @param continentName continent name
-   * @return true if map is valid
-   */
-  public boolean validateMap(String continentName) {
-    return gameService.validateMap(continentName);
-  }
-
-  /**
-   * This method used for editing the Map.
-   * 
-   * @param fileName file name
-   */
-  public void editMap(String fileName) {
-    gameService.editMap(fileName);
-  }
-
-  /**
-   * This method used for loading the Map.
-   * 
-   * @param fileName file name
-   */
-  public void loadMap(String fileName) {
-    gameService.loadMap(fileName);
-  }
-
-  /**
    * This method used for adding a player.
    * 
    * @param playerDto player Dto
