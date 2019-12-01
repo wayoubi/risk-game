@@ -22,16 +22,6 @@ import ca.concordia.app.risk.utility.GameUtils;
 public class PlayController {
 
 	/**
-	 * Shell default parameter value
-	 */
-	private static final String NONE_DEFAULT_VALUE = "None";
-
-	/**
-	 * Successful execution message
-	 */
-	private static final String COMMAND_EXECUTED_SUCCESSFULLY = "Command executed successfully";
-
-	/**
 	 * Class Logger
 	 */
 	private static Logger log = LoggerFactory.getLogger(PlayController.class);

@@ -14,7 +14,6 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 /**
  * This class is DAO(Data Access Layer) for continent - to access a continent's
- *
  * @author i857625
  *
  */
@@ -75,7 +74,6 @@ public class ContinentDaoImpl implements Dao<ContinentModel> {
 
 	/**
 	 * This method gets list of countries of a continent
-	 * 
 	 * @param gameModel game model
 	 * @param t         continent model
 	 * @return list of continents

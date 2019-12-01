@@ -16,7 +16,10 @@ import ca.concordia.app.risk.shell.ShellHelper;
  *
  */
 public class PlayService {
-
+	
+	/**
+	 * Dependency injection from ShellHelper
+	 */
 	@Autowired
 	ShellHelper shellHelper;
 

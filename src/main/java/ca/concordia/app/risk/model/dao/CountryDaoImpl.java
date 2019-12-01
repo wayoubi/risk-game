@@ -15,7 +15,6 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 /**
  * This class is DAO(Data Access Layer) for country - to access a country's info
- *
  * @author i857625
  *
  */
@@ -76,7 +75,6 @@ public class CountryDaoImpl implements Dao<CountryModel> {
 
 	/**
 	 * This method gets list of countries
-	 * 
 	 * @param gameModel game model
 	 * @return list of countries
 	 */

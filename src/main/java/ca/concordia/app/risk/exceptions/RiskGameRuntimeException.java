@@ -2,7 +2,6 @@ package ca.concordia.app.risk.exceptions;
 
 /**
  * RiskGameRuntimeException Run time exception
- *
  */
 public class RiskGameRuntimeException extends RuntimeException {
 

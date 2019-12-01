@@ -3,9 +3,7 @@ package ca.concordia.app.risk.controller.dto;
 import javax.validation.ValidationException;
 
 /**
- * 
  * ContinentDto, used as a place holder across layers
- *
  */
 public class ContinentDto implements Dto {
 
@@ -37,7 +35,6 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * gets {@link numberOfCountries}
-	 * 
 	 * @return numberOfCountries
 	 */
 	public int getNumberOfCountries() {
@@ -46,7 +43,6 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * sets {@link numberOfCountries}
-	 * 
 	 * @param numberOfCountries sets number of countries
 	 */
 	public void setNumberOfCountries(int numberOfCountries) {
@@ -55,7 +51,6 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * gets {@link name}
-	 * 
 	 * @return continent name
 	 */
 	public String getName() {
@@ -64,7 +59,6 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * sets {@link name}
-	 * 
 	 * @param name sets continent name
 	 */
 	public void setName(String name) {
@@ -73,7 +67,6 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * gets {@link controlValue}
-	 * 
 	 * @return controlValue
 	 */
 	public int getControlValue() {
@@ -82,7 +75,6 @@ public class ContinentDto implements Dto {
 
 	/**
 	 * sets {@link controlValue}
-	 * 
 	 * @param controlValue sets control value
 	 */
 	public void setControlValue(int controlValue) {
@@ -110,12 +102,15 @@ public class ContinentDto implements Dto {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		ContinentDto other = (ContinentDto) obj;
 		if (controlValue != other.controlValue) {
 			return false;
