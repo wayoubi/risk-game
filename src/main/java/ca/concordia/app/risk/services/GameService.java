@@ -49,6 +49,9 @@ import ca.concordia.app.risk.shell.ShellHelper;
  */
 public class GameService {
 
+	@Autowired
+	MapService mapService;
+	
   /**
    * Dependency injection from ShellHelper
    */
@@ -498,7 +501,7 @@ public class GameService {
 
     for (int i = 0; i < maps.length; i++) {
       for (int j = 0; j < Integer.parseInt(noOfGames); j++) {
-        this.loadMap(maps[i]);
+    	  mapService.loadMap(maps[i], "DOMINATION");
         for (int k = 0; k < players.length; k++) {
           PlayerDto playerDto = new PlayerDto();
           playerDto.setName("Player " + (k + 1));
