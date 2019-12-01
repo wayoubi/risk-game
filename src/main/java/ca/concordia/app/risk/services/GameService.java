@@ -644,4 +644,47 @@ public class GameService {
     RunningGame.getInstance().getCurrentPlayer().attackMove(num);
   }
 
+  public void tournament(String mapFiles, String playerStrategies, String noOfGames, String maxTurns) {
+    if (Integer.parseInt(noOfGames) < 1 && Integer.parseInt(noOfGames) > 5) {
+      throw new RiskGameRuntimeException("Number of Games should be within the range 1-5");
+    }
+
+    if (Integer.parseInt(maxTurns) < 10 && Integer.parseInt(maxTurns) > 50) {
+      throw new RiskGameRuntimeException("Number of Turns should be within the range 10-50");
+    }
+
+    String[] maps = mapFiles.split(",");
+
+    if (maps.length > 5 || maps.length < 1) {
+      throw new RiskGameRuntimeException("Number of Map Files should be within the range 1-5");
+    }
+
+    String[] players = playerStrategies.split(",");
+
+    if (players.length > 4 || players.length < 2) {
+      throw new RiskGameRuntimeException("Number of Players should be within the range 2-4");
+    }
+
+    for (int i = 0; i < players.length; i++) {
+      if (players[i].equalsIgnoreCase("Human")) {
+        throw new RiskGameRuntimeException("Human Player cannot be a strategy in tournament mode");
+      }
+    }
+
+    for (int i = 0; i < maps.length; i++) {
+      for (int j = 0; j < Integer.parseInt(noOfGames); j++) {
+        this.loadMap(maps[i]);
+        for (int k = 0; k < players.length; k++) {
+          PlayerDto playerDto = new PlayerDto();
+          playerDto.setName("Player " + (k + 1));
+          playerDto.setStrategy(players[k].toUpperCase());
+          this.addPlayer(playerDto);
+        }
+        this.populateCountries();
+        this.placeAll();
+        RunningGame.reset();
+      }
+    }
+
+  }
 }

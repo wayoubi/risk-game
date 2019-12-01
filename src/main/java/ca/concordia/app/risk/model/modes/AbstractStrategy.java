@@ -237,6 +237,10 @@ public abstract class AbstractStrategy implements Strategy {
         && countryModelAttackFrom.getNumberOfArmies() >= (RunningGame.getInstance().getNumDiceAttacker()));
 
     RunningGame.getInstance().setNumDiceAttacker(0);
+    boolean gameCompleted = RunningGame.getInstance().checkGameCompleted();
+    if (gameCompleted) {
+      RunningGame.reset();
+    }
 
   }
 

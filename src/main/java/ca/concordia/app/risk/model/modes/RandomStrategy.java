@@ -43,7 +43,7 @@ public class RandomStrategy extends AbstractStrategy {
 
     // get a random country
     Random random = new Random();
-    int i = random.nextInt(countryModels.size() - 1);
+    int i = random.nextInt(countryModels.size());
 
     CountryModel attackFrom = countryModels.get(i);
     CountryModel attackTo = getRandomEnemyNeighbourCountry(attackFrom);
@@ -99,10 +99,10 @@ public class RandomStrategy extends AbstractStrategy {
     if (countryModelFrom != null && countryModelTo != null) {
       super.fortify(countryModelFrom, countryModelTo, numberOfArmies);
     } else {
+      System.out.println("There is no neighbour country to fortify");
       RunningGame.getInstance().moveToNextPlayer();
       RunningGame.getInstance().exchangeCardsInitialization();
       RunningGame.getInstance().getSubject().markAndNotify();
-      throw new RiskGameRuntimeException("There is no neighbour country to fortify");
     }
   }
 

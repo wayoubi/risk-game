@@ -268,14 +268,14 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael","Human", "");
+    gameController.gameplayer("Michael", "Human", "");
     gameController.gameplayer("Pinkal", "Random", "");
 
     gameController.populatecountries();
 
     gameController.placeall();
     RunningGame.getInstance().setGamePlay(true);
-    RunningGame.getInstance().setReinforceCompleted(true);
+    // RunningGame.getInstance().setReinforceCompleted(true);
 
     RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
     RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
@@ -286,7 +286,7 @@ public class GameControllerTests {
     gameController.exchangecards("1", "2", "3");
 
     int numOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
-    assertEquals(8, numOfArmies);
+    assertEquals(11, numOfArmies);
   }
 
   /**
@@ -306,15 +306,15 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael","Human", "");
-    gameController.gameplayer("Pinkal","Human", "");
+    gameController.gameplayer("Michael", "Human", "");
+    gameController.gameplayer("Pinkal", "Human", "");
 
     gameController.populatecountries();
 
     gameController.placeall();
 
     RunningGame.getInstance().setGamePlay(true);
-    RunningGame.getInstance().setReinforceCompleted(true);
+    // RunningGame.getInstance().setReinforceCompleted(true);
 
     RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
     RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
@@ -322,7 +322,7 @@ public class GameControllerTests {
 
     gameController.exchangecards("1", "2", "3");
 
-    RunningGame.getInstance().setReinforceCompleted(true);
+    // RunningGame.getInstance().setReinforceCompleted(true);
     RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
     RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
     RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getCards().getList().add("Infantry");
@@ -330,7 +330,7 @@ public class GameControllerTests {
     gameController.exchangecards("1", "2", "3");
 
     int numOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
-    assertEquals(18, numOfArmies);
+    assertEquals(24, numOfArmies);
   }
 
   /**
@@ -350,8 +350,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael","Human", "");
-    gameController.gameplayer("Pinkal", "Human","");
+    gameController.gameplayer("Michael", "Human", "");
+    gameController.gameplayer("Pinkal", "Human", "");
 
     gameController.populatecountries();
 
@@ -368,7 +368,7 @@ public class GameControllerTests {
     gameController.exchangecards("1", "2", "3");
 
     int numOfArmies = RunningGame.getInstance().getCurrentPlayer().getPlayerModel().getReinforcementNoOfArmies();
-    assertEquals(8, numOfArmies);
+    assertEquals(11, numOfArmies);
   }
 
   /**
@@ -389,8 +389,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Michael","Human", "");
-    gameController.gameplayer("Pinkal","Human", "");
+    gameController.gameplayer("Michael", "Human", "");
+    gameController.gameplayer("Pinkal", "Human", "");
 
     gameController.populatecountries();
 
@@ -429,8 +429,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim","Human", "");
-    gameController.gameplayer("Wasim","Human", "");
+    gameController.gameplayer("Nasim", "Human", "");
+    gameController.gameplayer("Wasim", "Human", "");
 
     gameController.populatecountries();
     gameController.placeall();
@@ -479,8 +479,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim","Human", "");
-    gameController.gameplayer("Wasim","Human", "");
+    gameController.gameplayer("Nasim", "Human", "");
+    gameController.gameplayer("Wasim", "Human", "");
 
     gameController.populatecountries();
     gameController.placeall();
@@ -531,8 +531,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim","Human", "");
-    gameController.gameplayer("Wasim","Human", "");
+    gameController.gameplayer("Nasim", "Human", "");
+    gameController.gameplayer("Wasim", "Human", "");
 
     gameController.populatecountries();
     gameController.placeall();
@@ -589,8 +589,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim","Human", "");
-    gameController.gameplayer("Wasim","Benevolent", "");
+    gameController.gameplayer("Nasim", "Human", "");
+    gameController.gameplayer("Wasim", "Benevolent", "");
 
     gameController.populatecountries();
     gameController.placeall();
@@ -654,8 +654,8 @@ public class GameControllerTests {
 
     RunningGame.getInstance().setMapLoaded(true);
 
-    gameController.gameplayer("Nasim","Human", "");
-    gameController.gameplayer("Wasim","Random", "");
+    gameController.gameplayer("Nasim", "Human", "");
+    gameController.gameplayer("Wasim", "Random", "");
 
     gameController.populatecountries();
     gameController.placeall();

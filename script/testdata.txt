@@ -20,7 +20,7 @@ editneighbor -add Italy France
 savemap fffff.txt
 loadmap saved/fffff.txt
 gameplayer -add Wasim Cheater
-gameplayer -add Nasim Human
+gameplayer -add Nasim Random
 gameplayer -add Pinkal Aggressive
 gameplayer -add Michael Benevolent
 populatecountries

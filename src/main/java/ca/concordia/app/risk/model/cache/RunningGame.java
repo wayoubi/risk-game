@@ -560,6 +560,11 @@ public class RunningGame extends GameModel {
       } else {
         this.setCurrentPlayer(new Player(playerDaoImpl.findById(RunningGame.getInstance(), ++turn)));
       }
+      List<CountryModel> countryModels = playerDaoImpl.getCountries(RunningGame.getInstance(),
+          RunningGame.getInstance().getCurrentPlayer().getPlayerModel());
+      if (countryModels.size() == 0) {
+        moveToNextPlayer();
+      }
     }
   }
 
@@ -633,6 +638,18 @@ public class RunningGame extends GameModel {
     }
   }
 
+  public boolean checkGameCompleted() {
+    PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
+    PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
+    List<CountryModel> playerCountries = playerDaoImpl.getCountries(RunningGame.getInstance(), activePlayerModel);
+    int totalCountryNumbers = RunningGame.getInstance().getCountries().getList().size();
+    int playerCountryOwnsCount = playerCountries.size();
+    if (totalCountryNumbers == playerCountryOwnsCount) {
+      return true;
+    }
+    return false;
+  }
+
   public void reinforceInitialization() {
 
     int numberOfCountries = this.getCountries().getList().size();
@@ -647,9 +664,9 @@ public class RunningGame extends GameModel {
     boolean fullContinentOccupy = false;
 
     if (Math.floor((float) numberOfCountries / 3) > 3) {
-      reinforcementArmies = Math.floorDiv(numberOfCountries, 3);
+      reinforcementArmies += Math.floorDiv(numberOfCountries, 3);
     } else {
-      reinforcementArmies = 3;
+      reinforcementArmies += 3;
     }
 
     List<ContinentModel> continentModels = RunningGame.getInstance().getContinents().getList();

@@ -475,4 +475,36 @@ public class GameController {
     return "Armies have been moved to the conquered country";
   }
 
+  /**
+   * This method is used for tournament mode .
+   * <p>
+   * Command: attack -countryNameFrom [countryNameFrom] -countyNameTo
+   * [countyNameTo] -numdice [numDice]
+   * 
+   * @param countryNameFrom attacker country name
+   * @param countyNameTo    defender country name
+   * @param numDice         number of dices for attacker
+   * @return log message related to attack operation
+   */
+  @ShellMethod("attack")
+  public String tournament(@ShellOption(value = { "-M" }, defaultValue = NONE_DEFAULT_VALUE) String mapFiles,
+      @ShellOption(value = { "-P" }, defaultValue = NONE_DEFAULT_VALUE) String playerStrategies,
+      @ShellOption(value = { "-G" }, defaultValue = NONE_DEFAULT_VALUE) String noOfGames,
+      @ShellOption(value = { "-D" }, defaultValue = NONE_DEFAULT_VALUE) String maxTurns) {
+
+    StringBuilder result = new StringBuilder();
+
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("inside tournament, passed parameters [%s] [%s] [%s] [%s]", mapFiles, playerStrategies,
+          noOfGames, maxTurns));
+    }
+
+    try {
+      gameBusinessDelegate.tournament(mapFiles, playerStrategies, noOfGames, maxTurns);
+    } catch (RiskGameRuntimeException riskGameRuntimeException) {
+      return shellHelper.getErrorMessage(riskGameRuntimeException.getMessage());
+    }
+    return "Tournament Complete";
+  }
+
 }

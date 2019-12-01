@@ -67,7 +67,12 @@ public class CheaterStrategy extends AbstractStrategy {
       }
     }
 
-    fortify(null, null, 0);
+    boolean gameCompleted = RunningGame.getInstance().checkGameCompleted();
+    if (gameCompleted) {
+      RunningGame.reset();
+    } else {
+      fortify(null, null, 0);
+    }
   }
 
   @Override
