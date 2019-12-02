@@ -22,14 +22,14 @@ import ca.concordia.app.risk.model.dao.PlayerDaoImpl;
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
 /**
- * 
+ * This class inherits from AbstractGameModelBuilder to implement running game's builder
  * @author i857625
  *
  */
 public class RunningGameBuilder extends AbstractGameModelBuilder {
 
 	/**
-	 * 
+	 * This method implements model builder for running game
 	 */
 	@Override
 	public void buildModel() {
@@ -52,6 +52,9 @@ public class RunningGameBuilder extends AbstractGameModelBuilder {
 				playerDaoImpl.findById(RunningGame.getInstance(), RunningGame.getInstance().getSavedPlayerId())));
 	}
 
+	/**
+	 * This method implements graph builder for running game
+	 */
 	@Override
 	public void buildGraph() {
 		GraphImporter<String, DefaultEdge> importer = new DOTImporter<>((label, attributes) -> label,

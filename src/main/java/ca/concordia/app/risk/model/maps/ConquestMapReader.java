@@ -13,7 +13,7 @@ import ca.concordia.app.risk.exceptions.RiskGameRuntimeException;
 import ca.concordia.app.risk.services.MapService;
 
 /**
- * 
+ * This class reads file for conquest map
  * @author i857625
  *
  */
@@ -25,28 +25,29 @@ public class ConquestMapReader {
 	private MapService mapService;
 
 	/**
-	 * 
+	 * buffer reader
 	 */
 	private BufferedReader bufferedReader;
 
 	/**
-	 * 
+	 * list of headers
 	 */
 	private List<String> headerLines;
 
 	/**
-	 * 
+	 * list of continent 
 	 */
 	private List<String> continentLines;
 
 	/**
-	 * 
+	 * list of territory 
 	 */
 	private List<String> territoryLines;
 
 	/**
-	 * 
-	 * @param bufferedReader
+	 * This method reads conquest map (Constructor)
+	 * @param bufferedReader buffer reader
+	 * @param mapService map service
 	 */
 	public ConquestMapReader(BufferedReader bufferedReader, MapService mapService) {
 		this.mapService = mapService;
@@ -58,7 +59,7 @@ public class ConquestMapReader {
 	}
 
 	/**
-	 * 
+	 * This method parses the file
 	 */
 	private void parse() {
 		int flag = 0;
@@ -96,14 +97,14 @@ public class ConquestMapReader {
 	}
 
 	/**
-	 * 
+	 * This method reads header
 	 */
 	public void readHeader() {
 		// DO Nothing
 	}
 
 	/**
-	 * 
+	 * This method reads continents
 	 */
 	public void readContinents() {
 		for (String line : this.getContinentLines()) {
@@ -116,7 +117,7 @@ public class ConquestMapReader {
 	}
 
 	/**
-	 * 
+	 * This method read territories - countries & borders
 	 */
 	public void readTerritories() {
 
@@ -156,21 +157,22 @@ public class ConquestMapReader {
 	}
 
 	/**
-	 * 
+	 * gets {@link bufferedReader}
 	 * @return
 	 */
 	public BufferedReader getBufferedReader() {
 		return bufferedReader;
 	}
 
-	/*
-	 * 
+	/**
+	 * sets {@link bufferedReader}
 	 */
 	public void setBufferedReader(BufferedReader bufferedReader) {
 		this.bufferedReader = bufferedReader;
 	}
 
 	/**
+	 * gets {@link headerLines}
 	 * @return the headerLines
 	 */
 	private List<String> getHeaderLines() {
@@ -178,6 +180,7 @@ public class ConquestMapReader {
 	}
 
 	/**
+	 * sets {@link headerLines}
 	 * @param headerLines the headerLines to set
 	 */
 	private void setHeaderLines(List<String> headerLines) {
@@ -185,6 +188,7 @@ public class ConquestMapReader {
 	}
 
 	/**
+	 * gets {@link continentLines}
 	 * @return the continentLines
 	 */
 	private List<String> getContinentLines() {
@@ -192,6 +196,7 @@ public class ConquestMapReader {
 	}
 
 	/**
+	 * sets {@link continentLines}
 	 * @param continentLines the continentLines to set
 	 */
 	private void setContinentLines(List<String> continentLines) {
@@ -199,6 +204,7 @@ public class ConquestMapReader {
 	}
 
 	/**
+	 * gets {@link territoryLines}
 	 * @return the territoryLines
 	 */
 	public List<String> getTerritoryLines() {
@@ -206,6 +212,7 @@ public class ConquestMapReader {
 	}
 
 	/**
+	 * sets {@link territoryLines}
 	 * @param territoryLines the territoryLines to set
 	 */
 	public void setTerritoryLines(List<String> territoryLines) {

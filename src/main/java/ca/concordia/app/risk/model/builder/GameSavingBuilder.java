@@ -24,12 +24,15 @@ import ca.concordia.app.risk.model.xmlbeans.GameModel;
 import ca.concordia.app.risk.utility.DateUtils;
 
 /**
- * 
+ * This class inherits from AbstractGameModelBuilder to implement saving game's builder
  * @author i857625
  *
  */
 public class GameSavingBuilder extends AbstractGameModelBuilder {
 
+	/**
+	 * This method implements model builder for saving game
+	 */
 	@Override
 	public void buildModel() {
 		XMLGregorianCalendar xmlGregorianCalendar = null;
@@ -50,6 +53,9 @@ public class GameSavingBuilder extends AbstractGameModelBuilder {
 		}
 	}
 
+	/**
+	 * This method implements graph builder for saving game
+	 */
 	@Override
 	public void buildGraph() {
 		this.setGameModel(RunningGame.getInstance());

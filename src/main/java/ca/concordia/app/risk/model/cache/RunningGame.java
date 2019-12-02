@@ -33,7 +33,7 @@ import ca.concordia.app.risk.utility.DateUtils;
 public class RunningGame extends GameModel {
 
 	/**
-	 * 
+	 * running game subject
 	 */
 	RunningGameSubject subject;
 
@@ -53,7 +53,7 @@ public class RunningGame extends GameModel {
 	private HashMap<String, Graph<String, DefaultEdge>> contientsGraphsMap;
 
 	/**
-	 * 
+	 * currentPlayer current player
 	 */
 	private Player currentPlayer;
 
@@ -94,7 +94,6 @@ public class RunningGame extends GameModel {
 
 	/**
 	 * return the only one Running Game object
-	 * 
 	 * @return runningGame
 	 */
 	public static RunningGame getInstance() {
@@ -115,6 +114,7 @@ public class RunningGame extends GameModel {
 	}
 
 	/**
+	 * gets {@link graph}
 	 * @return graph of current game
 	 */
 	public Graph<String, DefaultEdge> getGraph() {
@@ -122,7 +122,7 @@ public class RunningGame extends GameModel {
 	}
 
 	/**
-	 * 
+	 * sets {@link graph}
 	 * @param graph
 	 */
 	public void setGraph(Graph<String, DefaultEdge> graph) {
@@ -131,7 +131,6 @@ public class RunningGame extends GameModel {
 
 	/**
 	 * add Continent to the Graph
-	 * 
 	 * @param continentName continent name
 	 */
 	public void addContinentGraph(String continentName) {
@@ -142,7 +141,6 @@ public class RunningGame extends GameModel {
 
 	/**
 	 * remove Continent from the Graph
-	 * 
 	 * @param continentName continent name
 	 */
 	public void removeContinentGraph(String continentName) {
@@ -151,7 +149,6 @@ public class RunningGame extends GameModel {
 
 	/**
 	 * gets continent graph
-	 * 
 	 * @param continentName continent name
 	 * @return Graph
 	 */
@@ -190,7 +187,7 @@ public class RunningGame extends GameModel {
 	}
 
 	/**
-	 * This method intialize reinforcement phase
+	 * This method initializes exchange cards phase
 	 */
 	public void exchangeCardsInitialization() {
 		PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
@@ -261,6 +258,9 @@ public class RunningGame extends GameModel {
 		}
 	}
 
+	/**
+	 * This method checks whether game has completed or not
+	 */
 	public boolean checkGameCompleted() {
 		PlayerModel activePlayerModel = this.getCurrentPlayer().getPlayerModel();
 		PlayerDaoImpl playerDaoImpl = new PlayerDaoImpl();
@@ -270,9 +270,13 @@ public class RunningGame extends GameModel {
 		if (totalCountryNumbers == playerCountryOwnsCount) {
 			return true;
 		}
+		
 		return false;
 	}
 
+	/**
+	 * This method initializes reinforcement phase
+	 */
 	public void reinforceInitialization() {
 
 		int numberOfCountries = this.getCountries().getList().size();
@@ -324,7 +328,7 @@ public class RunningGame extends GameModel {
 	}
 
 	/**
-	 * 
+	 * gets {@link subject}
 	 * @return
 	 */
 	public RunningGameSubject getSubject() {

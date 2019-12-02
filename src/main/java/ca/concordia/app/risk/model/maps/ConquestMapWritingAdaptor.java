@@ -3,27 +3,27 @@ package ca.concordia.app.risk.model.maps;
 import java.io.PrintWriter;
 
 /**
- * 
+ * This class implements MapWriter interface and is adaptor for writing conquest map
  * @author i857625
  *
  */
 public class ConquestMapWritingAdaptor implements MapWriter {
 
 	/**
-	 * 
+	 * conquest map writer
 	 */
 	private ConquestMapWriter conquestMapWriter;
 
 	/**
-	 * 
-	 * @param printWriter
+	 * This method is adaptor for conquest map writer
+	 * @param printWriter print writer
 	 */
 	public ConquestMapWritingAdaptor(PrintWriter printWriter) {
 		this.setConquestMapWriter(new ConquestMapWriter(printWriter));
 	}
 
 	/**
-	 * 
+	 * This method writes header
 	 */
 	@Override
 	public void writeHeader() {
@@ -32,7 +32,7 @@ public class ConquestMapWritingAdaptor implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * This method writes continents
 	 */
 	@Override
 	public void writeContinents() {
@@ -41,7 +41,7 @@ public class ConquestMapWritingAdaptor implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * This method writes countries
 	 */
 	@Override
 	public void writeCountries() {
@@ -50,7 +50,7 @@ public class ConquestMapWritingAdaptor implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * This method writes borders
 	 */
 	@Override
 	public void writeBorders() {
@@ -59,7 +59,7 @@ public class ConquestMapWritingAdaptor implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * gets {@link conquestMapWriter}
 	 * @return
 	 */
 	public ConquestMapWriter getConquestMapWriter() {
@@ -67,7 +67,7 @@ public class ConquestMapWritingAdaptor implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * sets {@link conquestMapWriter}
 	 * @param conquestMapWriter
 	 */
 	public void setConquestMapWriter(ConquestMapWriter conquestMapWriter) {
