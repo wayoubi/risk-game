@@ -16,7 +16,7 @@ import ca.concordia.app.risk.model.dao.CountryDaoImpl;
 import ca.concordia.app.risk.services.MapService;
 
 /**
- * 
+ * This method implements MapReader interface to implement the default map reader
  * @author i857625
  *
  */
@@ -28,33 +28,34 @@ public class DefaultMapReader implements MapReader {
 	private MapService mapService;
 
 	/**
-	 * 
+	 * buffered reader
 	 */
 	private BufferedReader bufferedReader;
 
 	/**
-	 * 
+	 * list of headers
 	 */
 	private List<String> headerLines;
 
 	/**
-	 * 
+	 * list of continents
 	 */
 	private List<String> continentLines;
 
 	/**
-	 * 
+	 * list of countries
 	 */
 	private List<String> countryLines;
 
 	/**
-	 * 
+	 * list of borders
 	 */
 	private List<String> borderLines;
 
 	/**
-	 * 
-	 * @param bufferedReader
+	 * This method reads the default conquest map (Constructor)
+	 * @param bufferedReader buffer reader
+	 * @param mapService map service
 	 */
 	public DefaultMapReader(BufferedReader bufferedReader, MapService mapService) {
 		this.mapService = mapService;
@@ -67,7 +68,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
-	 * 
+	 * This method parses the file
 	 */
 	private void parse() {
 		int flag = 0;
@@ -104,7 +105,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
-	 * 
+	 * This method reads header
 	 */
 	@Override
 	public void readHeader() {
@@ -112,7 +113,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
-	 * 
+	 * This method reads continents
 	 */
 	@Override
 	public void readContinents() {
@@ -126,7 +127,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
-	 * 
+	 * This method reads countries
 	 */
 	@Override
 	public void readCountries() {
@@ -144,7 +145,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
-	 * 
+	 * This method reads borders
 	 */
 	@Override
 	public void readBorders() {
@@ -168,15 +169,15 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
-	 * 
-	 * @param bufferedReader
+	 * sets {@link bufferedReader}
+	 * @param bufferedReader buffered reader
 	 */
 	public void setBufferedReader(BufferedReader bufferedReader) {
 		this.bufferedReader = bufferedReader;
 	}
 
 	/**
-	 * 
+	 * gets {@link bufferedReader}
 	 * @return
 	 */
 	public BufferedReader getBufferedReader() {
@@ -184,6 +185,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
+	 * gets {@link headerLines}
 	 * @return the headerLines
 	 */
 	private List<String> getHeaderLines() {
@@ -191,6 +193,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
+	 * sets {@link headerLines}
 	 * @param headerLines the headerLines to set
 	 */
 	private void setHeaderLines(List<String> headerLines) {
@@ -198,6 +201,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
+	 * gets {@link continentLines}
 	 * @return the continentLines
 	 */
 	private List<String> getContinentLines() {
@@ -205,6 +209,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
+	 * sets {@link continentLines}
 	 * @param continentLines the continentLines to set
 	 */
 	private void setContinentLines(List<String> continentLines) {
@@ -212,6 +217,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
+	 * gets {@link countryLines}
 	 * @return the countryLines
 	 */
 	private List<String> getCountryLines() {
@@ -219,6 +225,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
+	 * sets {@link countryLines}
 	 * @param countryLines the countryLines to set
 	 */
 	private void setCountryLines(List<String> countryLines) {
@@ -226,6 +233,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
+	 * gets {@link borderLines}
 	 * @return the borderLines
 	 */
 	private List<String> getBorderLines() {
@@ -233,6 +241,7 @@ public class DefaultMapReader implements MapReader {
 	}
 
 	/**
+	 * sets {@link borderLines}
 	 * @param borderLines the borderLines to set
 	 */
 	private void setBorderLines(List<String> borderLines) {

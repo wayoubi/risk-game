@@ -10,26 +10,27 @@ import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 
 /**
- * 
+ * This method implements MapWriter interface to implement the default map writer
  * @author i857625
  *
  */
 public class DefaultMapWriter implements MapWriter {
 
 	/**
-	 * 
+	 * print writer
 	 */
 	private PrintWriter printWriter;
 
 	/**
-	 * 
+	 * Constructor
+	 * @param printWriter print writer
 	 */
 	public DefaultMapWriter(PrintWriter printWriter) {
 		this.setPrintWriter(printWriter);
 	}
 
 	/**
-	 * 
+	 * This method write headers for the conquest map
 	 */
 	@Override
 	public void writeHeader() {
@@ -38,7 +39,7 @@ public class DefaultMapWriter implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * This method write continents for the default conquest map
 	 */
 	@Override
 	public void writeContinents() {
@@ -53,7 +54,7 @@ public class DefaultMapWriter implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * This method write countries for the default conquest map
 	 */
 	@Override
 	public void writeCountries() {
@@ -68,7 +69,7 @@ public class DefaultMapWriter implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * This method write borders for the default conquest map
 	 */
 	@Override
 	public void writeBorders() {
@@ -83,7 +84,7 @@ public class DefaultMapWriter implements MapWriter {
 	}
 
 	/**
-	 * 
+	 * gets {@link printWriter}
 	 * @return
 	 */
 	public PrintWriter getPrintWriter() {
@@ -91,8 +92,8 @@ public class DefaultMapWriter implements MapWriter {
 	}
 
 	/**
-	 * 
-	 * @param printWriter
+	 * sets {@link printWriter}
+	 * @param printWriter print writer
 	 */
 	public void setPrintWriter(PrintWriter printWriter) {
 		this.printWriter = printWriter;

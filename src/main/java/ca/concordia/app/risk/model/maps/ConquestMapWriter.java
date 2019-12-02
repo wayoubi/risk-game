@@ -11,27 +11,27 @@ import ca.concordia.app.risk.model.xmlbeans.ContinentModel;
 import ca.concordia.app.risk.model.xmlbeans.CountryModel;
 
 /**
- * 
+ * This class writs conquest map
  * @author i857625
  *
  */
 public class ConquestMapWriter {
 
 	/**
-	 * 
+	 * print writer
 	 */
 	private PrintWriter printWriter;
 
 	/**
-	 * 
-	 * @param printWriter
+	 * Constructor
+	 * @param printWriter print writer
 	 */
 	public ConquestMapWriter(PrintWriter printWriter) {
 		this.setPrintWriter(printWriter);
 	}
 
 	/**
-	 * 
+	 * This method write headers for the conquest map
 	 */
 	public void writeHeader() {
 		// add header
@@ -45,7 +45,7 @@ public class ConquestMapWriter {
 	}
 
 	/**
-	 * 
+	 * This method write continents for the conquest map
 	 */
 	public void writeContinents() {
 		// add continents
@@ -59,7 +59,7 @@ public class ConquestMapWriter {
 	}
 
 	/**
-	 * 
+	 * This method write territories for the conquest map
 	 */
 	public void writeTerritories() {
 		Comparator<CountryModel> countryModelComparator = Comparator.comparing(CountryModel::getId);
@@ -77,7 +77,7 @@ public class ConquestMapWriter {
 	}
 
 	/**
-	 * 
+	 * gets {@link printWriter}
 	 * @return
 	 */
 	public PrintWriter getPrintWriter() {
@@ -85,8 +85,8 @@ public class ConquestMapWriter {
 	}
 
 	/**
-	 * 
-	 * @param printWriter
+	 * sets {@link printWriter}
+	 * @param printWriter print writer
 	 */
 	public void setPrintWriter(PrintWriter printWriter) {
 		this.printWriter = printWriter;
