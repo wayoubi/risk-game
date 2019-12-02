@@ -1,0 +1,13 @@
+[Map]
+author=SOEN 6441 Team
+image=map.bmp
+wrap=no
+scroll=vertical
+warn=yes
+
+[Continents]
+Asia=3
+
+[Territories]
+Jordan,Asia,India
+India,Asia,Jordan

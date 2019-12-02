@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.util.List;
 
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
@@ -331,6 +332,7 @@ public class MapService {
 			mapWriter.writeCountries();
 			mapWriter.writeBorders();
 		} catch (IOException ioException) {
+			ioException.printStackTrace();
 			throw new RiskGameRuntimeException("Game file cannot be saved", ioException);
 		}
 	}
@@ -368,8 +370,9 @@ public class MapService {
 		}
 
 		RunningGame.reset();
+		File file = new File(fileName);
 
-		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(fileName)))) {
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
 			MapReader mapReader = null;
 			if ("DOMINATION".equalsIgnoreCase(format)) {
 				mapReader = new DefaultMapReader(bufferedReader, this);
@@ -383,8 +386,14 @@ public class MapService {
 			mapReader.readCountries();
 			mapReader.readBorders();
 		} catch (FileNotFoundException fileNotFoundException) {
-			throw new RiskGameRuntimeException(String.format("Map cannot be edited, [%s] does not exist", fileName),
-					fileNotFoundException);
+			//throw new RiskGameRuntimeException(String.format("Map cannot be edited, [%s] does not exist", fileName), fileNotFoundException);
+			System.out.print(String.format("File Does not exist, a new empty %s file map will be created%s", format, System.lineSeparator()));
+			try (RandomAccessFile accessFile = new RandomAccessFile(file, "rw")) {
+				accessFile.writeUTF(System.lineSeparator());
+			} catch(IOException ioException) {
+				ioException.printStackTrace();
+				throw new RiskGameRuntimeException("Map cannot be edited", ioException);
+			}
 		} catch (IOException ioException) {
 			throw new RiskGameRuntimeException("Map cannot be edited", ioException);
 		}
