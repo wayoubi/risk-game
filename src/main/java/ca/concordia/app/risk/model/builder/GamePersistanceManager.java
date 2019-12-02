@@ -2,23 +2,27 @@ package ca.concordia.app.risk.model.builder;
 
 import ca.concordia.app.risk.model.xmlbeans.GameModel;
 
+/**
+ * This class is a builder design pattern's director for load & save game
+ *
+ */
 public class GamePersistanceManager {
 
 	/**
-	 * 
+	 * game model builder
 	 */
 	private AbstractGameModelBuilder gameModelBuilder;
 
 	/**
-	 * 
-	 * @param gameModelBuilder
+	 * sets {@link gameModelBuilder} from abstract model
+	 * @param gameModelBuilder game model builder
 	 */
 	public GamePersistanceManager(AbstractGameModelBuilder gameModelBuilder) {
 		this.gameModelBuilder = gameModelBuilder;
 	}
 
 	/**
-	 * 
+	 * This method loads saved game 
 	 */
 	public void loadGame() {
 		this.getGameModelBuilder().createGameModel();
@@ -27,7 +31,7 @@ public class GamePersistanceManager {
 	}
 
 	/**
-	 * 
+	 * This method saves current game model
 	 */
 	public void saveGame() {
 		this.getGameModelBuilder().buildGraph();
@@ -35,7 +39,7 @@ public class GamePersistanceManager {
 	}
 
 	/**
-	 * 
+	 * gets {@link gameModelBuilder}
 	 * @return
 	 */
 	public GameModel getGameMmodel() {
@@ -43,7 +47,7 @@ public class GamePersistanceManager {
 	}
 
 	/**
-	 * 
+	 * gets {@link gameModelBuilder} from abstract model
 	 * @return
 	 */
 	public AbstractGameModelBuilder getGameModelBuilder() {
@@ -51,8 +55,8 @@ public class GamePersistanceManager {
 	}
 
 	/**
-	 * 
-	 * @param gameModelBuilder
+	 * sets {@link gameModelBuilder}
+	 * @param gameModelBuilder game model builder
 	 */
 	public void setGameModelBuilder(AbstractGameModelBuilder gameModelBuilder) {
 		this.gameModelBuilder = gameModelBuilder;
