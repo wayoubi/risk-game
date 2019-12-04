@@ -1,28 +1,13 @@
-editcontinent -add Asia 5
+editcontinent -add Asia 3
 editcountry -add Jordan Asia
 editcountry -add India Asia
 editcountry -add Iran Asia
-editcontinent -add Africa 4
-editcountry -add Egypt Africa
-editcountry -add Algeria Africa
-editcontinent -add Europe 3
-editcountry -add Spain Europe
-editcountry -add France Europe
-editcountry -add Italy Europe
 editneighbor -add Jordan India
 editneighbor -add Jordan Iran
-editneighbor -add Jordan Egypt
-editneighbor -add Egypt Italy
-editneighbor -add Egypt Algeria
-editneighbor -add Algeria France
-editneighbor -add Italy Spain
-editneighbor -add Italy France
 savemap fffff.txt
 loadmap saved/fffff.txt
+gameplayer -add Nasim Aggressive
 gameplayer -add Wasim Cheater
-gameplayer -add Nasim Random
-gameplayer -add Pinkal Aggressive
-gameplayer -add Michael Benevolent
 populatecountries
 placeall
 
